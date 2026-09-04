@@ -7,6 +7,7 @@ ML-Based DDoS Detection in SDN Using the 5G-NIDD Dataset
 ## Methodologies
 
 ### M1 — Supervised ML
+
 Owner: Sanjay
 
 - Labelled 5G-NIDD data
@@ -17,6 +18,7 @@ Owner: Sanjay
 - Supervised classification
 
 ### M2 — Entropy-Based Statistical Detection
+
 Owner: Jani
 
 - Shannon entropy
@@ -26,6 +28,7 @@ Owner: Jani
 - No labelled training data
 
 ### M3 — Sampled Telemetry + Incremental ML
+
 Owners: Jaivarshan, Nithis
 
 - sFlow/IPFIX-style sampling
