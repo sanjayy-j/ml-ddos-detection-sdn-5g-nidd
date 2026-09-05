@@ -180,7 +180,7 @@ explicit opt-in (currently unimplemented by design).
 | Duplicate rows | 870,269 |
 | Groups carrying **both** labels | 33,709 |
 | **Irreducible (Bayes) error** | **281,533 rows = 23.15%** |
-| Implied ceiling on accuracy | **≈ 76.85%** |
+| Implied ceiling on accuracy | **≈76.85% overall / 78.63% on test** |
 
 See §12 — this is the single most important limitation of M1.
 
@@ -218,30 +218,104 @@ so comparisons are not confounded by differing inputs.
 
 ## 12. Known limitations
 
-1. **🔴 23.15% irreducible label ambiguity.** On the leakage-safe feature
-   set, 33,709 identical feature vectors carry *both* labels, giving a
-   Bayes-error floor of 281,533 rows and capping achievable accuracy at
-   **≈76.85%**. One vector alone —
-   `udp, Dur=0, TotPkts=1, TotBytes=42, State=REQ, sTtl=63, Rate=0` —
-   occurs 271,476 times as 159,875 UDPFlood and 111,601 Benign.
-   The ambiguity is **99.997% confined to UDP** (blocks 4 and 14): hping3
-   UDP-flood packets are indistinguishable from benign single-packet UDP
-   flows at Argus flow granularity. The other eight attack types are
-   near-perfectly separable (~30 ambiguous rows in total).
-   *Implication:* M1 should be expected to report ~77–85% accuracy, not
-   the ~99% common in the literature, which generally depends on
-   retaining identifier columns. This motivates the window/aggregate
-   approaches of M2 and M3 for UDP floods.
-2. **Duplicate vectors span splits** (686,830 rows). This is unavoidable
-   given the above and is *not* exploitable leakage: memorising an
-   ambiguous vector yields at best the Bayes-optimal majority prediction.
-3. **No temporal generalisation test.** Splits are contiguous within each
-   capture session, not across separate future captures.
-4. `Cause` is acquisition-related and retained pending an ablation.
-5. Results are per-flow only. Controller CPU/memory, flow-table counts,
+> All figures below were recomputed directly from the saved processed
+> 67-feature matrices during the Stage D review (not from the raw frame).
+
+1. **[!] 23.15% irreducible label ambiguity.** 33,709 of 345,621 distinct
+   processed feature vectors carry *both* labels, covering 632,402 rows.
+   Summing per-vector minority counts gives **281,533 forced errors**:
+
+   | Scope | Rows | Unique vectors | Conflicting vectors | Forced errors | Ceiling |
+   |---|---|---|---|---|---|
+   | overall | 1,215,890 | 345,621 | 33,709 | 281,533 | **76.85%** |
+   | train | 851,106 | 258,881 | 31,529 | 197,846 | 76.75% |
+   | val | 182,382 | 52,114 | 6,496 | 41,957 | 77.00% |
+   | test | 182,402 | 47,559 | 3,287 | 38,987 | **78.63%** |
+
+   No function of these 67 features can exceed **78.63%** accuracy on the
+   test split — that is a hard mathematical cap. A train-fitted
+   exact-vector lookup table scores **73.51%** on test (§12.1); that number
+   is a **memorisation reference baseline, not a lower bound or floor** —
+   a trained model may legitimately score below it.
+
+2. **[!] Forced errors fall almost entirely on Benign traffic — FPR floor
+   ≈ 58.9%.** Malicious is the majority in essentially every conflicting
+   group, so the accuracy-optimal rule labels those vectors Malicious.
+   **281,529 of the 281,533** forced errors are Benign rows — **58.93% of
+   all Benign traffic**. Accuracy and false-positive rate cannot both be
+   good on this representation:
+
+   | Rule on conflicting vectors | Max recall | Implied FPR |
+   |---|---|---|
+   | predict Malicious (accuracy-optimal) | 99.999% | **>= 58.93%** |
+   | predict Benign (FPR-minimising) | **<= 52.47%** | low |
+
+   A ~59% false-positive rate is operationally unusable for a DDoS
+   detector, so **FPR — not accuracy — is the binding constraint on M1.**
+   Report the full confusion matrix; headline accuracy would be misleading.
+
+3. **Dominant conflicting vector (verified exactly):**
+   `udp, Dur=0, TotPkts=1, TotBytes=42, State=REQ, sTtl=63, Rate=0`
+   occurs **271,476 times (22.33% of the dataset)** — 159,875 UDPFlood and
+   111,601 Benign, all with `Cause=Status`. At this flow-feature
+   granularity these hping3 UDP-flood records are byte-identical to benign
+   single-packet UDP flow records, so no function of these features can
+   separate them. 99.997% of conflicted rows are UDP; seven of the eight
+   attack types have **zero** forced errors (HTTPFlood has 4).
+   **UDPFlood is therefore the most ambiguous/difficult attack type at the
+   current flow-feature granularity.** No claim is made here about how any
+   model will actually perform on it — that is a Stage E measurement.
+   Window/aggregate representations (as in M2 and M3) operate at a
+   different granularity and are not subject to this particular limit.
+
+4. **[!] The split measures WITHIN-session generalisation only.** All 20
+   capture blocks appear in all three splits, so **no capture session is
+   ever held out**. **72.97%** of test rows have a feature vector that also
+   occurs in train, and **18.07%** of test rows are label-pure duplicates of
+   training rows (memorisable without generalising). Results must **not**
+   be described as unseen-capture, unseen-session or unseen-attack
+   generalisation.
+
+5. `Cause` is acquisition-related and retained pending a Stage E ablation
+   (see review notes: MI with the label is only 0.006 nats against a label
+   entropy of 0.670, and five attack sessions are 100% `Start`).
+
+6. Results are per-flow only. Controller CPU/memory, flow-table counts,
    throughput and time-to-detect are **not** derivable from this offline
    pipeline and are deliberately not fabricated — they belong to later
    SDN/testbed measurement.
+
+### 12.1 Memorisation baseline — exact definition
+
+A lookup table fitted on train and applied to test, used in Stage E as the
+reference any model must beat to show it learned more than repetition.
+
+- **Seen** = the test row's exact 67-feature vector occurs **at least once
+  in the training split**. **Unseen** = it occurs zero times in train.
+  (Seen/unseen is defined against *train only*; it is unrelated to whether
+  a vector is label-pure globally.)
+- **Prediction, seen:** the majority label of that vector's training rows.
+  Vectors that are **conflicting in train** are handled by this same
+  majority rule — no row is excluded. Exact 50/50 ties (**31,221** train
+  vectors) break to **Malicious**.
+- **Prediction, unseen:** the **training-set majority class = Malicious**
+  (train is 60.709% malicious). This fallback is a choice, not a
+  derivation: using Benign instead gives 57.80%.
+- **Formula:** `accuracy = (# test rows whose predicted label equals its
+  true label) / 182,402`.
+
+| Group | Correct | Rows | Accuracy |
+|---|---|---|---|
+| seen in train | 95,106 | 133,098 | 71.4556% |
+| ├ train-vector label-pure | 32,983 | 33,017 | 99.8970% |
+| └ train-vector conflicting | 62,123 | 100,081 | 62.0727% |
+| unseen in train | 38,983 | 49,304 | 79.0666% |
+| **total** | **134,089** | **182,402** | **73.5129%** |
+
+Reconciles exactly: 133,098 + 49,304 = 182,402 and 95,106 + 38,983 =
+134,089. For context, the trivial always-Malicious rule scores **60.71%**.
+The 79.07% on unseen rows reflects the class prior (those rows are 38,983
+malicious vs 10,321 benign), not memorisation.
 
 ## 13. Leakage audit
 
