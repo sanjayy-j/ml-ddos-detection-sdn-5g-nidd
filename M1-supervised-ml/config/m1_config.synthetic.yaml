@@ -1,0 +1,65 @@
+# M1 — Supervised ML: SYNTHETIC configuration
+#
+# Used ONLY to verify that the M1 pipeline runs end to end
+# (loading -> validation -> preprocessing -> split -> training ->
+# evaluation -> results). All column/label names below are
+# deliberately fake placeholders and do NOT represent the real
+# 5G-NIDD schema. Any results produced with this config are software
+# verification results, never real experimental results, and must be
+# labeled as such wherever they are reported.
+
+seed: 42
+
+dataset:
+  # Populated at runtime by the synthetic data generator
+  # (tests/fixtures.py) — no file is read from disk for this config.
+  raw_path: null
+  format: csv
+
+schema:
+  label_column: label
+  positive_class_values: [1]
+  feature_columns:
+    - feature_1
+    - feature_2
+    - feature_3
+    - feature_4
+    - feature_5
+    - feature_6
+    - feature_7
+    - feature_8
+  categorical_columns: []
+  identifier_columns: []
+  drop_columns: []
+
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  stratify: true
+
+class_imbalance:
+  strategy: class_weight
+
+models:
+  random_forest:
+    n_estimators: 50
+    max_depth: null
+    class_weight: balanced
+    random_state: 42
+
+  svm:
+    kernel: rbf
+    C: 1.0
+    gamma: scale
+    class_weight: balanced
+    random_state: 42
+
+  cnn:
+    epochs: 3
+    batch_size: 32
+    learning_rate: 0.001
+    random_seed: 42
+
+output:
+  results_dir: results/

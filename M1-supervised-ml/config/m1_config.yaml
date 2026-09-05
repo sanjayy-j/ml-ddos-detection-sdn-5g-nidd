@@ -1,0 +1,66 @@
+# M1 — Supervised ML: real-experiment configuration
+#
+# This file drives the M1 pipeline (RF / SVM / 1-D CNN) on the real
+# 5G-NIDD dataset. All fields under `schema:` are TBD placeholders —
+# the pipeline must refuse to run real preprocessing until these are
+# filled in with the actual dataset's column/label names. No column
+# or label names are invented here.
+
+seed: 42
+
+dataset:
+  # Path to the raw 5G-NIDD file(s). Left null on purpose — set this
+  # locally to wherever the dataset lives on your machine. Never
+  # commit an absolute, machine-specific path with real data.
+  raw_path: null
+  format: csv
+
+schema:
+  # --- TBD: fill in once the real 5G-NIDD schema is available ---
+  label_column: null            # exact name of the label column
+  positive_class_values: null   # raw label value(s) that mean "malicious"
+  feature_columns: null         # explicit list of predictive feature columns
+  categorical_columns: []       # feature columns that are categorical
+  identifier_columns: []        # non-predictive identifiers (e.g. flow/session IDs)
+  drop_columns: []              # columns to exclude (leakage risk / metadata)
+
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  stratify: true
+  # NOTE: a plain stratified random row-wise split is the current
+  # default only. Per project rules, once the real dataset is
+  # inspected for repeated flows/sessions/attack-scenario grouping or
+  # temporal structure, any leakage risk must be reported and
+  # discussed BEFORE changing this methodology.
+
+class_imbalance:
+  # "class_weight" applies balanced class weights inside each model's
+  # native support (RF, SVM, CNN loss weighting). No resampling
+  # method (e.g. SMOTE) is introduced without the real class-balance
+  # numbers to justify it.
+  strategy: class_weight
+
+models:
+  random_forest:
+    n_estimators: 200
+    max_depth: null
+    class_weight: balanced
+    random_state: 42
+
+  svm:
+    kernel: rbf
+    C: 1.0
+    gamma: scale
+    class_weight: balanced
+    random_state: 42
+
+  cnn:
+    epochs: 20
+    batch_size: 64
+    learning_rate: 0.001
+    random_seed: 42
+
+output:
+  results_dir: results/
