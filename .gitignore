@@ -2,6 +2,10 @@
 data/raw/
 data/processed/
 
+# Generated M1 processed matrices (large; regenerate with
+# M1-supervised-ml/experiments/prepare_data.py)
+M1-supervised-ml/data/processed/
+
 # Python
 __pycache__/
 *.py[cod]

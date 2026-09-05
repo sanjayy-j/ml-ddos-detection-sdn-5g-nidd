@@ -83,10 +83,14 @@ def test_load_raw_data_empty_csv_raises_value_error(tmp_path):
         load_raw_data(config)
 
 
-def test_real_config_raw_path_is_unset_placeholder():
-    """The real (non-synthetic) config must not have a dataset path
-    baked in yet — it is intentionally left for local configuration."""
+def test_real_config_raw_path_is_repo_relative():
+    """The real config points at the dataset with a repo-relative path.
+
+    The raw file is git-ignored, so the path must never be an absolute
+    machine-specific location.
+    """
     config = load_config_file(REAL_CONFIG)
-    assert config["dataset"]["raw_path"] is None
-    with pytest.raises(ValueError, match="raw_path"):
-        load_raw_data(config)
+    raw_path = config["dataset"]["raw_path"]
+
+    assert raw_path == "data/raw/Combined.csv"
+    assert not Path(raw_path).is_absolute()

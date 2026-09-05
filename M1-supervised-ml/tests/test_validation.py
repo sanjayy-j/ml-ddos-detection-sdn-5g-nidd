@@ -53,13 +53,19 @@ def test_valid_synthetic_schema_does_not_raise():
 # Null/TBD real schema
 # ---------------------------------------------------------------------------
 
-def test_real_config_schema_is_tbd_and_rejected():
+def test_real_config_schema_is_now_populated():
+    """Stage D supplied the real schema, so the TBD guards no longer fire."""
     config = load_config_file(REAL_CONFIG)
-    assert config["schema"]["label_column"] is None
-    assert config["schema"]["feature_columns"] is None
+    assert config["schema"]["label_column"] == "Label"
+    assert len(config["schema"]["feature_columns"]) == 31
 
-    # Schema validity does not depend on having real data loaded, so any
-    # placeholder DataFrame is enough to exercise the schema-level checks.
+
+def test_tbd_schema_is_still_rejected():
+    """The TBD guard must remain functional for any unconfigured schema."""
+    config = load_config_file(REAL_CONFIG)
+    config["schema"]["label_column"] = None
+    config["schema"]["feature_columns"] = None
+
     placeholder_df = pd.DataFrame({"some_column": [1, 2, 3]})
     result = validate_schema(config, placeholder_df)
 
@@ -68,7 +74,8 @@ def test_real_config_schema_is_tbd_and_rejected():
     assert any("feature_columns" in e and "TBD" in e for e in result.errors)
 
 
-def test_real_config_raises_via_validate_and_raise():
+def test_real_config_against_wrong_dataframe_raises():
+    """Real schema + a frame lacking those columns must still fail loudly."""
     config = load_config_file(REAL_CONFIG)
     placeholder_df = pd.DataFrame({"some_column": [1, 2, 3]})
     with pytest.raises(SchemaValidationError):
@@ -248,3 +255,67 @@ def test_synthetic_dataset_label_distribution():
     # synthetic_sample.csv has 4 rows with label=0 and 4 with label=1
     assert result.label_distribution["0"]["count"] == 4
     assert result.label_distribution["1"]["count"] == 4
+
+
+# ---------------------------------------------------------------------------
+# Stage D — dataset-level validation
+# ---------------------------------------------------------------------------
+
+def test_validate_dataset_accepts_synthetic_5gnidd_frame():
+    from fixtures import make_synthetic_5gnidd, synthetic_config
+    from preprocessing.validation import validate_dataset
+
+    df = make_synthetic_5gnidd()
+    result = validate_dataset(synthetic_config(), df)
+
+    assert result.is_valid, result.errors
+    assert result.label_distribution is not None
+    assert set(result.label_distribution) == {"Benign", "Malicious"}
+
+
+def test_validate_dataset_rejects_unknown_label_value():
+    from fixtures import make_synthetic_5gnidd, synthetic_config
+    from preprocessing.validation import validate_dataset
+
+    df = make_synthetic_5gnidd()
+    df.loc[0, "Label"] = "Unexpected"
+    result = validate_dataset(synthetic_config(), df)
+
+    assert not result.is_valid
+    assert any("not declared" in e for e in result.errors)
+
+
+def test_validate_dataset_rejects_metadata_declared_as_feature():
+    from fixtures import make_synthetic_5gnidd, synthetic_config
+    from preprocessing.validation import validate_dataset
+
+    df = make_synthetic_5gnidd()
+    config = synthetic_config()
+    config["schema"]["feature_columns"].append("Attack Type")
+    result = validate_dataset(config, df)
+
+    assert not result.is_valid
+    assert any("metadata" in e.lower() for e in result.errors)
+
+
+def test_validate_dataset_warns_when_dur_redundancy_breaks():
+    """The redundancy assumption behind the Dur exclusions is re-verified."""
+    from fixtures import make_synthetic_5gnidd, synthetic_config
+    from preprocessing.validation import validate_dataset
+
+    df = make_synthetic_5gnidd()
+    df.loc[0, "RunTime"] = df.loc[0, "Dur"] + 1.0  # break the equality
+    result = validate_dataset(synthetic_config(), df)
+
+    assert any("no longer" in w and "RunTime" in w for w in result.warnings)
+
+
+def test_validate_dataset_warns_on_unexpected_row_count():
+    from fixtures import make_synthetic_5gnidd, synthetic_config
+    from preprocessing.validation import validate_dataset
+
+    config = synthetic_config()
+    config["dataset"]["expected_rows"] = 999999
+    result = validate_dataset(config, make_synthetic_5gnidd())
+
+    assert any("Row count" in w for w in result.warnings)

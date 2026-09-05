@@ -1,0 +1,55 @@
+{
+  "all_passed": true,
+  "checks": [
+    {
+      "check": "target_excluded",
+      "status": "PASS",
+      "detail": "label column 'Label' absent from feature matrix"
+    },
+    {
+      "check": "attack_type_and_tool_excluded",
+      "status": "PASS",
+      "detail": "target-derived metadata absent: ['Attack Type', 'Attack Tool']"
+    },
+    {
+      "check": "identifiers_excluded",
+      "status": "PASS",
+      "detail": "identifier columns absent: ['Unnamed: 0', 'Seq', 'Offset']"
+    },
+    {
+      "check": "excluded_columns_absent",
+      "status": "PASS",
+      "detail": "15 excluded columns absent"
+    },
+    {
+      "check": "preprocessing_fitted_on_train_only",
+      "status": "PASS",
+      "detail": "scaler saw 851,106 rows; training split has 851,106"
+    },
+    {
+      "check": "no_nan_or_inf_in_matrices",
+      "status": "PASS",
+      "detail": "train=finite, val=finite, test=finite"
+    },
+    {
+      "check": "class_prior_stable_across_splits",
+      "status": "PASS",
+      "detail": "malicious% per split {'train': 60.709, 'val': 60.7094, 'test': 60.7077}, spread=0.0017pp"
+    },
+    {
+      "check": "deterministic_feature_order",
+      "status": "PASS",
+      "detail": "67 uniquely-named output features in fixed order"
+    },
+    {
+      "check": "duplicate_vectors_across_splits_quantified",
+      "status": "PASS",
+      "detail": "686,830 rows share a feature vector with another split; unavoidable given 23.1545% irreducible ambiguity - memorising such vectors yields at best the Bayes-optimal majority prediction"
+    },
+    {
+      "check": "no_missingness_indicators_added",
+      "status": "PASS",
+      "detail": "no NA-indicator features generated (missingness is explained by observed columns and would encode capture artifacts)"
+    }
+  ]
+}

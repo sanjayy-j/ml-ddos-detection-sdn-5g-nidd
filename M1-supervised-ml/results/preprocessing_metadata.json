@@ -1,0 +1,95 @@
+{
+  "seed": 42,
+  "n_rows_total": 1215890,
+  "n_input_features": 31,
+  "n_numeric_input_features": 26,
+  "n_categorical_input_features": 5,
+  "n_output_features": 67,
+  "cnn_input_shape": [
+    67,
+    1
+  ],
+  "split_strategy": "block_label_contiguous",
+  "purge_rows": 0,
+  "n_purged_rows": 0,
+  "log1p_skew_threshold": 2.0,
+  "log1p_columns": [
+    "sTtl",
+    "dTtl",
+    "TotPkts",
+    "SrcPkts",
+    "DstPkts",
+    "TotBytes",
+    "SrcBytes",
+    "DstBytes",
+    "sMeanPktSz",
+    "dMeanPktSz",
+    "Load",
+    "SrcLoad",
+    "DstLoad",
+    "Loss",
+    "SrcLoss",
+    "DstLoss",
+    "pLoss",
+    "Rate",
+    "SrcRate",
+    "DstRate",
+    "SrcWin",
+    "DstWin",
+    "TcpRtt",
+    "SynAck",
+    "AckDat"
+  ],
+  "splits": {
+    "train": {
+      "rows": 851106,
+      "benign": 334408,
+      "malicious": 516698,
+      "malicious_pct": 60.709,
+      "shape": [
+        851106,
+        67
+      ]
+    },
+    "val": {
+      "rows": 182382,
+      "benign": 71659,
+      "malicious": 110723,
+      "malicious_pct": 60.7094,
+      "shape": [
+        182382,
+        67
+      ]
+    },
+    "test": {
+      "rows": 182402,
+      "benign": 71670,
+      "malicious": 110732,
+      "malicious_pct": 60.7077,
+      "shape": [
+        182402,
+        67
+      ]
+    }
+  },
+  "svm_subsample": {
+    "configured": 50000,
+    "selected_rows": 50000,
+    "malicious_pct": 60.71
+  },
+  "duplicates": {
+    "n_rows": 1215890,
+    "n_unique_feature_vectors": 345621,
+    "n_duplicate_rows": 870269,
+    "n_duplicate_groups": 69113,
+    "n_ambiguous_groups": 33709,
+    "rows_in_ambiguous_groups": 632402,
+    "bayes_error_rows": 281533,
+    "bayes_error_pct": 23.1545,
+    "max_achievable_accuracy_pct": 76.8455,
+    "duplicate_groups_crossing_blocks": 37493,
+    "duplicate_vectors_shared_across_splits": 11119,
+    "rows_whose_vector_appears_in_another_split": 686830
+  },
+  "svm_subsample_indices_saved": true
+}

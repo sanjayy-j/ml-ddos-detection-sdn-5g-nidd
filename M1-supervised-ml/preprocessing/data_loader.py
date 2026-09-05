@@ -84,7 +84,10 @@ def load_raw_data(config: dict[str, Any]) -> pd.DataFrame:
         )
 
     try:
-        df = pd.read_csv(raw_path)
+        # low_memory=False parses each column in one pass: chunked inference
+        # can otherwise assign different dtypes depending on chunk contents,
+        # which would make loading non-deterministic for mixed columns.
+        df = pd.read_csv(raw_path, low_memory=False)
     except pd.errors.EmptyDataError as exc:
         raise ValueError(f"Dataset file is empty: {raw_path}") from exc
     except pd.errors.ParserError as exc:

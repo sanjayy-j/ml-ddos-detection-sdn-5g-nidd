@@ -156,3 +156,90 @@ def validate_and_raise(config: dict[str, Any], df: pd.DataFrame) -> ValidationRe
     if not result.is_valid:
         raise SchemaValidationError("\n".join(result.errors))
     return result
+
+
+# ---------------------------------------------------------------------------
+# Stage D — dataset-level validation
+# ---------------------------------------------------------------------------
+
+# Columns verified byte-for-byte identical to `Dur` during Stage D
+# inspection. If a future dataset revision breaks this, the redundancy
+# exclusion in the config is no longer justified and must be revisited.
+DUR_REDUNDANT_COLUMNS = ("RunTime", "Mean", "Sum", "Min", "Max")
+
+
+def validate_dataset(config: dict[str, Any], df: pd.DataFrame) -> ValidationResult:
+    """Schema validation plus dataset-level integrity checks.
+
+    Detects unexpected schema drift (row/column counts, unknown target
+    values, metadata columns) and re-verifies the redundancy assumption
+    that justifies excluding the duplicate `Dur` columns, rather than
+    trusting a one-off inspection.
+    """
+    result = validate_schema(config, df)
+    schema_cfg = config.get("schema")
+    if not isinstance(schema_cfg, dict):
+        return result
+
+    dataset_cfg = config.get("dataset") or {}
+    df_columns = set(df.columns)
+
+    # --- expected shape (warnings: a different capture is not an error) ---
+    expected_rows = dataset_cfg.get("expected_rows")
+    if expected_rows is not None and len(df) != int(expected_rows):
+        result.warnings.append(
+            f"Row count {len(df):,} differs from expected "
+            f"{int(expected_rows):,} — schema decisions were derived from "
+            f"the expected dataset."
+        )
+    expected_columns = dataset_cfg.get("expected_columns")
+    if expected_columns is not None and df.shape[1] != int(expected_columns):
+        result.warnings.append(
+            f"Column count {df.shape[1]} differs from expected "
+            f"{int(expected_columns)}."
+        )
+
+    # --- metadata columns must exist (they are needed for later analysis) ---
+    metadata_columns = schema_cfg.get("metadata_columns") or []
+    _check_columns_exist(result, "metadata_columns", metadata_columns, df_columns)
+
+    # metadata must never be declared as a feature
+    feature_columns = set(schema_cfg.get("feature_columns") or [])
+    metadata_in_features = sorted(set(metadata_columns) & feature_columns)
+    if metadata_in_features:
+        result.errors.append(
+            f"Target-derived metadata columns declared as features: "
+            f"{metadata_in_features}"
+        )
+
+    # --- target values ---
+    label_column = schema_cfg.get("label_column")
+    if label_column and label_column in df_columns:
+        declared = set(schema_cfg.get("positive_class_values") or []) | set(
+            schema_cfg.get("negative_class_values") or []
+        )
+        if declared:
+            observed = set(pd.unique(df[label_column].dropna()))
+            unknown = sorted(observed - declared)
+            if unknown:
+                result.errors.append(
+                    f"Label column '{label_column}' contains values not "
+                    f"declared in positive/negative class values: {unknown}"
+                )
+
+    # --- redundancy assumption behind the Dur exclusions ---
+    if "Dur" in df_columns:
+        still_identical = [
+            c for c in DUR_REDUNDANT_COLUMNS
+            if c in df_columns and df["Dur"].equals(df[c])
+        ]
+        present = [c for c in DUR_REDUNDANT_COLUMNS if c in df_columns]
+        not_identical = sorted(set(present) - set(still_identical))
+        if not_identical:
+            result.warnings.append(
+                f"Columns previously identical to 'Dur' are no longer "
+                f"identical: {not_identical} — the redundancy-based "
+                f"exclusion should be re-examined."
+            )
+
+    return result

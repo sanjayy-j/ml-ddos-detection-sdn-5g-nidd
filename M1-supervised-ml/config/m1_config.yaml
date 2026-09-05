@@ -1,46 +1,156 @@
-# M1 — Supervised ML: real-experiment configuration
+# M1 — Supervised ML: real-experiment configuration (5G-NIDD Combined.csv)
 #
-# This file drives the M1 pipeline (RF / SVM / 1-D CNN) on the real
-# 5G-NIDD dataset. All fields under `schema:` are TBD placeholders —
-# the pipeline must refuse to run real preprocessing until these are
-# filled in with the actual dataset's column/label names. No column
-# or label names are invented here.
+# Schema below was derived from programmatic inspection of the actual
+# Combined.csv (1,215,890 rows x 52 columns) during Stage D. Every
+# exclusion is justified in results/feature_decisions.csv.
+#
+# The raw dataset is NOT tracked in git (see root .gitignore).
 
 seed: 42
 
 dataset:
-  # Path to the raw 5G-NIDD file(s). Left null on purpose — set this
-  # locally to wherever the dataset lives on your machine. Never
-  # commit an absolute, machine-specific path with real data.
-  raw_path: null
+  # Path relative to the repository root (no machine-specific absolute paths).
+  raw_path: data/raw/Combined.csv
   format: csv
+  expected_rows: 1215890
+  expected_columns: 52
 
 schema:
-  # --- TBD: fill in once the real 5G-NIDD schema is available ---
-  label_column: null            # exact name of the label column
-  positive_class_values: null   # raw label value(s) that mean "malicious"
-  feature_columns: null         # explicit list of predictive feature columns
-  categorical_columns: []       # feature columns that are categorical
-  identifier_columns: []        # non-predictive identifiers (e.g. flow/session IDs)
-  drop_columns: []              # columns to exclude (leakage risk / metadata)
+  # --- target ---
+  label_column: Label
+  positive_class_values: [Malicious]   # -> 1
+  negative_class_values: [Benign]      # -> 0
 
+  # --- target-derived metadata: retained for per-attack analysis,
+  #     NEVER permitted in the feature matrix (perfectly aligned with Label) ---
+  metadata_columns:
+    - Attack Type
+    - Attack Tool
+
+  # --- identifiers / acquisition artifacts: never model inputs ---
+  identifier_columns:
+    - "Unnamed: 0"   # CSV index artifact; also marks the base-station boundary
+    - Seq            # Argus sequence number
+    - Offset         # Argus byte offset; used ONLY for capture-block detection
+
+  # --- excluded columns (see results/feature_decisions.csv for full reasons) ---
+  drop_columns:
+    # exact byte-identical copies of Dur (verified)
+    - RunTime
+    - Mean
+    - Sum
+    - Min
+    - Max
+    # redundant encodings of a retained feature (verified 1:1 / deterministic)
+    - sTos        # bijective with sDSb
+    - dTos        # 1:1 into dDSb
+    - sHops       # fully determined by sTtl
+    - dHops       # fully determined by dTtl
+    # near-zero variance (>=77% missing; present values are ~all exactly 0.0)
+    - SrcGap
+    - DstGap
+    # identifier-like pseudo-random TCP initial sequence numbers
+    - SrcTCPBase
+    - DstTCPBase
+    # constant (single value 610) + capture artifact: P(malicious|present)=0.0
+    - sVid
+    - dVid
+
+  # --- retained feature matrix: 31 columns (26 numeric + 5 categorical) ---
+  feature_columns:
+    - Dur
+    - Proto
+    - sDSb
+    - dDSb
+    - sTtl
+    - dTtl
+    - Cause
+    - TotPkts
+    - SrcPkts
+    - DstPkts
+    - TotBytes
+    - SrcBytes
+    - DstBytes
+    - sMeanPktSz
+    - dMeanPktSz
+    - Load
+    - SrcLoad
+    - DstLoad
+    - Loss
+    - SrcLoss
+    - DstLoss
+    - pLoss
+    - Rate
+    - SrcRate
+    - DstRate
+    - State
+    - SrcWin
+    - DstWin
+    - TcpRtt
+    - SynAck
+    - AckDat
+
+  categorical_columns:
+    - Proto
+    - sDSb
+    - dDSb
+    - Cause
+    - State
+
+# --- capture-block structure -------------------------------------------------
+# The file concatenates 20 contiguous capture sessions (2 base stations x 10
+# sessions). Blocks are detected where `Offset` resets (decreases); the single
+# decrease in `Unnamed: 0` marks the base-station boundary. Verified: `Offset`
+# is non-decreasing INSIDE every block, so row order == capture order.
+blocks:
+  detect_column: Offset
+  base_station_column: "Unnamed: 0"
+
+# --- split -------------------------------------------------------------------
+# Block x label stratified CONTIGUOUS (temporal) split. Within each capture
+# block, and within each label stream separately, rows are cut by position:
+# first 70% -> train, next 15% -> val, last 15% -> test.
+#
+# Rationale (see README): a plain contiguous cut causes severe prior shift
+# (train 69.4% -> test 32.9% malicious) because attacks occupy a time window
+# inside each capture; a full block hold-out would erase attack types from
+# training since each attack type exists in only 2 blocks (one per base
+# station); a base-station split shifts the prior 44% -> 85.5%.
 split:
+  strategy: block_label_contiguous
   train_ratio: 0.70
   val_ratio: 0.15
   test_ratio: 0.15
-  stratify: true
-  # NOTE: a plain stratified random row-wise split is the current
-  # default only. Per project rules, once the real dataset is
-  # inspected for repeated flows/sessions/attack-scenario grouping or
-  # temporal structure, any leakage risk must be reported and
-  # discussed BEFORE changing this methodology.
+  # Optional purge gap: rows discarded at each split boundary within every
+  # (block, label) stream to reduce adjacency correlation. 0 = keep all rows.
+  purge_rows: 0
 
+# --- duplicate policy --------------------------------------------------------
+# The dataset contains 870,269 duplicate feature vectors, and 23.15% of rows
+# are irreducibly ambiguous (identical vectors carrying both labels). Duplicate
+# rows are legitimate repeated flow patterns and are KEPT by default; removing
+# them would alter the experimental distribution.
+duplicates:
+  drop_exact_duplicates: false
+  report: true
+
+# --- class imbalance ---------------------------------------------------------
+# Mild imbalance (60.71% malicious). No synthetic oversampling (no SMOTE).
 class_imbalance:
-  # "class_weight" applies balanced class weights inside each model's
-  # native support (RF, SVM, CNN loss weighting). No resampling
-  # method (e.g. SMOTE) is introduced without the real class-balance
-  # numbers to justify it.
   strategy: class_weight
+
+# --- preprocessing -----------------------------------------------------------
+preprocessing:
+  numeric_imputation: median
+  categorical_imputation: __missing__
+  # log1p is applied only to non-negative numeric columns whose TRAINING-set
+  # skew exceeds this threshold (heavy-tailed byte/rate/load features).
+  log1p_skew_threshold: 2.0
+  scaler: standard
+  # Missingness indicator columns are deliberately NOT added: missingness is
+  # fully explained by observed features (SrcGap/SrcTCPBase missing <=> Proto
+  # != tcp, exactly), and indicators would encode capture artifacts.
+  add_missing_indicators: false
 
 models:
   random_forest:
@@ -48,6 +158,7 @@ models:
     max_depth: null
     class_weight: balanced
     random_state: 42
+    n_jobs: -1
 
   svm:
     kernel: rbf
@@ -55,12 +166,18 @@ models:
     gamma: scale
     class_weight: balanced
     random_state: 42
+    # RBF SVC is O(n^2)-O(n^3); ~851k training rows is not tractable. A
+    # reproducible stratified subsample of the TRAINING split only is used.
+    # Validation/test remain full and untouched.
+    train_subsample: 50000
 
   cnn:
     epochs: 20
-    batch_size: 64
+    batch_size: 256
     learning_rate: 0.001
     random_seed: 42
 
 output:
-  results_dir: results/
+  results_dir: M1-supervised-ml/results
+  # Processed matrices are large and git-ignored.
+  processed_dir: M1-supervised-ml/data/processed
