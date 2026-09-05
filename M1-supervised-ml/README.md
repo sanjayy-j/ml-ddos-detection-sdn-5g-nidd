@@ -154,6 +154,66 @@ The chosen strategy preserves the class prior by construction
 respects capture order within each class stream. It uses **no RNG** and
 is therefore exactly reproducible.
 
+### 8.1 Stage E audit — why this protocol is the primary one
+
+Stage E re-derived the block structure independently and quantified every
+practical alternative before confirming the choice. Measured results:
+
+| Protocol | Train / Val / Test | Prior spread | Coverage | Test rows whose vector occurs in train |
+|---|---|---|---|---|
+| **A. block_label_contiguous (current)** | 70 / 15 / 15% | **0.001 pp** | all 20 blocks, 9 attack types, 6 tools, both BS in every split | 72.97% |
+| B1. global contiguous (whole file) | 70 / 15 / 15% | **50.34 pp** | val is 99.97% malicious from 1 block; 4 attack types absent from test | 35.62% |
+| B2. per-block contiguous (unstratified) | 70 / 15 / 15% | **36.52 pp** | ICMPFlood absent from test | 81.69% |
+| C. block-held-out | **infeasible** | **≥ 27.82 pp** | see below | — |
+| D. base-station held out | 49 / 11 / 40% | **41.36 pp** | full coverage | **74.45%** |
+
+**C is structurally infeasible.** Each of the 10 session types exists in
+exactly 2 blocks (one per base station), so a three-way block hold-out
+that keeps every attack type in training is impossible. Exhaustively
+searching all 1,024 one-block-per-session pairings gives a **minimum test
+fraction of 40.07%** and a **minimum train/test prior gap of 27.82 pp**;
+**zero** pairings reach a gap below 2 pp. The cause is block-size
+dominance: block 4 (UDPFlood, BS0) is 38.47% of the dataset and is 62%
+benign, while block 14 (UDPFlood, BS1) is 23.54% and is 98% malicious, so
+whichever one lands in test drags the prior with it.
+
+**Cross-split repetition cannot be fixed by any split.** Feature-vector
+overlap is a property of the data, not the partition: holding out an
+entire base station *raises* it (74.45%) and holding out whole unseen
+capture sessions only lowers it to 69.66%, versus 72.97% for the current
+protocol. 5G-NIDD flow records repeat massively (345,621 distinct vectors
+for 1,215,890 rows), so ~70% overlap is intrinsic at this granularity.
+Choosing D or C would therefore pay a 27–41 pp prior distortion and buy
+essentially no reduction in repetition exposure.
+
+### 8.2 What the overlap is — and is not
+
+The 72.97% figure must not be reported as "data leakage" without
+qualification. Five distinct things are separated here:
+
+| Category | Present? | Evidence |
+|---|---|---|
+| 1. Preprocessing / target leakage | **No** | preprocessing fitted on train rows only (scaler saw exactly 851,106); target, `Attack Type`, `Attack Tool` and identifiers structurally barred |
+| 2. Exact-feature repetition | **Yes, 72.97%** | intrinsic to the data; unchanged by any split (see §8.1) |
+| 3. Capture/session dependence | **Yes** | all 20 blocks appear in all splits by design |
+| 4. Memorisation opportunity | **Yes, 18.07% of test rows** | label-pure vectors shared with train, scored 99.90% by a lookup table (§12.1) |
+| 5. Genuine generalisation | **Partially measured** | 27.03% of test rows have a vector never seen in train |
+
+Only categories 3 and 4 limit the interpretation; category 1 — the one
+that would invalidate results — is absent.
+
+### 8.3 Exact wording for describing M1's evaluation scope
+
+> M1 is evaluated under a **within-capture (within-session) protocol**:
+> all 20 capture sessions contribute to train, validation and test, split
+> by position within each session and label stream. Results therefore
+> measure the ability to classify **later flows from capture sessions the
+> model has already observed**, with substantial exact-feature repetition
+> between splits (72.97% of test rows share a feature vector with
+> training data; 18.07% are label-pure repeats). Results **do not**
+> measure unseen-capture, unseen-session, unseen-base-station or
+> unseen-attack generalisation, and must not be described as such.
+
 An optional `split.purge_rows` gap discards rows at each segment boundary
 to reduce adjacency correlation (default `0`).
 
@@ -166,6 +226,48 @@ assignment).
 | train | 851,106 | 60.71% |
 | val | 182,382 | 60.71% |
 | test | 182,402 | 60.71% |
+
+### 8.4 Recommended secondary experiment (not implemented)
+
+Because the primary protocol cannot measure unseen-capture
+generalisation, a **secondary** experiment is recommended for a later
+stage. It is *not* implemented now and does not affect the primary
+protocol.
+
+Hold out the **BS1 captures of the six small sessions** — blocks
+10, 11, 12, 13, 15, 17 (SYNScan, TCPConnectScan, UDPScan, ICMPFlood,
+SYNFlood, SlowrateDoS/Slowloris) — while their BS0 counterparts remain in
+training, so no attack type is removed from training:
+
+| Property | Value |
+|---|---|
+| Test rows | 74,700 (6.14% of dataset) |
+| Test malicious | 54.34% (train pool 61.13%, gap 6.79 pp) |
+| Attack types absent from train pool | **none** |
+| Attack types testable | 6 + Benign |
+| Test rows whose vector occurs in train pool | 69.66% |
+
+This deliberately excludes the giant UDPFlood blocks (4/14), which is
+exactly what makes it feasible where a full block hold-out is not. A
+leave-one-attack-out variant is also definable for unseen-*attack*
+generalisation, but it changes the research question from "detect known
+attack classes" to "detect novel attacks" and should be reported
+separately if used.
+
+### 8.5 M1 / M2 / M3 comparability
+
+`PROJECT_SPEC.md` requires the three methodologies to be evaluated under
+comparable traffic scenarios with consistent metric definitions. M1 can
+guarantee the metric definitions and the underlying capture sessions, but
+**not an identical split**: M1 classifies individual flow records, whereas
+M2 (entropy over sliding windows) and M3 (sampled telemetry, incremental
+learning) operate on different aggregation units, so a row-level partition
+has no exact counterpart there. What M1 can offer for alignment is the
+capture-block structure (`results/split_manifest.csv`, 20 blocks with base
+station, session, attack type and tool), which is defined on the raw
+capture and is therefore reusable by any methodology. Forcing an
+artificial identical row split is **not** attempted. No claim is made here
+about M2/M3 internals.
 
 ## 9. Duplicate policy
 
