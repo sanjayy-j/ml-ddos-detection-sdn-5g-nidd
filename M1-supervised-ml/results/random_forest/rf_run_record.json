@@ -1,0 +1,111 @@
+{
+  "stage": "F",
+  "model": "RandomForestClassifier",
+  "generated_utc": "2026-09-06T04:33:36+00:00",
+  "python": "3.13.7",
+  "seed": 42,
+  "split_protocol": "block_label_contiguous",
+  "evaluation_scope": "within-capture (within-session) generalisation; NOT unseen-capture, unseen-session, unseen-base-station or unseen-attack generalisation",
+  "n_features": 67,
+  "integrity": {
+    "train": {
+      "rows": 851106,
+      "features": 67,
+      "malicious_pct": 60.709
+    },
+    "val": {
+      "rows": 182382,
+      "features": 67,
+      "malicious_pct": 60.7094
+    },
+    "test": {
+      "rows": 182402,
+      "features": 67,
+      "malicious_pct": 60.7077
+    },
+    "n_features": 67
+  },
+  "selection_metric": "pr_auc",
+  "search_grid": {
+    "max_depth": [
+      "None",
+      "20",
+      "30"
+    ],
+    "min_samples_leaf": [
+      "1",
+      "5",
+      "20"
+    ],
+    "max_features": [
+      "sqrt",
+      "0.5"
+    ]
+  },
+  "n_candidates": 18,
+  "chosen_hyperparameters": {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_leaf": 20,
+    "max_features": "sqrt",
+    "class_weight": "balanced",
+    "random_state": 42,
+    "n_jobs": -1
+  },
+  "forest_structure": {
+    "n_estimators": 200,
+    "mean_depth": 19.35,
+    "max_depth_reached": 20,
+    "mean_leaves": 432.1,
+    "total_nodes": 172630
+  },
+  "decision_threshold": 0.3,
+  "threshold_rule": "0.5 retained unless validation F1 improves by >= 0.005; selected on validation only",
+  "timings_seconds": {
+    "train": 31.11,
+    "val_inference": 0.24,
+    "test_inference": 0.2,
+    "search_total": 965.8
+  },
+  "validation_metrics": {
+    "n": 182382,
+    "accuracy": 0.7600475924159182,
+    "precision": 0.716724278556725,
+    "recall": 0.9999819369056113,
+    "f1": 0.8349842574612094,
+    "fpr": 0.6106839336301093,
+    "tnr": 0.38931606636989075,
+    "TN": 27898,
+    "FP": 43761,
+    "FN": 2,
+    "TP": 110721,
+    "roc_auc": 0.8699734922924021,
+    "pr_auc": 0.9011137520418622
+  },
+  "test_metrics": {
+    "n": 182402,
+    "accuracy": 0.786126248615695,
+    "precision": 0.7394835081908094,
+    "recall": 0.9999909691868656,
+    "f1": 0.8502301582121755,
+    "fpr": 0.5443002651039487,
+    "tnr": 0.45569973489605137,
+    "TN": 32660,
+    "FP": 39010,
+    "FN": 1,
+    "TP": 110731,
+    "roc_auc": 0.8528237494720432,
+    "pr_auc": 0.8673871899950403,
+    "per_flow_inference_ms": 0.00111
+  },
+  "baselines_test": {
+    "always_malicious_accuracy": 0.607077,
+    "exact_vector_memorisation_accuracy": 0.735129,
+    "empirical_feature_space_ceiling": 0.786258
+  },
+  "comparison_test": {
+    "beats_always_malicious": true,
+    "beats_memorisation_baseline": true,
+    "gap_to_ceiling_pp": 0.0132
+  }
+}

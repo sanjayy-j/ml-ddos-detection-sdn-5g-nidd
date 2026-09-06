@@ -490,6 +490,197 @@ dataset):
 cd M1-supervised-ml && python -m pytest tests/ -q
 ```
 
+## 16A. Stage F — Random Forest results
+
+> Primary evaluation scope: **within-capture (within-session) generalisation**
+> (see §8.3). These are not unseen-capture, unseen-session,
+> unseen-base-station or unseen-attack results.
+
+### Configuration
+
+Selected by a fully-enumerated 18-candidate grid
+(`max_depth` x `min_samples_leaf` x `max_features`) scored on
+**validation PR-AUC** — threshold-free, so model choice stays independent
+of threshold choice. The test split was not read until the configuration
+and threshold were locked.
+
+| Setting | Value |
+|---|---|
+| n_estimators | 200 |
+| max_depth | 20 |
+| min_samples_leaf | 20 |
+| max_features | sqrt |
+| class_weight | balanced (no SMOTE, no resampling) |
+| random_state | 42 |
+| decision threshold | **0.30** (selected on validation only) |
+
+All 18 candidates were statistically indistinguishable — PR-AUC range
+**0.000167**, accuracy range **0.000022** — so the tie-break selected the
+simplest/cheapest model. Hyperparameters barely matter here: performance
+is governed by the irreducible ambiguity of the representation (§12), not
+by model capacity. Training took **31.1 s**; test inference **0.20 s**
+(**0.0011 ms per flow**); the whole grid **966 s**.
+
+### Test results (single locked evaluation)
+
+| Metric | Value |
+|---|---|
+| Accuracy | **0.786126** |
+| Precision | 0.739484 |
+| Recall (TPR) | **0.999991** |
+| F1 | 0.850230 |
+| **False Positive Rate** | **0.544300** |
+| Specificity (TNR) | 0.455700 |
+| ROC-AUC | 0.852824 |
+| PR-AUC | 0.867387 |
+
+Confusion matrix (Malicious = positive), `FPR = FP / (FP + TN)`:
+
+| | Predicted Benign | Predicted Malicious |
+|---|---|---|
+| **Actual Benign** | TN = 32,660 | **FP = 39,010** |
+| **Actual Malicious** | FN = 1 | TP = 110,731 |
+
+### Baseline comparison
+
+| Reference | Accuracy | RF vs reference |
+|---|---|---|
+| Always-Malicious | 0.607077 | **+17.90 pp** |
+| Exact-vector memorisation | 0.735129 | **+5.10 pp** |
+| Empirical feature-space ceiling | 0.786258 | **−0.0132 pp** |
+
+The RF **beats both baselines** and sits **0.0132 pp below the empirical
+ceiling** — it has essentially saturated what this 67-feature
+representation can express. No further modelling effort can add more than
+~0.01 pp of accuracy at this granularity.
+
+### 16A.1 The threshold criterion is the key caveat
+
+The pre-registered rule was "keep 0.5 unless validation F1 improves by
+>= 0.005". Validation F1 peaked at **0.835 at threshold 0.30**, so 0.30
+was locked. That rule was applied correctly and on validation only — but
+it drove the model to an operationally poor corner. The validation sweep
+is almost **bimodal**, mirroring the Stage D frontier:
+
+| Validation threshold | Recall | FPR | F1 |
+|---|---|---|---|
+| <= 0.35 | ~1.000 | ~0.611 | 0.835 |
+| 0.40 - 0.45 | ~0.798 | ~0.286 | 0.805 |
+| >= 0.47 | ~0.534 | **0.00075** | 0.696 |
+
+Because Malicious is the majority class (60.7%), maximising F1 pushes the
+model to label nearly everything malicious. The consequence is a **54.4%
+test FPR — 39,010 of 71,670 benign flows misclassified**, which is
+operationally unusable for a DDoS detector even though accuracy is near
+the ceiling.
+
+The alternative operating point (threshold ~0.47, **validation** FPR
+0.00075 with recall 0.534) has **not** been evaluated on test, because
+selecting it after seeing test results would be test-driven tuning. Which
+criterion the project adopts is a decision to take **before** any further
+test evaluation.
+
+### 16A.2 Per-attack-type results (at the locked threshold)
+
+| Attack Type | Support | Recall |
+|---|---|---|
+| UDPFlood | 68,602 | 1.000000 |
+| HTTPFlood | 21,123 | 0.999953 |
+| SlowrateDoS | 10,971 | 1.000000 |
+| TCPConnectScan | 3,009 | 1.000000 |
+| SYNScan | 3,007 | 1.000000 |
+| UDPScan | 2,387 | 1.000000 |
+| SYNFlood | 1,459 | 1.000000 |
+| ICMPFlood | 174 | 1.000000 |
+| **Benign** | **71,670** | **FPR 0.5443** (39,010 FP) |
+
+**These recall figures must not be read as strong per-attack
+discrimination.** At threshold 0.30 the model labels 82% of all test rows
+malicious, so near-perfect recall is obtained together with a 54.4% false
+positive rate. Per-tool results follow the same pattern (Hping3, Nmap,
+Torshammer, Slowloris 1.000; Goldeneye 0.999953).
+
+### 16A.3 Feature importance
+
+Impurity importance aggregated to source columns (top 10): `sTtl` 0.167,
+`Proto` 0.118, `sMeanPktSz` 0.095, `SynAck` 0.065, `Dur` 0.056,
+`TcpRtt` 0.048, `Load` 0.043, `Rate` 0.042, `SrcRate` 0.040,
+`SrcBytes` 0.036.
+
+Permutation importance (validation only, 60k rows, PR-AUC scoring) is
+**~0.000 for every feature except `sTtl` (0.0089)** — the metric is
+dominated by the ambiguous duplicate vectors, so no single feature
+changes it much.
+
+On the flagged `Cause` question: `Cause` ranks **19th** with impurity
+importance **0.0122** and a **negative** permutation importance
+(−0.0077). It is **not** dominant, so the planned Stage D ablation is
+lower priority than expected. Importance indicates model reliance within
+this experiment only — it is not evidence of causality.
+
+### 16A.4 Common operating-point protocol for Stage G/H (agreed before SVM/CNN)
+
+The Stage F RF test result above (threshold 0.30) **remains the official
+Stage F result and is not revised**. Separately, a *common* operating
+point is fixed here, on **validation data only**, so that RF, SVM and the
+1-D CNN are compared at the same alarm budget in Stage G/H.
+
+**Validation ROC frontier is a step function.** 49,325 validation rows
+(27%) share a single RF score (p = 0.4605) and are 58.91% malicious —
+the dominant ambiguous vector group of §12. That whole mass flips at
+once, so no threshold lands between FPR 0.075% and 30%:
+
+| FPR constraint | Threshold | Max validation recall | Achieved FPR |
+|---|---|---|---|
+| <= 0.1% | 0.4787 | 0.534044 | 0.000754 |
+| <= 1% | 0.4787 | 0.534044 | 0.000754 |
+| <= 5% | 0.4787 | 0.534044 | 0.000754 |
+| <= 10% | 0.4787 | 0.534044 | 0.000754 |
+| (<= 0.05%) | 0.6116 | 0.531425 | 0.000000 |
+| (<= 30%) | 0.3981 | 0.805108 | 0.299976 |
+
+All four candidate constraints select the **identical** RF operating
+point, so the choice among them cannot flatter RF. Detail:
+[`results/random_forest/validation_fpr_operating_points.csv`](results/random_forest/validation_fpr_operating_points.csv).
+
+**Primary criterion: FPR <= 1% on validation.** Rationale: it is a
+conventional operational alarm budget for intrusion detection, it is
+comfortably achievable by RF (0.075%, with headroom), and it is loose
+enough that models with smoother score distributions than RF's — which
+SVM and the CNN are likely to have — are not forced into a degenerate
+point, as <= 0.1% might. <= 5% and <= 10% were rejected as too permissive:
+on the 71,670 benign test flows they would license roughly 3,600 and
+7,200 false alarms respectively.
+
+**Selection rule within the constraint:** choose the threshold maximising
+**validation recall subject to validation FPR <= 1%**; break ties toward
+the **highest** threshold (most conservative, furthest from the decision
+boundary). The threshold is fitted on validation only and frozen before
+any test evaluation. If a model cannot satisfy the constraint at any
+threshold, that must be reported as a failure to meet the operating
+point — the constraint is not relaxed per model.
+
+**Secondary reporting (required for every model):**
+
+- Threshold-independent **ROC-AUC** and **PR-AUC** (note the positive
+  class is the majority at 60.7%, so the PR-AUC no-skill baseline is
+  0.607, not 0.5).
+- The full **ROC curve (FPR vs TPR)** and **precision-recall curve**, all
+  three models on shared axes.
+- **Recall at a range of fixed alarm budgets** (0.1% / 1% / 5% / 10%
+  FPR) rather than a single point — this is robust to the score-mass
+  dead zone above, which can make one cap arbitrarily equivalent to
+  another for some models but not others.
+- The **full confusion matrix** and the **achieved** FPR at the fixed
+  operating point (discrete scores mean the achieved FPR can sit far
+  below the cap).
+- **Per-attack-type recall** at the fixed operating point.
+- **Per-flow inference time**, for the SDN deployment framing.
+
+Accuracy alone must not be used to rank the three models: §12 shows it is
+capped at 78.63% by the representation, and Stage F showed near-ceiling
+accuracy coexisting with a 54.4% FPR.
+
 ## 17. Next stage
 
 Stage E — train and evaluate Random Forest, SVM and the 1-D CNN on the
