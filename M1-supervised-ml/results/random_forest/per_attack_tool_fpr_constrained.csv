@@ -1,0 +1,7 @@
+group,support,n_malicious,n_benign,predicted_malicious,false_positives,true_negatives,fpr,recall,detected,missed
+Benign,71670,0,71670,561,561.0,71109.0,0.007827542904981164,,,
+Goldeneye,21123,21123,0,21122,,,,0.9999526582398334,21122.0,1.0
+Hping3,70235,70235,0,8009,,,,0.11403146579340785,8009.0,62226.0
+Nmap,8403,8403,0,8403,,,,1.0,8403.0,0.0
+Slowloris,1990,1990,0,1990,,,,1.0,1990.0,0.0
+Torshammer,8981,8981,0,8981,,,,1.0,8981.0,0.0

@@ -1,0 +1,174 @@
+{
+  "stage": "G",
+  "model": "SVM (Nystroem RBF approximation + LinearSVC)",
+  "strategy_rationale": "A full SVC(kernel='rbf') on 851,106 training rows is not tractable here: measured fit time is quadratic (0.4s/1.7s/7.3s at n=5k/10k/20k, extrapolating to ~3.7h) and ~55% of rows become support vectors, so a true SVC trained on the Stage D 50k stratified subsample needed 246.5s to score validation (1.35 ms/flow) for only val PR-AUC 0.86877. Nystroem+LinearSVC trains on all 851,106 rows and scores ~400x faster.",
+  "generated_utc": "2026-09-06T10:15:44+00:00",
+  "python": "3.13.7",
+  "seed": 42,
+  "split_protocol": "block_label_contiguous",
+  "evaluation_scope": "within-capture (within-session) generalisation; NOT unseen-capture, unseen-session, unseen-base-station or unseen-attack generalisation",
+  "feature_representation": {
+    "n_features": 67,
+    "source": "Stage D canonical 67-feature matrix (unchanged)"
+  },
+  "integrity": {
+    "train": {
+      "rows": 851106,
+      "features": 67,
+      "malicious_pct": 60.709
+    },
+    "val": {
+      "rows": 182382,
+      "features": 67,
+      "malicious_pct": 60.7094
+    },
+    "test": {
+      "rows": 182402,
+      "features": 67,
+      "malicious_pct": 60.7077
+    },
+    "n_features": 67
+  },
+  "training_rows_used": 851106,
+  "validation_rows": 182382,
+  "test_rows": 182402,
+  "gamma_source": "sklearn 'scale' heuristic computed on TRAIN only",
+  "gamma": 0.032651071379773314,
+  "selection_metric": "pr_auc",
+  "search_grid": {
+    "n_components": [
+      "256",
+      "512"
+    ],
+    "C": [
+      "0.01",
+      "0.1",
+      "1.0",
+      "10.0"
+    ]
+  },
+  "n_candidates": 8,
+  "class_weight_note": "fixed to Stage D's class-weighting decision, not searched, so RF/SVM/CNN share the same imbalance strategy",
+  "chosen_hyperparameters": {
+    "n_components": 512,
+    "C": 1.0
+  },
+  "model_structure": {
+    "approximation": "Nystroem(rbf)",
+    "n_components": 512,
+    "gamma": 0.032651071379773314,
+    "classifier": "LinearSVC",
+    "C": 1.0,
+    "class_weight": "balanced",
+    "dual": false,
+    "n_iter": 91,
+    "intercept": -0.09399059429666125,
+    "coef_l2_norm": 77.54367179978361
+  },
+  "operating_point": {
+    "rule": "max validation recall subject to validation FPR <= 1%; ties broken toward the highest threshold; frozen before test",
+    "primary_fpr_cap": 0.01,
+    "max_fpr": 0.01,
+    "threshold": -0.0628743124094932,
+    "recall": 0.5350830450764521,
+    "fpr": 0.009991766561073975,
+    "satisfiable": true,
+    "reason": ""
+  },
+  "validation_fpr_budgets": [
+    {
+      "max_fpr": 0.001,
+      "threshold": 0.04108317550392,
+      "recall": 0.527776523396223,
+      "fpr": 0.000976848686138517,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.01,
+      "threshold": -0.0628743124094932,
+      "recall": 0.5350830450764521,
+      "fpr": 0.009991766561073975,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.05,
+      "threshold": -0.08843432525295004,
+      "recall": 0.541459317395663,
+      "fpr": 0.019076459342162184,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.1,
+      "threshold": -0.08843432525295004,
+      "recall": 0.541459317395663,
+      "fpr": 0.019076459342162184,
+      "satisfiable": true,
+      "reason": ""
+    }
+  ],
+  "timings_seconds": {
+    "train": 3093.58,
+    "val_inference": 1.275,
+    "test_inference": 1.242,
+    "search_total": 14358.05
+  },
+  "validation_metrics_at_frozen_threshold": {
+    "n": 182382,
+    "accuracy": 0.7138259258040816,
+    "precision": 0.9880591040992629,
+    "recall": 0.5350830450764521,
+    "f1": 0.6942144886779742,
+    "fpr": 0.009991766561073975,
+    "tnr": 0.9900082334389261,
+    "TN": 70943,
+    "FP": 716,
+    "FN": 51477,
+    "TP": 59246,
+    "roc_auc": 0.8681960010877366,
+    "pr_auc": 0.9087111309385916
+  },
+  "validation_metrics_at_zero_margin": {
+    "n": 182382,
+    "accuracy": 0.7136833678762159,
+    "precision": 0.9969252199911663,
+    "recall": 0.5300163471004218,
+    "f1": 0.6920849819268938,
+    "fpr": 0.0025258516027295945,
+    "tnr": 0.9974741483972704,
+    "TN": 71478,
+    "FP": 181,
+    "FN": 52038,
+    "TP": 58685,
+    "roc_auc": 0.8681960010877366,
+    "pr_auc": 0.9087111309385916
+  },
+  "test_metrics": {
+    "n": 182402,
+    "accuracy": 0.6538744092718282,
+    "precision": 0.9824056431669842,
+    "recall": 0.4376873893725391,
+    "f1": 0.6055752002299052,
+    "fpr": 0.012111064601646435,
+    "tnr": 0.9878889353983535,
+    "TN": 70802,
+    "FP": 868,
+    "FN": 62266,
+    "TP": 48466,
+    "roc_auc": 0.8501768301758702,
+    "pr_auc": 0.879444940373002,
+    "per_flow_inference_ms": 0.006808
+  },
+  "baselines_test": {
+    "always_malicious_accuracy": 0.607077,
+    "exact_vector_memorisation_accuracy": 0.735129,
+    "empirical_feature_space_ceiling": 0.786258
+  },
+  "comparison_test": {
+    "beats_always_malicious": true,
+    "beats_memorisation_baseline": false,
+    "gap_to_ceiling_pp": 13.2384
+  }
+}

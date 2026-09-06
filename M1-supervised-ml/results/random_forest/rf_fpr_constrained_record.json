@@ -1,0 +1,102 @@
+{
+  "stage": "F-secondary (authorised re-evaluation)",
+  "label": "RF @ FPR-constrained operating point (validation FPR <= 1%)",
+  "model": "RandomForestClassifier (Stage F model, reused unchanged)",
+  "retrained": false,
+  "model_artifact": "C:\\Users\\sanja\\ml-ddos-detection-sdn-5g-nidd\\M1-supervised-ml\\data\\processed\\random_forest.joblib",
+  "generated_utc": "2026-09-06T16:42:12+00:00",
+  "python": "3.13.7",
+  "evaluation_scope": "within-capture (within-session) generalisation; NOT unseen-capture, unseen-session, unseen-base-station or unseen-attack generalisation",
+  "operating_point": {
+    "rule": "max validation recall subject to validation FPR <= 1%; ties broken toward the highest threshold; frozen before the test pass",
+    "primary_fpr_cap": 0.01,
+    "max_fpr": 0.01,
+    "threshold": 0.4787342346089332,
+    "recall": 0.5340444171491018,
+    "fpr": 0.0007535689864497132,
+    "satisfiable": true,
+    "reason": ""
+  },
+  "validation_fpr_budgets": [
+    {
+      "max_fpr": 0.001,
+      "threshold": 0.4787342346089332,
+      "recall": 0.5340444171491018,
+      "fpr": 0.0007535689864497132,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.01,
+      "threshold": 0.4787342346089332,
+      "recall": 0.5340444171491018,
+      "fpr": 0.0007535689864497132,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.05,
+      "threshold": 0.4787342346089332,
+      "recall": 0.5340444171491018,
+      "fpr": 0.0007535689864497132,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.1,
+      "threshold": 0.4787342346089332,
+      "recall": 0.5340444171491018,
+      "fpr": 0.0007535689864497132,
+      "satisfiable": true,
+      "reason": ""
+    }
+  ],
+  "validation_metrics_at_frozen_threshold": {
+    "n": 182382,
+    "accuracy": 0.7168251252864866,
+    "precision": 0.9990876066570922,
+    "recall": 0.5340444171491018,
+    "f1": 0.696035501565553,
+    "fpr": 0.0007535689864497132,
+    "tnr": 0.9992464310135503,
+    "TN": 71605,
+    "FP": 54,
+    "FN": 51592,
+    "TP": 59131,
+    "roc_auc": 0.8699734922924021,
+    "pr_auc": 0.9011137520418622
+  },
+  "test_metrics_fpr_constrained": {
+    "n": 182402,
+    "accuracy": 0.6557713182969485,
+    "precision": 0.9885664207394123,
+    "recall": 0.4380395910847813,
+    "f1": 0.6070789371581622,
+    "fpr": 0.007827542904981164,
+    "tnr": 0.9921724570950189,
+    "TN": 71109,
+    "FP": 561,
+    "FN": 62227,
+    "TP": 48505,
+    "roc_auc": 0.8528237494720432,
+    "pr_auc": 0.8673871899950403,
+    "per_flow_inference_ms": 0.001703
+  },
+  "original_stage_f_test_metrics_threshold_0_30": {
+    "n": 182402,
+    "accuracy": 0.786126248615695,
+    "precision": 0.7394835081908094,
+    "recall": 0.9999909691868656,
+    "f1": 0.8502301582121755,
+    "fpr": 0.5443002651039487,
+    "tnr": 0.45569973489605137,
+    "TN": 32660,
+    "FP": 39010,
+    "FN": 1,
+    "TP": 110731,
+    "roc_auc": 0.8528237494720432,
+    "pr_auc": 0.8673871899950403,
+    "per_flow_inference_ms": 0.00111
+  },
+  "note": "The Stage F result at threshold 0.30 remains the original default-threshold characterisation and is preserved unchanged in test_metrics.json / rf_run_record.json. This record is additive."
+}

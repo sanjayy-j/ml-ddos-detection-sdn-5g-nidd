@@ -681,6 +681,243 @@ Accuracy alone must not be used to rank the three models: §12 shows it is
 capped at 78.63% by the representation, and Stage F showed near-ceiling
 accuracy coexisting with a 54.4% FPR.
 
+### 16A.5 Secondary RF evaluation at the FPR-constrained operating point
+
+The Stage F result above (threshold 0.30) is the **original,
+default-threshold characterisation and remains unchanged**. Because it
+was produced under the earlier F1-oriented rule, it was not comparable
+with Stage G's SVM. This authorised **second** evaluation applies the
+locked protocol (§16A.4) to the **same already-trained forest** — the
+Stage F `random_forest.joblib` was loaded and reused; **nothing was
+retrained**, and every Stage F artifact was verified unmodified.
+
+The two RF results are labelled distinctly and both are retained:
+
+| Label | Threshold | Artifact |
+|---|---|---|
+| RF @ default threshold (original Stage F) | 0.30 | `test_metrics.json` |
+| RF @ FPR-constrained operating point (secondary) | 0.478734 | `test_metrics_fpr_constrained.json` |
+
+Validation budget table — every budget collapses onto one point, the
+quantisation effect described in §16A.4:
+
+| Budget | Threshold | Val recall | Achieved val FPR |
+|---|---|---|---|
+| <= 0.1% / 1% / 5% / 10% | 0.478734 | 0.534044 | 0.000754 |
+
+**Frozen threshold: 0.478734** (validation only, ties to highest).
+
+**RF test results at that frozen threshold (single pass):**
+
+| Metric | Value |
+|---|---|
+| Accuracy | 0.655771 |
+| Precision | 0.988566 |
+| Recall | 0.438040 |
+| F1 | 0.607079 |
+| **FPR** | **0.007828** |
+| Specificity | 0.992172 |
+| ROC-AUC | 0.852824 |
+| PR-AUC | 0.867387 |
+
+| | Predicted Benign | Predicted Malicious |
+|---|---|---|
+| **Actual Benign** | TN = 71,109 | FP = 561 |
+| **Actual Malicious** | FN = 62,227 | TP = 48,505 |
+
+### 16A.6 RF vs SVM at the common operating point
+
+Both models at validation FPR <= 1% (the CNN is not yet implemented, so
+this is **not** the full Stage H comparison):
+
+| Metric | RF | SVM | Better |
+|---|---|---|---|
+| Accuracy | **0.655771** | 0.653874 | RF (+0.19 pp) |
+| Precision | **0.988566** | 0.982406 | RF |
+| Recall | **0.438040** | 0.437687 | RF (+0.04 pp) |
+| F1 | **0.607079** | 0.605575 | RF |
+| **FPR (test)** | **0.007828** | 0.012111 | **RF** |
+| ROC-AUC | **0.852824** | 0.850177 | RF |
+| PR-AUC | 0.867387 | **0.879445** | SVM |
+| Inference | **0.0011 ms/flow** | 0.0068 ms/flow | RF (6x) |
+| Training | **31 s** | 3,094 s | RF (100x) |
+
+Per-attack recall at the same operating point:
+
+| Attack Type | RF | SVM |
+|---|---|---|
+| ICMPFlood / SYNFlood / SYNScan / TCPConnectScan / UDPScan | 1.000000 | 0.994-1.000 |
+| SlowrateDoS | 1.000000 | 0.999271 |
+| HTTPFlood | 0.999953 | 0.986555 |
+| **UDPFlood** | **0.092942** | **0.097023** |
+
+Reading: the two model families are **near-indistinguishable** on this
+representation — recall differs by 0.04 pp. RF holds a small edge on
+almost every metric plus a 6x inference and 100x training advantage; the
+SVM's only win is PR-AUC (a threshold-free ranking measure), and it
+overshot the 1% budget on test (1.21%) whereas RF stayed under (0.78%).
+RF is also cleaner on the non-UDP attacks (all 100%), while the SVM
+detects marginally more UDP flood.
+
+Both independently reproduce the Stage D structural result: at a 1% alarm
+budget, **every attack type is detected at ~99-100% except UDP flood, at
+~9-10%**. That agreement across two unrelated model families is evidence
+that the limit is a property of the per-flow feature representation, not
+of any one classifier.
+
+## 16B. Stage G — Support Vector Machine results
+
+> Evaluation scope: **within-capture (within-session) generalisation** (§8.3).
+> Not unseen-capture, unseen-session, unseen-base-station or unseen-attack.
+
+### Strategy: Nystroem RBF approximation + LinearSVC
+
+A full `SVC(kernel="rbf")` on the 851,106-row training split is not
+usable here. Measured on this hardware:
+
+| Approach | Train rows used | Fit | Val inference | ms/flow | val PR-AUC | val ROC-AUC |
+|---|---|---|---|---|---|---|
+| True RBF `SVC`, Stage D 50k subsample | 50,000 (5.9%) | 56 s | 246.5 s | 1.3515 | 0.86877 | 0.79169 |
+| **Nystroem(RBF) + LinearSVC** | **851,106 (100%)** | see below | 1.3 s | **0.0068** | **0.90871** | 0.86820 |
+| Plain LinearSVC (linear only) | 851,106 (100%) | 27 s | 0.03 s | 0.0002 | 0.87335 | — |
+
+`SVC` fit time is quadratic (0.4 s / 1.7 s / 7.3 s at n = 5k / 10k / 20k),
+extrapolating to ~3.7 h on the full split, and ~55% of rows become
+support vectors so *inference* cost also grows with training size. The
+kernel-approximation route trains on **all** training rows, scores ~200x
+faster per flow, and scores higher on validation. It stays genuinely
+SVM-based: an explicit finite-dimensional RBF feature map followed by a
+hinge-loss maximum-margin classifier — an approximation of an RBF SVM,
+not a different model family.
+
+`gamma` uses sklearn's `scale` heuristic **computed on training data
+only** (0.032651) and is then frozen. The feature map is fitted on
+training rows only. `ChunkedNystroem` transforms in float32 row blocks
+because `Nystroem.transform` returns float64 and materialising
+851,106 x 1024 needs ~7 GB, which drove this 16 GB machine into swap
+during probing — `n_components=1024` was therefore excluded before the
+run, on measured evidence.
+
+### Hyperparameter search (validation only, PR-AUC)
+
+`class_weight` was **not** searched: Stage D fixed class weighting as the
+imbalance strategy and it is held constant across RF/SVM/CNN so the model
+comparison is not confounded.
+
+| n_components | C | val PR-AUC | val ROC-AUC | fit (s) |
+|---|---|---|---|---|
+| 256 | 0.01 | 0.903976 | 0.857222 | 46 |
+| 256 | 0.1 | 0.905573 | 0.860996 | 81 |
+| 256 | 1.0 | 0.907280 | 0.865675 | 444 |
+| 256 | 10.0 | 0.907879 | 0.867275 | 1,096 |
+| 512 | 0.01 | 0.905067 | 0.859298 | 173 |
+| 512 | 0.1 | 0.906876 | 0.863324 | 408 |
+| **512** | **1.0** | **0.908711** | 0.868196 | **1,363** |
+| 512 | 10.0 | 0.909544 | 0.870052 | **10,747** |
+
+Best PR-AUC was `512 / C=10` (0.909544), but `512 / C=1.0` (0.908711)
+lies within the 0.001 tie tolerance, so the documented tie-break selected
+the **cheaper** model: it fits in 1,363 s instead of 10,747 s for a
+statistically indistinguishable score. The `C=10 / 512` candidate did not
+converge within `max_iter=3000` and took ~3 hours; it is not practically
+reproducible on this hardware.
+
+**Selected: `n_components=512, C=1.0, class_weight=balanced, seed=42`**
+(converged in 91 iterations). Training on all 851,106 rows: **3,094 s**
+in the final refit (the same configuration took 1,363 s during the grid;
+the difference is memory pressure on this machine, not a change in the
+computation). Inference: 1.24 s for 182,402 test flows =
+**0.0068 ms per flow**.
+
+### Operating point (locked protocol, §16A.4)
+
+Validation recall at each alarm budget — note the SVM has a genuinely
+smooth score distribution, so unlike RF the budgets select *distinct*
+thresholds:
+
+| Budget | Threshold | Val recall | Achieved val FPR |
+|---|---|---|---|
+| <= 0.1% | 0.041083 | 0.527777 | 0.000977 |
+| **<= 1% (primary)** | **-0.062874** | **0.535083** | 0.009992 |
+| <= 5% | -0.088434 | 0.541459 | 0.019076 |
+| <= 10% | -0.088434 | 0.541459 | 0.019076 |
+
+Even so, a 100x wider alarm budget buys only +1.4 pp of recall, and the
+5%/10% budgets both saturate at 1.9% achieved FPR — the same irreducible
+ambiguity wall described in §12. **Frozen threshold: -0.062874**,
+selected on validation only and applied to test exactly once. Scores are
+`decision_function` margins; no probability calibration was applied.
+
+### Test results (single evaluation at the frozen threshold)
+
+| Metric | Value |
+|---|---|
+| Accuracy | 0.653874 |
+| Precision | 0.982406 |
+| Recall (TPR) | 0.437687 |
+| F1 | 0.605575 |
+| **False Positive Rate** | **0.012111** |
+| Specificity (TNR) | 0.987889 |
+| ROC-AUC | 0.850177 |
+| PR-AUC | 0.879445 |
+| Inference | 0.0068 ms/flow |
+
+| | Predicted Benign | Predicted Malicious |
+|---|---|---|
+| **Actual Benign** | TN = 70,802 | FP = 868 |
+| **Actual Malicious** | FN = 62,266 | TP = 48,466 |
+
+Test FPR (1.21%) slightly exceeds the 1% validation cap, and test recall
+(0.438) falls below validation recall (0.535) — an ordinary
+validation-to-test generalisation gap, reported rather than corrected.
+
+Against the reference points: it **beats** the always-Malicious baseline
+(0.607077) but **does not beat** the exact-vector memorisation baseline
+(0.735129) on accuracy, and sits 13.24 pp below the empirical ceiling.
+That is expected and not a defect — at a 1% alarm budget the model must
+classify the ambiguous mass as benign, which costs accuracy by
+construction. Accuracy is not the ranking metric (§16A.4).
+
+### Per-attack-type results — the substantive finding
+
+| Attack Type | Support | Recall |
+|---|---|---|
+| ICMPFlood | 174 | 1.000000 |
+| SYNFlood | 1,459 | 1.000000 |
+| SlowrateDoS | 10,971 | 0.999271 |
+| SYNScan | 3,007 | 0.997672 |
+| TCPConnectScan | 3,009 | 0.997341 |
+| UDPScan | 2,387 | 0.994554 |
+| HTTPFlood | 21,123 | 0.986555 |
+| **UDPFlood** | **68,602** | **0.097023** |
+| Benign | 71,670 | FPR 0.012111 (868 FP) |
+
+At a 1% alarm budget the SVM detects **every attack type at 98.7-100%
+except UDP flood, where it detects 9.7%** (61,946 of 68,602 missed). By
+tool: Nmap 0.9967, Slowloris 0.9985, Torshammer 0.9994, Goldeneye 0.9866,
+**Hping3 0.1180** (Hping3 is dominated by the UDP flood captures).
+
+This is exactly the behaviour Stage D predicted. The dominant ambiguous
+vector is benign-vs-UDPFlood, so a model constrained to a low false-alarm
+rate must assign that mass to Benign and forfeit most UDP-flood
+detection. The trade-off is a property of per-flow features at this
+granularity, not a deficiency of the SVM, and it is the concrete
+motivation for the window/aggregate approaches in M2 and M3.
+
+### Limitations
+
+1. **Not yet comparable to the Stage F RF result.** RF's official test
+   result was produced under the earlier F1-oriented threshold rule
+   (threshold 0.30, FPR 54.4%); this SVM result uses the locked FPR <= 1%
+   protocol. The two are at different operating points and must not be
+   compared directly. Evaluating both at the common operating point is
+   Stage H work and has not been performed.
+2. `C=10 / n_components=512` is not practically reproducible here
+   (~3 h, non-converged).
+3. `n_components=512` sits at this machine's memory ceiling (~6.5 GB);
+   `1024` is infeasible.
+4. Test FPR (1.21%) modestly exceeds the 1% cap fitted on validation.
+
 ## 17. Next stage
 
 Stage E — train and evaluate Random Forest, SVM and the 1-D CNN on the
