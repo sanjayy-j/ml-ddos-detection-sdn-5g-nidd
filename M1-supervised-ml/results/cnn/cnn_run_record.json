@@ -1,0 +1,205 @@
+{
+  "stage": "H",
+  "model": "1-D CNN (TensorFlow/Keras)",
+  "generated_utc": "2026-09-07T02:20:52+00:00",
+  "python": "3.13.7",
+  "seed": 42,
+  "split_protocol": "block_label_contiguous",
+  "evaluation_scope": "within-capture (within-session) generalisation; NOT unseen-capture, unseen-session, unseen-base-station or unseen-attack generalisation",
+  "input_representation": {
+    "shape": [
+      67,
+      1
+    ],
+    "source": "Stage D canonical 67-feature matrix, reshaped (n,67)->(n,67,1)",
+    "feature_order_preserved": true,
+    "caveat": "Tabular feature vector, NOT a temporal signal. Conv1D does not perform temporal convolution and does not model packet/flow sequences; adjacency along the 67-axis is an artifact of column order."
+  },
+  "integrity": {
+    "train": {
+      "rows": 851106,
+      "features": 67,
+      "malicious_pct": 60.709
+    },
+    "val": {
+      "rows": 182382,
+      "features": 67,
+      "malicious_pct": 60.7094
+    },
+    "test": {
+      "rows": 182402,
+      "features": 67,
+      "malicious_pct": 60.7077
+    },
+    "n_features": 67
+  },
+  "class_weight": {
+    "0": 1.2725562785579292,
+    "1": 0.823601020325219
+  },
+  "class_weight_note": "sklearn 'balanced' formula, identical to the RF and SVM strategy",
+  "selection_metric": "pr_auc",
+  "search_grid": {
+    "filters": [
+      "(32, 64)",
+      "(64, 128)"
+    ],
+    "kernel_size": [
+      "3",
+      "5"
+    ],
+    "dropout": [
+      "0.2",
+      "0.3"
+    ],
+    "learning_rate": [
+      "0.001",
+      "0.0003"
+    ]
+  },
+  "n_candidates": 16,
+  "training_controls": {
+    "max_epochs": 30,
+    "patience": 5,
+    "batch_size": 512,
+    "early_stopping_monitor": "val_pr_auc (max), restore_best_weights=True"
+  },
+  "chosen_hyperparameters": {
+    "filters": [
+      32,
+      64
+    ],
+    "kernel_size": 3,
+    "dropout": 0.2,
+    "learning_rate": 0.001
+  },
+  "model_structure": {
+    "architecture": "Conv1D -> Conv1D -> GlobalAvgPool1D -> Dense -> Dropout -> Dense(sigmoid)",
+    "input_shape": [
+      67,
+      1
+    ],
+    "filters": [
+      32,
+      64
+    ],
+    "kernel_size": 3,
+    "padding": "same",
+    "dense_units": 64,
+    "dropout": 0.2,
+    "loss": "binary_crossentropy",
+    "optimizer": "Adam",
+    "learning_rate": 0.0010000000474974513,
+    "total_parameters": 10561,
+    "tensorflow_version": "2.21.0",
+    "keras_version": "3.15.1"
+  },
+  "epochs_run": 19,
+  "best_epoch": 14,
+  "operating_point": {
+    "rule": "max validation recall subject to validation FPR <= 1%; ties broken toward the highest threshold; frozen before test",
+    "primary_fpr_cap": 0.01,
+    "max_fpr": 0.01,
+    "threshold": 0.47173118591308594,
+    "recall": 0.5313801107267686,
+    "fpr": 0.0001814147559971532,
+    "satisfiable": true,
+    "reason": ""
+  },
+  "validation_fpr_budgets": [
+    {
+      "max_fpr": 0.001,
+      "threshold": 0.47173118591308594,
+      "recall": 0.5313801107267686,
+      "fpr": 0.0001814147559971532,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.01,
+      "threshold": 0.47173118591308594,
+      "recall": 0.5313801107267686,
+      "fpr": 0.0001814147559971532,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.05,
+      "threshold": 0.47173118591308594,
+      "recall": 0.5313801107267686,
+      "fpr": 0.0001814147559971532,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.1,
+      "threshold": 0.47173118591308594,
+      "recall": 0.5313801107267686,
+      "fpr": 0.0001814147559971532,
+      "satisfiable": true,
+      "reason": ""
+    }
+  ],
+  "timings_seconds": {
+    "train": 159.63,
+    "val_inference": 0.7,
+    "test_inference": 0.695,
+    "search_total": 25499.6
+  },
+  "validation_metrics_at_frozen_threshold": {
+    "n": 182382,
+    "accuracy": 0.7154324439911833,
+    "precision": 0.9997790956515828,
+    "recall": 0.5313801107267686,
+    "f1": 0.6939353195102965,
+    "fpr": 0.0001814147559971532,
+    "tnr": 0.9998185852440028,
+    "TN": 71646,
+    "FP": 13,
+    "FN": 51887,
+    "TP": 58836,
+    "roc_auc": 0.8701269968338682,
+    "pr_auc": 0.9007684559866944
+  },
+  "validation_metrics_at_0_5": {
+    "n": 182382,
+    "accuracy": 0.7154214779967322,
+    "precision": 0.9997790881438307,
+    "recall": 0.5313620476323799,
+    "f1": 0.6939199150793183,
+    "fpr": 0.0001814147559971532,
+    "tnr": 0.9998185852440028,
+    "TN": 71646,
+    "FP": 13,
+    "FN": 51889,
+    "TP": 58834,
+    "roc_auc": 0.8701269968338682,
+    "pr_auc": 0.9007684559866944
+  },
+  "test_metrics": {
+    "n": 182402,
+    "accuracy": 0.6509851865659367,
+    "precision": 0.9974425633546805,
+    "recall": 0.4261821334392949,
+    "f1": 0.5971970008541871,
+    "fpr": 0.0016882935677410354,
+    "tnr": 0.998311706432259,
+    "TN": 71549,
+    "FP": 121,
+    "FN": 63540,
+    "TP": 47192,
+    "roc_auc": 0.8509783648657272,
+    "pr_auc": 0.8642825897722863,
+    "per_flow_inference_ms": 0.003808
+  },
+  "baselines_test": {
+    "always_malicious_accuracy": 0.607077,
+    "exact_vector_memorisation_accuracy": 0.735129,
+    "empirical_feature_space_ceiling": 0.786258
+  },
+  "comparison_test": {
+    "beats_always_malicious": true,
+    "beats_memorisation_baseline": false,
+    "gap_to_ceiling_pp": 13.5273
+  }
+}

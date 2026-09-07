@@ -818,9 +818,30 @@ comparison is not confounded.
 Best PR-AUC was `512 / C=10` (0.909544), but `512 / C=1.0` (0.908711)
 lies within the 0.001 tie tolerance, so the documented tie-break selected
 the **cheaper** model: it fits in 1,363 s instead of 10,747 s for a
-statistically indistinguishable score. The `C=10 / 512` candidate did not
-converge within `max_iter=3000` and took ~3 hours; it is not practically
-reproducible on this hardware.
+statistically indistinguishable score. The `C=10 / 512` candidate **did
+converge** — the run emitted no convergence warnings — but was
+substantially slower than every alternative (~3 hours, roughly 8x the
+selected configuration), which is the expected consequence of the weaker
+regularisation at large `C` lengthening the optimisation. It is therefore
+impractical to re-run on this hardware, though not invalid.
+
+**Tie-window sensitivity (methodological note).** The two leading
+candidates are separated by only **0.000833 PR-AUC**:
+
+| Candidate | val PR-AUC | fit (s) |
+|---|---|---|
+| best raw: `n_components=512, C=10` | 0.909544 | 10,747 |
+| **selected: `n_components=512, C=1`** | **0.908711** | **1,363** |
+
+With a tie tolerance of **0.001**, the selected configuration fell inside
+the window and won on the documented cheaper-model tie-break. Because the
+gap is far smaller than the tolerance, **validation performance does not
+meaningfully distinguish these configurations** — the choice is decided by
+cost, not by evidence of better generalisation. Note also that the window
+is anchored on the best raw score: had it been anchored slightly lower,
+`256 / C=10` (0.907879) would also have entered and, under the same
+tie-break, would have been selected instead. The rule was applied as
+specified; this is a sensitivity to record, not a defect.
 
 **Selected: `n_components=512, C=1.0, class_weight=balanced, seed=42`**
 (converged in 91 iterations). Training on all 851,106 rows: **3,094 s**
@@ -912,11 +933,227 @@ motivation for the window/aggregate approaches in M2 and M3.
    protocol. The two are at different operating points and must not be
    compared directly. Evaluating both at the common operating point is
    Stage H work and has not been performed.
-2. `C=10 / n_components=512` is not practically reproducible here
-   (~3 h, non-converged).
+2. `C=10 / n_components=512` converged but is not practically
+   re-runnable here (~3 h, ~8x the selected configuration's fit time).
 3. `n_components=512` sits at this machine's memory ceiling (~6.5 GB);
    `1024` is infeasible.
 4. Test FPR (1.21%) modestly exceeds the 1% cap fitted on validation.
+
+## 16C. Stage H — 1-D CNN results
+
+> Evaluation scope: **within-capture (within-session) generalisation** (§8.3).
+> Not unseen-capture, unseen-session, unseen-base-station or unseen-attack.
+
+### Environment
+
+TensorFlow **2.21.0**, Keras **3.15.1**, Python 3.13.7, **CPU only**
+(native Windows has no TF GPU support since 2.11). Installing TF was
+purely additive — `numpy 2.5.2` already satisfied its `numpy>=1.26.0`
+requirement, so no existing project dependency was downgraded. It did
+upgrade `protobuf` to 7.36.1, which is incompatible with `grpcio-status`
+and `proto-plus` present in the wider environment; neither is used
+anywhere in M1. No `requirements.txt` was created — dependencies remain
+documented in this README, per the Stage B decision.
+
+### Input representation (and its limitation)
+
+The Stage D canonical matrix is reshaped `(n, 67) -> (n, 67, 1)` by a
+pure `np.reshape`, so **feature order is preserved exactly** and no
+feature is reordered; the run asserts `Z[:, :, 0] == X` before training.
+
+**This is a tabular vector, not a temporal signal.** Consequently:
+
+* `Conv1D` here is **not** temporal convolution and does not model packet
+  or flow sequences over time.
+* Convolution presumes neighbouring positions are related; for a tabular
+  vector that adjacency is an artifact of column order, so feature
+  ordering can influence which features a kernel can combine.
+* This evaluates a convolutional architecture over a fixed feature
+  vector. It establishes **nothing** about CNNs for genuine temporal
+  network-sequence modelling.
+
+A further property, pinned by test: because both convolutions use `same`
+padding and are followed by `GlobalAveragePooling1D`, the network is
+**length-agnostic at inference** — it silently accepts a wrong-width
+matrix instead of raising, unlike RF and SVM. Shape discipline therefore
+has to come from the caller.
+
+### Architecture and training
+
+```text
+Input(67, 1)
+Conv1D(32, k=3, ReLU, padding=same)
+Conv1D(64, k=3, ReLU, padding=same)
+GlobalAveragePooling1D
+Dense(64, ReLU) -> Dropout(0.2) -> Dense(1, sigmoid)
+```
+
+**10,561 parameters.** Binary cross-entropy, Adam (lr 1e-3), batch size
+512, max 30 epochs, `EarlyStopping(monitor=val_pr_auc, mode=max,
+patience=5, restore_best_weights=True)`, seed 42 via
+`keras.utils.set_random_seed`. Class weighting uses sklearn's `balanced`
+formula — `{0: 1.272556, 1: 0.823601}` — identical in construction to the
+RF and SVM strategy. Early stopping used **validation only**; the chosen
+model ran 19 epochs with best epoch 14.
+
+### Hyperparameter search (validation PR-AUC, 16 candidates)
+
+Full factorial: `filters {(32,64),(64,128)}` x `kernel {3,5}` x
+`dropout {0.2,0.3}` x `lr {1e-3,3e-4}`.
+
+| filters | k | dropout | lr | params | val PR-AUC | fit (s) |
+|---|---|---|---|---|---|---|
+| 64x128 | 5 | 0.2 | 1e-3 | 49,793 | 0.901287 | 656 |
+| 64x128 | 5 | 0.3 | 1e-3 | 49,793 | 0.901265 | 730 |
+| 32x64 | 5 | 0.2 | 1e-3 | 14,721 | 0.901253 | 254 |
+| 32x64 | 5 | 0.3 | 1e-3 | 14,721 | 0.901183 | 178 |
+| **32x64** | **3** | **0.2** | **1e-3** | **10,561** | **0.900768** | **151** |
+| 32x64 | 3 | 0.3 | 3e-4 | 10,561 | 0.900417 | 215 |
+
+**All 16 candidates fall inside the 0.001 tie tolerance** — the full
+spread is 0.90042-0.90129, i.e. **0.00087**. Architecture and
+hyperparameters are therefore *not distinguished by validation
+performance* on this representation, exactly as observed for RF (18
+candidates, spread 0.000167) and SVM. The documented tie-break
+(fewest parameters, then smaller kernel, then faster) selected the
+**cheapest model in the grid**: `32x64, k=3, dropout 0.2, lr 1e-3` —
+10,561 parameters, 151 s, versus 49,793 parameters and 656 s for the
+nominal best, for 0.0005 PR-AUC.
+
+Search wall-time totalled 25,500 s, but that figure is inflated by
+environmental stalls, not computation: `64x128/k=5/lr=3e-4` logged
+16,748 s and another 3,577 s, while the *same architecture* at lr=1e-3
+took 656 s. Learning rate does not change per-epoch cost, so those two
+timings reflect machine slowdown (the same effect seen in Stage F), and
+should not be read as architecture cost.
+
+### Operating point (locked protocol, §16A.4)
+
+| Budget | Threshold | Val recall | Achieved val FPR |
+|---|---|---|---|
+| <= 0.1% / 1% / 5% / 10% | 0.471731 | 0.531380 | 0.000181 |
+
+Like RF (and unlike the SVM), every budget collapses onto a single point.
+**Frozen threshold: 0.471731**, selected on validation only, applied to
+test exactly once. Validation at that point: accuracy 0.715432,
+precision 0.999779, recall 0.531380, FPR 0.000181, PR-AUC 0.900768.
+
+### Test results (single evaluation at the frozen threshold)
+
+| Metric | Value |
+|---|---|
+| Accuracy | 0.650985 |
+| Precision | 0.997443 |
+| Recall | 0.426182 |
+| F1 | 0.597197 |
+| **False Positive Rate** | **0.001688** |
+| Specificity | 0.998312 |
+| ROC-AUC | 0.850978 |
+| PR-AUC | 0.864283 |
+| Inference | 0.0038 ms/flow |
+
+| | Predicted Benign | Predicted Malicious |
+|---|---|---|
+| **Actual Benign** | TN = 71,549 | FP = 121 |
+| **Actual Malicious** | FN = 63,540 | TP = 47,192 |
+
+Training 160 s; test inference 0.70 s. It beats the always-Malicious
+baseline (0.607077) but **not** the memorisation baseline (0.735129), and
+sits 13.53 pp below the empirical ceiling — expected at a 1% alarm
+budget, where the ambiguous mass must be assigned to Benign.
+
+### Per-attack-type results
+
+| Attack Type | Support | Recall |
+|---|---|---|
+| ICMPFlood / SYNFlood / SYNScan / TCPConnectScan | 174 / 1,459 / 3,007 / 3,009 | 1.000000 |
+| SlowrateDoS | 10,971 | 0.999544 |
+| HTTPFlood | 21,123 | 0.999527 |
+| UDPScan | 2,387 | 0.996230 |
+| **UDPFlood** | **68,602** | **0.074138** |
+| Benign | 71,670 | FPR 0.001688 (121 FP) |
+
+## 16D. Three-model comparison at validation FPR <= 1%
+
+All three at the same locked operating point. The original RF
+threshold-0.30 result (§16A) is preserved separately as the
+default-threshold characterisation and is **not** part of this table.
+
+| Metric | RF | SVM | CNN |
+|---|---|---|---|
+| Threshold | 0.478734 | -0.062874 | 0.471731 |
+| Accuracy | **0.655771** | 0.653874 | 0.650985 |
+| Precision | 0.988566 | 0.982406 | **0.997443** |
+| Recall | **0.438040** | 0.437687 | 0.426182 |
+| F1 | **0.607079** | 0.605575 | 0.597197 |
+| **Test FPR** | 0.007828 | 0.012111 | **0.001688** |
+| ROC-AUC | **0.852824** | 0.850177 | 0.850978 |
+| PR-AUC | 0.867387 | **0.879445** | 0.864283 |
+| Inference (ms/flow) | **0.0017** | 0.0068 | 0.0038 |
+| Training | **31 s** | 3,094 s | 160 s |
+| UDPFlood recall | 0.092942 | **0.097023** | 0.074138 |
+
+**Threshold-independent metrics** (ROC-AUC 0.850-0.853, PR-AUC
+0.864-0.879) are within ~0.015 of each other across all three families.
+Note the positive class is the **majority** at 60.7%, so the no-skill
+PR-AUC reference is **~0.607, not 0.5**; PR-AUC and ROC-AUC are computed
+on different axes and must not be compared to one another. Full ROC and
+PR curve data for the CNN is saved in `results/cnn/test_roc_curve.csv`
+and `test_pr_curve.csv` (matplotlib is not installed in this
+environment, so curve *data* is persisted rather than rendered plots).
+
+**How to read the inference times.** The `ms/flow` figures are
+**amortised batch throughput** — total wall-clock time to score the
+complete 182,402-row test split, divided by the number of rows. They are
+**not** single-flow latency measurements, and so do not represent the
+cost of classifying one flow in isolation, which is the quantity an SDN
+deployment would care about. Each is also a **single timed run** on a
+machine subject to substantial run-to-run load variation (the same
+variation that inflated some Stage F/H fit times); repeated timing of the
+identical RF scoring call, for instance, produced 0.0011 and 0.0017
+ms/flow. The timings should therefore be interpreted **approximately**,
+as an indication of relative cost rather than precise measurements.
+
+**Reading.** The three classifiers exhibit broadly similar
+discrimination under the current feature representation and
+operating-point protocol: recall spans 0.426-0.438 (1.2 pp) and accuracy
+0.651-0.656 (0.5 pp). They differ mainly in where they sit on the
+precision/FPR trade-off — the CNN is the most conservative (FPR 0.17%,
+precision 99.74%, lowest recall), RF is the best-balanced and by far the
+cheapest to train and run, and the SVM has the best threshold-free
+ranking (PR-AUC) but the highest FPR and slowest inference.
+
+Most importantly, **all three independently reproduce the Stage D
+structural result**: at a 1% alarm budget every attack type is detected
+at ~99-100% except UDP flood, at **7-10%**. Three unrelated model
+families converging on the same failure mode is strong evidence that the
+limit belongs to the per-flow feature representation, not to any
+classifier. Note the scope of that evidence: because all three
+classifiers consume the **same** 67-feature representation, their
+agreement provides corroboration across model families rather than three
+independent tests of the representation itself. The independent argument
+for the limit is the Stage D exact-vector analysis (§12), which
+established the ambiguity combinatorially, before any model was
+trained. Accuracy must not be used to rank these models (§12: it is
+capped at 78.63%, and Stage F showed near-ceiling accuracy coexisting
+with a 54.4% FPR).
+
+### CNN-specific limitations
+
+1. The representation is tabular, not sequential — see above. No temporal
+   claim is supported.
+2. Feature ordering is the Stage D order; a different ordering could
+   change what the convolution kernels can combine.
+3. The network is length-agnostic at inference and will not reject a
+   wrong-width input.
+4. Architecture choice is not distinguished by validation performance
+   (all 16 candidates within tolerance), so the selected architecture
+   reflects the cost tie-break, not measured superiority.
+5. The previously established representation limits all still apply:
+   ~78.63% empirical accuracy ceiling, extensive exact-feature
+   repetition, conflicting feature vectors, UDP-flood ambiguity, and
+   high FPR at unrestricted recall. **A CNN cannot recover information
+   that is absent from the feature representation.**
 
 ## 17. Next stage
 
