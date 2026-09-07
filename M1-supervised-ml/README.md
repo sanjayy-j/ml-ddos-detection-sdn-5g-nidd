@@ -1406,9 +1406,54 @@ generalisation**. The §12 representation limits (78.63% empirical
 accuracy ceiling, exact-feature repetition, conflicting feature vectors,
 UDP-flood ambiguity) continue to apply.
 
+## 16G. Stage K — final comparison and interpretation
+
+The report-ready comparison of the three supervised models lives in
+[`results/evaluation/model_comparison.md`](results/evaluation/model_comparison.md).
+Regenerate it with:
+
+```bash
+python M1-supervised-ml/experiments/generate_comparison.py
+```
+
+Every number in that document is read from the canonical Stage D/I
+artifacts at generation time — none is hard-coded — and the generator
+refuses to write if the prose contains a forbidden claim or omits a
+required hedge. No model is loaded, no inference run, and no threshold
+selected or changed. `three_model_fpr1pct_summary.csv` already carries
+every field needed for a machine-readable comparison, so it is
+referenced rather than duplicated by a second CSV.
+
+**Principal findings** (all under the current feature representation and
+the common validation FPR <= 1% operating-point protocol):
+
+1. Random Forest leads on accuracy (0.655771), recall (0.438040) and F1
+   (0.607079).
+2. The 1-D CNN attains the lowest test FPR (0.001688) and highest
+   precision (0.997443), with the lowest recall (0.426182).
+3. The SVM attains the highest PR-AUC (0.879445), but its frozen test
+   operating point exceeds the 1% target at FPR 0.012111.
+4. ROC-AUC is tightly clustered (0.850177-0.852824) — broadly similar
+   discrimination under the current feature representation.
+5. All three lose substantial recall under the strict FPR constraint
+   (recall 0.426-0.438).
+6. UDP flood is the common failure mode (0.0741-0.0970 recall) while the
+   other seven attack types are detected at 0.9866 or better.
+7. The Stage D conflict analysis (33,709 conflicting feature vectors,
+   281,533 forced errors, empirical ceiling 76.8455% overall / 78.6258%
+   on test) explains both the convergence and the limits.
+
+**Limitations** carried forward unchanged: the protocol is
+within-capture (within-session), so the comparison **does not establish
+unseen-session generalisation** (nor unseen-capture, unseen-base-station
+or unseen-attack). Inference figures are approximate batch throughput,
+not single-flow latency. The empirical ceiling applies to the evaluated
+exact-feature-vector representation, not to every possible model or
+richer feature set.
+
 ## 17. Next stage
 
-Stages F, G, H, I and J are **complete**. Random Forest (§16A), SVM (§16B) and
+Stages F, G, H, I, J and K are **complete**. Random Forest (§16A), SVM (§16B) and
 the 1-D CNN (§16C) have each been trained on the prepared matrices and
 evaluated at the locked validation FPR <= 1% operating point, reporting
 Accuracy, Precision, Recall, F1, ROC-AUC, PR-AUC, FPR, TP/TN/FP/FN,
