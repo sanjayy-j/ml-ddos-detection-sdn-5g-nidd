@@ -1,0 +1,60 @@
+{
+  "stage": "J",
+  "purpose": "authorised one-off curve export; evaluation-artifact generation only",
+  "generated_utc": "2026-09-07T13:47:04+00:00",
+  "python": "3.13.7",
+  "models_retrained": false,
+  "thresholds_selected": false,
+  "test_set_tuning": false,
+  "frozen_thresholds_unchanged": {
+    "RandomForest": 0.478734,
+    "SVM": -0.062874,
+    "CNN_1D": 0.471731
+  },
+  "max_curve_points": 2000,
+  "cnn_curves": "reused from Stage H; not regenerated",
+  "exports": {
+    "RandomForest": {
+      "model": "RandomForest",
+      "split": "test",
+      "positive_class": "Malicious (1)",
+      "score_type": "predict_proba positive-class probability",
+      "source_model_artifact": "C:\\Users\\sanja\\ml-ddos-detection-sdn-5g-nidd\\M1-supervised-ml\\data\\processed\\random_forest.joblib",
+      "feature_representation": "Stage D canonical 67-feature matrix",
+      "split_protocol": "block_label_contiguous (Stage E, unchanged)",
+      "threshold_selection_performed": false,
+      "model_retrained": false,
+      "n_test_rows": 182402,
+      "roc_points_written": 2154,
+      "pr_points_written": 2269,
+      "roc_auc_recomputed": 0.8528237494720432,
+      "roc_auc_recorded": 0.8528237494720432,
+      "pr_auc_recomputed": 0.8673871899950403,
+      "pr_auc_recorded": 0.8673871899950403,
+      "auc_matches_recorded": true,
+      "roc_curve_file": "C:\\Users\\sanja\\ml-ddos-detection-sdn-5g-nidd\\M1-supervised-ml\\results\\random_forest\\test_roc_curve.csv",
+      "pr_curve_file": "C:\\Users\\sanja\\ml-ddos-detection-sdn-5g-nidd\\M1-supervised-ml\\results\\random_forest\\test_pr_curve.csv"
+    },
+    "SVM": {
+      "model": "SVM",
+      "split": "test",
+      "positive_class": "Malicious (1)",
+      "score_type": "decision_function margin (higher = Malicious)",
+      "source_model_artifact": "C:\\Users\\sanja\\ml-ddos-detection-sdn-5g-nidd\\M1-supervised-ml\\data\\processed\\svm_model.joblib",
+      "feature_representation": "Stage D canonical 67-feature matrix",
+      "split_protocol": "block_label_contiguous (Stage E, unchanged)",
+      "threshold_selection_performed": false,
+      "model_retrained": false,
+      "n_test_rows": 182402,
+      "roc_points_written": 2116,
+      "pr_points_written": 2057,
+      "roc_auc_recomputed": 0.8501768301758702,
+      "roc_auc_recorded": 0.8501768301758702,
+      "pr_auc_recomputed": 0.879444940373002,
+      "pr_auc_recorded": 0.879444940373002,
+      "auc_matches_recorded": true,
+      "roc_curve_file": "C:\\Users\\sanja\\ml-ddos-detection-sdn-5g-nidd\\M1-supervised-ml\\results\\svm\\test_roc_curve.csv",
+      "pr_curve_file": "C:\\Users\\sanja\\ml-ddos-detection-sdn-5g-nidd\\M1-supervised-ml\\results\\svm\\test_pr_curve.csv"
+    }
+  }
+}

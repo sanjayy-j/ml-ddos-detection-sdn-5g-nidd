@@ -1,0 +1,107 @@
+{
+  "stage": "J",
+  "generated_utc": "2026-09-07T13:50:05+00:00",
+  "generation_script": "M1-supervised-ml/experiments/generate_plots.py",
+  "operating_point": "validation FPR <= 1%, thresholds frozen before test",
+  "frozen_thresholds": {
+    "RandomForest": 0.478734,
+    "SVM": -0.062874,
+    "CNN_1D": 0.471731
+  },
+  "pr_no_skill_reference": 0.607077,
+  "evaluation_scope": "within-capture (within-session) generalisation; the figures do NOT establish unseen-capture, unseen-session, unseen-base-station or unseen-attack generalisation",
+  "timing_caveat": "Inference time = amortised batch throughput over the test set, not single-flow latency; single wall-clock runs on a load-variable machine, so values are approximate.",
+  "models_retrained": false,
+  "predictions_generated_during_plotting": false,
+  "thresholds_selected_during_plotting": false,
+  "figures": [
+    {
+      "filename": "roc_curves_test.png",
+      "title": "Combined test ROC",
+      "data_source": [
+        "random_forest/test_roc_curve.csv",
+        "svm/test_roc_curve.csv",
+        "cnn/test_roc_curve.csv",
+        "evaluation/three_model_fpr1pct_summary.csv"
+      ],
+      "split": "test",
+      "operating_point": "threshold-independent"
+    },
+    {
+      "filename": "precision_recall_curves_test.png",
+      "title": "Combined test precision-recall",
+      "data_source": [
+        "random_forest/test_pr_curve.csv",
+        "svm/test_pr_curve.csv",
+        "cnn/test_pr_curve.csv",
+        "evaluation/three_model_fpr1pct_summary.csv"
+      ],
+      "split": "test",
+      "operating_point": "threshold-independent"
+    },
+    {
+      "filename": "fpr_recall_validation.png",
+      "title": "Validation FPR budget vs recall",
+      "data_source": [
+        "evaluation/three_model_fpr_budget.csv"
+      ],
+      "split": "validation",
+      "operating_point": "budgets 0.1/1/5/10%; primary = 1%"
+    },
+    {
+      "filename": "model_metrics_fpr1pct_test.png",
+      "title": "Test metrics at the frozen operating point",
+      "data_source": [
+        "evaluation/three_model_fpr1pct_summary.csv"
+      ],
+      "split": "test",
+      "operating_point": "validation FPR <= 1% (frozen before test)"
+    },
+    {
+      "filename": "per_attack_recall_test.png",
+      "title": "Per-attack-type test recall",
+      "data_source": [
+        "evaluation/three_model_per_attack_type.csv"
+      ],
+      "split": "test",
+      "operating_point": "validation FPR <= 1% (frozen before test)"
+    },
+    {
+      "filename": "confusion_matrix_rf.png",
+      "title": "RandomForest test confusion matrix (absolute counts)",
+      "data_source": [
+        "evaluation/three_model_confusion_matrices.csv"
+      ],
+      "split": "test",
+      "operating_point": "validation FPR <= 1% (frozen before test)"
+    },
+    {
+      "filename": "confusion_matrix_svm.png",
+      "title": "SVM test confusion matrix (absolute counts)",
+      "data_source": [
+        "evaluation/three_model_confusion_matrices.csv"
+      ],
+      "split": "test",
+      "operating_point": "validation FPR <= 1% (frozen before test)"
+    },
+    {
+      "filename": "confusion_matrix_cnn.png",
+      "title": "CNN_1D test confusion matrix (absolute counts)",
+      "data_source": [
+        "evaluation/three_model_confusion_matrices.csv"
+      ],
+      "split": "test",
+      "operating_point": "validation FPR <= 1% (frozen before test)"
+    },
+    {
+      "filename": "computational_cost.png",
+      "title": "Approximate computational cost (batch throughput, not latency)",
+      "data_source": [
+        "evaluation/three_model_fpr1pct_summary.csv",
+        "evaluation/evaluation_metadata.json"
+      ],
+      "split": "test",
+      "operating_point": "n/a \u2014 cost measurement"
+    }
+  ]
+}

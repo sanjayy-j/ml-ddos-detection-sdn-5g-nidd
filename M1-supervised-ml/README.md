@@ -469,7 +469,8 @@ until M2/M3 are developed):
 
 ```
 pandas  numpy  scikit-learn  pyyaml  joblib  pytest
-tensorflow   # required only for the Stage E 1-D CNN; not yet installed
+tensorflow   # 2.21.0 — Stage H 1-D CNN
+matplotlib   # 3.11.1 — Stage J figures
 ```
 
 Prepare the dataset (from the repository root):
@@ -1299,9 +1300,115 @@ results must not be described as such. The §12 representation limits
 (78.63% empirical accuracy ceiling, extensive exact-feature repetition,
 conflicting feature vectors, UDP-flood ambiguity) continue to apply.
 
+## 16F. Stage J — figures
+
+Nine report-ready figures under `results/plots/`, generated from saved
+evaluation artifacts only. Regenerate with:
+
+```bash
+python M1-supervised-ml/experiments/generate_plots.py
+```
+
+Plotting loads **no model**, generates **no prediction** and selects
+**no threshold**; the data path is `saved artifacts -> plotting ->
+figures`. Provenance for every figure (source artifact, split, operating
+point, generating script) is recorded in `results/plots/plot_manifest.json`.
+All 9 PNGs were verified **byte-identical across two consecutive runs**.
+Rendered with matplotlib **3.11.1**.
+
+### Authorised curve export (prerequisite)
+
+Stages F and G persisted only scalar AUCs, so RF and SVM had no
+test-curve points and the combined ROC/PR figures could not be drawn.
+An explicitly authorised one-off export
+(`experiments/export_curves.py`) loaded the **existing saved models** and
+re-scored the test split **solely to persist curve data**:
+
+| Model | Score type | ROC pts | PR pts |
+|---|---|---|---|
+| Random Forest | `predict_proba` positive-class probability | 2,154 | 2,269 |
+| SVM | `decision_function` margin (higher = Malicious) | 2,116 | 2,057 |
+| 1-D CNN | reused from Stage H — not regenerated | 2,106 | 2,049 |
+
+No model was retrained or modified, no threshold selected, and no
+existing artifact overwritten. As an integrity check the export
+recomputed ROC-AUC/PR-AUC from the fresh scores and required them to
+match the Stage F/G recorded values — both matched **exactly**
+(deviation 0.00e+00), confirming these are the same frozen predictions.
+Provenance is in `results/evaluation/curve_export_metadata.json`.
+
+### Figures
+
+| File | Split | Shows |
+|---|---|---|
+| `roc_curves_test.png` | test | Combined ROC, AUC per legend entry, no-skill diagonal |
+| `precision_recall_curves_test.png` | test | Combined PR, PR-AUC per legend, no-skill = 0.607 |
+| `fpr_recall_validation.png` | **validation** | Recall vs achieved FPR at the 0.1/1/5/10% budgets |
+| `model_metrics_fpr1pct_test.png` | test | Recall / Precision / F1, with FPR on its own panel |
+| `per_attack_recall_test.png` | test | Recall by attack type, all three models |
+| `confusion_matrix_{rf,svm,cnn}.png` | test | Absolute counts (+ row %) per model |
+| `computational_cost.png` | — | Training time and batch throughput |
+
+**Validation vs test.** Only `fpr_recall_validation.png` shows validation
+data — it is where the operating point was *chosen*. Every other figure
+shows **test** results at thresholds frozen beforehand
+(RF 0.478734, SVM -0.062874, CNN 0.471731). No figure depicts a threshold
+selected on test data.
+
+### Reading the figures
+
+**ROC.** All three curves lie almost exactly on top of one another
+(AUC 0.850-0.853) — the visual form of the §16D finding that the
+classifiers discriminate similarly under this representation. The sharp
+elbow near FPR ~0.55 is the ambiguous-vector mass of §12 flipping as a
+block, not a modelling artifact.
+
+**Precision-Recall.** The no-skill line is drawn at the **test malicious
+prevalence 0.607**, not 0.5, because the positive class is the majority.
+PR-AUC and ROC-AUC are on different axes and are not comparable with each
+other.
+
+**FPR budget.** RF and the CNN appear as **single stars**: their discrete
+score distributions collapse all four budgets onto one threshold, at
+achieved FPR far below the cap (0.075% and 0.018%), so a wider alarm
+budget buys them nothing. Only the SVM traces a line, and even it gains
+just ~1.4 pp of recall across a 100x range before saturating.
+
+**Per-attack recall.** Seven of eight attack types sit at 0.99-1.00 for
+all three models; UDP flood alone drops to 0.07-0.10. The y-axis is the
+full 0-1 range — the gap is not exaggerated by scaling. As established in
+§16D/§16E: because all three classifiers consume the same 67-feature
+representation, their agreement provides corroboration across model
+families rather than three independent tests of the representation
+itself; the Stage D exact-vector analysis (§12) remains the stronger
+representation-level evidence. `Attack Type` is analysis metadata only
+and was never a model input.
+
+**Confusion matrices.** Absolute counts are mandatory and shown; the row
+percentage is added for context. Cell shading is row-normalised so the
+benign and malicious rows are individually readable despite their
+different totals. No normalised-only variant was produced.
+
+**Computational cost.** Training time uses a log scale (31 s to 3,094 s).
+Throughput is labelled `~x.xxx ms` at three decimals deliberately:
+these are **amortised batch-throughput** figures over the whole test
+split, **not single-flow latency**, from single timed runs on a
+load-variable machine, so extra precision would be false. They indicate
+relative cost only.
+
+### Limitations
+
+These figures visualise the existing frozen evaluation and add no new
+evidence. They inherit every limitation of Stages D-I: the protocol is
+**within-capture (within-session)**, so **no figure establishes
+unseen-capture, unseen-session, unseen-base-station or unseen-attack
+generalisation**. The §12 representation limits (78.63% empirical
+accuracy ceiling, exact-feature repetition, conflicting feature vectors,
+UDP-flood ambiguity) continue to apply.
+
 ## 17. Next stage
 
-Stages F, G, H and I are **complete**. Random Forest (§16A), SVM (§16B) and
+Stages F, G, H, I and J are **complete**. Random Forest (§16A), SVM (§16B) and
 the 1-D CNN (§16C) have each been trained on the prepared matrices and
 evaluated at the locked validation FPR <= 1% operating point, reporting
 Accuracy, Precision, Recall, F1, ROC-AUC, PR-AUC, FPR, TP/TN/FP/FN,
