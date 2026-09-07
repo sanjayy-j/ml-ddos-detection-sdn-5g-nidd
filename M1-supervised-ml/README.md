@@ -1155,9 +1155,166 @@ with a 54.4% FPR).
    high FPR at unrestricted recall. **A CNN cannot recover information
    that is absent from the feature representation.**
 
+## 16E. Stage I — consolidated evaluation
+
+Stage I is an **audit and consolidation** stage: it re-reads the frozen
+Stage F/G/H artifacts, re-derives every metric from the saved confusion
+matrices, and assembles directly comparable tables. No model was
+retrained, no score recomputed, and no threshold re-selected. All ten
+protected source artifacts were verified byte-identical before and after
+(the run aborts if any changes).
+
+Regenerate with:
+
+```bash
+python M1-supervised-ml/experiments/consolidate_evaluation.py
+```
+
+Outputs (additive, under `results/evaluation/`):
+`three_model_fpr1pct_summary.csv`, `three_model_fpr_budget.csv`,
+`three_model_per_attack_type.csv`, `three_model_confusion_matrices.csv`,
+`metric_consistency_audit.csv`, `evaluation_metadata.json`. The Stage H
+`results/model_comparison_fpr1pct.csv` is a subset of the summary table
+and is left unmodified.
+
+### Metric consistency audit
+
+Every rate metric was re-derived from the stored TP/TN/FP/FN using
+`accuracy=(TP+TN)/N`, `precision=TP/(TP+FP)`, `recall=TP/(TP+FN)`,
+`F1=2PR/(P+R)`, `FPR=FP/(FP+TN)`, `specificity=TN/(TN+FP)`.
+
+**21 checks across the three models: all consistent, maximum absolute
+deviation exactly 0.000e+00** (tolerance 1e-9). No artifact required
+correction and none was modified.
+
+### Common protocol and frozen thresholds
+
+All three models share the Stage D 67-feature representation, the Stage E
+`block_label_contiguous` split (train 851,106 / validation 182,382 / test
+182,402, test malicious prevalence 60.7077%), the binary target, and the
+locked rule: *maximise validation recall subject to validation FPR <= 1%,
+ties to the highest threshold, frozen before test*.
+
+| Model | Frozen threshold | Val recall | Val FPR |
+|---|---|---|---|
+| Random Forest | 0.478734 | 0.534044 | 0.000754 |
+| SVM | -0.062874 | 0.535083 | 0.009992 |
+| 1-D CNN | 0.471731 | 0.531380 | 0.000181 |
+
+### Confusion matrices at the frozen operating point
+
+| Model | TN | FP | FN | TP |
+|---|---|---|---|---|
+| Random Forest | 71,109 | 561 | 62,227 | 48,505 |
+| SVM | 70,802 | 868 | 62,266 | 48,466 |
+| 1-D CNN | 71,549 | 121 | 63,540 | 47,192 |
+
+All three reconcile to the same test split: N = 182,402, actual benign
+71,670, actual malicious 110,732 — confirming they were evaluated on an
+identical, unmodified test set.
+
+### Canonical comparison
+
+Full table in `three_model_fpr1pct_summary.csv`; the headline numbers are
+already given in §16D and are not duplicated here. Cost measures, which
+§16D reports only partially:
+
+| Model | Training | Model size | Batch throughput |
+|---|---|---|---|
+| Random Forest | 31.1 s | 172,630 tree nodes | 0.0017 ms/flow |
+| SVM | 3,093.6 s | 513 linear weights (+bias) | 0.0068 ms/flow |
+| 1-D CNN | 159.6 s | 10,561 trainable parameters | 0.0038 ms/flow |
+
+Model size is measured in each family's own natural unit and is **not**
+comparable across rows. The throughput caveat of §16D applies unchanged:
+these are **amortised batch-throughput** figures over the whole test
+split, **not single-flow latency**, from single timed runs on a
+load-variable machine, and should be read approximately.
+
+### FPR-budget behaviour (validation)
+
+| Budget | RF recall | SVM recall | CNN recall |
+|---|---|---|---|
+| <= 0.1% | 0.534044 | 0.527777 | 0.531380 |
+| <= 1% | 0.534044 | 0.535083 | 0.531380 |
+| <= 5% | 0.534044 | 0.541459 | 0.531380 |
+| <= 10% | 0.534044 | 0.541459 | 0.531380 |
+
+RF and the CNN have **discrete score distributions**, so all four budgets
+collapse onto a single threshold (0.478734 and 0.471731 respectively) at
+an achieved FPR far below the cap (0.075% and 0.018%) — widening the
+alarm budget buys them nothing. Only the SVM's smoother scores select
+distinct thresholds, and even there a 100x wider budget adds just 1.4 pp
+of recall before saturating at 1.9% achieved FPR. The
+`budgets_collapsed` column in `three_model_fpr_budget.csv` records this
+per model.
+
+### Threshold-independent metrics
+
+| Model | ROC-AUC | PR-AUC |
+|---|---|---|
+| Random Forest | 0.852824 | 0.867387 |
+| SVM | 0.850177 | **0.879445** |
+| 1-D CNN | 0.850978 | 0.864283 |
+
+Both use **Malicious = 1 as the positive class**, scored in the correct
+direction (each model's higher score means more malicious: RF/CNN
+probabilities, SVM decision-function margins). Because the positive class
+is the **majority** at 60.7077%, the **no-skill PR-AUC reference is
+~0.607, not 0.5**; PR-AUC and ROC-AUC are computed on different axes and
+must not be compared with one another.
+
+### Per-attack-type comparison
+
+| Attack Type | Support | RF | SVM | CNN |
+|---|---|---|---|---|
+| ICMPFlood | 174 | 1.000000 | 1.000000 | 1.000000 |
+| SYNFlood | 1,459 | 1.000000 | 1.000000 | 1.000000 |
+| SYNScan | 3,007 | 1.000000 | 0.997672 | 1.000000 |
+| TCPConnectScan | 3,009 | 1.000000 | 0.997341 | 1.000000 |
+| SlowrateDoS | 10,971 | 1.000000 | 0.999271 | 0.999544 |
+| UDPScan | 2,387 | 1.000000 | 0.994554 | 0.996230 |
+| HTTPFlood | 21,123 | 0.999953 | 0.986555 | 0.999527 |
+| **UDPFlood** | **68,602** | **0.092942** | **0.097023** | **0.074138** |
+| Benign (FPR) | 71,670 | 0.007828 | 0.012111 | 0.001688 |
+
+Seven of the eight attack types are detected at 98.7-100% by all three
+models. UDP flood is detected at **7.4-9.7%** by all three.
+
+**Interpretation, stated with its proper scope:** because all three
+classifiers consume the same 67-feature representation, their agreement
+provides corroboration across model families rather than three
+independent tests of the representation itself. The independent Stage D
+exact-vector ambiguity analysis (§12) remains the stronger
+representation-level evidence.
+
+### Scope and limitations
+
+This consolidation inherits every limitation of the underlying stages and
+introduces no new evidence. In particular the Stage E protocol is
+**within-capture (within-session)**: all 20 capture blocks contribute to
+train, validation and test. It does **not** measure unseen-capture,
+unseen-session, unseen-base-station or unseen-attack generalisation, and
+results must not be described as such. The §12 representation limits
+(78.63% empirical accuracy ceiling, extensive exact-feature repetition,
+conflicting feature vectors, UDP-flood ambiguity) continue to apply.
+
 ## 17. Next stage
 
-Stage E — train and evaluate Random Forest, SVM and the 1-D CNN on the
-prepared matrices, reporting Accuracy, Precision, Recall, F1, ROC-AUC,
-FPR, TP/TN/FP/FN, plus training time, total inference time and per-flow
-inference time.
+Stages F, G, H and I are **complete**. Random Forest (§16A), SVM (§16B) and
+the 1-D CNN (§16C) have each been trained on the prepared matrices and
+evaluated at the locked validation FPR <= 1% operating point, reporting
+Accuracy, Precision, Recall, F1, ROC-AUC, PR-AUC, FPR, TP/TN/FP/FN,
+training time and per-flow inference time; the three-model comparison is
+in §16D.
+
+Identified but **not yet performed**:
+
+- the secondary unseen-capture experiment defined in §8.4 (hold out
+  blocks 10, 11, 12, 13, 15, 17) — the only design available here that
+  would measure unseen-session generalisation, which the primary
+  protocol explicitly does not;
+- the `Cause` ablation flagged in §16A.3;
+- comparison against M2 (entropy) and M3 (sampled telemetry), which
+  operate at the window/aggregate granularity where UDP flood may be
+  separable (§16D).

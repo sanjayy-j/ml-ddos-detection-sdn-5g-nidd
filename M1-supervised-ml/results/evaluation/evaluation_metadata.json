@@ -1,0 +1,44 @@
+{
+  "stage": "I",
+  "purpose": "consolidation and audit of frozen Stage F/G/H results",
+  "generated_utc": "2026-09-07T13:29:01+00:00",
+  "python": "3.13.7",
+  "models_retrained": false,
+  "scores_recomputed": false,
+  "thresholds_reselected": false,
+  "source_artifacts": {
+    "RandomForest": "random_forest/rf_fpr_constrained_record.json",
+    "SVM": "svm/svm_run_record.json",
+    "CNN_1D": "cnn/cnn_run_record.json"
+  },
+  "frozen_thresholds": {
+    "RandomForest": 0.4787342346089332,
+    "SVM": -0.0628743124094932,
+    "CNN_1D": 0.47173118591308594
+  },
+  "operating_point_rule": "max validation recall subject to validation FPR <= 1%; ties broken toward the highest threshold; frozen before test",
+  "metric_consistency": {
+    "all_consistent": true,
+    "tolerance": 1e-09,
+    "max_abs_deviation": 0.0,
+    "n_checks": 21
+  },
+  "timing_caveat": "Inference figures are AMORTISED BATCH THROUGHPUT \u2014 total wall-clock time to score the complete 182,402-row test split divided by the row count \u2014 not single-flow latency. Each is a single timed run on a machine with substantial run-to-run load variation (the identical RF scoring call produced 0.0011 and 0.0017 ms/flow on two runs), so the values indicate relative cost only and should be read approximately.",
+  "split_context": {
+    "train_rows": 851106,
+    "validation_rows": 182382,
+    "test_rows": 182402,
+    "test_malicious_prevalence_pct": 60.7077,
+    "split_protocol": "block_label_contiguous",
+    "evaluation_scope": "within-capture (within-session) generalisation",
+    "does_not_measure": [
+      "unseen-capture generalisation",
+      "unseen-session generalisation",
+      "unseen-base-station generalisation",
+      "unseen-attack generalisation"
+    ],
+    "pr_auc_no_skill_reference": 0.607077
+  },
+  "udpflood_interpretation": "Because all three classifiers consume the same 67-feature representation, their agreement provides corroboration across model families rather than three independent tests of the representation itself. The independent Stage D exact-vector ambiguity analysis remains the stronger representation-level evidence.",
+  "note_existing_comparison": "results/model_comparison_fpr1pct.csv (Stage H) is a subset of three_model_fpr1pct_summary.csv, which adds the validation-side operating point and cost columns. The Stage H file is left unmodified."
+}
