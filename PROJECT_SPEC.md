@@ -11,7 +11,10 @@ ML-Based DDoS Detection in SDN Using the 5G-NIDD Dataset
 Owner: Sanjay
 
 - Labelled 5G-NIDD data
-- OpenFlow flow statistics
+- Argus flow-record statistics from `Combined.csv`
+  (per-flow duration, packet/byte counts, rates, TTL, protocol and
+  connection-state fields; the file contains no IP-address, port or
+  wall-clock timestamp columns)
 - Random Forest
 - SVM
 - 1-D CNN
