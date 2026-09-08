@@ -1,0 +1,95 @@
+# M1 — Stage L: SECONDARY unseen-capture generalisation experiment.
+#
+# This is a SECONDARY evaluation. It does NOT replace the primary Stage E
+# within-capture protocol (config/m1_config.yaml), whose results remain the
+# project's primary results.
+#
+# Eight whole capture blocks are held out entirely; models are trained and
+# selected only on the remaining twelve. The holdout was chosen from dataset
+# structure alone (Stage L design audit), never from model performance.
+
+seed: 42
+
+dataset:
+  raw_path: data/raw/Combined.csv
+  format: csv
+  expected_rows: 1215890
+  expected_columns: 52
+
+# Schema is inherited verbatim from the primary configuration: the 67-feature
+# representation, target definition and every exclusion are UNCHANGED.
+inherit_schema_from: M1-supervised-ml/config/m1_config.yaml
+
+blocks:
+  detect_column: Offset
+  base_station_column: "Unnamed: 0"
+
+unseen_capture:
+  # Held out entirely; never seen during preprocessing, training, model
+  # selection, early stopping or threshold selection.
+  held_out_blocks: [1, 3, 10, 12, 15, 16, 17, 19]
+  # Everything else. Train/validation are carved from these only.
+  development_blocks: [0, 2, 4, 5, 6, 7, 8, 9, 11, 13, 14, 18]
+
+  # Structural properties measured in the Stage L design audit (dataset
+  # structure only — no model was consulted):
+  #   held-out rows            173,527 (~14.3%)
+  #   malicious-prior shift    ~0.001 pp (held-out vs development)
+  #   attack types held out    7 (incl. HTTPFlood); both base stations
+  #   feature-vector novelty   ~45.2% of held-out rows share a vector with
+  #                            development (vs ~73.0% for the primary test)
+  #
+  # KNOWN LIMITATION — UDPFlood cannot be held out. Every feasible whole-block
+  # subset containing block 4 or 14 carries a 42.9-43.5 pp prior shift, so
+  # Stage L CANNOT measure unseen-capture generalisation for UDP flood. The
+  # held-out set is also nearly conflict-free (~0.005% of rows in conflicting
+  # feature vectors) whereas the primary test is ~56.2%, so Stage L results
+  # must NOT be read as a straight improvement over the primary test.
+
+split:
+  # Same conceptual strategy as Stage E, applied within development blocks
+  # only, producing a NEW assignment (primary row assignments are not reused).
+  strategy: block_label_contiguous_development_only
+  train_ratio: 0.82
+  val_ratio: 0.18
+  test_ratio: 0.0        # the held-out blocks are the test set
+  purge_rows: 0
+
+duplicates:
+  drop_exact_duplicates: false
+  report: true
+
+class_imbalance:
+  strategy: class_weight   # computed from development-train only
+
+preprocessing:
+  numeric_imputation: median
+  categorical_imputation: __missing__
+  log1p_skew_threshold: 2.0
+  scaler: standard
+  add_missing_indicators: false
+
+# Model search spaces are imported directly from the Stage F/G/H experiment
+# scripts so the selection protocol is provably identical; they are not
+# restated here.
+models:
+  random_forest:
+    n_estimators: 200
+    max_depth: null
+    class_weight: balanced
+    random_state: 42
+    n_jobs: -1
+  svm:
+    C: 1.0
+    class_weight: balanced
+    random_state: 42
+    max_iter: 3000
+  cnn:
+    epochs: 30
+    batch_size: 512
+    learning_rate: 0.001
+    random_seed: 42
+
+output:
+  results_dir: M1-supervised-ml/results/unseen_capture
+  processed_dir: M1-supervised-ml/data/processed/unseen_capture

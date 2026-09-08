@@ -1,0 +1,145 @@
+{
+  "stage": "L",
+  "experiment": "secondary unseen-capture generalisation",
+  "is_primary": false,
+  "model": "SVM",
+  "generated_utc": "2026-09-07T20:36:55+00:00",
+  "python": "3.13.7",
+  "seed": 42,
+  "held_out_blocks": [
+    1,
+    3,
+    10,
+    12,
+    15,
+    16,
+    17,
+    19
+  ],
+  "development_blocks": [
+    0,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14,
+    18
+  ],
+  "rows": {
+    "dev_train": 854725,
+    "dev_val": 187638,
+    "held_out": 173527
+  },
+  "search_grid_source": "imported verbatim from the Stage F/G/H experiment scripts",
+  "n_candidates": 8,
+  "selection_metric": "pr_auc",
+  "best_validation_score": 0.844557159444556,
+  "chosen_hyperparameters": {
+    "n_components": 256,
+    "C": 1.0
+  },
+  "model_structure": {
+    "approximation": "Nystroem(rbf)",
+    "n_components": 256,
+    "gamma": 0.032651071379773314,
+    "classifier": "LinearSVC",
+    "C": 1.0,
+    "class_weight": "balanced",
+    "dual": false,
+    "n_iter": 325,
+    "intercept": -0.6151660902378243,
+    "coef_l2_norm": 93.21566146394366,
+    "gamma_source": "sklearn 'scale' computed on development-train"
+  },
+  "model_size": 257,
+  "model_size_kind": "linear weights (+bias)",
+  "operating_point": {
+    "rule": "max dev-validation recall subject to dev-validation FPR <= 1%; ties -> highest threshold; frozen before held-out",
+    "primary_fpr_cap": 0.01,
+    "max_fpr": 0.01,
+    "threshold": -0.046356364426058616,
+    "recall": 0.35317923642141674,
+    "fpr": 0.009765757456562725,
+    "satisfiable": true,
+    "reason": ""
+  },
+  "validation_fpr_budgets": [
+    {
+      "max_fpr": 0.001,
+      "threshold": 0.08871130805509442,
+      "recall": 0.3401251854518001,
+      "fpr": 0.0009901392976792763,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.01,
+      "threshold": -0.046356364426058616,
+      "recall": 0.35317923642141674,
+      "fpr": 0.009765757456562725,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.05,
+      "threshold": -0.08101518925473605,
+      "recall": 0.3554178261976455,
+      "fpr": 0.013427916502773746,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.1,
+      "threshold": -0.08101518925473605,
+      "recall": 0.3554178261976455,
+      "fpr": 0.013427916502773746,
+      "satisfiable": true,
+      "reason": ""
+    }
+  ],
+  "validation_metrics_at_frozen_threshold": {
+    "n": 187638,
+    "accuracy": 0.6034918300131104,
+    "precision": 0.9824180117701643,
+    "recall": 0.35317923642141674,
+    "f1": 0.5195722643385725,
+    "fpr": 0.009765757456562725,
+    "tnr": 0.9902342425434373,
+    "TN": 73007,
+    "FP": 720,
+    "FN": 73680,
+    "TP": 40231,
+    "roc_auc": 0.8005860843085606,
+    "pr_auc": 0.8436570781483053
+  },
+  "held_out_metrics": {
+    "n": 173527,
+    "accuracy": 0.9846882617690619,
+    "precision": 0.9954071786954843,
+    "recall": 0.9792965968959134,
+    "f1": 0.9872861688637941,
+    "fpr": 0.0069813147164940895,
+    "tnr": 0.9930186852835059,
+    "TN": 67706,
+    "FP": 476,
+    "FN": 2181,
+    "TP": 103164,
+    "roc_auc": 0.9988481506375324,
+    "pr_auc": 0.998757614687678,
+    "batch_throughput_ms_per_flow": 0.003677
+  },
+  "timings_seconds": {
+    "train": 1530.71,
+    "held_out_inference": 0.638,
+    "search_total": 15711.6
+  },
+  "held_out_evaluations_performed": 1,
+  "test_based_tuning": false,
+  "udpflood_in_holdout": false,
+  "note": "UDPFlood is absent from the held-out blocks and is NOT evaluable under this holdout; the held-out population is also far less ambiguous than the primary test population."
+}

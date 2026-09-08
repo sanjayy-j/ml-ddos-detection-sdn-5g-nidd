@@ -1451,9 +1451,200 @@ not single-flow latency. The empirical ceiling applies to the evaluated
 exact-feature-vector representation, not to every possible model or
 richer feature set.
 
+## 16H. Stage L — Secondary unseen-capture generalisation experiment
+
+> **This is a SECONDARY evaluation.** The primary Stage E within-capture
+> protocol (§8, §16A-16E) remains the project's primary result. Stage L
+> does not replace it, and the two are **not** directly comparable.
+
+Full report:
+[`results/unseen_capture/unseen_capture_comparison.md`](results/unseen_capture/unseen_capture_comparison.md).
+Reproduce with:
+
+```bash
+python M1-supervised-ml/experiments/prepare_unseen_capture.py
+python M1-supervised-ml/experiments/train_unseen_capture.py --model rf   # then svm, cnn
+python M1-supervised-ml/experiments/compare_unseen_capture.py
+```
+
+### Design
+
+Eight whole capture blocks are held out entirely; twelve form the
+development pool. The holdout was selected from **dataset structure
+alone** (Stage L design audit) — never from model performance — by
+exhaustive search over 42,093 feasible whole-block subsets.
+
+| | Blocks | Rows | Malicious % |
+|---|---|---|---|
+| Development | 0, 2, 4, 5, 6, 7, 8, 9, 11, 13, 14, 18 | 1,042,363 | — |
+| dev_train | (82% of each dev block x label stream) | 854,725 | 60.7092 |
+| dev_val | (remaining 18%) | 187,638 | 60.7079 |
+| **Held-out** | **1, 3, 10, 12, 15, 16, 17, 19** | **173,527** | 60.7081 |
+
+Class-prior shift is ~0.001 pp. The earlier six-block candidate
+(10, 11, 12, 13, 15, 17) was **rejected**: 6.787 pp prior shift, all
+blocks from one base station, no HTTPFlood, and 69.66% feature-vector
+repetition.
+
+**Leakage controls.** A fresh preprocessing pipeline was fitted on
+**development-train only** (asserted at runtime: the scaler must have
+seen exactly 854,725 rows, else the run aborts). Class weights, all
+hyperparameter selection, CNN early stopping and threshold selection used
+development data only. Held-out blocks were read once, after everything
+was frozen. Whole-block isolation is verified programmatically and by
+test.
+
+**Protocol fidelity.** The RF/SVM/CNN search grids and tie-break rules
+are **imported directly from the Stage F/G/H scripts**, so the selection
+protocol is provably identical rather than restated. No grid was reduced.
+
+### The interpretation constraint — read before the numbers
+
+**UDPFlood is absent from the held-out blocks and is NOT evaluable under
+this holdout.** It cannot be included: every feasible whole-block subset
+containing block 4 or 14 carries a 42.9-43.5 pp class-prior shift. No
+substitute attack type was used.
+
+This matters because the ambiguous mass that dominates the primary
+evaluation is almost entirely UDP flood:
+
+| Population | Rows in conflicting feature vectors |
+|---|---|
+| dev_val (where thresholds were fitted) | **65.2%** |
+| Primary Stage E test | **56.2%** |
+| **Stage L held-out** | **0.0046%** |
+
+The held-out population is therefore **much easier**, not merely
+different. Held-out scores must **not** be read as an improvement in
+generalisation over the primary test.
+
+### Feature-vector novelty
+
+Both columns use the same definition — a row counts as *seen* if its exact
+67-feature vector occurs anywhere in the reference set — and both use the
+**train + validation** pool as that reference, so the comparison is
+like-for-like with Stage L's development pool:
+
+| Statistic | Stage L held-out | Primary test |
+|---|---|---|
+| Rows whose vector occurs in the reference | 45.17% | 73.95% |
+| Rows whose vector is unseen | **54.83%** | 26.05% |
+| Rows in conflicting vectors | 0.0046% | 56.2% |
+
+> **Reference-set note.** §8.2 and §12 quote **72.97% / 27.03%** for the
+> primary test. That is the same measurement against a *train-only*
+> reference (851,106 rows). Against train + validation (1,033,488 rows)
+> the figures are **73.95% / 26.05%**, as used above. Both are correct;
+> they differ only in what the model is credited with having "seen", and
+> the wider reference is the right comparator for Stage L.
+
+The held-out set is substantially more novel: over half its rows carry a
+feature vector never seen in development. Novelty alone does not
+demonstrate generalisation; it characterises how different the population
+is.
+
+### Held-out results (single evaluation per model, frozen thresholds)
+
+| Metric | Random Forest | SVM | 1-D CNN |
+|---|---|---|---|
+| Frozen threshold | 0.518184 | -0.046356 | 0.501922 |
+| dev-validation recall | 0.357209 | 0.353179 | 0.357100 |
+| Accuracy | 0.999867 | 0.984688 | 0.994618 |
+| Precision | 0.999877 | 0.995407 | 0.993356 |
+| Recall | 0.999905 | 0.979297 | 0.997807 |
+| F1 | 0.999891 | 0.987286 | 0.995577 |
+| FPR | 0.000191 | 0.006981 | 0.010311 |
+| ROC-AUC | 1.000000 | 0.998848 | 0.999909 |
+| PR-AUC | 1.000000 | 0.998758 | 0.999946 |
+| TP / TN / FP / FN | 105,335 / 68,169 / 13 / 10 | 103,164 / 67,706 / 476 / 2,181 | 105,114 / 67,479 / 703 / 231 |
+| Training time | 36.5 s | 1,530.7 s | 292.1 s |
+
+Selected configurations: RF `max_depth=20, min_samples_leaf=20,
+max_features=sqrt`; SVM `n_components=256, C=1.0`; CNN
+`filters=(32,64), kernel=5, dropout=0.3, lr=1e-3`. In every case the
+tie-break chose the cheapest model inside the 0.001 tolerance — for the
+SVM this discarded two `C=10` fits that together cost ~3 hours.
+
+### Per-attack held-out recall
+
+| Attack type | RF | SVM | CNN |
+|---|---|---|---|
+| ICMPFlood | 1.0000 | 0.9299 | 1.0000 |
+| SYNFlood | 1.0000 | 1.0000 | 0.9996 |
+| SYNScan | 1.0000 | 0.9971 | 1.0000 |
+| TCPConnectScan | 1.0000 | 0.9906 | 0.9828 |
+| UDPScan | 0.9988 | 0.9929 | 0.9969 |
+| SlowrateDoS | 1.0000 | 0.9980 | 1.0000 |
+| HTTPFlood | 1.0000 | 0.9699 | 0.9995 |
+| **UDPFlood** | **NOT PRESENT / NOT EVALUABLE** | — | — |
+| _Benign (FPR)_ | 0.000191 | 0.006981 | 0.010311 |
+
+### Why the held-out scores are high
+
+Held-out accuracy (0.985-1.000) far exceeds primary-test accuracy
+(0.651-0.656) for all three models. **This difference cannot be
+interpreted as an improvement in generalisation**, because the two
+evaluations score different populations of very different difficulty:
+
+* **Stage L held-out is nearly conflict-free** — 0.0046% of its rows sit
+  in feature vectors that carry both labels.
+* **The primary test carries substantial conflicting mass** — 56.2% of
+  its rows do (and dev-validation, where the thresholds were fitted, is
+  65.2%).
+* **UDPFlood — the one irreducibly ambiguous attack type — is absent**
+  from the held-out blocks and cannot be included (§ above).
+* Stage D established combinatorially, before any model existed, that
+  seven of the eight attack types are near-perfectly separable. The
+  held-out set contains exactly those seven. On the **primary** test
+  those same seven already scored 0.987-1.000 recall; only UDPFlood
+  (0.074-0.097) dragged the aggregate down. Removing it mechanically
+  raises every aggregate metric.
+
+The aggregate gap is therefore explained by population composition.
+Stage L neither demonstrates nor refutes a change in generalisation
+relative to the primary evaluation, and the two aggregates must not be
+ranked against one another.
+
+**On the validation-versus-held-out gap.** Development-validation recall
+(~0.355) is far below held-out recall (~0.98-1.00) at the same frozen
+threshold. That comparison is confounded by the same composition
+difference (dev-validation is 65.2% conflicting, the held-out blocks
+0.0046%) and is **not** evidence about overfitting in either direction;
+it is reported only to show that the operating point was fitted on a
+much harder population than the one it was applied to.
+
+**On novelty.** 54.83% of held-out rows (~95,139) carry a feature vector
+never seen in development. Per-row accuracy restricted to that subset was
+not separately measured. What the saved confusion matrices do support is
+a worst-case bound: total held-out errors are 23 (RF), 2,657 (SVM) and
+934 (CNN), so even if *every* error fell inside the novel subset,
+accuracy on it would still be at least **99.98%**, **97.21%** and
+**99.02%** respectively.
+
+The three models differ meaningfully among themselves (RF 13 false
+positives, SVM 476, CNN 703), which indicates the near-perfect RF result
+is not a systematic artifact affecting all models identically.
+
+### Limitations
+
+1. **UDPFlood is not evaluable** here, so Stage L cannot measure
+   unseen-capture generalisation for the project's dominant failure mode.
+2. Held-out and primary metrics are **not like-for-like**: different
+   populations with very different ambiguity (0.0046% vs 56.2%).
+3. Thresholds were fitted on dev-validation, whose composition differs
+   sharply from the held-out blocks; this alone shifts the achieved
+   operating point.
+4. Near-perfect separability of scans rests on ordinary flow features
+   (`sTtl`, `Proto`, `State`, packet/byte counts). That these attack
+   types are trivially separable is a finding about **this dataset**.
+5. This remains an offline flow-level evaluation. It does **not**
+   establish real-world SDN/5G deployment performance, and covers neither
+   controller integration, telemetry cost nor mitigation.
+6. Results are specific to the evaluated 67-feature representation.
+
 ## 17. Next stage
 
-Stages F, G, H, I, J and K are **complete**. Random Forest (§16A), SVM (§16B) and
+Stages F, G, H, I, J, K and L are **complete**. Random Forest (§16A), SVM (§16B) and
 the 1-D CNN (§16C) have each been trained on the prepared matrices and
 evaluated at the locked validation FPR <= 1% operating point, reporting
 Accuracy, Precision, Recall, F1, ROC-AUC, PR-AUC, FPR, TP/TN/FP/FN,
@@ -1462,10 +1653,7 @@ in §16D.
 
 Identified but **not yet performed**:
 
-- the secondary unseen-capture experiment defined in §8.4 (hold out
-  blocks 10, 11, 12, 13, 15, 17) — the only design available here that
-  would measure unseen-session generalisation, which the primary
-  protocol explicitly does not;
+- ~~the secondary unseen-capture experiment~~ — **done in Stage L** (§16H), using blocks 1, 3, 10, 12, 15, 16, 17, 19 after the design audit rejected the original six-block candidate;
 - the `Cause` ablation flagged in §16A.3;
 - comparison against M2 (entropy) and M3 (sampled telemetry), which
   operate at the window/aggregate granularity where UDP flood may be

@@ -1,0 +1,140 @@
+{
+  "stage": "L",
+  "experiment": "secondary unseen-capture generalisation",
+  "is_primary": false,
+  "model": "RandomForest",
+  "generated_utc": "2026-09-07T14:53:14+00:00",
+  "python": "3.13.7",
+  "seed": 42,
+  "held_out_blocks": [
+    1,
+    3,
+    10,
+    12,
+    15,
+    16,
+    17,
+    19
+  ],
+  "development_blocks": [
+    0,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14,
+    18
+  ],
+  "rows": {
+    "dev_train": 854725,
+    "dev_val": 187638,
+    "held_out": 173527
+  },
+  "search_grid_source": "imported verbatim from the Stage F/G/H experiment scripts",
+  "n_candidates": 18,
+  "selection_metric": "pr_auc",
+  "best_validation_score": 0.8312804340052654,
+  "chosen_hyperparameters": {
+    "max_depth": 20,
+    "min_samples_leaf": 20,
+    "max_features": "sqrt"
+  },
+  "model_structure": {
+    "n_estimators": 200,
+    "mean_depth": 19.58,
+    "max_depth_reached": 20,
+    "mean_leaves": 490.6,
+    "total_nodes": 196046
+  },
+  "model_size": 196046,
+  "model_size_kind": "tree nodes",
+  "operating_point": {
+    "rule": "max dev-validation recall subject to dev-validation FPR <= 1%; ties -> highest threshold; frozen before held-out",
+    "primary_fpr_cap": 0.01,
+    "max_fpr": 0.01,
+    "threshold": 0.5181841322856574,
+    "recall": 0.3572086980186286,
+    "fpr": 0.007839733069296187,
+    "satisfiable": true,
+    "reason": ""
+  },
+  "validation_fpr_budgets": [
+    {
+      "max_fpr": 0.001,
+      "threshold": 0.5262367718328733,
+      "recall": 0.3454539069975683,
+      "fpr": 0.00024414393641406814,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.01,
+      "threshold": 0.5181841322856574,
+      "recall": 0.3572086980186286,
+      "fpr": 0.007839733069296187,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.05,
+      "threshold": 0.5181841322856574,
+      "recall": 0.3572086980186286,
+      "fpr": 0.007839733069296187,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.1,
+      "threshold": 0.5181841322856574,
+      "recall": 0.3572086980186286,
+      "fpr": 0.007839733069296187,
+      "satisfiable": true,
+      "reason": ""
+    }
+  ],
+  "validation_metrics_at_frozen_threshold": {
+    "n": 187638,
+    "accuracy": 0.6066948059561496,
+    "precision": 0.9859939905011147,
+    "recall": 0.3572086980186286,
+    "f1": 0.5244266298919313,
+    "fpr": 0.007839733069296187,
+    "tnr": 0.9921602669307038,
+    "TN": 73149,
+    "FP": 578,
+    "FN": 73221,
+    "TP": 40690,
+    "roc_auc": 0.8042381684782121,
+    "pr_auc": 0.8312229797506782
+  },
+  "held_out_metrics": {
+    "n": 173527,
+    "accuracy": 0.9998674557849787,
+    "precision": 0.9998765994608345,
+    "recall": 0.9999050738051165,
+    "f1": 0.9998908364302562,
+    "fpr": 0.00019066615822357807,
+    "tnr": 0.9998093338417764,
+    "TN": 68169,
+    "FP": 13,
+    "FN": 10,
+    "TP": 105335,
+    "roc_auc": 0.9999998343225895,
+    "pr_auc": 0.9999998926254516,
+    "batch_throughput_ms_per_flow": 0.00134
+  },
+  "timings_seconds": {
+    "train": 36.54,
+    "held_out_inference": 0.232,
+    "search_total": 1127.2
+  },
+  "held_out_evaluations_performed": 1,
+  "test_based_tuning": false,
+  "udpflood_in_holdout": false,
+  "note": "UDPFlood is absent from the held-out blocks and is NOT evaluable under this holdout; the held-out population is also far less ambiguous than the primary test population."
+}

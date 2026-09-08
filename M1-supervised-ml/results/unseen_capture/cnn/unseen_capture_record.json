@@ -1,0 +1,164 @@
+{
+  "stage": "L",
+  "experiment": "secondary unseen-capture generalisation",
+  "is_primary": false,
+  "model": "CNN_1D",
+  "generated_utc": "2026-09-07T22:34:00+00:00",
+  "python": "3.13.7",
+  "seed": 42,
+  "held_out_blocks": [
+    1,
+    3,
+    10,
+    12,
+    15,
+    16,
+    17,
+    19
+  ],
+  "development_blocks": [
+    0,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14,
+    18
+  ],
+  "rows": {
+    "dev_train": 854725,
+    "dev_val": 187638,
+    "held_out": 173527
+  },
+  "search_grid_source": "imported verbatim from the Stage F/G/H experiment scripts",
+  "n_candidates": 16,
+  "selection_metric": "pr_auc",
+  "best_validation_score": 0.8313403873178188,
+  "chosen_hyperparameters": {
+    "filters": [
+      32,
+      64
+    ],
+    "kernel_size": 5,
+    "dropout": 0.3,
+    "learning_rate": 0.001
+  },
+  "model_structure": {
+    "architecture": "Conv1D -> Conv1D -> GlobalAvgPool1D -> Dense -> Dropout -> Dense(sigmoid)",
+    "input_shape": [
+      67,
+      1
+    ],
+    "filters": [
+      32,
+      64
+    ],
+    "kernel_size": 5,
+    "padding": "same",
+    "dense_units": 64,
+    "dropout": 0.3,
+    "loss": "binary_crossentropy",
+    "optimizer": "Adam",
+    "learning_rate": 0.0010000000474974513,
+    "total_parameters": 14721,
+    "tensorflow_version": "2.21.0",
+    "keras_version": "3.15.1",
+    "epochs_run": 24,
+    "best_epoch": 19,
+    "class_weight": {
+      "0": 1.2725636337649036,
+      "1": 0.8235979394754643
+    }
+  },
+  "model_size": 14721,
+  "model_size_kind": "trainable parameters",
+  "operating_point": {
+    "rule": "max dev-validation recall subject to dev-validation FPR <= 1%; ties -> highest threshold; frozen before held-out",
+    "primary_fpr_cap": 0.01,
+    "max_fpr": 0.01,
+    "threshold": 0.5019221901893616,
+    "recall": 0.35714724653457525,
+    "fpr": 0.007785478861204172,
+    "satisfiable": true,
+    "reason": ""
+  },
+  "validation_fpr_budgets": [
+    {
+      "max_fpr": 0.001,
+      "threshold": 0.747652530670166,
+      "recall": 0.34540123429695113,
+      "fpr": 0.00014919907225304164,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.01,
+      "threshold": 0.5019221901893616,
+      "recall": 0.35714724653457525,
+      "fpr": 0.007785478861204172,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.05,
+      "threshold": 0.5019221901893616,
+      "recall": 0.35714724653457525,
+      "fpr": 0.007785478861204172,
+      "satisfiable": true,
+      "reason": ""
+    },
+    {
+      "max_fpr": 0.1,
+      "threshold": 0.5019221901893616,
+      "recall": 0.35714724653457525,
+      "fpr": 0.007785478861204172,
+      "satisfiable": true,
+      "reason": ""
+    }
+  ],
+  "validation_metrics_at_frozen_threshold": {
+    "n": 187638,
+    "accuracy": 0.6066788177234889,
+    "precision": 0.986087209443246,
+    "recall": 0.35714724653457525,
+    "f1": 0.5243735821818931,
+    "fpr": 0.007785478861204172,
+    "tnr": 0.9922145211387958,
+    "TN": 73153,
+    "FP": 574,
+    "FN": 73228,
+    "TP": 40683,
+    "roc_auc": 0.8045324382952327,
+    "pr_auc": 0.8313098815930162
+  },
+  "held_out_metrics": {
+    "n": 173527,
+    "accuracy": 0.994617552311744,
+    "precision": 0.9933564550119546,
+    "recall": 0.9978072048981916,
+    "f1": 0.9955768556842614,
+    "fpr": 0.010310639171628876,
+    "tnr": 0.9896893608283711,
+    "TN": 67479,
+    "FP": 703,
+    "FN": 231,
+    "TP": 105114,
+    "roc_auc": 0.9999089290070752,
+    "pr_auc": 0.9999457366020453,
+    "batch_throughput_ms_per_flow": 0.004655
+  },
+  "timings_seconds": {
+    "train": 292.1,
+    "held_out_inference": 0.808,
+    "search_total": 6667.3
+  },
+  "held_out_evaluations_performed": 1,
+  "test_based_tuning": false,
+  "udpflood_in_holdout": false,
+  "note": "UDPFlood is absent from the held-out blocks and is NOT evaluable under this holdout; the held-out population is also far less ambiguous than the primary test population."
+}

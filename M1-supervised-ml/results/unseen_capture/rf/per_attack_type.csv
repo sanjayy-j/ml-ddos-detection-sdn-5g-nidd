@@ -1,0 +1,9 @@
+group,support,n_malicious,n_benign,predicted_malicious,false_positives,true_negatives,fpr,recall,detected,missed
+Benign,68182,0,68182,13,13.0,68169.0,0.00019066615822357807,,,
+HTTPFlood,64691,64691,0,64691,,,,1.0,64691.0,0.0
+ICMPFlood,613,613,0,613,,,,1.0,613.0,0.0
+SYNFlood,4929,4929,0,4929,,,,1.0,4929.0,0.0
+SYNScan,10024,10024,0,10024,,,,1.0,10024.0,0.0
+SlowrateDoS,7047,7047,0,7047,,,,1.0,7047.0,0.0
+TCPConnectScan,10022,10022,0,10022,,,,1.0,10022.0,0.0
+UDPScan,8019,8019,0,8009,,,,0.9987529617159246,8009.0,10.0
