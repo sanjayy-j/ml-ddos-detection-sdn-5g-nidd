@@ -56,3 +56,13 @@ Frontend: `npm test` and `npm run build` from `frontend`. Tests use explicitly i
 6. Analyse genuine quality-versus-cost measurements, document limitations, and rehearse the live demo.
 
 No M1/M2 implementation or partner-owned tasks are included.
+
+## Packet ground-truth preparation
+
+After the default CSV download, fetch the BS2 Argus archive with `python scripts/fetch_dataset.py --file BS2_each_attack_argus.zip`. Inside Ubuntu with the Argus `ra` reader installed, run `/opt/m3-sdn/bin/python sdn/prepare_flow_labels.py`. This validates a one-to-one Offset join against official CSV labels and registers prepared numeric/time tables and their two-parent checksums. The code rejects inconsistencies instead of labeling an entire capture by its filename.
+
+For offline packet evaluation, set `mode` to `pcap_replay`, `input_path` to a checksum-verified official capture and `flow_labels_path` to its matching `data/prepared/BS2_<family>_flow_labels.csv`. Full original packet labels determine window truth independently of the sampled feature stream. Packet-match coverage must be checked before using results. This path is not a substitute for scored live replay.
+
+## Publishing boundary
+
+The approved remote is `sanjayy-j/ml-ddos-detection-sdn-5g-nidd`, branch `main`. Publish only under `M3-sampled-incremental/results/m3-implementation/`; preserve the rest of the shared repository. This local workspace has its own root history, so do not force-push it over the shared repository. The publication checkout is currently `tmp/publish-m3`; it contains the remote's original history. Copy committed milestones into the approved subfolder, inspect the scoped diff, and push normally. Downloads, environments, temporary files and generated experiment outputs stay excluded.

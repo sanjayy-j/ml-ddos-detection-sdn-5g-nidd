@@ -12,6 +12,17 @@ Original files require an official-source manifest and matching SHA256. Prepared
 must retain original references and transformation records. Test fixtures are never official
 evidence. Unknown packet labels exclude a window from quality scoring instead of guessing.
 
+Offline packet replay supports `flow_labels_path`: checksum-verified numeric Argus flow
+intervals joined one-to-one to official per-session labels. Packets match full TCP/UDP
+bidirectional endpoint/port/protocol tuples and epoch intervals (1 microsecond tolerance).
+ICMP matches endpoint/protocol/time, not guessed service or ICMP pseudo-port identifiers.
+Overlapping contradictory labels, unparseable headers and unmatched tuples stay unknown.
+A window is positive if it contains at least one authoritative matched flood packet; negative
+only if all original packets are known benign (or it is empty). Otherwise it is unscored.
+Coverage is reported. Ground truth is obtained from all original packets, independent of N;
+only feature extraction is sampled. Offline packets-to-detect counts original packets through
+the first correctly alarmed window; capture-time delay is an estimated window-end proxy.
+
 CSV replay predicts on sampled flow records and is a flow-subsampling benchmark. Its row
 indices are not physical timestamps and do not prove packet sampling or chronological drift.
 Packet replay and the live collector share a one-second packet-window feature definition.

@@ -7,7 +7,7 @@ if [[ "$(id -u)" != 0 ]]; then
   exit 1
 fi
 apt-get update
-apt-get install -y openvswitch-switch mininet iproute2 iputils-ping tcpdump tcpreplay curl python3-venv
+apt-get install -y openvswitch-switch mininet iproute2 iputils-ping tcpdump tcpreplay curl python3-venv argus-client
 if [[ ! -x "$project_root/.tools/uv" ]]; then
   curl --fail --location https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="$project_root/.tools" UV_NO_MODIFY_PATH=1 sh
 fi

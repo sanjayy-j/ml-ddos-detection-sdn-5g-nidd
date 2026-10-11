@@ -13,6 +13,7 @@ class RunConfig:
     input_path: str | None = None
     manifest_path: str = "data/manifest.json"
     labels_path: str | None = None
+    flow_labels_path: str | None = None
     output_root: str = "output/runs"
     sampling_rate: int = 1
     seed: int = 42
@@ -35,6 +36,10 @@ class RunConfig:
     def __post_init__(self):
         if self.mode not in {"csv_replay", "pcap_replay", "live_sflow"}:
             raise ValueError("Unknown input mode")
+        if self.flow_labels_path and (self.mode != "pcap_replay" or self.labels_path):
+            raise ValueError(
+                "flow_labels_path is for offline packet replay only; use either flow labels or timeline labels"
+            )
         if type(self.sampling_rate) is not int or self.sampling_rate not in SAMPLING_RATES:
             raise ValueError(f"sampling_rate must be one of {SAMPLING_RATES}")
         if type(self.seed) is not int:

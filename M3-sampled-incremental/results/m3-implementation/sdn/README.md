@@ -11,6 +11,10 @@ slow imports from the Windows mount. Set `M3_SDN_ENV` when installing if a diffe
 location is needed and substitute that path in the commands below. Validate both
 rates with `/opt/m3-sdn/bin/python sdn/validate_sflow.py`; output is saved under
 `output/sdn/`, including the actual raw sFlow datagrams as hex.
+Run `/opt/m3-sdn/bin/python sdn/run_live_validation.py` to exercise the real M3
+collector with independent controller CPU, OpenFlow traffic capture, and OVS
+flow-table observations. The saved run remains `live_sflow` with quality metrics
+unavailable because connectivity-probe traffic has no academic attack labels.
 
 Start the OS-Ken learning switch controller in one terminal:
 
@@ -64,3 +68,23 @@ validation; the runner should mark detection-quality metrics unavailable.
 Current implementation provides a topology and optional trace injection. Exact
 timestamp/address ground truth and transformed official captures must be verified
 before scoring live replay.
+
+## Verified flow supervision
+
+The small official `BS2_each_attack_argus.zip` archive supplies exact epoch times
+and numeric ports omitted or abbreviated in its corresponding session CSVs.
+Install `argus-client`, fetch that archive, then run:
+
+```sh
+python scripts/fetch_dataset.py --file BS2_each_attack_argus.zip
+/opt/m3-sdn/bin/python sdn/prepare_flow_labels.py
+```
+
+This exports full `ra -n -u` records and joins each to its official CSV label via
+a unique file Offset. It checks exact endpoint/protocol/packet/byte fields, duration
+precision, and the CSV's abbreviated displayed timestamps. Argus management
+records are excluded explicitly. Mismatches retain an unverified partial file
+and prevent provenance registration. Prepared flow intervals, audits, and both
+official parent SHA256 values are recorded under `data/prepared/` and the manifest.
+Packet matching still needs timestamp/tuple coverage and overlap validation;
+missing TCP/UDP ports remain blank rather than fabricated as zero.

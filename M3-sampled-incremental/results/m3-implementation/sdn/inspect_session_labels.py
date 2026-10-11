@@ -4,6 +4,7 @@ TCP/UDP ports are normalized from Argus numbers, hexadecimal or known services.
 ICMP is audited by endpoint pair only because Argus pseudo-port semantics must
 be verified before packet matching. Unknown protocols/ports remain unjoined.
 """
+
 import argparse
 import csv
 import json
@@ -40,7 +41,10 @@ def inspect(path):
             protocol = row["Proto"].strip().lower()
             src, dst = row["SrcAddr"].strip(), row["DstAddr"].strip()
             if protocol in ("tcp", "udp"):
-                sport, dport = port_number(row["Sport"], protocol), port_number(row["Dport"], protocol)
+                sport, dport = (
+                    port_number(row["Sport"], protocol),
+                    port_number(row["Dport"], protocol),
+                )
                 if sport is None or dport is None:
                     unsupported[f"{protocol}:unknown_port"] += 1
                     continue
@@ -52,17 +56,38 @@ def inspect(path):
                 continue
             tuples[key].add((label, family))
             if family not in examples:
-                examples[family] = {field: row[field] for field in (
-                    "SrcAddr", "DstAddr", "Proto", "Sport", "Dport", "StartTime", "LastTime", "Dur", "Label", "Attack Type")}
+                examples[family] = {
+                    field: row[field]
+                    for field in (
+                        "SrcAddr",
+                        "DstAddr",
+                        "Proto",
+                        "Sport",
+                        "Dport",
+                        "StartTime",
+                        "LastTime",
+                        "Dur",
+                        "Label",
+                        "Attack Type",
+                    )
+                }
     ambiguous = [key for key, labels in tuples.items() if len(labels) > 1]
     by_protocol = Counter(key[0] for key in ambiguous)
-    return {"path": str(path), "flow_rows": sum(row_counts.values()), "class_counts": dict(row_counts),
-            "normalized_tuple_count": len(tuples), "ambiguous_tuple_count": len(ambiguous),
-            "ambiguous_by_protocol": dict(by_protocol), "unjoined_rows_by_reason": dict(unsupported),
-            "examples": examples,
-            "notes": ["TCP/UDP tuple direction canonicalized; reverse packets share a key.",
-                      "ICMP audit uses endpoint pair, not validated ICMP type/code mapping.",
-                      "A conflict-free CSV tuple still requires capture tuple-coverage verification before packet labeling."]}
+    return {
+        "path": str(path),
+        "flow_rows": sum(row_counts.values()),
+        "class_counts": dict(row_counts),
+        "normalized_tuple_count": len(tuples),
+        "ambiguous_tuple_count": len(ambiguous),
+        "ambiguous_by_protocol": dict(by_protocol),
+        "unjoined_rows_by_reason": dict(unsupported),
+        "examples": examples,
+        "notes": [
+            "TCP/UDP tuple direction canonicalized; reverse packets share a key.",
+            "ICMP audit uses endpoint pair, not validated ICMP type/code mapping.",
+            "A conflict-free CSV tuple still requires capture tuple-coverage verification before packet labeling.",
+        ],
+    }
 
 
 def main():
