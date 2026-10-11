@@ -1,0 +1,14 @@
+{
+  "mode": "live_sflow",
+  "sampling_rate": 1,
+  "seed": 42,
+  "scenario": "baseline",
+  "bind": "127.0.0.1",
+  "port": 6343,
+  "duration_seconds": 30,
+  "warmup_seconds": 10,
+  "window_seconds": 1,
+  "ovs_bridge": "m3s1",
+  "openflow_port": 6653,
+  "output_root": "output/runs"
+}

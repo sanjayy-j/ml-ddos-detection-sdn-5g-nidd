@@ -1,0 +1,11 @@
+{
+  "mode": "csv_replay",
+  "input_path": "data/raw/BS2_each_attack_csv/BS2_each_attack_csv/UDPFlood2.csv",
+  "manifest_path": "data/manifest.json",
+  "sampling_rate": 1,
+  "seed": 42,
+  "scenario": "baseline",
+  "warmup_records": 1000,
+  "max_records": 20000,
+  "output_root": "output/runs"
+}
