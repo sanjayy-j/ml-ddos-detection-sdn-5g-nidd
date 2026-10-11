@@ -492,6 +492,150 @@
       "transformations": [
         "ZIP extraction only; member bytes unchanged"
       ]
+    },
+    {
+      "path": "data/prepared/BS2_ICMPFlood_ra_numeric.csv",
+      "sha256": "396393b5c99973f427065cec099855cf8bae720d8b98ab125ed9ac4098935203",
+      "size_bytes": 1516617,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "82f0da146d9416956c2dd9f8209dba39477bee955d2a1b63d6878a3342cc1e9f",
+        "e274de7cd5fc1b593c2773a9a56e8d3b80d67801839dcbbef02a0b1a91340af3"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_ICMPFlood_flow_labels.csv",
+      "sha256": "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38",
+      "size_bytes": 1287402,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "82f0da146d9416956c2dd9f8209dba39477bee955d2a1b63d6878a3342cc1e9f",
+        "e274de7cd5fc1b593c2773a9a56e8d3b80d67801839dcbbef02a0b1a91340af3"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_ICMPFlood_join_audit.json",
+      "sha256": "4bebeac95eee7aa20eccbfaedb1e82019eef4bbe5f1e2dae36ac819b62222126",
+      "size_bytes": 814,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "82f0da146d9416956c2dd9f8209dba39477bee955d2a1b63d6878a3342cc1e9f",
+        "e274de7cd5fc1b593c2773a9a56e8d3b80d67801839dcbbef02a0b1a91340af3"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_SYNFlood_ra_numeric.csv",
+      "sha256": "762c0786b885e0d3f5036d933bbaeb886586081aaa5e7bd1683f6ff6ea2bf448",
+      "size_bytes": 1478252,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+        "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+      "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+      "size_bytes": 1268436,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+        "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_SYNFlood_join_audit.json",
+      "sha256": "5a81747fd4d9d7e5463af278f793fbd3d0946113e55409114fe77b483992dc36",
+      "size_bytes": 812,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+        "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_UDPFlood_ra_numeric.csv",
+      "sha256": "dd6ed181f296541478ca8b549c843a1ffb91a84a0a4048cf64d4cdf787ebe9cc",
+      "size_bytes": 30114643,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
+        "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_UDPFlood_flow_labels.csv",
+      "sha256": "45d74968bd5855f10bdfb6db723651aefb7cd19b2f4680f85fbf282921197d33",
+      "size_bytes": 26377759,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
+        "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_UDPFlood_join_audit.json",
+      "sha256": "dedd591ba06cf3589da2a220b365426323663f9cce6afb16e4f55114e5b8625c",
+      "size_bytes": 814,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
+        "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
     }
   ],
   "status": "verified",

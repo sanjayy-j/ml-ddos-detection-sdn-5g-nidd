@@ -50,6 +50,7 @@ class RunWriter:
                 "attack_family",
                 "sampled_packets",
                 "observed_time",
+                "ground_truth_packets",
             ],
             "resources": [
                 "time",

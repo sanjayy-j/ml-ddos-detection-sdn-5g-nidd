@@ -3,6 +3,7 @@
 This diagnostic uses benign ICMP only, receives actual UDP datagrams, and saves
 evidence. It is not the M3 learning collector or an attack-quality experiment.
 """
+
 import json
 import socket
 import struct
@@ -40,9 +41,11 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     manager = Path(sys.executable).parent / "osken-manager"
     controller_log = (output / "controller.log").open("w")
-    controller = subprocess.Popen([str(manager), "--ofp-tcp-listen-port", "6653",
-                                   str(ROOT / "sdn" / "controller.py")],
-                                  stdout=controller_log, stderr=subprocess.STDOUT)
+    controller = subprocess.Popen(
+        [str(manager), "--ofp-tcp-listen-port", "6653", str(ROOT / "sdn" / "controller.py")],
+        stdout=controller_log,
+        stderr=subprocess.STDOUT,
+    )
     evidence = []
     try:
         deadline = time.monotonic() + 60
@@ -63,17 +66,29 @@ def main():
                 listener.bind(("127.0.0.1", 6343))
                 listener.settimeout(0.5)
                 topology_log = (output / f"topology_N{rate}.log").open("w")
-                topology = subprocess.Popen([sys.executable, str(ROOT / "sdn" / "topology.py"),
-                                             "--sampling", str(rate), "--probe", "--duration", "8",
-                                             "--evidence", str(output / f"topology_N{rate}.json")],
-                                            stdout=topology_log, stderr=subprocess.STDOUT, cwd=ROOT)
+                topology = subprocess.Popen(
+                    [
+                        sys.executable,
+                        str(ROOT / "sdn" / "topology.py"),
+                        "--sampling",
+                        str(rate),
+                        "--probe",
+                        "--duration",
+                        "8",
+                        "--evidence",
+                        str(output / f"topology_N{rate}.json"),
+                    ],
+                    stdout=topology_log,
+                    stderr=subprocess.STDOUT,
+                    cwd=ROOT,
+                )
                 deadline = time.monotonic() + 60
                 packets = []
                 while time.monotonic() < deadline:
                     try:
-                        payload, source = listener.recvfrom(65535)
+                        payload, _source = listener.recvfrom(65535)
                         packets.append(payload)
-                    except socket.timeout:
+                    except TimeoutError:
                         pass
                     if topology.poll() is not None:
                         break
@@ -82,15 +97,28 @@ def main():
                     topology.wait(timeout=10)
                     raise RuntimeError("Topology timed out; inspect its log")
                 topology_log.close()
-                topology_data = json.loads((output / f"topology_N{rate}.json").read_text()) if (output / f"topology_N{rate}.json").exists() else {}
+                topology_data = (
+                    json.loads((output / f"topology_N{rate}.json").read_text())
+                    if (output / f"topology_N{rate}.json").exists()
+                    else {}
+                )
                 flows = sum(flow_sample_count(packet) for packet in packets)
-                (output / f"sflow_N{rate}.hex").write_text("\n".join(packet.hex() for packet in packets) + "\n")
-                row = {"sampling_rate": rate, "controller_pid": controller.pid,
-                       "topology_exit_code": topology.returncode,
-                       "ping_loss_percent": topology_data.get("ping_loss_percent"),
-                       "datagrams": len(packets), "received_bytes": sum(map(len, packets)),
-                       "flow_samples": flows, "traffic": "benign ICMP diagnostic"}
-                row["passed"] = topology.returncode == 0 and row["ping_loss_percent"] == 0 and flows > 0
+                (output / f"sflow_N{rate}.hex").write_text(
+                    "\n".join(packet.hex() for packet in packets) + "\n"
+                )
+                row = {
+                    "sampling_rate": rate,
+                    "controller_pid": controller.pid,
+                    "topology_exit_code": topology.returncode,
+                    "ping_loss_percent": topology_data.get("ping_loss_percent"),
+                    "datagrams": len(packets),
+                    "received_bytes": sum(map(len, packets)),
+                    "flow_samples": flows,
+                    "traffic": "benign ICMP diagnostic",
+                }
+                row["passed"] = (
+                    topology.returncode == 0 and row["ping_loss_percent"] == 0 and flows > 0
+                )
                 evidence.append(row)
                 print(json.dumps(row), flush=True)
     finally:
