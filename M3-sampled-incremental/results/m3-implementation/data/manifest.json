@@ -590,23 +590,172 @@
       "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
     },
     {
-      "path": "data/prepared/BS2_UDPFlood_ra_numeric.csv",
-      "sha256": "dd6ed181f296541478ca8b549c843a1ffb91a84a0a4048cf64d4cdf787ebe9cc",
-      "size_bytes": 30114643,
+      "path": "data/raw/BS2 GTP removed.zip",
+      "sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
       "verification_status": "verified",
-      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
-      "parent_sha256s": [
-        "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
-        "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb"
-      ],
-      "transformations": [
-        "ra -n -u numeric/time export",
-        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
-      ],
-      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+      "size_bytes": 1533058010,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "publisher_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3"
     },
     {
-      "path": "data/prepared/BS2_UDPFlood_flow_labels.csv",
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/.DS_Store",
+      "sha256": "6d6c2959c514993edab2994d28778d41940aa548f1cbd6cd964e39d064444b78",
+      "verification_status": "verified",
+      "size_bytes": 6148,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/Goldeneye_BS2_nogtp.pcapng",
+      "sha256": "033eb8d64966aea39580a9dfaa15548b3f7d848f1e5b9e99c13226d8df4f4060",
+      "verification_status": "verified",
+      "size_bytes": 487885892,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/ICMPflood_BS2_nogtp.pcapng",
+      "sha256": "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+      "verification_status": "verified",
+      "size_bytes": 357380160,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/Slowloris_BS2_nogtp.pcapng",
+      "sha256": "51c9f391a7f534b171b181dfbc758862d618f0d30c624f917005116b043471bd",
+      "verification_status": "verified",
+      "size_bytes": 209347140,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SSH_BS2_nogtp.pcapng",
+      "sha256": "eaec5017d129e7418374a7e302123f4e9077b7034532011263bc03b93e876ad8",
+      "verification_status": "verified",
+      "size_bytes": 2716788,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+      "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+      "verification_status": "verified",
+      "size_bytes": 77922832,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNscan_BS2_nogtp.pcapng",
+      "sha256": "7b976540488a688c2627ca170e223ca829244f67e0e7ee234e2a898a960a9ca8",
+      "verification_status": "verified",
+      "size_bytes": 76161852,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/TCPConnect_BS2_nogtp.pcapng",
+      "sha256": "02eeb1cf03bf742a39576a378e84924e43a9c632dbc4761309fe7c29e519f456",
+      "verification_status": "verified",
+      "size_bytes": 107777764,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/Torshammer_BS2_nogtp.pcapng",
+      "sha256": "780d0d03c1b23292159266d6d2e89eea8c26cefd87e46ea8ea3304b847946a4e",
+      "verification_status": "verified",
+      "size_bytes": 171884496,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/UDPflood_BS2_nogtp.pcapng",
+      "sha256": "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+      "verification_status": "verified",
+      "size_bytes": 322264588,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/UDPScan_BS2_nogtp.pcapng",
+      "sha256": "c33be8fd47e1d588f87b0e9828d7959c5290050814f28c4f203df08245f0dbba",
+      "verification_status": "verified",
+      "size_bytes": 95768332,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    {
+      "path": "data/prepared/BS2_UDPFlood_flow_labels.45d74968bd5855f10bdfb6db723651aefb7cd19b2f4680f85fbf282921197d33.csv",
       "sha256": "45d74968bd5855f10bdfb6db723651aefb7cd19b2f4680f85fbf282921197d33",
       "size_bytes": 26377759,
       "verification_status": "verified",
@@ -617,14 +766,16 @@
       ],
       "transformations": [
         "ra -n -u numeric/time export",
-        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks",
+        "byte-identical content-addressed preservation before port-zero correction"
       ],
-      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation",
+      "archived_from": "data/prepared/BS2_UDPFlood_flow_labels.csv"
     },
     {
-      "path": "data/prepared/BS2_UDPFlood_join_audit.json",
-      "sha256": "dedd591ba06cf3589da2a220b365426323663f9cce6afb16e4f55114e5b8625c",
-      "size_bytes": 814,
+      "path": "data/prepared/BS2_UDPFlood_ra_numeric.csv",
+      "sha256": "b7cfebfc4b43e0c8261d0f45118aa580c4138b83e28c7bc1d84aefecf32fc1f2",
+      "size_bytes": 30114560,
       "verification_status": "verified",
       "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
       "parent_sha256s": [
@@ -632,19 +783,275 @@
         "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb"
       ],
       "transformations": [
-        "ra -n -u numeric/time export",
-        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+        "ra -X -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks",
+        "blank TCP/UDP ports resolved only at exact offsets confirmed by native Argus port-zero filters"
       ],
       "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_UDPFlood_flow_labels.csv",
+      "sha256": "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+      "size_bytes": 26659511,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
+        "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb",
+        "45d74968bd5855f10bdfb6db723651aefb7cd19b2f4680f85fbf282921197d33"
+      ],
+      "transformations": [
+        "ra -X -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks",
+        "blank TCP/UDP ports resolved only at exact offsets confirmed by native Argus port-zero filters"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/BS2_UDPFlood_join_audit.json",
+      "sha256": "76dfd0ae011d06aaa9a073f1e08e9ac07b96bdf636c5a666b3e1c2df904ee110",
+      "size_bytes": 2379,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
+        "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb"
+      ],
+      "transformations": [
+        "ra -X -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks",
+        "blank TCP/UDP ports resolved only at exact offsets confirmed by native Argus port-zero filters"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_00.pcap",
+      "sha256": "7c83ce9740ddb1dd875102df76807c1beb9267c0c0dcb03ef951ca3b331f1792",
+      "size_bytes": 939318,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_00_mapping.csv",
+      "sha256": "a91ad118d991fab5a860f5d8a789f525d7924628922ab36c6d39767bbf7a9d68",
+      "size_bytes": 133273,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_01.pcap",
+      "sha256": "d86ddae5489e0a501ac875f08e5178d97722320c97ee2503f52a3c2627fc6013",
+      "size_bytes": 570768,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_01_mapping.csv",
+      "sha256": "0b977ee1b7790da416022045e7e139def94f36178f7e57294d134786fae28df0",
+      "size_bytes": 1372825,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_02.pcap",
+      "sha256": "7c83ce9740ddb1dd875102df76807c1beb9267c0c0dcb03ef951ca3b331f1792",
+      "size_bytes": 939318,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_02_mapping.csv",
+      "sha256": "a91ad118d991fab5a860f5d8a789f525d7924628922ab36c6d39767bbf7a9d68",
+      "size_bytes": 133273,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_03.pcap",
+      "sha256": "d86ddae5489e0a501ac875f08e5178d97722320c97ee2503f52a3c2627fc6013",
+      "size_bytes": 570768,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_03_mapping.csv",
+      "sha256": "0b977ee1b7790da416022045e7e139def94f36178f7e57294d134786fae28df0",
+      "size_bytes": 1372825,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_04.pcap",
+      "sha256": "7c83ce9740ddb1dd875102df76807c1beb9267c0c0dcb03ef951ca3b331f1792",
+      "size_bytes": 939318,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_04_mapping.csv",
+      "sha256": "a91ad118d991fab5a860f5d8a789f525d7924628922ab36c6d39767bbf7a9d68",
+      "size_bytes": 133273,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_05.pcap",
+      "sha256": "d86ddae5489e0a501ac875f08e5178d97722320c97ee2503f52a3c2627fc6013",
+      "size_bytes": 570768,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/block_05_mapping.csv",
+      "sha256": "0b977ee1b7790da416022045e7e139def94f36178f7e57294d134786fae28df0",
+      "size_bytes": 1372825,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
+    },
+    {
+      "path": "data/prepared/syn_controlled_pilot_20261019/blocks.json",
+      "sha256": "1700491311342c7cb07c9a4d661ab467a3eac6e5cf3dcc55d66764252bd3d2da",
+      "size_bytes": 14252,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Repeated blocks may reuse first eligible source packets; not independent data"
+      ]
     }
   ],
   "status": "verified",
   "notes": [
     "Publisher SHA256 checked for each downloaded archive. Extracted files have local SHA256 and parent archive provenance.",
     "Combined.csv order must not be claimed chronological without further evidence.",
-    "Capture filenames alone do not provide packet-level attack ground truth.",
-    "Packet capture archives have not been downloaded. Use --captures when needed."
+    "Capture filenames alone do not provide packet-level attack ground truth."
   ],
   "metadata_url": "https://metax.fairdata.fi/v3/directories?path=%2F&storage_service=ida&csc_project=2006938&dataset=9d13ef28-2ca7-44b0-9950-225359afac65&pagination=false",
-  "retrieved_utc": "2026-10-11T10:02:34Z"
+  "retrieved_utc": "2026-10-19T06:57:13Z"
 }

@@ -1,0 +1,12 @@
+{
+  "purpose": "Controlled official-packet live-collection pilot, not natural chronology or final accuracy evidence",
+  "reuse": "Each repeated class block deliberately reuses the first eligible source packets",
+  "segments": [
+    {"capture": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng", "flow_labels": "data/prepared/BS2_SYNFlood_flow_labels.csv", "family": "Benign", "packet_count": 800, "pps": 100},
+    {"capture": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng", "flow_labels": "data/prepared/BS2_SYNFlood_flow_labels.csv", "family": "SYNFlood", "packet_count": 8000, "pps": 1000},
+    {"capture": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng", "flow_labels": "data/prepared/BS2_SYNFlood_flow_labels.csv", "family": "Benign", "packet_count": 800, "pps": 100},
+    {"capture": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng", "flow_labels": "data/prepared/BS2_SYNFlood_flow_labels.csv", "family": "SYNFlood", "packet_count": 8000, "pps": 1000},
+    {"capture": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng", "flow_labels": "data/prepared/BS2_SYNFlood_flow_labels.csv", "family": "Benign", "packet_count": 800, "pps": 100},
+    {"capture": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng", "flow_labels": "data/prepared/BS2_SYNFlood_flow_labels.csv", "family": "SYNFlood", "packet_count": 8000, "pps": 1000}
+  ]
+}

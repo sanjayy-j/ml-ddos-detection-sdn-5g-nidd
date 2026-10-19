@@ -30,7 +30,7 @@ class Reader:
         return tag, body
 
 
-def decode_datagram(data: bytes, timestamp: float):
+def decode_datagram(data: bytes, timestamp: float, *, include_headers=False):
     reader = Reader(data)
     if reader.integer() != 5:
         raise DecodeError("Only sFlow version 5 is supported")
@@ -41,6 +41,7 @@ def decode_datagram(data: bytes, timestamp: float):
     subagent, sequence, uptime = reader.integer(), reader.integer(), reader.integer()
     samples = reader.integer()
     packets = []
+    headers = []
     drops = 0
     for _ in range(samples):
         tag, body = reader.record()
@@ -70,10 +71,15 @@ def decode_datagram(data: bytes, timestamp: float):
             packet = parse_header(raw, timestamp, length, rate, protocol)
             if packet is not None:
                 packets.append(packet)
-    return packets, {
+                if include_headers:
+                    headers.append({"raw": raw, "protocol": protocol, "length": length})
+    metadata = {
         "agent": agent,
         "subagent": subagent,
         "sequence": sequence,
         "uptime": uptime,
         "drops": drops,
     }
+    if include_headers:
+        metadata["headers"] = headers
+    return packets, metadata

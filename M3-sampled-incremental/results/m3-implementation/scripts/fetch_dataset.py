@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import sys
 import time
@@ -16,6 +17,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 from pathlib import Path
+from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET_ID = "9d13ef28-2ca7-44b0-9950-225359afac65"
@@ -67,7 +69,9 @@ def save_manifest(path: Path, manifest: dict) -> None:
     temporary.replace(path)
 
 
-def fetch(record: dict, target: Path) -> None:
+def fetch(record: dict, target: Path, *, resume: bool = False, restart: bool = False) -> None:
+    if resume and restart:
+        raise ValueError("Choose resume or restart, not both")
     expected = record["checksum"].removeprefix("sha256:")
     if target.exists():
         if target.stat().st_size == record["size"] and digest(target) == expected:
@@ -76,25 +80,72 @@ def fetch(record: dict, target: Path) -> None:
         raise ValueError(
             f"Existing {target} does not match the official checksum; preserve it and investigate."
         )
+    partial = target.with_suffix(target.suffix + ".partial")
+    offset = partial.stat().st_size if partial.exists() else 0
+    if offset > record["size"] and not restart:
+        raise ValueError("Partial file exceeds official size; preserve it and investigate")
+    if partial.exists() and not (resume or restart):
+        raise ValueError(
+            f"Partial download exists at {partial}; use --resume or --restart. "
+            "Restart preserves the previous partial file."
+        )
+    if partial.exists() and resume and offset == record["size"]:
+        if digest(partial) != expected:
+            raise ValueError("Completed partial fails publisher checksum; preserve and investigate")
+        partial.rename(target)
+        print(f"Verified completed partial {target.name}", flush=True)
+        return
+    remaining = record["size"] if restart else record["size"] - offset
+    if remaining + 1024**3 > shutil.disk_usage(target.parent).free:
+        raise ValueError("Insufficient disk space for download with a 1GB reserve")
     # This is the public authorization API used by Etsin's download button.
     # Its signed URL is transient and is deliberately not saved to the manifest.
     transient_url = request_json(AUTHORIZE, {"cr_id": DATASET_ID, "file": record["pathname"]})[
         "url"
     ]
-    if urllib.parse.urlparse(transient_url).hostname != "download.fairdata.fi":
+    parsed_url = urllib.parse.urlparse(transient_url)
+    if parsed_url.scheme != "https" or parsed_url.hostname != "download.fairdata.fi":
         raise ValueError("Portal returned an unexpected download host")
-    partial = target.with_suffix(target.suffix + ".partial")
-    if partial.exists():
-        raise ValueError(
-            f"Partial download exists at {partial}; preserve or remove it before retrying."
-        )
+    if restart and partial.exists():
+        saved = partial.with_name(partial.name + ".saved-" + uuid4().hex[:12])
+        partial.rename(saved)
+        print(f"Preserved previous partial as {saved.name}", flush=True)
+        offset = 0
+    headers = {"Accept-Encoding": "identity", "User-Agent": "M3-5G-NIDD-research/1.0"}
+    if offset:
+        headers["Range"] = f"bytes={offset}-"
+    request = urllib.request.Request(transient_url, headers=headers)
     print(f"Downloading {target.name} ({record['size']:,} bytes)", flush=True)
-    with (
-        urllib.request.urlopen(transient_url, timeout=120) as response,
-        partial.open("xb") as output,
-    ):
-        while chunk := response.read(1024 * 1024):
-            output.write(chunk)
+    with urllib.request.urlopen(request, timeout=120) as response:
+        if urllib.parse.urlparse(response.geturl()).hostname != "download.fairdata.fi":
+            raise ValueError("Unexpected redirected download host")
+        if offset:
+            content_range = response.headers.get("Content-Range", "")
+            match = re.fullmatch(r"bytes (\d+)-(\d+)/(\d+)", content_range)
+            if (
+                response.status != 206
+                or match is None
+                or tuple(map(int, match.groups())) != (offset, record["size"] - 1, record["size"])
+            ):
+                raise ValueError(
+                    "Server did not honor the exact byte range; partial left unchanged. "
+                    "Use --restart to preserve it and download afresh."
+                )
+        elif response.status != 200:
+            raise ValueError("Fresh download requires a complete HTTP 200 response")
+        if response.headers.get("Content-Encoding", "identity") != "identity":
+            raise ValueError("Encoded download response cannot be safely resumed or verified")
+        downloaded = offset
+        last_report = time.monotonic()
+        with partial.open("ab" if resume and partial.exists() else "xb") as output:
+            while chunk := response.read(1024 * 1024):
+                output.write(chunk)
+                downloaded += len(chunk)
+                if downloaded > record["size"]:
+                    raise ValueError("Download exceeds official file size; partial retained")
+                if time.monotonic() - last_report >= 10:
+                    print(f"Progress: {downloaded:,}/{record['size']:,} bytes", flush=True)
+                    last_report = time.monotonic()
     if partial.stat().st_size != record["size"] or digest(partial) != expected:
         raise ValueError(f"Publisher checksum verification failed for {partial}")
     partial.rename(target)
@@ -135,6 +186,13 @@ def main() -> int:
     )
     parser.add_argument(
         "--list", action="store_true", help="Print official filenames and sizes only"
+    )
+    recovery = parser.add_mutually_exclusive_group()
+    recovery.add_argument(
+        "--resume", action="store_true", help="Resume only if exact HTTP ranges are honored"
+    )
+    recovery.add_argument(
+        "--restart", action="store_true", help="Preserve old partials and restart downloads"
     )
     args = parser.parse_args()
     raw = ROOT / "data" / "raw"
@@ -178,7 +236,7 @@ def main() -> int:
         for name in names:
             record = records[name]
             target = raw / name
-            fetch(record, target)
+            fetch(record, target, resume=args.resume, restart=args.restart)
             new_entries = [entry(target, record)]
             if target.suffix == ".zip":
                 parent = digest(target)

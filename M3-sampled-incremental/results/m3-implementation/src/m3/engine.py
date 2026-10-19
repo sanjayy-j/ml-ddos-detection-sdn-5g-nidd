@@ -116,10 +116,12 @@ class Evaluation:
                 "detection_time_seconds": measurement(
                     delay,
                     "seconds",
-                    "No detected, labeled attack"
+                    "Window-boundary estimate, not exact packet-onset detection delay"
+                    if delay is not None
+                    else "No detected, labeled attack"
                     if physical
                     else "CSV row indices are not physical timestamps",
-                    status="measured" if self.config.mode == "live_sflow" else "estimated",
+                    status="estimated",
                 ),
                 "packets_to_detect": measurement(
                     self.packets_at_alarm if physical else None,

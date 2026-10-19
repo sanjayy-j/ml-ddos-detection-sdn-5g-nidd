@@ -1,0 +1,13 @@
+{
+  "mode": "pcap_replay",
+  "input_path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+  "flow_labels_path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+  "manifest_path": "data/manifest.json",
+  "sampling_rate": 1,
+  "seed": 42,
+  "scenario": "baseline",
+  "warmup_seconds": 20,
+  "window_seconds": 1,
+  "max_records": null,
+  "output_root": "output/runs"
+}

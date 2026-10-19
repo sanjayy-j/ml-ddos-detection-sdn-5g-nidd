@@ -109,4 +109,6 @@ def test_packet_pipeline_scores_full_ground_truth_before_sampling(tmp_path):
     assert run["packet_label_coverage"] == {"matched": 3, "unknown": 1, "unjoinable_flow_rows": 0}
     assert run["metrics"]["packets_to_detect"]["value"] == 2
     assert run["metrics"]["detection_time_seconds"]["value"] == 1
+    assert run["metrics"]["detection_time_seconds"]["status"] == "estimated"
+    assert "Window-boundary estimate" in run["metrics"]["detection_time_seconds"]["reason"]
     assert run["metrics"]["f1"]["value"] == 0.5

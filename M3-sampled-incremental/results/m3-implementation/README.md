@@ -2,9 +2,22 @@
 
 This project implements **M3 only** using the **official 5G-NIDD release**. It combines an incremental Hoeffding Adaptive Tree with ADWIN, retains raw measurements, and separates offline model checks from genuine live SDN evidence.
 
-**Status reviewed: 16 October 2026. Latest saved experimental checkpoint: 11 October 2026.**
+**Status reviewed: 19 October 2026. New official-packet evidence is recorded below; initial software/CSV checkpoint: 11 October 2026.**
 
-The core software is implemented, an official-data flow-record pilot has completed, and real SDN forwarding and sampled-telemetry collection have been verified. **The complete official-packet live attack study is not finished.** This README distinguishes implemented features, measured evidence and planned work. Passing a software test is not the same as proving attack-detection performance.
+The core software is implemented, official flow-record and SYN packet-window pilots have completed, and real SDN forwarding and sampled-telemetry collection have been verified. **The complete official-packet real-time attack study is not finished.** This README distinguishes implemented features, measured evidence and planned work. Passing a software test is not the same as proving attack-detection performance.
+
+### 19 October progress
+
+- Completed the official BS2 GTP-removed capture download and verified publisher SHA256 before extraction. The old partial was preserved; it was not deleted or used as evidence.
+- Audited all original packets in the ICMP, SYN and UDP flood-session captures, retaining unknowns and original reports.
+- Diagnosed Argus's suppressed numeric zero ports using native binary-flow filters and exact record offsets. The corrected UDP audit matches 647,522 of 656,389 packets (98.65%): 230,118 benign and 417,404 flood; 8,867 remain unknown. Missing values were not blindly replaced with zero.
+- SYN audit: 79,339/93,312 matched (85.03%); ICMP audit: 295,311/313,667 matched (94.15%). No conflicting-label overlaps were observed. Coverage is not detection accuracy.
+- Completed an offline full SYN packet-window pilot: run `cabcf6d4afbb46c0805f54c522cbbe8c`, 93,312 input packets, 1,538 scored windows, 17 labelled warm-up windows and 350 unlabelled windows. F1=0.896257, precision=0.954442, recall=0.844758, ROC-AUC=0.942096. These are offline packet results, not live detection accuracy or the final sampling study.
+- Added bounded MAC-only official-packet block preparation, independent sender/receiver live-capture validation, and explicitly post-hoc scoring of recorded switch exports. The first live attempt failed its capture-loss gate and was retained, not promoted.
+- The retry independently validated all **26,400 transmitted and received packets**, with zero kernel capture drops and exact source-frame matches. Recorded-export scoring run `4f75259a458243318a7482224586f4ee` scored 36 windows after 18 labelled warm-up windows (23 unlabelled), with F1=0.923077. This is **post-hoc scoring of genuine live exports**, not real-time detection accuracy, independent holdout performance, or the full repeated study.
+- Python regression checkpoint: **78 passed**, with one Starlette/httpx deprecation warning. Lint checks pass. The existing frontend was not changed or newly visually verified.
+
+See [the capture/replay contract](docs/capture-replay-contract.md) for commands, validation gates, constructed-rate/reused-packet limitations, and the distinction between live collection and post-hoc inference. Exact final live-collection outcomes are maintained in [verification-status.md](docs/verification-status.md).
 
 ## Project objective and scope
 
@@ -31,12 +44,12 @@ Verified official captures + independently verified labels
 
 | Area | What exists | Verification boundary |
 |---|---|---|
-| Official data acquisition | Official-release downloader, publisher checksums, extraction safeguards and provenance manifest | CSV and BS2 Argus inputs verified; required packet archive still incomplete |
+| Official data acquisition | Official-release downloader, exact-range resume checks, non-destructive restart, checksums and provenance | CSV/Argus and required BS2 packet archive verified; BS1 capture is not needed for this milestone |
 | Data processing | Official label normalization, flood-family filtering, numeric feature allowlist and dataset audit | Labels, attack tools, addresses and identifiers are not model inputs |
 | Online model | River HAT, internal ADWIN branch adaptation and a separate prediction-error ADWIN alarm monitor | Predict/score before learning; initial warm-up excluded from scoring |
-| Offline evaluation | CSV flow replay, PCAP packet-window replay, sampling and three-trial offline sweeps | Packet matching/counting tested in software; official-capture coverage still needs validation |
-| Ground truth | Checked CSV-to-Argus flow-label preparation and conservative packet-to-flow interval matching | Verified flow labels are not proof that every capture packet can be labelled |
-| Live SDN | Isolated four-host Mininet/OVS topology, OS-Ken controller, sFlow exporter/decoder and live collector | Benign diagnostics verified; scored official-attack replay pending |
+| Offline evaluation | CSV flow replay, PCAP packet-window replay, sampling and three-trial offline sweeps | Full original SYN capture pilot measured; this is separate from live inference |
+| Ground truth | Checked CSV-to-Argus joins, binary-confirmed zero ports and full packet-coverage audits | Unknown packets remain unknown; measured coverage differs by capture |
+| Live SDN | Isolated topology, OS-Ken, sFlow, source-verified replay and independent TX/RX validation | Official-packet collection plus post-hoc scoring verified; real-time supervised scoring/full study pending |
 | Measurements | Quality metrics, inference timing, process CPU/memory, optional controller CPU, OpenFlow capture and OVS entry observations | Measured, estimated and unavailable values remain distinct |
 | Evidence storage | Unique run IDs, settings, provenance, raw prediction/resource/drift logs and atomic summaries | Failed runs and logs retained instead of silently replaced |
 | Backend/dashboard | Read-only FastAPI run API and React/TypeScript run selection, metrics, timelines, drift and comparison views | Dashboard displays saved evidence; it does not start training or collect traffic |
@@ -54,14 +67,14 @@ Verified official captures + independently verified labels
 
 ## What has actually been verified
 
-These are saved checkpoint results, not claims that tests or experiments were rerun on 16 October. The original record is in [verification-status.md](docs/verification-status.md).
+The following initial results are historical (11 October); new 19 October evidence is listed above. The dated record is in [verification-status.md](docs/verification-status.md).
 
 ### Official data and flow labels
 
 - Combined official CSV: **1,215,890 records**, with per-session CSVs and BS2 Argus metadata available locally and provenance checked.
 - Official labels joined to **314,757 flows**: ICMP session 14,452; SYN session 14,108; UDP session 286,197. These are session flow totals, not malicious-packet counts.
 - Join checks found no missing rows or contradictions in offsets, endpoints, protocol, packet/byte counts, duration and displayed timestamps.
-- At the 16 October review, the required GTP-removed capture archive remained a partial download. It cannot be accepted until complete and publisher-checksum verified. A partial file does not establish an active download process.
+- At the 16 October review, the capture remained partial. This dependency was cleared on 19 October by a completed fresh download and publisher-checksum verification; the original partial was preserved.
 
 ### Official UDPFlood2 CSV pilot
 
@@ -109,10 +122,10 @@ The remaining sequence is dependency-based. The original one-week target is hist
 
 | Order | Work to complete | Expected output / completion check |
 |---|---|---|
-| 1 | Finish the required official packet download, verify publisher checksum and extract | Verified archive/captures in the provenance manifest; partial files never used as final inputs |
-| 2 | Validate packet-to-flow labels against actual captures | Coverage, unmatched/ambiguous packet counts, overlap and timestamp-alignment audit |
-| 3 | Prepare official traces and validate offline packet-window scoring | Documented address/MAC/time transformations, parent/derived checksums, verified labels and a packet-path pilot |
-| 4 | Complete scored live replay | Official traffic through the isolated switch, synchronized annotations and one reproducible labelled live run |
+| 1 - done | Complete required BS2 archive and publisher verification | Archive/captures registered with original and extracted hashes; old partial retained |
+| 2 - done | Audit all three original flood captures | Counts/coverage/conflicts recorded; unknown packets excluded, not fabricated |
+| 3 - initial pilot done | Prepare controlled official blocks and score the original SYN capture offline | MAC-only transforms, retimed blocks, source mappings and offline packet pilot exist; final scenario preparation remains |
+| 4 - partial | Complete real-time scored live replay | Official replay, exact TX/RX validation and post-hoc recorded-export scoring exist; real-time supervision/inference remains pending |
 | 5 | Finalize baseline, drift and unseen-attack scenarios | Exact segments/order, source references, class mix, attack/drift boundaries and configuration files |
 | 6 | Implement live sweep orchestration and execute trials | Actual OVS reconfiguration for every N, fresh model per trial, three trials per configuration, raw evidence and retained failures |
 | 7 | Complete timeliness and robustness analysis | Detection delay, verified unsampled packets-to-detect, unseen-attack recall and an implemented/documented recovery criterion |
@@ -244,8 +257,8 @@ The downloader's `--list` option lists official files; `--file` selects one; `--
 - [x] Verify a limited official CSV pilot and retain failed-run evidence.
 - [x] Verify real forwarding/sampling at N=1 and N=10 with benign probes.
 - [x] Prepare and verify official CSV-to-Argus flow-label joins.
-- [ ] Complete and checksum-verify required official packet captures.
-- [ ] Validate real-capture packet-label coverage, timing and conflicts.
+- [x] Complete and checksum-verify the required official BS2 packet archive.
+- [x] Audit real-capture packet-label coverage, timing and conflicts for the three BS2 flood sessions.
 - [ ] Complete prepared-trace provenance and one scored live attack pilot.
 - [ ] Finalize reproducible baseline, drift and unseen-attack scenarios.
 - [ ] Complete actual six-rate, three-trial live experiments per scenario.
