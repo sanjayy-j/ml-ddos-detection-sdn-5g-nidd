@@ -1,0 +1,1133 @@
+[
+  {
+    "evidence_directory": "official_pilot_e3511ab23e04438eb4a8802be2411652",
+    "report": {
+      "status": "failed",
+      "blocks_provenance": {
+        "dataset": "5G-NIDD",
+        "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+        "path": "data/prepared/research_20261019_equalrate_v1/drift/blocks.json",
+        "sha256": "566deac32b93aa983d20df58bea1ca845f663e3cec1baffa733565b49e67ee6b",
+        "size_bytes": 40001,
+        "verification_status": "verified",
+        "parent_sha256s": [
+          "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+          "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+          "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+          "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38",
+          "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+          "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+        ],
+        "fixture": false,
+        "transformations": [
+          "Select only exact original FlowLabels family matches; unknowns excluded",
+          "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+          "Construct packet timestamps as selection_index/pps; not natural chronology",
+          "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+          "Frozen blocks are reused across trials; trials are not independent source datasets"
+        ]
+      },
+      "sampling_rate": 20,
+      "ping_loss_percent": 0.0,
+      "error": "Independent oracle did not become ready"
+    }
+  },
+  {
+    "evidence_directory": "official_pilot_12a497a3a2484c3da695a18e6f9f4af5",
+    "report": {
+      "status": "failed",
+      "blocks_provenance": {
+        "dataset": "5G-NIDD",
+        "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+        "path": "data/prepared/research_20261019_equalrate_v1/baseline/blocks.json",
+        "sha256": "c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5",
+        "size_bytes": 30150,
+        "verification_status": "verified",
+        "parent_sha256s": [
+          "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+          "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+          "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+          "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+        ],
+        "fixture": false,
+        "transformations": [
+          "Select only exact original FlowLabels family matches; unknowns excluded",
+          "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+          "Construct packet timestamps as selection_index/pps; not natural chronology",
+          "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+          "Frozen blocks are reused across trials; trials are not independent source datasets"
+        ]
+      },
+      "sampling_rate": 1,
+      "error": "[Errno 98] Address already in use"
+    }
+  },
+  {
+    "evidence_directory": "official_pilot_32428212427142fda079399fabcd14ba",
+    "report": {
+      "status": "failed",
+      "blocks_provenance": {
+        "dataset": "5G-NIDD",
+        "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+        "path": "data/prepared/research_20261019_equalrate_v1/baseline/blocks.json",
+        "sha256": "c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5",
+        "size_bytes": 30150,
+        "verification_status": "verified",
+        "parent_sha256s": [
+          "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+          "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+          "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+          "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+        ],
+        "fixture": false,
+        "transformations": [
+          "Select only exact original FlowLabels family matches; unknowns excluded",
+          "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+          "Construct packet timestamps as selection_index/pps; not natural chronology",
+          "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+          "Frozen blocks are reused across trials; trials are not independent source datasets"
+        ]
+      },
+      "sampling_rate": 1,
+      "ping_loss_percent": 0.0,
+      "error": "Independent oracle did not become ready"
+    }
+  },
+  {
+    "evidence_directory": "official_pilot_77c4b23240944391911dbd0d05a5d87a",
+    "report": {
+      "status": "failed",
+      "blocks_provenance": {
+        "dataset": "5G-NIDD",
+        "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+        "path": "data/prepared/research_20261019_equalrate_v1/baseline/blocks.json",
+        "sha256": "c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5",
+        "size_bytes": 30150,
+        "verification_status": "verified",
+        "parent_sha256s": [
+          "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+          "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+          "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+          "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+        ],
+        "fixture": false,
+        "transformations": [
+          "Select only exact original FlowLabels family matches; unknowns excluded",
+          "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+          "Construct packet timestamps as selection_index/pps; not natural chronology",
+          "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+          "Frozen blocks are reused across trials; trials are not independent source datasets"
+        ]
+      },
+      "sampling_rate": 1,
+      "ping_loss_percent": 0.0,
+      "error": "Independent oracle did not become ready"
+    }
+  },
+  {
+    "evidence_directory": "official_pilot_ba4feecd3eac48209d82af61a1c51dcb",
+    "report": {
+      "status": "failed",
+      "blocks_provenance": {
+        "dataset": "5G-NIDD",
+        "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+        "path": "data/prepared/research_20261019_equalrate_v1/baseline/blocks.json",
+        "sha256": "c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5",
+        "size_bytes": 30150,
+        "verification_status": "verified",
+        "parent_sha256s": [
+          "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+          "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+          "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+          "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+        ],
+        "fixture": false,
+        "transformations": [
+          "Select only exact original FlowLabels family matches; unknowns excluded",
+          "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+          "Construct packet timestamps as selection_index/pps; not natural chronology",
+          "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+          "Frozen blocks are reused across trials; trials are not independent source datasets"
+        ]
+      },
+      "sampling_rate": 1,
+      "ping_loss_percent": 0.0,
+      "origin_epoch": 1792410711,
+      "duration_seconds": 125,
+      "stages": [
+        {
+          "start": 1.0,
+          "duration": 8.0,
+          "path": "block_00.pcap",
+          "mapping": "block_00_mapping.csv",
+          "label": 0,
+          "attack_family": "Benign",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 802,
+          "skip_matching": 0,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410712.000248,
+          "actual_end_epoch": 1792410720.2354217,
+          "exit_code": 0
+        },
+        {
+          "start": 11.0,
+          "duration": 8.0,
+          "path": "block_01.pcap",
+          "mapping": "block_01_mapping.csv",
+          "label": 1,
+          "attack_family": "UDPFlood",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 104555,
+          "skip_matching": 0,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/UDPflood_BS2_nogtp.pcapng",
+              "sha256": "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+              "verification_status": "verified",
+              "size_bytes": 322264588,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_UDPFlood_flow_labels.csv",
+              "sha256": "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+              "size_bytes": 26659511,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
+                "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb",
+                "45d74968bd5855f10bdfb6db723651aefb7cd19b2f4680f85fbf282921197d33"
+              ],
+              "transformations": [
+                "ra -X -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks",
+                "blank TCP/UDP ports resolved only at exact offsets confirmed by native Argus port-zero filters"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410722.0002046,
+          "actual_end_epoch": 1792410730.1668324,
+          "exit_code": 0
+        },
+        {
+          "start": 21.0,
+          "duration": 8.0,
+          "path": "block_02.pcap",
+          "mapping": "block_02_mapping.csv",
+          "label": 0,
+          "attack_family": "Benign",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 1606,
+          "skip_matching": 800,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410732.0003114,
+          "actual_end_epoch": 1792410740.1317773,
+          "exit_code": 0
+        },
+        {
+          "start": 31.0,
+          "duration": 8.0,
+          "path": "block_03.pcap",
+          "mapping": "block_03_mapping.csv",
+          "label": 1,
+          "attack_family": "SYNFlood",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 49971,
+          "skip_matching": 0,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410742.000333,
+          "actual_end_epoch": 1792410750.1751037,
+          "exit_code": 0
+        },
+        {
+          "start": 41.0,
+          "duration": 8.0,
+          "path": "block_04.pcap",
+          "mapping": "block_04_mapping.csv",
+          "label": 0,
+          "attack_family": "Benign",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 2425,
+          "skip_matching": 1600,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410752.0001569,
+          "actual_end_epoch": 1792410760.1220672,
+          "exit_code": 0
+        },
+        {
+          "start": 51.0,
+          "duration": 8.0,
+          "path": "block_05.pcap",
+          "mapping": "block_05_mapping.csv",
+          "label": 1,
+          "attack_family": "UDPFlood",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 105385,
+          "skip_matching": 800,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/UDPflood_BS2_nogtp.pcapng",
+              "sha256": "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+              "verification_status": "verified",
+              "size_bytes": 322264588,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_UDPFlood_flow_labels.csv",
+              "sha256": "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+              "size_bytes": 26659511,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
+                "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb",
+                "45d74968bd5855f10bdfb6db723651aefb7cd19b2f4680f85fbf282921197d33"
+              ],
+              "transformations": [
+                "ra -X -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks",
+                "blank TCP/UDP ports resolved only at exact offsets confirmed by native Argus port-zero filters"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410762.0003786,
+          "actual_end_epoch": 1792410770.1618817,
+          "exit_code": 0
+        },
+        {
+          "start": 61.0,
+          "duration": 8.0,
+          "path": "block_06.pcap",
+          "mapping": "block_06_mapping.csv",
+          "label": 0,
+          "attack_family": "Benign",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 3230,
+          "skip_matching": 2400,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410772.0004132,
+          "actual_end_epoch": 1792410780.196767,
+          "exit_code": 0
+        },
+        {
+          "start": 71.0,
+          "duration": 8.0,
+          "path": "block_07.pcap",
+          "mapping": "block_07_mapping.csv",
+          "label": 1,
+          "attack_family": "SYNFlood",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 52861,
+          "skip_matching": 800,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410782.0003622,
+          "actual_end_epoch": 1792410790.1456044,
+          "exit_code": 0
+        },
+        {
+          "start": 81.0,
+          "duration": 8.0,
+          "path": "block_08.pcap",
+          "mapping": "block_08_mapping.csv",
+          "label": 0,
+          "attack_family": "Benign",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 4051,
+          "skip_matching": 3200,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410792.0002038,
+          "actual_end_epoch": 1792410800.1595838,
+          "exit_code": 0
+        },
+        {
+          "start": 91.0,
+          "duration": 8.0,
+          "path": "block_09.pcap",
+          "mapping": "block_09_mapping.csv",
+          "label": 1,
+          "attack_family": "UDPFlood",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 106195,
+          "skip_matching": 1600,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/UDPflood_BS2_nogtp.pcapng",
+              "sha256": "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+              "verification_status": "verified",
+              "size_bytes": 322264588,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_UDPFlood_flow_labels.csv",
+              "sha256": "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+              "size_bytes": 26659511,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "6b0b6d7471c558eaba05c1b9e1f8867462314aae3b6e296f570e378e1351eb93",
+                "ff6e24363624ddfb640b1c58e609ce22306fc6c615abb53d07ae5db692d390bb",
+                "45d74968bd5855f10bdfb6db723651aefb7cd19b2f4680f85fbf282921197d33"
+              ],
+              "transformations": [
+                "ra -X -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks",
+                "blank TCP/UDP ports resolved only at exact offsets confirmed by native Argus port-zero filters"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410802.0003927,
+          "actual_end_epoch": 1792410810.1596992,
+          "exit_code": 0
+        },
+        {
+          "start": 101.0,
+          "duration": 8.0,
+          "path": "block_10.pcap",
+          "mapping": "block_10_mapping.csv",
+          "label": 0,
+          "attack_family": "Benign",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 4871,
+          "skip_matching": 4000,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410812.0002215,
+          "actual_end_epoch": 1792410820.1971514,
+          "exit_code": 0
+        },
+        {
+          "start": 111.0,
+          "duration": 8.0,
+          "path": "block_11.pcap",
+          "mapping": "block_11_mapping.csv",
+          "label": 1,
+          "attack_family": "SYNFlood",
+          "packet_count": 800,
+          "pps": 100,
+          "source_packets_examined": 55302,
+          "skip_matching": 1600,
+          "source_provenance": [
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/raw/BS2 GTP removed/BS2 GTP removed/SYNflood_BS2_nogtp.pcapng",
+              "sha256": "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+              "verification_status": "verified",
+              "size_bytes": 77922832,
+              "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+              "official_filename": "BS2 GTP removed.zip",
+              "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+              "official_path": "/BS2 GTP removed.zip",
+              "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+              "transformations": [
+                "ZIP extraction only; member bytes unchanged"
+              ]
+            },
+            {
+              "dataset": "5G-NIDD",
+              "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+              "path": "data/prepared/BS2_SYNFlood_flow_labels.csv",
+              "sha256": "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94",
+              "size_bytes": 1268436,
+              "verification_status": "verified",
+              "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+              "parent_sha256s": [
+                "14571da7fb49603b3bf981bf1fa5132a69625352ca72ff9081bcf9f6000c2aa5",
+                "96295f00af0a4d6d598d39d58b87ad72b18fd0ae45b0a70fe69c69c1b45e90a4"
+              ],
+              "transformations": [
+                "ra -n -u numeric/time export",
+                "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+              ],
+              "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+            }
+          ],
+          "actual_start_epoch": 1792410822.0002713,
+          "actual_end_epoch": 1792410830.1564686,
+          "exit_code": 0
+        }
+      ],
+      "capture_scope": "isolated sender TX and victim RX; no physical uplink",
+      "evaluation_timing": "unlabelled live collection; any subsequent scoring is post hoc",
+      "dataplane_validation": {
+        "status": "validated",
+        "expected_packets": 9600,
+        "captures": {
+          "tx": {
+            "packets": 9600,
+            "unknown_packets": 0,
+            "matches_expected_multiplicity": true,
+            "sha256": "ff9ba62cc91a48f65ddfda5ca960deb05ffc2ac964715220f1c5ce61c9f83786"
+          },
+          "rx": {
+            "packets": 9600,
+            "unknown_packets": 0,
+            "matches_expected_multiplicity": true,
+            "sha256": "a2424ccdb11e8ddc2feb264b0f19b2667afa297e2606d9bd7c594f0ad2512dc3"
+          }
+        },
+        "receive_windows": {
+          "1": {
+            "Benign": 84
+          },
+          "2": {
+            "Benign": 100
+          },
+          "3": {
+            "Benign": 100
+          },
+          "4": {
+            "Benign": 100
+          },
+          "5": {
+            "Benign": 100
+          },
+          "6": {
+            "Benign": 100
+          },
+          "7": {
+            "Benign": 100
+          },
+          "8": {
+            "Benign": 100
+          },
+          "9": {
+            "Benign": 16
+          },
+          "11": {
+            "UDPFlood": 90
+          },
+          "12": {
+            "UDPFlood": 100
+          },
+          "13": {
+            "UDPFlood": 100
+          },
+          "14": {
+            "UDPFlood": 100
+          },
+          "15": {
+            "UDPFlood": 100
+          },
+          "16": {
+            "UDPFlood": 100
+          },
+          "17": {
+            "UDPFlood": 100
+          },
+          "18": {
+            "UDPFlood": 100
+          },
+          "19": {
+            "UDPFlood": 10
+          },
+          "21": {
+            "Benign": 90
+          },
+          "22": {
+            "Benign": 101
+          },
+          "23": {
+            "Benign": 100
+          },
+          "24": {
+            "Benign": 100
+          },
+          "25": {
+            "Benign": 100
+          },
+          "26": {
+            "Benign": 100
+          },
+          "27": {
+            "Benign": 100
+          },
+          "28": {
+            "Benign": 100
+          },
+          "29": {
+            "Benign": 9
+          },
+          "31": {
+            "SYNFlood": 90
+          },
+          "32": {
+            "SYNFlood": 100
+          },
+          "33": {
+            "SYNFlood": 100
+          },
+          "34": {
+            "SYNFlood": 100
+          },
+          "35": {
+            "SYNFlood": 100
+          },
+          "36": {
+            "SYNFlood": 100
+          },
+          "37": {
+            "SYNFlood": 100
+          },
+          "38": {
+            "SYNFlood": 100
+          },
+          "39": {
+            "SYNFlood": 10
+          },
+          "41": {
+            "Benign": 92
+          },
+          "42": {
+            "Benign": 100
+          },
+          "43": {
+            "Benign": 100
+          },
+          "44": {
+            "Benign": 100
+          },
+          "45": {
+            "Benign": 100
+          },
+          "46": {
+            "Benign": 100
+          },
+          "47": {
+            "Benign": 100
+          },
+          "48": {
+            "Benign": 100
+          },
+          "49": {
+            "Benign": 8
+          },
+          "51": {
+            "UDPFlood": 91
+          },
+          "52": {
+            "UDPFlood": 100
+          },
+          "53": {
+            "UDPFlood": 100
+          },
+          "54": {
+            "UDPFlood": 100
+          },
+          "55": {
+            "UDPFlood": 100
+          },
+          "56": {
+            "UDPFlood": 100
+          },
+          "57": {
+            "UDPFlood": 100
+          },
+          "58": {
+            "UDPFlood": 100
+          },
+          "59": {
+            "UDPFlood": 9
+          },
+          "61": {
+            "Benign": 85
+          },
+          "62": {
+            "Benign": 100
+          },
+          "63": {
+            "Benign": 100
+          },
+          "64": {
+            "Benign": 100
+          },
+          "65": {
+            "Benign": 100
+          },
+          "66": {
+            "Benign": 100
+          },
+          "67": {
+            "Benign": 100
+          },
+          "68": {
+            "Benign": 100
+          },
+          "69": {
+            "Benign": 15
+          },
+          "71": {
+            "SYNFlood": 89
+          },
+          "72": {
+            "SYNFlood": 100
+          },
+          "73": {
+            "SYNFlood": 100
+          },
+          "74": {
+            "SYNFlood": 100
+          },
+          "75": {
+            "SYNFlood": 100
+          },
+          "76": {
+            "SYNFlood": 100
+          },
+          "77": {
+            "SYNFlood": 100
+          },
+          "78": {
+            "SYNFlood": 100
+          },
+          "79": {
+            "SYNFlood": 11
+          },
+          "81": {
+            "Benign": 91
+          },
+          "82": {
+            "Benign": 100
+          },
+          "83": {
+            "Benign": 100
+          },
+          "84": {
+            "Benign": 100
+          },
+          "85": {
+            "Benign": 100
+          },
+          "86": {
+            "Benign": 100
+          },
+          "87": {
+            "Benign": 100
+          },
+          "88": {
+            "Benign": 100
+          },
+          "89": {
+            "Benign": 9
+          },
+          "91": {
+            "UDPFlood": 88
+          },
+          "92": {
+            "UDPFlood": 100
+          },
+          "93": {
+            "UDPFlood": 100
+          },
+          "94": {
+            "UDPFlood": 100
+          },
+          "95": {
+            "UDPFlood": 100
+          },
+          "96": {
+            "UDPFlood": 100
+          },
+          "97": {
+            "UDPFlood": 100
+          },
+          "98": {
+            "UDPFlood": 100
+          },
+          "99": {
+            "UDPFlood": 12
+          },
+          "101": {
+            "Benign": 88
+          },
+          "102": {
+            "Benign": 100
+          },
+          "103": {
+            "Benign": 100
+          },
+          "104": {
+            "Benign": 100
+          },
+          "105": {
+            "Benign": 100
+          },
+          "106": {
+            "Benign": 100
+          },
+          "107": {
+            "Benign": 100
+          },
+          "108": {
+            "Benign": 100
+          },
+          "109": {
+            "Benign": 12
+          },
+          "111": {
+            "SYNFlood": 88
+          },
+          "112": {
+            "SYNFlood": 100
+          },
+          "113": {
+            "SYNFlood": 100
+          },
+          "114": {
+            "SYNFlood": 100
+          },
+          "115": {
+            "SYNFlood": 100
+          },
+          "116": {
+            "SYNFlood": 100
+          },
+          "117": {
+            "SYNFlood": 100
+          },
+          "118": {
+            "SYNFlood": 100
+          },
+          "119": {
+            "SYNFlood": 12
+          }
+        },
+        "interpretation": "Actual forwarded full-packet evidence; not model accuracy"
+      },
+      "collector_run_id": "89d619d65efd4b5197b6eea68b42b638",
+      "research": {
+        "scenario": "baseline",
+        "seed": 42,
+        "trial_id": 1
+      },
+      "error": "Independent oracle integrity failed: {'packets': 9600, 'unknown': 1, 'kernel_drops': 0, 'late_packets': 0, 'windows': 1250}"
+    }
+  }
+]
