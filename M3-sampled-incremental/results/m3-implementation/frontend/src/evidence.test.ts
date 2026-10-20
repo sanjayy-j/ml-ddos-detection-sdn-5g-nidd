@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { compatibleRuns, formatMetric, paretoRuns, sourceName } from './evidence';
+import { compatibleRuns, formatMetric, overheadMetric, paretoRuns, sourceName } from './evidence';
 import type { RunSummary } from './types';
 import { fixtureRun } from './test-fixtures';
 
@@ -34,5 +34,26 @@ describe('scientific evidence handling', () => {
     const estimated = fixtureRun('estimate', 10, .99, .1);
     estimated.metrics.telemetry_bandwidth_kbps.status = 'estimated';
     expect([...paretoRuns([a, b, c, estimated], 'telemetry_bandwidth_kbps')]).toEqual(['b', 'c']);
+  });
+  it('combines only measured IP channels with matching scientific units', () => {
+    const run = fixtureRun();
+    run.metrics.sflow_bandwidth_kbit_s = { value: 1.5, unit: 'kbit/s', status: 'measured', reason: null };
+    run.metrics.openflow_bandwidth_kbit_s = { value: .5, unit: 'kbit/s', status: 'measured', reason: null };
+    expect(overheadMetric(run, 'combined_ip_bandwidth_kbit_s')?.value).toBe(2);
+    run.metrics.openflow_bandwidth_kbit_s.status = 'estimated';
+    expect(overheadMetric(run, 'combined_ip_bandwidth_kbit_s')?.status).toBe('unavailable');
+    run.metrics.openflow_bandwidth_kbit_s.status = 'measured';
+    run.metrics.openflow_bandwidth_kbit_s.unit = 'bytes/s';
+    expect(overheadMetric(run, 'combined_ip_bandwidth_kbit_s')?.status).toBe('unavailable');
+  });
+  it('uses combined IP costs without substituting legacy payload measurements', () => {
+    const a = fixtureRun('a', 1, .8, 1);
+    const b = fixtureRun('b', 2, .85, 100);
+    const missing = fixtureRun('missing', 5, .99, .01);
+    for (const [run, value] of [[a, 99], [b, 1]] as const) {
+      run.metrics.sflow_bandwidth_kbit_s = { value, unit: 'kbit/s', status: 'measured', reason: null };
+      run.metrics.openflow_bandwidth_kbit_s = { value: 1, unit: 'kbit/s', status: 'measured', reason: null };
+    }
+    expect([...paretoRuns([a, b, missing], 'combined_ip_bandwidth_kbit_s')]).toEqual(['b']);
   });
 });

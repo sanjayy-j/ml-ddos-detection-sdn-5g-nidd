@@ -7,10 +7,11 @@ import { Presentation, PresentationFile } from '@oai/artifact-tool';
 
 const root = process.cwd();
 const runtime = process.env.M3_ARTIFACT_RUNTIME || 'C:/Users/NITHIS/.cache/codex-runtimes/codex-primary-runtime/dependencies';
+process.env.RUNTIME_NODE_MODULES ||= path.join(runtime, 'node/node_modules');
 const skill = process.env.M3_PRESENTATION_SKILL || 'C:/Users/NITHIS/.codex/plugins/cache/openai-primary-runtime/presentations/26.1015.12040/skills/presentations';
 const analysis = path.join(root, 'output/research/analysis');
 const staging = path.join(root, 'tmp/research-deck');
-const finalPath = path.join(root, 'output/presentations/M3_Research_Presentation.pptx');
+const finalPath = path.join(root, 'output/presentations/M3_Research_Presentation_Reviewed.pptx');
 const { finalizePresentation, applyPresentationChartFont, resolvePresentationFont } = await import(
   pathToFileURL(path.join(skill, 'container_tools/artifact_tool_utils.mjs')).href);
 const read = async name => JSON.parse(await fs.readFile(path.join(analysis, name), 'utf8'));
@@ -30,13 +31,16 @@ const font = resolvePresentationFont({ fontFamily: 'Arial' });
 const deck = Presentation.create({ slideSize: { width: 1280, height: 720 } });
 const metric = (scenario, rate, key) => groups.get(`${scenario}:${rate}`).metrics[key];
 const fmt = (value, decimals = 3) => value == null ? 'Unavailable' : value.toFixed(decimals);
+// Preserve scientific values in the analysis; round only the presentation's
+// literal chart snapshots to a precision Excel can store without truncation.
+const chartValue = value => value == null ? null : Number(value.toPrecision(12));
 const totalCost = (scenario, rate) => metric(scenario, rate, 'sflow_bandwidth_kbit_s').mean + metric(scenario, rate, 'openflow_bandwidth_kbit_s').mean;
 
 function text(slide, value, left, top, width, height, size = 28, bold = false, color = '#253544') {
   const shape = slide.shapes.add({ geometry: 'textbox', position: { left, top, width, height },
     fill: 'none', line: { fill: 'none', width: 0, style: 'solid' } });
   shape.text = value;
-  shape.text.style = { fontFamily: font, fontSize: size, bold, color };
+  shape.text.style = { typeface: font, fontSize: size, bold, color };
   return shape;
 }
 function slide(title, notes) {
@@ -60,7 +64,7 @@ function chart(slide, key, label, options = {}) {
     lineOptions: { smooth: false },
     categories: rates.map(String),
     series: scenarios.map((scenario, index) => ({ name: scenario[0].toUpperCase() + scenario.slice(1),
-      values: rates.map(rate => metric(scenario, rate, key).mean),
+      values: rates.map(rate => chartValue(metric(scenario, rate, key).mean)),
       smooth: false,
       line: { fill: palette[index], width: 3, style: 'solid' },
       marker: { symbol: 'circle', size: 7, fill: palette[index] } })),
@@ -110,13 +114,15 @@ chart(slide('False positives remain visible'), 'false_positive_rate', 'False-pos
     return `${scenario[0].toUpperCase() + scenario.slice(1)}\n${delays.join('     ')}`;
   });
   body(page, lines, 155);
-  text(page, 'Undetected episodes are censored, never zero. Recovery uses a fixed balanced-accuracy criterion.', 72, 565, 1128, 62, 25, false, '#596875');
+  const recovery = metric('drift', 2, 'post_drift_recovery_seconds');
+  text(page, `Drift recovery at N=2: ${fmt(recovery.mean)} s, ${recovery.n}/3 recovered with the fixed criterion.`, 72, 510, 1128, 45, 25);
+  text(page, 'First post-warm-up attack episode. Means include detections only; misses are censored, never zero.', 72, 565, 1128, 62, 25, false, '#596875');
 }
 {
   const page = slide('Previously held-out SYN family');
   const result = page.charts.add('bar', {
     position: { left: 70, top: 165, width: 1130, height: 410 }, categories: rates.map(String),
-    series: [{ name: 'SYN recall', values: rates.map(rate => metric('unseen', rate, 'unseen_attack_recall').mean), fill: palette[2] }],
+    series: [{ name: 'SYN recall', values: rates.map(rate => chartValue(metric('unseen', rate, 'unseen_attack_recall').mean)), fill: palette[2] }],
     barOptions: { direction: 'column', grouping: 'clustered' }, hasLegend: false,
     yAxis: { title: 'Held-out family recall', min: 0, max: 1, numberFormatCode: '0%', textStyle: { fontSize: 23 } },
     xAxis: { title: 'Switch sampling denominator N', textStyle: { fontSize: 23 } },
@@ -148,7 +154,7 @@ for (const [index, page] of deck.slides.items.entries()) {
   const png = await deck.export({ slide: page, format: 'png', scale: 1 });
   await fs.writeFile(path.join(staging, `slide-${String(index + 1).padStart(2, '0')}.png`), new Uint8Array(await png.arrayBuffer()));
 }
-const candidatePath = path.join(staging, 'candidate.pptx');
+const candidatePath = path.join(staging, 'candidate-reviewed-v6.pptx');
 await (await PresentationFile.exportPptx(deck)).save(candidatePath);
 const result = await finalizePresentation({
   workspaceDir: root, candidatePath, finalPath,
@@ -160,6 +166,6 @@ const result = await finalizePresentation({
   fontPolicy: { basis: 'design', families: [font] },
   materializeLiteralChartWorkbooks: true,
   verifyArtifactToolImport: true,
-  receiptPath: path.join(staging, 'validation.json'),
+  receiptPath: path.join(staging, 'validation-reviewed.json'),
 });
 console.log(JSON.stringify({ slides: deck.slides.items.length, finalPath, result }));

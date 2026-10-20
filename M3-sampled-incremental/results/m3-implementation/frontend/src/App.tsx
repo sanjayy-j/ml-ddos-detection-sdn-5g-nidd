@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getOverview, getRun, getRuns, getSeries } from './api';
-import { compatibleRuns, formatMetric, metricValue, modeName, paretoRuns, sourceName } from './evidence';
+import { compatibleRuns, formatMetric, metricValue, modeName, overheadMetric, paretoRuns, sourceName } from './evidence';
 import type { Metric, Overview, RunSummary, Series } from './types';
 
 const POLL_MS = 3000;
@@ -57,27 +57,29 @@ function Timeline({ series, unit, threshold }: { series: Series; unit: string; t
 
 function Tradeoff({ runs, selectedId }: { runs: RunSummary[]; selectedId: string }) {
   const [costKey, setCostKey] = useState(() => runs.some(run =>
+    overheadMetric(run, 'combined_ip_bandwidth_kbit_s')?.status === 'measured')
+    ? 'combined_ip_bandwidth_kbit_s' : runs.some(run =>
     run.metrics.telemetry_bandwidth_kbps?.status === 'measured' && metricValue(run.metrics.telemetry_bandwidth_kbps) !== null)
     ? 'telemetry_bandwidth_kbps' : 'cpu_percent_mean');
   const frontier = useMemo(() => paretoRuns(runs, costKey), [runs, costKey]);
-  const available = runs.filter(run => run.metrics.f1?.status === 'measured' && run.metrics[costKey]?.status === 'measured' && metricValue(run.metrics.f1) !== null && metricValue(run.metrics[costKey]) !== null);
-  const costName = costKey === 'telemetry_bandwidth_kbps' ? 'Telemetry bandwidth (kbit/s)' : 'Detector CPU (%)';
+  const available = runs.filter(run => run.metrics.f1?.status === 'measured' && overheadMetric(run, costKey)?.status === 'measured' && metricValue(run.metrics.f1) !== null && metricValue(overheadMetric(run, costKey)) !== null);
+  const costName = costKey === 'combined_ip_bandwidth_kbit_s' ? 'Combined IP bandwidth (kbit/s)' : costKey === 'telemetry_bandwidth_kbps' ? 'Legacy payload bandwidth (kbit/s)' : 'Detector CPU (%)';
   const w = 480, h = 240, left = 55, right = 30, top = 20, bottom = 45;
-  const maxCost = Math.max(1, ...available.map(run => metricValue(run.metrics[costKey])!)) * 1.1;
+  const maxCost = Math.max(1, ...available.map(run => metricValue(overheadMetric(run, costKey))!)) * 1.1;
   const x = (c: number) => left + c / maxCost * (w - left - right);
   const y = (q: number) => top + (1 - q) * (h - top - bottom);
   return <>
-    <label className="inline-control" htmlFor="cost-axis">Overhead measure<select id="cost-axis" value={costKey} onChange={e => setCostKey(e.target.value)}><option value="telemetry_bandwidth_kbps">Telemetry bandwidth</option><option value="cpu_percent_mean">Detector CPU</option></select></label>
+    <label className="inline-control" htmlFor="cost-axis">Overhead measure<select id="cost-axis" value={costKey} onChange={e => setCostKey(e.target.value)}><option value="combined_ip_bandwidth_kbit_s">Combined IP bandwidth</option><option value="telemetry_bandwidth_kbps">Legacy payload bandwidth</option><option value="cpu_percent_mean">Detector CPU</option></select></label>
     {available.length ? <>
       <svg className="tradeoff-svg" viewBox={`0 0 ${w} ${h}`} role="img" aria-label={`${available.length} compatible measured trials comparing F1 and ${costName}. ${frontier.size} Pareto-efficient trials.`}>
         {[0, .25, .5, .75, 1].map(q => <g key={q}><line className="grid-line" x1={left} y1={y(q)} x2={w - right} y2={y(q)} /><text className="axis-label" x={left - 10} y={y(q) + 4} textAnchor="end">{Math.round(q * 100)}%</text></g>)}
         {[0, .5, 1].map(c => <text key={c} className="axis-label" x={x(c * maxCost)} y={h - bottom + 20} textAnchor="middle">{(c * maxCost).toFixed(1)}</text>)}
-        {available.map(run => <g key={run.run_id}><circle cx={x(metricValue(run.metrics[costKey])!)} cy={y(metricValue(run.metrics.f1)!)} r={run.run_id === selectedId ? 7 : 5} className={frontier.has(run.run_id) ? 'pareto-point' : 'comparison-point'}><title>{`${run.run_id}: N=${run.sampling_rate}, F1 ${formatMetric('f1', run.metrics.f1)}, cost ${formatMetric(costKey, run.metrics[costKey])}${frontier.has(run.run_id) ? ', Pareto efficient' : ''}`}</title></circle><text className="point-label" x={x(metricValue(run.metrics[costKey])!) + 9} y={y(metricValue(run.metrics.f1)!) - 7}>N={run.sampling_rate}</text></g>)}
+        {available.map(run => <g key={run.run_id}><circle cx={x(metricValue(overheadMetric(run, costKey))!)} cy={y(metricValue(run.metrics.f1)!)} r={run.run_id === selectedId ? 7 : 5} className={frontier.has(run.run_id) ? 'pareto-point' : 'comparison-point'}><title>{`${run.run_id}: N=${run.sampling_rate}, F1 ${formatMetric('f1', run.metrics.f1)}, cost ${formatMetric(costKey, overheadMetric(run, costKey))}${frontier.has(run.run_id) ? ', Pareto efficient' : ''}`}</title></circle><text className="point-label" x={x(metricValue(overheadMetric(run, costKey))!) + 9} y={y(metricValue(run.metrics.f1)!) - 7}>N={run.sampling_rate}</text></g>)}
         <text className="axis-title" x={w / 2} y={h - 4} textAnchor="middle">{costName} · lower is better</text>
       </svg>
       <div className="chart-legend"><span><i className="legend-dot pareto" />Pareto efficient</span><span><i className="legend-dot comparison" />Other measured trials</span></div>
     </> : <div className="chart-empty compact"><h3>Trade-off evidence pending</h3><p>At least one completed trial with measured F1 and {costName.toLowerCase()} is required.</p></div>}
-    <p className="chart-note">Only completed trials matching this run's source, mode, scenario, feature schema, dataset checksum, and model settings are compared. Estimated or unavailable costs are excluded.</p>
+    <p className="chart-note">Only compatible completed trials with measured costs are compared. Combined IP bandwidth sums measured sFlow and OpenFlow IP-layer bytes in kbit/s. Dots are individual trials; the report's frontier uses three-trial cell means.</p>
   </>;
 }
 
@@ -85,8 +87,9 @@ const detailMetrics: [string, string][] = [
   ['roc_auc', 'ROC-AUC'], ['false_positive_rate', 'False-positive rate'], ['detection_time_seconds', 'Detection time'],
   ['packets_to_detect', 'Packets to detect'], ['unseen_attack_recall', 'Unseen-attack recall'], ['post_drift_recovery_seconds', 'Post-drift recovery'],
   ['cpu_percent_mean', 'Detector CPU · mean'], ['cpu_percent_p95', 'Detector CPU · p95'], ['controller_cpu_percent_mean', 'Controller CPU · mean'],
-  ['controller_cpu_percent_p95', 'Controller CPU · p95'], ['telemetry_bandwidth_kbps', 'Telemetry bandwidth'],
-  ['openflow_bandwidth_kbps', 'OpenFlow bandwidth'], ['flow_table_entries', 'Flow-table entries'],
+  ['controller_cpu_percent_p95', 'Controller CPU · p95'], ['sflow_bandwidth_kbit_s', 'sFlow IP-layer bandwidth'],
+  ['openflow_bandwidth_kbit_s', 'OpenFlow IP-layer bandwidth'], ['telemetry_bandwidth_kbps', 'Legacy telemetry payload bandwidth'],
+  ['openflow_bandwidth_kbps', 'Legacy OpenFlow frame bandwidth'], ['flow_table_entries', 'Flow-table entries'],
 ];
 
 export default function App() {
@@ -138,6 +141,7 @@ export default function App() {
     return () => { controller.abort(); clearTimeout(timer); };
   }, [selectedId, autoRefresh, refreshKey]);
 
+  const comparisonCostKey = selected?.source === 'official_realtime_verified' ? 'combined_ip_bandwidth_kbit_s' : 'telemetry_bandwidth_kbps';
   const comparisons = useMemo(() => selected ? compatibleRuns(runs, selected).sort((a, b) => a.sampling_rate - b.sampling_rate || a.seed - b.seed) : [], [runs, selected]);
   return <>
     <a className="skip-link" href="#main">Skip to experiment results</a>
@@ -158,8 +162,8 @@ export default function App() {
           {selected.status === 'failed' && <div className="error-banner" role="alert"><strong>This run failed.</strong><span>{selected.error || 'No error detail was saved.'}</span></div>}
           <section className="metric-grid" aria-label="Detection metrics"><MetricCard name="Precision" metricKey="precision" metric={selected.metrics.precision} caption="How often attack predictions are correct" /><MetricCard name="Recall" metricKey="recall" metric={selected.metrics.recall} caption="Share of labeled attacks detected" /><MetricCard name="F1 score" metricKey="f1" metric={selected.metrics.f1} caption="Balance of precision and recall" /><MetricCard name="Inference latency" metricKey="inference_latency_ms" metric={selected.metrics.inference_latency_ms} caption="Average time per prediction" /></section>
           <section className="panel timeline-panel"><div className="panel-heading"><div><span className="eyebrow">DETECTION THROUGH TIME</span><h2>Adaptive learning timeline</h2></div><Badge>{number(selected.drift_count)} drift {selected.drift_count === 1 ? 'alarm' : 'alarms'}</Badge></div><Timeline series={series} unit={selected.unit} threshold={typeof selected.config.threshold === 'number' ? selected.config.threshold : .5} /></section>
-          <div className="analysis-grid"><section className="panel"><div className="panel-heading"><div><span className="eyebrow">ACCURACY × OVERHEAD</span><h2>Sampling trade-off</h2></div></div><Tradeoff runs={comparisons} selectedId={selected.run_id} /></section><section className="panel"><div className="panel-heading"><div><span className="eyebrow">STREAM ACCOUNTING</span><h2>Every observation accounted for</h2></div></div><dl className="count-list">{Object.entries(selected.counts).map(([key, value]) => <div key={key}><dt>{key.replaceAll('_', ' ')}</dt><dd>{number(value)}</dd></div>)}</dl><div className="account-note">Input and sampling counts are recorded independently from evaluated labels. Warm-up, exclusions, and unlabeled records are retained in the evidence.</div></section></div>
-          <section className="panel"><div className="panel-heading"><div><span className="eyebrow">COMPATIBLE COMPLETED TRIALS</span><h2>Sampling comparison</h2></div><Badge>{comparisons.length} trials</Badge></div><div className="table-scroll"><table><caption className="sr-only">Individual compatible trials; no implicit averaging of repeated trials.</caption><thead><tr><th scope="col">Run / seed</th><th scope="col">Sampling</th><th scope="col">F1</th><th scope="col">Recall</th><th scope="col">CPU mean</th><th scope="col">Telemetry</th><th scope="col">Drift alarms</th></tr></thead><tbody>{comparisons.map(run => <tr key={run.run_id} className={run.run_id === selected.run_id ? 'selected-row' : ''}><th scope="row"><button className="run-link" onClick={() => setSelectedId(run.run_id)}>{run.run_id}</button><small>Seed {run.seed}</small></th><td><Badge>1 / {run.sampling_rate}</Badge></td>{['f1', 'recall', 'cpu_percent_mean', 'telemetry_bandwidth_kbps'].map(key => <td key={key}>{formatMetric(key, run.metrics[key])}{run.metrics[key]?.status === 'estimated' && <small>estimated</small>}</td>)}<td>{run.drift_count}</td></tr>)}{!comparisons.length && <tr><td colSpan={7}>No compatible completed trials yet.</td></tr>}</tbody></table></div></section>
+          <div className="analysis-grid"><section className="panel"><div className="panel-heading"><div><span className="eyebrow">ACCURACY × OVERHEAD</span><h2>Sampling trade-off</h2></div></div><Tradeoff key={[selected.source, selected.mode, selected.scenario, selected.feature_schema].join(':')} runs={comparisons} selectedId={selected.run_id} /></section><section className="panel"><div className="panel-heading"><div><span className="eyebrow">STREAM ACCOUNTING</span><h2>Every observation accounted for</h2></div></div><dl className="count-list">{Object.entries(selected.counts).map(([key, value]) => <div key={key}><dt>{key.replaceAll('_', ' ')}</dt><dd>{number(value)}</dd></div>)}</dl><div className="account-note">Input and sampling counts are recorded independently from evaluated labels. Warm-up, exclusions, and unlabeled records are retained in the evidence.</div></section></div>
+          <section className="panel"><div className="panel-heading"><div><span className="eyebrow">COMPATIBLE COMPLETED TRIALS</span><h2>Sampling comparison</h2></div><Badge>{comparisons.length} trials</Badge></div><div className="table-scroll"><table><caption className="sr-only">Individual compatible trials; no implicit averaging of repeated trials.</caption><thead><tr><th scope="col">Run / seed</th><th scope="col">Sampling</th><th scope="col">F1</th><th scope="col">Recall</th><th scope="col">CPU mean</th><th scope="col">{comparisonCostKey === 'combined_ip_bandwidth_kbit_s' ? 'IP channel total' : 'Legacy payload'}</th><th scope="col">Drift alarms</th></tr></thead><tbody>{comparisons.map(run => <tr key={run.run_id} className={run.run_id === selected.run_id ? 'selected-row' : ''}><th scope="row"><button className="run-link" onClick={() => setSelectedId(run.run_id)}>{run.run_id}</button><small>Seed {run.seed}</small></th><td><Badge>1 / {run.sampling_rate}</Badge></td>{['f1', 'recall', 'cpu_percent_mean', comparisonCostKey].map(key => <td key={key}>{formatMetric(key, overheadMetric(run, key))}{overheadMetric(run, key)?.status === 'estimated' && <small>estimated</small>}</td>)}<td>{run.drift_count}</td></tr>)}{!comparisons.length && <tr><td colSpan={7}>No compatible completed trials yet.</td></tr>}</tbody></table></div></section>
           <div className="analysis-grid details-grid"><section className="panel"><div className="panel-heading"><div><span className="eyebrow">METRIC EVIDENCE</span><h2>Measurements & limitations</h2></div></div><div className="evidence-list">{detailMetrics.map(([key, label]) => <div key={key}><div><strong>{label}</strong><small>{metricValue(selected.metrics[key]) === null ? selected.metrics[key]?.reason || 'No measurement saved.' : selected.metrics[key]?.reason || selected.metrics[key]?.status}</small></div><span>{formatMetric(key, selected.metrics[key])}</span></div>)}</div></section><section className="panel"><div className="panel-heading"><div><span className="eyebrow">ADWIN / HAT</span><h2>Drift event log</h2></div></div>{series.drift.length ? <ol className="drift-log">{series.drift.map((event, i) => <li key={`${event.index}-${i}`}><span className="event-dot" /><div><strong>{event.event.replaceAll('_', ' ')}</strong><p>{event.detector} · observation {event.index}</p><small>{timeLabel(event.time)}</small></div></li>)}</ol> : <div className="chart-empty compact"><h3>No drift events saved</h3><p>Absence of an alarm does not establish absence of a distribution change.</p></div>}<details className="config-details"><summary>Run configuration and provenance</summary><pre>{JSON.stringify(selected.config, null, 2)}</pre></details></section></div>
         </>}
       </>}

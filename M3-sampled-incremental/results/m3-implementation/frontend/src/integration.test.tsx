@@ -62,4 +62,21 @@ describe.skipIf(!apiBase)('real local experiment evidence', () => {
     expect(screen.getByText(/Its results do not establish performance on official/)).toBeInTheDocument();
     expect(screen.queryByText('Official 5G-NIDD')).not.toBeInTheDocument();
   }, 20000);
+
+  it('renders an accepted official realtime trial with the paper-compatible IP cost', async () => {
+    connect();
+    const runs = await getRuns();
+    const official = runs.find(run => run.source === 'official_realtime_verified' &&
+      run.status === 'completed' && run.validation?.accepted === true);
+    expect(official).toBeDefined();
+    render(<App />);
+    const select = await screen.findByLabelText('Selected run', {}, { timeout: 10000 });
+    fireEvent.change(select, { target: { value: official!.run_id } });
+    await waitFor(() => expect(screen.getAllByText('Validated official live trial').length).toBeGreaterThan(0), { timeout: 10000 });
+    expect(await screen.findByRole('img', { name: /Prediction timeline/ })).toBeInTheDocument();
+    expect(screen.getByLabelText('Overhead measure')).toHaveValue('combined_ip_bandwidth_kbit_s');
+    expect(screen.getByRole('columnheader', { name: 'IP channel total' })).toBeInTheDocument();
+    expect(screen.getByText('sFlow IP-layer bandwidth')).toBeInTheDocument();
+    expect(screen.getByText('OpenFlow IP-layer bandwidth')).toBeInTheDocument();
+  }, 20000);
 });

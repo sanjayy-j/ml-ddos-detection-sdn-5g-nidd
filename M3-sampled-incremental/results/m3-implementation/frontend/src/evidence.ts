@@ -20,6 +20,18 @@ export function sourceName(source: string) {
 export function modeName(mode: RunSummary['mode']) {
   return { csv_replay: 'CSV flow replay', pcap_replay: 'Packet capture replay', live_sflow: 'Live sFlow' }[mode];
 }
+export function overheadMetric(run: RunSummary, key: string): Metric | undefined {
+  if (key !== 'combined_ip_bandwidth_kbit_s') return run.metrics[key];
+  const channels = [run.metrics.sflow_bandwidth_kbit_s, run.metrics.openflow_bandwidth_kbit_s];
+  const values = channels.map(metricValue);
+  if (channels.some(metric => metric?.status !== 'measured' || metric.unit !== 'kbit/s') ||
+      values.some(value => value === null || value < 0)) {
+    return { value: null, unit: 'kbit/s', status: 'unavailable', reason: 'Both IP-layer channels must be measured in kbit/s.' };
+  }
+  const value = values.reduce<number>((sum, item) => sum + item!, 0);
+  return Number.isFinite(value) ? { value, unit: 'kbit/s', status: 'measured', reason: null }
+    : { value: null, unit: 'kbit/s', status: 'unavailable', reason: 'Nonfinite combined channel cost.' };
+}
 export function compatibleRuns(runs: RunSummary[], selected: RunSummary): RunSummary[] {
   if (selected.source === 'provisional_realtime') return [];
   const settings = ['threshold', 'grace_period', 'drift_delta', 'window_seconds', 'warmup_records', 'warmup_seconds', 'max_records', 'duration_seconds', 'replay_pps', 'label_delay_seconds'];
@@ -32,11 +44,11 @@ export function compatibleRuns(runs: RunSummary[], selected: RunSummary): RunSum
     signature(run) === signature(selected));
 }
 export function paretoRuns(runs: RunSummary[], costKey: string): Set<string> {
-  const measured = runs.filter(run => run.metrics.f1?.status === 'measured' && run.metrics[costKey]?.status === 'measured' &&
-    metricValue(run.metrics.f1) !== null && metricValue(run.metrics[costKey]) !== null);
+  const measured = runs.filter(run => run.metrics.f1?.status === 'measured' && overheadMetric(run, costKey)?.status === 'measured' &&
+    metricValue(run.metrics.f1) !== null && metricValue(overheadMetric(run, costKey)) !== null);
   return new Set(measured.filter(run => !measured.some(other => {
-    const q = metricValue(run.metrics.f1)!; const c = metricValue(run.metrics[costKey])!;
-    const oq = metricValue(other.metrics.f1)!; const oc = metricValue(other.metrics[costKey])!;
+    const q = metricValue(run.metrics.f1)!; const c = metricValue(overheadMetric(run, costKey))!;
+    const oq = metricValue(other.metrics.f1)!; const oc = metricValue(overheadMetric(other, costKey))!;
     return oq >= q && oc <= c && (oq > q || oc < c);
   })).map(run => run.run_id));
 }

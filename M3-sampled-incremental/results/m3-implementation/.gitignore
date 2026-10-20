@@ -8,6 +8,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .coverage
+.chart-data-*/
 *.egg-info/
 frontend/node_modules/
 frontend/dist/
@@ -21,6 +22,7 @@ output/sdn/
 output/pdf/
 output/presentations/
 output/research/
+output/published-study/
 *.pcap
 *.pcapng
 *.log

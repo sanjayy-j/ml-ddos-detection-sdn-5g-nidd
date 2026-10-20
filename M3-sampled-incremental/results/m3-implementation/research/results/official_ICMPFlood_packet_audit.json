@@ -1,0 +1,75 @@
+{
+  "schema": "packet-label-coverage-v1",
+  "purpose": "Full original-stream label coverage; not sampled/model accuracy evidence",
+  "evidence_scope": "manifest_verified_inputs",
+  "status": "complete",
+  "complete": true,
+  "max_packets": null,
+  "cap_reached": false,
+  "counts": {
+    "matched_benign": 294232,
+    "matched_flood": 1079,
+    "unmatched_key": 0,
+    "unmatched_time": 5516,
+    "conflicting_label_overlap": 0,
+    "invalid_or_nonjoinable_header": 12840
+  },
+  "total_packets": 313667,
+  "min_timestamp_epoch": 1661514820.459396,
+  "max_timestamp_epoch": 1661516603.9336433,
+  "timestamp_order_errors": 0,
+  "error": null,
+  "label_rows": 14452,
+  "unjoinable_label_rows": 10278,
+  "joinable_label_rows_by_family": {
+    "Benign": 3632,
+    "ICMPFlood": 542
+  },
+  "matching_rule": "Existing FlowLabels bidirectional numeric tuple/protocol and interval match; unchanged IntervalIndex default 0.000001-second tolerance; ICMP uses endpoints/protocol/time, not guessed ports. Mixed benign/flood overlaps are unknown; overlapping positive families are matched as mixed_flood.",
+  "coverage_interpretation": "Coverage is descriptive only: unknowns are not benign, and complete means the stream was scanned, not that label quality passed any threshold.",
+  "provenance": {
+    "capture": {
+      "dataset": "5G-NIDD",
+      "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+      "path": "data/raw/BS2 GTP removed/BS2 GTP removed/ICMPflood_BS2_nogtp.pcapng",
+      "sha256": "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+      "verification_status": "verified",
+      "size_bytes": 357380160,
+      "download_url": "https://etsin.fairdata.fi/api/download/authorize",
+      "official_filename": "BS2 GTP removed.zip",
+      "official_file_id": "febf9c06-c513-4d8f-b064-c60c8c6b0198",
+      "official_path": "/BS2 GTP removed.zip",
+      "parent_sha256": "a155cefbe18ec565ac447e5bc1f9faf1b9dc65d565e077c6263a3055a72638d3",
+      "transformations": [
+        "ZIP extraction only; member bytes unchanged"
+      ]
+    },
+    "labels": {
+      "dataset": "5G-NIDD",
+      "doi": "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361",
+      "path": "data/prepared/BS2_ICMPFlood_flow_labels.csv",
+      "sha256": "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38",
+      "size_bytes": 1287402,
+      "verification_status": "verified",
+      "download_url": "https://etsin.fairdata.fi/dataset/9d13ef28-2ca7-44b0-9950-225359afac65",
+      "parent_sha256s": [
+        "82f0da146d9416956c2dd9f8209dba39477bee955d2a1b63d6878a3342cc1e9f",
+        "e274de7cd5fc1b593c2773a9a56e8d3b80d67801839dcbbef02a0b1a91340af3"
+      ],
+      "transformations": [
+        "ra -n -u numeric/time export",
+        "one-to-one Offset join with endpoint/protocol/count/duration/time consistency checks"
+      ],
+      "label_scope": "Flow intervals only; packet coverage and overlap conflicts still require validation"
+    }
+  },
+  "matched_packets": 295311,
+  "unknown_packets": 18356,
+  "match_coverage": 0.9414793395543681,
+  "matched_packets_by_family": {
+    "Benign": 294232,
+    "ICMPFlood": 1079
+  },
+  "mixed_flood_family_sets": {},
+  "counts_reconcile": true
+}

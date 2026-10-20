@@ -38,4 +38,18 @@ describe('experiment dashboard', () => {
     await waitFor(() => expect(api.getRun).toHaveBeenCalledWith('trial-b', expect.any(AbortSignal)));
     await waitFor(() => expect(screen.getByLabelText('Selected run')).toHaveValue('trial-b'));
   });
+  it('uses the paper-compatible IP cost for validated live comparisons', async () => {
+    const run = fixtureRun('verified-live');
+    run.source = 'official_realtime_verified'; run.mode = 'live_sflow'; run.unit = 'window';
+    run.validation = { accepted: true };
+    run.metrics.sflow_bandwidth_kbit_s = { value: 20, unit: 'kbit/s', status: 'measured', reason: null };
+    run.metrics.openflow_bandwidth_kbit_s = { value: 2, unit: 'kbit/s', status: 'measured', reason: null };
+    vi.mocked(api.getRuns).mockResolvedValue([run]);
+    vi.mocked(api.getRun).mockResolvedValue(run);
+    render(<App />);
+    expect(await screen.findByText('sFlow IP-layer bandwidth')).toBeInTheDocument();
+    expect(screen.getByLabelText('Overhead measure')).toHaveValue('combined_ip_bandwidth_kbit_s');
+    expect(screen.getByRole('columnheader', { name: 'IP channel total' })).toBeInTheDocument();
+    expect(screen.getByText('22 kbit/s')).toBeInTheDocument();
+  });
 });

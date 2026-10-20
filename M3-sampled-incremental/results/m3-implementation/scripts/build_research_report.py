@@ -153,11 +153,17 @@ def write_publication(analysis, runs, destination):
         "# Data attribution\n\nDerived from the official 5G-NIDD release by Samarakoon et al.\n"
         "Release DOI: https://doi.org/10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\n"
         "Upstream licence: Creative Commons Attribution 4.0.\n"
+        "Licence terms: https://creativecommons.org/licenses/by/4.0/\n"
         "Changes: exact packet selection, Ethernet MAC rewriting, constructed equal-rate timing,\n"
         "live switch sampling, window feature extraction and derived measurements.\n"
         "This archive contains derived window evidence and hashes, not original packet payloads.\n"
         "The separate frozen annotation archive contains derived flow labels, packet mappings and hashes.\n"
         "No endorsement by the dataset authors is implied.\n", encoding="utf-8")
+    # Match the repository's LF checkout policy so release checksums remain valid
+    # on Windows and Linux. This changes formatting, not measurement values.
+    for path in destination.iterdir():
+        if path.suffix.lower() in {".json", ".csv", ".md"}:
+            path.write_text(path.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
 
 
 def manuscript(groups, runs, analysis, figures):
@@ -204,6 +210,18 @@ def manuscript(groups, runs, analysis, figures):
     methods = methods[methods.index("## Fixed protocol"):]
     text.append(re.sub(r"^## ", "### ", methods, flags=re.MULTILINE))
     text += ["## 4. Results", "### 4.1 Detection quality"]
+    for scenario in SCENARIOS:
+        best = max(RATES, key=lambda rate: metric(groups[(scenario, rate)], "f1")["mean"])
+        group = groups[(scenario, best)]
+        base = groups[(scenario, 1)]
+        cost = lambda item: sum(metric(item, key)["mean"] for key in (
+            "sflow_bandwidth_kbit_s", "openflow_bandwidth_kbit_s"))
+        reduction = 100 * (1 - cost(group) / cost(base))
+        text.append(f"{scenario.title()}: the highest cell-mean attack F1 occurs at N={best} "
+                    f"({metric(group, 'f1')['mean']:.3f}), with false-positive rate "
+                    f"{metric(group, 'false_positive_rate')['mean']:.3f} and "
+                    f"{reduction:.2f}% lower combined channel bandwidth than N=1. "
+                    "This is an observed cell ranking, not an independent optimum or significance test.")
     for scenario in SCENARIOS:
         text += [f"#### {scenario.title()}",
                  "| N | Precision | Recall | F1 mean +/- SD | ROC-AUC | FPR |",
@@ -257,7 +275,7 @@ def manuscript(groups, runs, analysis, figures):
     text += ["![Measured sFlow IP-layer bandwidth](figures/bandwidth_vs_sampling.png)",
              "![Detector CPU across the whole measurement interval](figures/cpu_vs_sampling.png)",
              "### 4.3 Physical alerts and constructed shift recovery",
-             "| Scenario | N | Delay mean (s) | Detected /3 | Original packets to alert | Recovery mean (s) | Recovered /3 |",
+             "| Scenario | N | First-episode delay (s) | Detected /3 | Original packets to alert | Recovery mean (s) | Recovered /3 |",
              "|---|---|---|---|---|---|---|"]
     for scenario in SCENARIOS:
         for rate in RATES:
@@ -266,11 +284,23 @@ def manuscript(groups, runs, analysis, figures):
             text.append(f"| {scenario} | {rate} | {number(delay.get('mean'))} | {delay.get('n', 0)}/3 | "
                         f"{number(metric(group, 'packets_to_detect').get('mean'), 1)} | "
                         f"{number(recovery.get('mean'))} | {recovery.get('n', 0)}/3 |")
-    text += [("NA retains censored or inapplicable outcomes. Delay means condition on observed detection "
+    text += [("Delay and packets-to-alert summarize the first post-warm-up attack episode per trial. "
+             "NA retains censored or inapplicable outcomes. Delay means condition on observed detection "
              "and must be read together with the detected count; they are not average delays with "
              "misses assigned zero. Recovery applies only to the declared drift scenario. Per-episode "
              "packet counts, misses and false alarms remain in each run's research_metrics."),
-             "### 4.4 Paired uncertainty, ablations and window sensitivity"]
+             ("The following counts are external ADWIN prediction-error alarms during evaluation "
+              "in the constructed drift scenario. An alarm does not itself establish an attack or "
+              "a HAT internal branch replacement; internal adaptation events were not instrumented."),
+             "| N | External alarms in trials 1, 2, 3 | Mean count |",
+             "|---|---|---|"]
+    for rate in RATES:
+        selected = sorted((run for _, run in runs
+                           if run["scenario"] == "drift" and run["sampling_rate"] == rate),
+                          key=lambda run: run["config"]["trial_id"])
+        alarms = [run["drift_count"] for run in selected]
+        text.append(f"| {rate} | {', '.join(str(value) for value in alarms)} | {mean(alarms):.2f} |")
+    text.append("### 4.4 Paired uncertainty, ablations and window sensitivity")
     paired = json.loads((Path(analysis) / "paired_deltas.json").read_text())
     for result in paired:
         if result.get("sampling_rate") != 50:
@@ -287,7 +317,7 @@ def manuscript(groups, runs, analysis, figures):
     text += ["| Scenario | N | HAT F1 | HT F1 | Warm-up majority F1 | One-second HAT F1 |",
              "|---|---|---|---|---|---|"]
     for scenario in SCENARIOS:
-        for rate in (1, 50):
+        for rate in (1, 2, 50):
             selected = [(directory, run) for directory, run in runs
                         if run["scenario"] == scenario and run["sampling_rate"] == rate]
             values = []
@@ -325,6 +355,13 @@ def manuscript(groups, runs, analysis, figures):
              "assume. N=1 is not full PacketIn mirroring, and M1/M2 are outside scope. CPU and latency "
              "reflect this instrumented software testbed, not physical switch or 5G capacity. Human "
              "review must assess whether the bounded findings provide sufficient novelty for a venue."),
+             ("The primary sampling curve is non-monotonic: observing every eligible header does "
+             "not yield the strongest classifier here. Export batching, feature timing and the "
+             "online learner's state are plausible explanations, but this design does not isolate "
+             "their causal effects. The nonadaptive-tree ablation and one-second sensitivity show "
+             "that conclusions depend on the learner and observation schedule. No general HAT "
+             "adaptation advantage follows from the primary F1 ranking. Even the strongest cells "
+             "retain material false positives, so the study does not establish production readiness."),
              "## 6. Reproducibility and completion evidence",
              ("The repository includes the frozen protocol, preparation code, provenance manifest, "
              "resumable trial runner, analysis, tests and this report generator. The derived evidence "
@@ -342,20 +379,20 @@ def manuscript(groups, runs, analysis, figures):
              "or guaranteed publication acceptance."),
              "## References",
              ("[1] S. Samarakoon et al. 5G-NIDD: A Comprehensive Network Intrusion Detection Dataset "
-             "Generated over 5G Wireless Network. arXiv:2212.01298,2022. https://arxiv.org/abs/2212.01298"),
+             "Generated over 5G Wireless Network. arXiv:2212.01298, 2022. https://arxiv.org/abs/2212.01298"),
              ("[2] A. Bifet and R. Gavalda. Learning from Time-Changing Data with Adaptive Windowing. "
-             "SDM2007,443-448. https://doi.org/10.1137/1.9781611972771.42"),
-             ("[3] A. Bifet and R. Gavalda. Adaptive Learning from Evolving Data Streams. IDA2009. "
+             "SDM 2007, 443-448. https://doi.org/10.1137/1.9781611972771.42"),
+             ("[3] A. Bifet and R. Gavalda. Adaptive Learning from Evolving Data Streams. IDA 2009. "
              "https://doi.org/10.1007/978-3-642-03915-7_22"),
              ("[4] R. M. A. Ujjan et al. Towards sFlow and adaptive polling sampling for deep learning "
-             "based DDoS detection in SDN. FGCS111,763-779,2020. https://doi.org/10.1016/j.future.2019.10.015"),
+             "based DDoS detection in SDN. FGCS 111, 763-779, 2020. https://doi.org/10.1016/j.future.2019.10.015"),
              ("[5] A. M. Eldhai et al. Improved Feature Selection and Stream Traffic Classification "
-             "Based on Machine Learning in Software-Defined Networks. IEEE Access12,34141-34159,2024. "
+             "Based on Machine Learning in Software-Defined Networks. IEEE Access 12, 34141-34159, 2024. "
              "https://doi.org/10.1109/ACCESS.2024.3370435"),
-             ("[6] Z. Wang, K. W. Fok and V. L. L. Thing. Exploring Emerging Trends in5G Malicious "
+             ("[6] Z. Wang, K. W. Fok and V. L. L. Thing. Exploring Emerging Trends in 5G Malicious "
              "Traffic Analysis and Incremental Learning Intrusion Detection Strategies. "
-             "arXiv:2402.14353,2024. https://arxiv.org/abs/2402.14353"),
-             "[7] P. Phaal and M. Lavine. sFlow Version5.2004. https://sflow.org/sflow_version_5.txt"]
+             "arXiv:2402.14353, 2024. https://arxiv.org/abs/2402.14353"),
+             "[7] P. Phaal and M. Lavine. sFlow Version 5. 2004. https://sflow.org/sflow_version_5.txt"]
     fronts = json.loads((Path(analysis) / "pareto_recommendations.json").read_text())
     recommendations = ["| Scenario | Suggested N | Mean F1 | Combined IP kbit/s |",
                        "|---|---|---|---|"]
@@ -375,17 +412,26 @@ def render_pdf(markdown, root, output):
     from reportlab.lib import colors
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-    from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+    from reportlab.platypus import (
+        Image,
+        KeepTogether,
+        Paragraph,
+        SimpleDocTemplate,
+        Spacer,
+        Table,
+        TableStyle,
+    )
 
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="Paper", fontName="Times-Roman", fontSize=10.5,
-                              leading=14.3, spaceAfter=7))
+                              leading=14.3, spaceAfter=7, allowWidows=0, allowOrphans=0))
     styles.add(ParagraphStyle(name="PaperCell", fontName="Helvetica", fontSize=8.1, leading=10.4))
     styles.add(ParagraphStyle(name="PaperTitle", fontName="Times-Bold", fontSize=21, leading=25,
                               spaceAfter=12, textColor=colors.HexColor("#17324D")))
     for key in ("Heading1", "Heading2", "Heading3", "Heading4"):
         styles[key].fontName = "Times-Bold"
         styles[key].textColor = colors.HexColor("#17324D")
+        styles[key].keepWithNext = 1
     width = A4[0] - 92
     story, lines, index = [], markdown.splitlines(), 0
     while index < len(lines):
@@ -416,7 +462,11 @@ def render_pdf(markdown, root, output):
                 ("GRID", (0, 0), (-1, -1), .35, colors.HexColor("#B9C5D0")),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"), ("TOPPADDING", (0, 0), (-1, -1), 5),
                 ("BOTTOMPADDING", (0, 0), (-1, -1), 5)]))
-            story.extend([table, Spacer(1, 10)])
+            captions = []
+            while (story and isinstance(story[-1], Paragraph)
+                   and story[-1].style.name in ("Heading1", "Heading2", "Heading3", "Heading4")):
+                captions.insert(0, story.pop())
+            story.append(KeepTogether([*captions, table, Spacer(1, 10)]))
             continue
         heading = re.match(r"^(#{1,4}) (.*)", line)
         if heading:
@@ -429,6 +479,7 @@ def render_pdf(markdown, root, output):
                 line += " " + lines[index].strip()
                 index += 1
             text = html.escape(line)
+            text = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", text)
             text = re.sub(r"`([^`]+)`", r"<font name='Courier'>\1</font>", text)
             story.append(Paragraph(text, styles["Paper"]))
 
@@ -454,8 +505,13 @@ def build(analysis, runs_root, destination, pdf):
     destination = Path(destination)
     write_publication(analysis, runs, destination / "results")
     plot_results(groups, destination / "figures")
+    fronts = json.loads((Path(analysis) / "pareto_recommendations.json").read_text())
+    for index, front in enumerate(fronts, 1):
+        scenario = json.loads(front["comparison_group"])["scenario"]
+        shutil.copyfile(Path(analysis) / f"pareto_{index}.png",
+                        destination / "figures" / f"pareto_{scenario}.png")
     paper = manuscript(groups, runs, analysis, destination / "figures")
-    (destination / "M3_Research_Report.md").write_text(paper, encoding="utf-8")
+    (destination / "M3_Research_Report.md").write_text(paper, encoding="utf-8", newline="\n")
     render_pdf(paper, destination, Path(pdf))
     print(json.dumps({"accepted_trials": len(runs), "ready": readiness["ready"], "pdf": str(pdf)}))
 

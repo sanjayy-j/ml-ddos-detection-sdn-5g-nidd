@@ -1,0 +1,4577 @@
+[
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"sha256\": \"1091f89f0186cbeb5b447d103e912ca1fcf72b0bd61f85f42f15525ff1d12a05\", \"size_bytes\": 30201, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"unseen\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"unseen\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 2,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": 0.27377233098669707,
+        "sample_sd": 0.005824391629065484,
+        "ci95": [
+          0.25930374009293256,
+          0.2882409218804616
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": 0.40294592104011856,
+        "sample_sd": 0.010058543286129866,
+        "ci95": [
+          0.3779591143377703,
+          0.4279327277424668
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": 0.0010288065843621446,
+        "sample_sd": 0.004717720453272608,
+        "ci95": [
+          -0.010690660707108203,
+          0.01274827387583249
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.7792752488665418,
+        "sample_sd": 0.010400893333604177,
+        "ci95": [
+          0.753437997500643,
+          0.8051125002324405
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": 0.027271216277645283,
+        "sample_sd": 0.0288839430964227,
+        "ci95": [
+          -0.04448047603222895,
+          0.09902290858751951
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.8237937800201303,
+        "sample_sd": 0.005135857427259049,
+        "ci95": [
+          0.811035602902903,
+          0.8365519571373575
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.008064516129032258,
+        "ci95": [
+          -0.020033368643147823,
+          0.020033368643147823
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.1943548387096774,
+        "sample_sd": 0.19025593420306153,
+        "ci95": [
+          -0.666976779747792,
+          0.2782671023284372
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -0.6666666666666666,
+        "sample_sd": 0.5773502691896257,
+        "ci95": [
+          -2.1008842432498205,
+          0.7675509099164873
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": -0.01257777214050293,
+        "sample_sd": 0.028970422846018296,
+        "ci95": [
+          -0.08454429205765031,
+          0.05938874777664445
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": 0.27377233098669707,
+        "sample_sd": 0.005824391629065484,
+        "ci95": [
+          0.25930374009293256,
+          0.2882409218804616
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.8237937800201302,
+        "sample_sd": 0.005135857427259079,
+        "ci95": [
+          -0.8365519571373574,
+          -0.8110356029029029
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": -0.018433827133850406,
+        "sample_sd": 0.006863148979763849,
+        "ci95": [
+          -0.03548283433584259,
+          -0.001384819931858225
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": -0.014491433209210905,
+        "sample_sd": 0.009763181587512581,
+        "ci95": [
+          -0.038744520777417364,
+          0.009761654358995552
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": -1.6666666666666667,
+        "sample_sd": 3.0550504633038935,
+        "ci95": [
+          -9.255832733860187,
+          5.922499400526853
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": 0.40294592104011856,
+        "sample_sd": 0.010058543286129866,
+        "ci95": [
+          0.3779591143377703,
+          0.4279327277424668
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": 0.0010288065843621446,
+        "sample_sd": 0.004717720453272608,
+        "ci95": [
+          -0.010690660707108203,
+          0.01274827387583249
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": 0.17687380605786548,
+        "sample_sd": 0.014530706441138436,
+        "ci95": [
+          0.14077753020906006,
+          0.2129700819066709
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.14583333333333334,
+        "sample_sd": 0.2314377580957693,
+        "ci95": [
+          -0.7207565961419842,
+          0.42908992947531743
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -74.12932266666667,
+        "sample_sd": 1.1636984353093018,
+        "ci95": [
+          -77.02010983492336,
+          -71.23853549840997
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -72.39406933333333,
+        "sample_sd": 1.137842746233998,
+        "ci95": [
+          -75.22062740929476,
+          -69.5675112573719
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 3,
+        "mean": 0.001371742112482847,
+        "sample_sd": 0.006291698797649626,
+        "ci95": [
+          -0.0142577041417328,
+          0.017001188366698495
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"sha256\": \"1091f89f0186cbeb5b447d103e912ca1fcf72b0bd61f85f42f15525ff1d12a05\", \"size_bytes\": 30201, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"unseen\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"unseen\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 5,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": 0.08871531542354864,
+        "sample_sd": 0.028725626769839675,
+        "ci95": [
+          0.017356902670925087,
+          0.16007372817617221
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": 0.13185466484652317,
+        "sample_sd": 0.015722061968813077,
+        "ci95": [
+          0.09279889780331896,
+          0.17091043188972738
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.046542285586721056,
+        "sample_sd": 0.05421054817579533,
+        "ci95": [
+          -0.1812087526848723,
+          0.0881241815114302
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.47118445528874137,
+        "sample_sd": 0.0387433325301965,
+        "ci95": [
+          0.3749406818715969,
+          0.5674282287058858
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.0527211102657598,
+        "sample_sd": 0.06924144349492199,
+        "ci95": [
+          -0.22472639126752508,
+          0.1192841707360055
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.4066907464740282,
+        "sample_sd": 0.0227548582797365,
+        "ci95": [
+          0.3501645448958005,
+          0.4632169480522559
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.002710027100271003,
+        "sample_sd": 0.004637239401549282,
+        "ci95": [
+          -0.0088095141755321,
+          0.014229568376074107
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.284692717894921,
+        "sample_sd": 0.2133729407294308,
+        "ci95": [
+          -0.814740486627968,
+          0.24535505083812603
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -0.7000000000000001,
+        "sample_sd": 0.5196152422706631,
+        "ci95": [
+          -1.9907958189248385,
+          0.5907958189248385
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": -0.010102510452270508,
+        "sample_sd": 0.014661880341816633,
+        "ci95": [
+          -0.04652464033454803,
+          0.02631961943000701
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": 0.08871531542354864,
+        "sample_sd": 0.028725626769839675,
+        "ci95": [
+          0.017356902670925087,
+          0.16007372817617221
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.4066907464740282,
+        "sample_sd": 0.022754858279736393,
+        "ci95": [
+          -0.4632169480522556,
+          -0.3501645448958008
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": -2.1855057260230144e-05,
+        "sample_sd": 3.785406957704568e-05,
+        "ci95": [
+          -0.00011588977903979017,
+          7.217966451932989e-05
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": 0.009342244772082073,
+        "sample_sd": 0.011116512618596093,
+        "ci95": [
+          -0.018272703446920897,
+          0.03695719299108504
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.014444466834599268,
+        "sample_sd": 0.009207060676148671,
+        "ci95": [
+          -0.00842713980539514,
+          0.037316073474593675
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.003669333333333339,
+        "sample_sd": 0.006355471763239411,
+        "ci95": [
+          -0.012118533749694045,
+          0.019457200416360725
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.00456533333333331,
+        "sample_sd": 0.007907389286821075,
+        "ci95": [
+          -0.015077710595549468,
+          0.02420837726221609
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 1.7320508075688772,
+        "ci95": [
+          -5.302652729749462,
+          3.302652729749462
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": 0.13185466484652317,
+        "sample_sd": 0.015722061968813077,
+        "ci95": [
+          0.09279889780331896,
+          0.17091043188972738
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.046542285586721056,
+        "sample_sd": 0.05421054817579533,
+        "ci95": [
+          -0.1812087526848723,
+          0.0881241815114302
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.012996261025943942,
+        "sample_sd": 0.02571175099951199,
+        "ci95": [
+          -0.07686779131896591,
+          0.050875269267078034
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.5885416666666666,
+        "sample_sd": 0.07163825366395271,
+        "ci95": [
+          -0.7665009541972279,
+          -0.41058237913610546
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -119.44004266666667,
+        "sample_sd": 0.39148764601368485,
+        "ci95": [
+          -120.41255189181364,
+          -118.4675334415197
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -116.62660266666667,
+        "sample_sd": 0.3772021081029831,
+        "ci95": [
+          -117.56362464835702,
+          -115.68958068497632
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 3,
+        "mean": -0.020672493736466808,
+        "sample_sd": 0.03943858404845214,
+        "ci95": [
+          -0.11864336766926177,
+          0.07729838019632816
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"sha256\": \"1091f89f0186cbeb5b447d103e912ca1fcf72b0bd61f85f42f15525ff1d12a05\", \"size_bytes\": 30201, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"unseen\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"unseen\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 10,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": 0.021309410001544033,
+        "sample_sd": 0.008296834425997381,
+        "ci95": [
+          0.0006989307157755364,
+          0.04191988928731253
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": 0.04345844943059803,
+        "sample_sd": 0.009217392671579096,
+        "ci95": [
+          0.020561176691117275,
+          0.06635572217007879
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.05452356381148952,
+        "sample_sd": 0.004710415079903721,
+        "ci95": [
+          -0.0662248835494758,
+          -0.04282224407350324
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.2397851828771066,
+        "sample_sd": 0.028569075943654425,
+        "ci95": [
+          0.16881566393561548,
+          0.3107547018185977
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.14306432740720754,
+        "sample_sd": 0.02688823897255882,
+        "ci95": [
+          -0.20985841584149584,
+          -0.07627023897291922
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.18221483027028132,
+        "sample_sd": 0.026081124763319835,
+        "ci95": [
+          0.11742572468085312,
+          0.24700393585970953
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.4075268817204303,
+        "sample_sd": 0.10233465297805393,
+        "ci95": [
+          -0.6617402524020972,
+          -0.15331351103876328
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": 0.1115867296854655,
+        "sample_sd": 0.2033735378427594,
+        "ci95": [
+          -0.3936211452418161,
+          0.616794604612747
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": 0.021309410001544033,
+        "sample_sd": 0.008296834425997381,
+        "ci95": [
+          0.0006989307157755364,
+          0.04191988928731253
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.18221483027028132,
+        "sample_sd": 0.02608112476331987,
+        "ci95": [
+          -0.2470039358597096,
+          -0.11742572468085304
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": 0.0054960457684112745,
+        "sample_sd": 0.007390073771070704,
+        "ci95": [
+          -0.012861915178922437,
+          0.023854006715744985
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.015264616968124664,
+        "sample_sd": 0.012828457168352875,
+        "ci95": [
+          -0.016603037267354563,
+          0.047132271203603894
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": 10.666666666666666,
+        "sample_sd": 20.231987873991358,
+        "ci95": [
+          -39.59237739479065,
+          60.92571072812398
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": 0.04345844943059803,
+        "sample_sd": 0.009217392671579096,
+        "ci95": [
+          0.020561176691117275,
+          0.06635572217007879
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.05452356381148952,
+        "sample_sd": 0.004710415079903721,
+        "ci95": [
+          -0.0662248835494758,
+          -0.04282224407350324
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.16430974884858043,
+        "sample_sd": 0.059302749868707885,
+        "ci95": [
+          -0.3116259462079346,
+          -0.01699355148922624
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.5,
+        "sample_sd": 0.08071866531160869,
+        "ci95": [
+          -0.7005162805427203,
+          -0.29948371945727964
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -134.44437333333332,
+        "sample_sd": 0.6088690961753052,
+        "ci95": [
+          -135.95688801666174,
+          -132.9318586500049
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -131.27850666666666,
+        "sample_sd": 0.5923168616520739,
+        "ci95": [
+          -132.74990332000218,
+          -129.80711001333114
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 3,
+        "mean": -0.04389007924361462,
+        "sample_sd": 0.004742036187099749,
+        "ci95": [
+          -0.05566995016647385,
+          -0.03211020832075539
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"sha256\": \"1091f89f0186cbeb5b447d103e912ca1fcf72b0bd61f85f42f15525ff1d12a05\", \"size_bytes\": 30201, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"unseen\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"unseen\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 20,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.05784714105346785,
+        "sample_sd": 0.022161790853246918,
+        "ci95": [
+          -0.11290008147194205,
+          -0.0027942006349936585
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": -0.034110279817221055,
+        "sample_sd": 0.008753293024253431,
+        "ci95": [
+          -0.0558546651207701,
+          -0.012365894513672007
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.11652906776745782,
+        "sample_sd": 0.06014000916643194,
+        "ci95": [
+          -0.2659251325228019,
+          0.032866996987886296
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": -0.038054070527619006,
+        "sample_sd": 0.05580113783286319,
+        "ci95": [
+          -0.17667178137681253,
+          0.10056364032157453
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.5498009358726059,
+        "sample_sd": 0.039978471463770385,
+        "ci95": [
+          -0.6491129644938923,
+          -0.4504889072513195
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": -0.011246363675283371,
+        "sample_sd": 0.04229503221351371,
+        "ci95": [
+          -0.11631304821656782,
+          0.09382032086600109
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.0026881720430107525,
+        "sample_sd": 0.004656050557980853,
+        "ci95": [
+          -0.014254442821907154,
+          0.00887809873588565
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.5163978494623657,
+        "sample_sd": 0.051715707427509076,
+        "ci95": [
+          -0.6448667885728876,
+          -0.38792891035184374
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": 0.172514279683431,
+        "sample_sd": 0.16392882714189663,
+        "ci95": [
+          -0.2347075018627555,
+          0.5797360612296175
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.05784714105346785,
+        "sample_sd": 0.022161790853246918,
+        "ci95": [
+          -0.11290008147194205,
+          -0.0027942006349936585
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": 0.011246363675283385,
+        "sample_sd": 0.042295032213513654,
+        "ci95": [
+          -0.09382032086600092,
+          0.11631304821656768
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": -0.002113200095779607,
+        "sample_sd": 0.002829233005949113,
+        "ci95": [
+          -0.009141404501186546,
+          0.004915004309627331
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.004154183657571281,
+        "sample_sd": 0.011224402006175575,
+        "ci95": [
+          -0.023728776657815528,
+          0.03203714397295809
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": 17.333333333333332,
+        "sample_sd": 16.563010998406458,
+        "ci95": [
+          -23.811466907943636,
+          58.4781335746103
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": -0.034110279817221055,
+        "sample_sd": 0.008753293024253431,
+        "ci95": [
+          -0.0558546651207701,
+          -0.012365894513672007
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.11652906776745782,
+        "sample_sd": 0.06014000916643194,
+        "ci95": [
+          -0.2659251325228019,
+          0.032866996987886296
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.29093913732440013,
+        "sample_sd": 0.06440934422254754,
+        "ci95": [
+          -0.4509408182967387,
+          -0.13093745635206153
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.67578125,
+        "sample_sd": 0.05510443742056986,
+        "ci95": [
+          -0.8126682610812237,
+          -0.5388942389187763
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -141.56398933333332,
+        "sample_sd": 0.2642215590699047,
+        "ci95": [
+          -142.22035207247635,
+          -140.9076265941903
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -138.241024,
+        "sample_sd": 0.2626181961098545,
+        "ci95": [
+          -138.89340376474834,
+          -137.58864423525168
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 3,
+        "mean": -0.09631103402147174,
+        "sample_sd": 0.03523407858172819,
+        "ci95": [
+          -0.18383733736511731,
+          -0.008784730677826175
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"sha256\": \"1091f89f0186cbeb5b447d103e912ca1fcf72b0bd61f85f42f15525ff1d12a05\", \"size_bytes\": 30201, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"unseen\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"unseen\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 50,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.09320393108721685,
+        "sample_sd": 0.07805574296014231,
+        "ci95": [
+          -0.2871051457931967,
+          0.100697283618763
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": -0.042460313173824815,
+        "sample_sd": 0.011347315795088742,
+        "ci95": [
+          -0.07064860826754493,
+          -0.014272018080104691
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.19664538979984456,
+        "sample_sd": 0.21999513325261277,
+        "ci95": [
+          -0.743143596714199,
+          0.3498528171145099
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": -0.011232393223315157,
+        "sample_sd": 0.21124338126408193,
+        "ci95": [
+          -0.5359900429790743,
+          0.513525256532444
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.6623028772528217,
+        "sample_sd": 0.17209176051829791,
+        "ci95": [
+          -1.089802509437832,
+          -0.2348032450678113
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.04694875944558121,
+        "sample_sd": 0.20755018110355158,
+        "ci95": [
+          -0.46863447251436197,
+          0.5625319914055243
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.008064516129032258,
+        "ci95": [
+          -0.020033368643147823,
+          0.020033368643147823
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.5021505376344088,
+        "sample_sd": 0.011584119046459933,
+        "ci95": [
+          -0.5309270846151252,
+          -0.47337399065369234
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": 0.6903127034505209,
+        "sample_sd": 1.186063363920838,
+        "ci95": [
+          -2.2560320273906886,
+          3.6366574342917306
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.09320393108721685,
+        "sample_sd": 0.07805574296014231,
+        "ci95": [
+          -0.2871051457931967,
+          0.100697283618763
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.04694875944558119,
+        "sample_sd": 0.2075501811035516,
+        "ci95": [
+          -0.5625319914055246,
+          0.4686344725143622
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": -0.007996634178979408,
+        "sample_sd": 0.010312320533768541,
+        "ci95": [
+          -0.033613858512571135,
+          0.01762059015461232
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": -0.0014405834159939845,
+        "sample_sd": 0.004077664225990872,
+        "ci95": [
+          -0.01157006289563313,
+          0.00868889606364516
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.003669333333333339,
+        "sample_sd": 0.006355471763239411,
+        "ci95": [
+          -0.012118533749694045,
+          0.019457200416360725
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.00456533333333331,
+        "sample_sd": 0.007907389286821075,
+        "ci95": [
+          -0.015077710595549468,
+          0.02420837726221609
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": 69.0,
+        "sample_sd": 118.65496196956957,
+        "ci95": [
+          -225.755265714909,
+          363.755265714909
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": -0.042460313173824815,
+        "sample_sd": 0.011347315795088742,
+        "ci95": [
+          -0.07064860826754493,
+          -0.014272018080104691
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.19664538979984456,
+        "sample_sd": 0.21999513325261277,
+        "ci95": [
+          -0.743143596714199,
+          0.3498528171145099
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.2993420168035132,
+        "sample_sd": 0.02649482911170373,
+        "ci95": [
+          -0.36515882096627694,
+          -0.23352521264074944
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.7291666666666666,
+        "sample_sd": 0.17295176444755003,
+        "ci95": [
+          -1.1588026670445857,
+          -0.2995306662887476
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -146.34001066666667,
+        "sample_sd": 0.12758623256971285,
+        "ci95": [
+          -146.65695243849325,
+          -146.0230688948401
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -142.90056533333333,
+        "sample_sd": 0.12742792694434116,
+        "ci95": [
+          -143.21711385218595,
+          -142.58401681448072
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 3,
+        "mean": -0.1826514301261776,
+        "sample_sd": 0.18405711237241432,
+        "ci95": [
+          -0.6398746440863603,
+          0.27457178383400505
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"sha256\": \"c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5\", \"size_bytes\": 30150, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"baseline\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"baseline\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 2,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": 0.26431508800624814,
+        "sample_sd": 0.012724948531345821,
+        "ci95": [
+          0.23270456347945,
+          0.2959256125330463
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": 0.3887894950095862,
+        "sample_sd": 0.02187027789995759,
+        "ci95": [
+          0.33446071291184176,
+          0.44311827710733065
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.0010224164813537051,
+        "sample_sd": 0.003574958533629477,
+        "ci95": [
+          -0.00990310579268635,
+          0.00785827282997894
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.7486157729305609,
+        "sample_sd": 0.011968893796278184,
+        "ci95": [
+          0.7188833924832917,
+          0.7783481533778301
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": 0.0067319986536632515,
+        "sample_sd": 0.017576257544263344,
+        "ci95": [
+          -0.03692984554347757,
+          0.050393842850804074
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.7970766604237537,
+        "sample_sd": 0.0228941628890677,
+        "ci95": [
+          0.7402044070120657,
+          0.8539489138354417
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.005376344086021505,
+        "sample_sd": 0.004656050557980853,
+        "ci95": [
+          -0.006189926692874897,
+          0.016942614864917906
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.12526881720430097,
+        "sample_sd": 0.12460221131610402,
+        "ci95": [
+          -0.4347978693021187,
+          0.1842602348935168
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -0.3333333333333333,
+        "sample_sd": 0.5773502691896257,
+        "ci95": [
+          -1.7675509099164872,
+          1.1008842432498207
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": -0.05534768104553223,
+        "sample_sd": 0.07353530685214245,
+        "ci95": [
+          -0.23801950994207174,
+          0.1273241478510073
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": 0.26431508800624814,
+        "sample_sd": 0.012724948531345821,
+        "ci95": [
+          0.23270456347945,
+          0.2959256125330463
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.7970766604237536,
+        "sample_sd": 0.02289416288906772,
+        "ci95": [
+          -0.8539489138354416,
+          -0.7402044070120656
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": -0.005376344086021501,
+        "sample_sd": 0.004656050557980849,
+        "ci95": [
+          -0.016942614864917896,
+          0.006189926692874893
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": -0.017376785727104663,
+        "sample_sd": 0.004467812679031224,
+        "ci95": [
+          -0.028475447692122402,
+          -0.006278123762086925
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": -0.01755499973417804,
+        "sample_sd": 0.00493836564317133,
+        "ci95": [
+          -0.029822580062792113,
+          -0.005287419405563966
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.003669333333333321,
+        "sample_sd": 0.0063554717632393785,
+        "ci95": [
+          -0.012118533749693983,
+          0.019457200416360624
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.004565333333333328,
+        "sample_sd": 0.007907389286821106,
+        "ci95": [
+          -0.015077710595549531,
+          0.024208377262216186
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": -5.666666666666667,
+        "sample_sd": 7.371114795831994,
+        "ci95": [
+          -23.977530908633756,
+          12.64419757530042
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": 0.3887894950095862,
+        "sample_sd": 0.02187027789995759,
+        "ci95": [
+          0.33446071291184176,
+          0.44311827710733065
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.0010224164813537051,
+        "sample_sd": 0.003574958533629477,
+        "ci95": [
+          -0.00990310579268635,
+          0.00785827282997894
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": 0.24021070940039455,
+        "sample_sd": 0.04284374943125507,
+        "ci95": [
+          0.1337809357254321,
+          0.346640483075357
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": 0.13020833333333334,
+        "sample_sd": 0.10925868070728217,
+        "ci95": [
+          -0.14120527574771455,
+          0.4016219424143812
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -75.32100266666666,
+        "sample_sd": 0.243995980207313,
+        "ci95": [
+          -75.92712228261513,
+          -74.71488305071819
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -73.54811733333334,
+        "sample_sd": 0.23863887379330123,
+        "ci95": [
+          -74.1409291592129,
+          -72.95530550745377
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"sha256\": \"c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5\", \"size_bytes\": 30150, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"baseline\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"baseline\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 5,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": 0.08533226947480647,
+        "sample_sd": 0.042935558196218075,
+        "ci95": [
+          -0.02132556981546982,
+          0.19199010876508277
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": 0.13537396421086148,
+        "sample_sd": 0.01654193039498572,
+        "ci95": [
+          0.09428153109152841,
+          0.17646639733019454
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.06071236868338318,
+        "sample_sd": 0.09177176931088982,
+        "ci95": [
+          -0.28868608170261617,
+          0.16726134433584983
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.4607786041824585,
+        "sample_sd": 0.03498685023584999,
+        "ci95": [
+          0.37386645009622255,
+          0.5476907582686944
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.08072080141045661,
+        "sample_sd": 0.13318147691824278,
+        "ci95": [
+          -0.4115619307296697,
+          0.25012032790875643
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.4136221683633478,
+        "sample_sd": 0.02162287506449488,
+        "ci95": [
+          0.3599079689791702,
+          0.4673363677475254
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.0026881720430107525,
+        "sample_sd": 0.009312101115961705,
+        "ci95": [
+          -0.02582071360080356,
+          0.02044436951478205
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.4287634408602152,
+        "sample_sd": 0.015094510904694904,
+        "ci95": [
+          -0.4662602846389944,
+          -0.39126659708143596
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": -0.05529244740804037,
+        "sample_sd": 0.04950431671402688,
+        "ci95": [
+          -0.1782679874517867,
+          0.06768309263570599
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": 0.08533226947480647,
+        "sample_sd": 0.042935558196218075,
+        "ci95": [
+          -0.02132556981546982,
+          0.19199010876508277
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.4136221683633478,
+        "sample_sd": 0.021622875064494933,
+        "ci95": [
+          -0.4673363677475255,
+          -0.3599079689791701
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": -0.00537177563329747,
+        "sample_sd": 0.018366116576031506,
+        "ci95": [
+          -0.05099573843822019,
+          0.040252187171625244
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": -0.0046148162103539225,
+        "sample_sd": 0.014055948652710157,
+        "ci95": [
+          -0.03953172833297747,
+          0.030302095912269622
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": -5.666666666666667,
+        "sample_sd": 4.725815626252609,
+        "ci95": [
+          -17.406243482619775,
+          6.07291014928644
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": 0.13537396421086148,
+        "sample_sd": 0.01654193039498572,
+        "ci95": [
+          0.09428153109152841,
+          0.17646639733019454
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.06071236868338318,
+        "sample_sd": 0.09177176931088982,
+        "ci95": [
+          -0.28868608170261617,
+          0.16726134433584983
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": 0.004278897672537567,
+        "sample_sd": 0.09697499708888753,
+        "ci95": [
+          -0.23662034969284643,
+          0.24517814503792154
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.15494791666666666,
+        "sample_sd": 0.235684277054115,
+        "ci95": [
+          -0.7404201173634067,
+          0.4305242840300735
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -120.19037866666666,
+        "sample_sd": 1.0198932154717644,
+        "ci95": [
+          -122.72393386517838,
+          -117.65682346815494
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -117.35722666666666,
+        "sample_sd": 0.9910586735513289,
+        "ci95": [
+          -119.81915289219278,
+          -114.89530044114055
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"sha256\": \"c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5\", \"size_bytes\": 30150, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"baseline\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"baseline\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 10,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.004136123835977538,
+        "sample_sd": 0.004888519351580744,
+        "ci95": [
+          -0.016279879111860535,
+          0.008007631439905457
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": 0.028543603652952016,
+        "sample_sd": 0.006168349851280364,
+        "ci95": [
+          0.013220573168116923,
+          0.04386663413778711
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.10216397771923418,
+        "sample_sd": 0.0030911690633310166,
+        "ci95": [
+          -0.1098428673628507,
+          -0.09448508807561765
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.21339976026774954,
+        "sample_sd": 0.025332049391549524,
+        "ci95": [
+          0.15047146105827935,
+          0.2763280594772197
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.25311711274699394,
+        "sample_sd": 0.004344412897237022,
+        "ci95": [
+          -0.2639092326604349,
+          -0.24232499283355294
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.17711399049548346,
+        "sample_sd": 0.020375759895486175,
+        "ci95": [
+          0.1264977969335363,
+          0.22773018405743062
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.0026226068712300013,
+        "sample_sd": 0.0046565121700930245,
+        "ci95": [
+          -0.01419002435818245,
+          0.008944810615722448
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.3791349768336394,
+        "sample_sd": 0.19261931471364147,
+        "ci95": [
+          -0.8576278805253014,
+          0.09935792685802258
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -0.7166666666666686,
+        "sample_sd": 0.4907477288111786,
+        "ci95": [
+          -1.9357516067623415,
+          0.5024182734290044
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": -0.06568543116251628,
+        "sample_sd": 0.05782527943248976,
+        "ci95": [
+          -0.20933138849326483,
+          0.07796052616823225
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.004136123835977538,
+        "sample_sd": 0.004888519351580744,
+        "ci95": [
+          -0.016279879111860535,
+          0.008007631439905457
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.17711399049548346,
+        "sample_sd": 0.02037575989548618,
+        "ci95": [
+          -0.22773018405743065,
+          -0.12649779693353627
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": -4.371011452046029e-05,
+        "sample_sd": 3.785406957704568e-05,
+        "ci95": [
+          -0.0001377448363000203,
+          5.0324607259099743e-05
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": 0.010171078342066922,
+        "sample_sd": 0.013143698653370072,
+        "ci95": [
+          -0.022479679154651704,
+          0.04282183583878555
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.001151483669067005,
+        "sample_sd": 0.005357080971664427,
+        "ci95": [
+          -0.0121562431975447,
+          0.01445921053567871
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": -7.0,
+        "sample_sd": 5.5677643628300215,
+        "ci95": [
+          -20.8310934238456,
+          6.831093423845603
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": 0.028543603652952016,
+        "sample_sd": 0.006168349851280364,
+        "ci95": [
+          0.013220573168116923,
+          0.04386663413778711
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.10216397771923418,
+        "sample_sd": 0.0030911690633310166,
+        "ci95": [
+          -0.1098428673628507,
+          -0.09448508807561765
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.15453926748634914,
+        "sample_sd": 0.08713655729124274,
+        "ci95": [
+          -0.37099847552561843,
+          0.06191994055292016
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.19921875,
+        "sample_sd": 0.1996777799864384,
+        "ci95": [
+          -0.6952458534628969,
+          0.2968083534628969
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -135.31255466666664,
+        "sample_sd": 0.5782979559961579,
+        "ci95": [
+          -136.74912642778483,
+          -133.87598290554845
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -132.123392,
+        "sample_sd": 0.567351275285413,
+        "ci95": [
+          -133.53277069874613,
+          -130.71401330125386
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"sha256\": \"c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5\", \"size_bytes\": 30150, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"baseline\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"baseline\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 20,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.09134451215465822,
+        "sample_sd": 0.05048657572865856,
+        "ci95": [
+          -0.21676011885935786,
+          0.034071094550041425
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": -0.03828634733636264,
+        "sample_sd": 0.00446261332068696,
+        "ci95": [
+          -0.049372093379240485,
+          -0.02720060129348479
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.21104547703760998,
+        "sample_sd": 0.16105047114387497,
+        "ci95": [
+          -0.6111170259012682,
+          0.18902607182604816
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.02877828089982301,
+        "sample_sd": 0.16842614622710517,
+        "ci95": [
+          -0.38961546058770447,
+          0.44717202238735054
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.55432320279905,
+        "sample_sd": 0.07116132468832116,
+        "ci95": [
+          -0.7310977330754184,
+          -0.37754867252268165
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.06644722404699129,
+        "sample_sd": 0.17084968769562353,
+        "ci95": [
+          -0.3579669281984735,
+          0.490861376292456
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.0026881720430107525,
+        "sample_sd": 0.004656050557980853,
+        "ci95": [
+          -0.00887809873588565,
+          0.014254442821907154
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.518010752688172,
+        "sample_sd": 0.05449568554778355,
+        "ci95": [
+          -0.6533855402851085,
+          -0.38263596509123543
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": 0.8587244351704916,
+        "sample_sd": 0.9551465956217872,
+        "ci95": [
+          -1.5139912432635327,
+          3.231440113604516
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.09134451215465822,
+        "sample_sd": 0.05048657572865856,
+        "ci95": [
+          -0.21676011885935786,
+          0.034071094550041425
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.06644722404699129,
+        "sample_sd": 0.17084968769562348,
+        "ci95": [
+          -0.4908613762924559,
+          0.35796692819847337
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": -0.0026881720430107503,
+        "sample_sd": 0.004656050557980849,
+        "ci95": [
+          -0.014254442821907144,
+          0.008878098735885643
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": -0.006671737665784341,
+        "sample_sd": 0.007167242090836103,
+        "ci95": [
+          -0.02447615403287459,
+          0.011132678701305906
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": -0.005568499924872128,
+        "sample_sd": 0.0019347538591051076,
+        "ci95": [
+          -0.01037469494922961,
+          -0.0007623049005146456
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": 86.0,
+        "sample_sd": 95.38867857350787,
+        "ci95": [
+          -150.9586137184816,
+          322.9586137184816
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": -0.03828634733636264,
+        "sample_sd": 0.00446261332068696,
+        "ci95": [
+          -0.049372093379240485,
+          -0.02720060129348479
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.21104547703760998,
+        "sample_sd": 0.16105047114387497,
+        "ci95": [
+          -0.6111170259012682,
+          0.18902607182604816
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.3238602159042507,
+        "sample_sd": 0.07206477813496234,
+        "ci95": [
+          -0.5028790489582313,
+          -0.1448413828502701
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.3828125,
+        "sample_sd": 0.32988738016745955,
+        "ci95": [
+          -1.2022981817045042,
+          0.4366731817045042
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -142.56366933333334,
+        "sample_sd": 0.19137131560747117,
+        "ci95": [
+          -143.03906203538114,
+          -142.08827663128554
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -139.20546133333335,
+        "sample_sd": 0.1786882445079659,
+        "ci95": [
+          -139.64934754016204,
+          -138.76157512650465
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"sha256\": \"c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5\", \"size_bytes\": 30150, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"baseline\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"baseline\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 50,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.07715345818452057,
+        "sample_sd": 0.0957842244644555,
+        "ci95": [
+          -0.31509466236743305,
+          0.1607877459983919
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": -0.02115204317872212,
+        "sample_sd": 0.05859211832146305,
+        "ci95": [
+          -0.16670293391240593,
+          0.12439884755496168
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.20555224378080753,
+        "sample_sd": 0.19749792293329646,
+        "ci95": [
+          -0.6961642821317696,
+          0.2850597945701546
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.10015356528175041,
+        "sample_sd": 0.24155057691862378,
+        "ci95": [
+          -0.49989133213685183,
+          0.7001984627003527
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.5127537110295731,
+        "sample_sd": 0.30798392861310964,
+        "ci95": [
+          -1.2778282027104204,
+          0.25232078065127406
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.12572462383263897,
+        "sample_sd": 0.19587695180113493,
+        "ci95": [
+          -0.360860698999262,
+          0.61230994666454
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 4.371011452050077e-05,
+        "sample_sd": 0.00813016942556629,
+        "ci95": [
+          -0.02015275035844824,
+          0.02024017058748924
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.45337660634670857,
+        "sample_sd": 0.15916704812748558,
+        "ci95": [
+          -0.8487694730681753,
+          -0.05798373962524184
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": 0.5667904218037924,
+        "sample_sd": 0.7349253041502647,
+        "ci95": [
+          -1.2588652415554615,
+          2.392446085163046
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.07715345818452057,
+        "sample_sd": 0.0957842244644555,
+        "ci95": [
+          -0.31509466236743305,
+          0.1607877459983919
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.12572462383263894,
+        "sample_sd": 0.19587695180113487,
+        "ci95": [
+          -0.6123099466645399,
+          0.36086069899926193
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": -2.1855057260230144e-05,
+        "sample_sd": 3.785406957704568e-05,
+        "ci95": [
+          -0.00011588977903979017,
+          7.217966451932989e-05
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": 0.0015690803183216195,
+        "sample_sd": 0.022078507827399195,
+        "ci95": [
+          -0.05327697359489557,
+          0.05641513423153881
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.010008233952400284,
+        "sample_sd": 0.026067154911838322,
+        "ci95": [
+          -0.05474616860213515,
+          0.07476263650693572
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": 56.666666666666664,
+        "sample_sd": 73.71114795831994,
+        "ci95": [
+          -126.44197575300427,
+          239.7753090863376
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": -0.02115204317872212,
+        "sample_sd": 0.05859211832146305,
+        "ci95": [
+          -0.16670293391240593,
+          0.12439884755496168
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.20555224378080753,
+        "sample_sd": 0.19749792293329646,
+        "ci95": [
+          -0.6961642821317696,
+          0.2850597945701546
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.2705432794114214,
+        "sample_sd": 0.15249956461594438,
+        "ci95": [
+          -0.6493731988993952,
+          0.10828664007655225
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.515625,
+        "sample_sd": 0.16522098423872345,
+        "ci95": [
+          -0.9260566777199198,
+          -0.10519332228008016
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -147.081728,
+        "sample_sd": 0.20421725090696285,
+        "ci95": [
+          -147.58903177436795,
+          -146.57442422563204
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -143.6136106666667,
+        "sample_sd": 0.19619662518333245,
+        "ci95": [
+          -144.10099010220276,
+          -143.12623123113062
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f\", \"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"sha256\": \"566deac32b93aa983d20df58bea1ca845f663e3cec1baffa733565b49e67ee6b\", \"size_bytes\": 40001, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"drift\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 117, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"drift\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 2,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": 0.17620709072842802,
+        "sample_sd": 0.19574968842853763,
+        "ci95": [
+          -0.3100620923602795,
+          0.6624762738171356
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": 0.2451046055270469,
+        "sample_sd": 0.29372050451217624,
+        "ci95": [
+          -0.48453757644598305,
+          0.9747467875000769
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": 0.01229508196721311,
+        "sample_sd": 0.01084324307813356,
+        "ci95": [
+          -0.014641027080854198,
+          0.039231191015280414
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.5391423669180453,
+        "sample_sd": 0.516256397171323,
+        "ci95": [
+          -0.7433096182275947,
+          1.8215943520636853
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": 0.14815955944345097,
+        "sample_sd": 0.13501187178088775,
+        "ci95": [
+          -0.1872285227814525,
+          0.4835476416683544
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.5335766827056025,
+        "sample_sd": 0.55423427104152,
+        "ci95": [
+          -0.8432175711330911,
+          1.9103709365442962
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.011444277861069465,
+        "sample_sd": 0.00502043712338805,
+        "ci95": [
+          -0.001027179326610136,
+          0.023915735048749068
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.24814592703648172,
+        "sample_sd": 0.09023917400136389,
+        "ci95": [
+          -0.4723124622504697,
+          -0.023979391822493756
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -0.9249999999999999,
+        "sample_sd": 0.12990381056766584,
+        "ci95": [
+          -1.2476989547312098,
+          -0.6023010452687901
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": -0.06796654065450032,
+        "sample_sd": 0.03755771136845279,
+        "ci95": [
+          -0.16126506783190797,
+          0.025331986522907343
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": 0.17620709072842802,
+        "sample_sd": 0.19574968842853763,
+        "ci95": [
+          -0.3100620923602795,
+          0.6624762738171356
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.5335766827056025,
+        "sample_sd": 0.55423427104152,
+        "ci95": [
+          -1.9103709365442962,
+          0.8432175711330911
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 0.002923538230884537,
+        "sample_sd": 0.004933877862639965,
+        "ci95": [
+          -0.009332893832869515,
+          0.015179970294638589
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": -0.016765648125282487,
+        "sample_sd": 0.014597397241127274,
+        "ci95": [
+          -0.05302759310536698,
+          0.019496296854802003
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": -0.012469250663116271,
+        "sample_sd": 0.02693201015249077,
+        "ci95": [
+          -0.07937207273616136,
+          0.05443357140992881
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": -7.0,
+        "sample_sd": 3.605551275463989,
+        "ci95": [
+          -15.956685895029597,
+          1.9566858950295973
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 1,
+        "mean": 0.005018949508666992,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": 0.2451046055270469,
+        "sample_sd": 0.29372050451217624,
+        "ci95": [
+          -0.48453757644598305,
+          0.9747467875000769
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": 0.01229508196721311,
+        "sample_sd": 0.01084324307813356,
+        "ci95": [
+          -0.014641027080854198,
+          0.039231191015280414
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": 0.18164563412452597,
+        "sample_sd": 0.24166497670010292,
+        "ci95": [
+          -0.41868344810546454,
+          0.7819747163545164
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.032552083333333336,
+        "sample_sd": 0.19066075057519266,
+        "ci95": [
+          -0.5061796439877929,
+          0.44107547732112623
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -65.08581196581197,
+        "sample_sd": 1.5296809165095648,
+        "ci95": [
+          -68.8857500174582,
+          -61.285873914165755
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -63.55865527065526,
+        "sample_sd": 1.487787185922397,
+        "ci95": [
+          -67.25452352626398,
+          -59.862787015046536
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f\", \"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"sha256\": \"566deac32b93aa983d20df58bea1ca845f663e3cec1baffa733565b49e67ee6b\", \"size_bytes\": 40001, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"drift\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 117, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"drift\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 5,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.001349801581352968,
+        "sample_sd": 0.16325298740867086,
+        "ci95": [
+          -0.40689270415913403,
+          0.40419310099642813
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": -0.009649412982714156,
+        "sample_sd": 0.2564832531442997,
+        "ci95": [
+          -0.6467891345508754,
+          0.6274903085854471
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.04089439054310251,
+        "sample_sd": 0.017790152855656452,
+        "ci95": [
+          -0.08508758014964153,
+          0.003298799063436511
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": 0.2433107710958999,
+        "sample_sd": 0.47095268613267116,
+        "ci95": [
+          -0.9266005569763851,
+          1.413222099168185
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": 0.053658359987672245,
+        "sample_sd": 0.08945015871050058,
+        "ci95": [
+          -0.16854815258713451,
+          0.275864872562479
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": 0.140235606437697,
+        "sample_sd": 0.5067405544373202,
+        "ci95": [
+          -1.1185777149133214,
+          1.3990489277887155
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.005697151424287856,
+        "sample_sd": 0.009997594616402065,
+        "ci95": [
+          -0.019138250389108588,
+          0.0305325532376843
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.40331834082958523,
+        "sample_sd": 0.07172195684479465,
+        "ci95": [
+          -0.5814855585882693,
+          -0.22515112307090113
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": -0.03352125485738119,
+        "sample_sd": 0.054286840684591095,
+        "ci95": [
+          -0.16837724305375604,
+          0.10133473333899365
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.001349801581352968,
+        "sample_sd": 0.16325298740867086,
+        "ci95": [
+          -0.40689270415913403,
+          0.40419310099642813
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": -0.14023560643769703,
+        "sample_sd": 0.5067405544373202,
+        "ci95": [
+          -1.3990489277887155,
+          1.1185777149133214
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 0.002923538230884537,
+        "sample_sd": 0.004933877862639965,
+        "ci95": [
+          -0.009332893832869515,
+          0.015179970294638589
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": 0.006956126142458534,
+        "sample_sd": 0.0073961856431497735,
+        "ci95": [
+          -0.011417017536796189,
+          0.025329269821713258
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.005430615916187348,
+        "sample_sd": 0.00980258068280902,
+        "ci95": [
+          -0.018920344430453838,
+          0.029781576262828534
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": -3.3333333333333335,
+        "sample_sd": 4.932882862316247,
+        "ci95": [
+          -15.587293679260036,
+          8.920627012593368
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": -0.009649412982714156,
+        "sample_sd": 0.2564832531442997,
+        "ci95": [
+          -0.6467891345508754,
+          0.6274903085854471
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.04089439054310251,
+        "sample_sd": 0.017790152855656452,
+        "ci95": [
+          -0.08508758014964153,
+          0.003298799063436511
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.04447164500389855,
+        "sample_sd": 0.19853537950571717,
+        "ci95": [
+          -0.5376608683507142,
+          0.4487175783429171
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.23177083333333334,
+        "sample_sd": 0.06505206248331664,
+        "ci95": [
+          -0.39336911497527904,
+          -0.07017255169138764
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -104.97340170940171,
+        "sample_sd": 0.4804045535047761,
+        "ci95": [
+          -106.16679277765951,
+          -103.78001064114392
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -102.49217094017094,
+        "sample_sd": 0.467015574774119,
+        "ci95": [
+          -103.65230194144208,
+          -101.3320399388998
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f\", \"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"sha256\": \"566deac32b93aa983d20df58bea1ca845f663e3cec1baffa733565b49e67ee6b\", \"size_bytes\": 40001, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"drift\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 117, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"drift\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 10,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.07604079778855995,
+        "sample_sd": 0.18227381834065767,
+        "ci95": [
+          -0.5288340637933167,
+          0.3767524682161968
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": -0.10651909431255972,
+        "sample_sd": 0.27280631022106666,
+        "ci95": [
+          -0.7842075375361709,
+          0.5711693489110515
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.051756440281030436,
+        "sample_sd": 0.01325979929380121,
+        "ci95": [
+          -0.08469560775700241,
+          -0.018817272805058453
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": -0.0010561687929446044,
+        "sample_sd": 0.5056043865291493,
+        "ci95": [
+          -1.257047092596395,
+          1.2549347550105057
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.041472266057939744,
+        "sample_sd": 0.13199761391436796,
+        "ci95": [
+          -0.3693725166436813,
+          0.2864279845278018
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": -0.09725125822686799,
+        "sample_sd": 0.5345093144582763,
+        "ci95": [
+          -1.4250460035544883,
+          1.2305434871007521
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.0057221389305347325,
+        "sample_sd": 0.004955659421314167,
+        "ci95": [
+          -0.006588401524542608,
+          0.018032679385612073
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.3076511744127936,
+        "sample_sd": 0.19122648439357032,
+        "ci95": [
+          -0.7826840957802976,
+          0.16738174695471036
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -0.6666666666666666,
+        "sample_sd": 0.5773502691896257,
+        "ci95": [
+          -2.1008842432498205,
+          0.7675509099164873
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": -0.0410304069519043,
+        "sample_sd": 0.057994598513570174,
+        "ci95": [
+          -0.1850969761972836,
+          0.10303616229347501
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.07604079778855995,
+        "sample_sd": 0.18227381834065767,
+        "ci95": [
+          -0.5288340637933167,
+          0.3767524682161968
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": 0.09725125822686798,
+        "sample_sd": 0.5345093144582763,
+        "ci95": [
+          -1.2305434871007521,
+          1.4250460035544883
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 2.4987506246872588e-05,
+        "sample_sd": 4.327963037402803e-05,
+        "ci95": [
+          -8.25250557158655e-05,
+          0.00013250006820961067
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": 0.018684443882014134,
+        "sample_sd": 0.0036233742478726226,
+        "ci95": [
+          0.009683483269088763,
+          0.027685404494939503
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.023176016206131606,
+        "sample_sd": 0.0038612631657667443,
+        "ci95": [
+          0.013584106761057969,
+          0.032767925651205246
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.003920227920227892,
+        "sample_sd": 0.006790033935084781,
+        "ci95": [
+          -0.012947151441980706,
+          0.02078760728243649
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.004877492877492877,
+        "sample_sd": 0.008448065477372984,
+        "ci95": [
+          -0.016108665166185407,
+          0.025863650921171162
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": -4.0,
+        "sample_sd": 5.291502622129181,
+        "ci95": [
+          -17.144821215456858,
+          9.144821215456856
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": -0.10651909431255972,
+        "sample_sd": 0.27280631022106666,
+        "ci95": [
+          -0.7842075375361709,
+          0.5711693489110515
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.051756440281030436,
+        "sample_sd": 0.01325979929380121,
+        "ci95": [
+          -0.08469560775700241,
+          -0.018817272805058453
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.13864065360019165,
+        "sample_sd": 0.26578856418428803,
+        "ci95": [
+          -0.7988960492423547,
+          0.5216147420419714
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.3489583333333333,
+        "sample_sd": 0.22430629461092555,
+        "ci95": [
+          -0.9061660587593132,
+          0.20824939209264665
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -118.22659829059829,
+        "sample_sd": 0.22718773691876473,
+        "ci95": [
+          -118.79096391552541,
+          -117.66223266567117
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -115.43776638176638,
+        "sample_sd": 0.2167578454675266,
+        "ci95": [
+          -115.97622272001001,
+          -114.89931004352275
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f\", \"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"sha256\": \"566deac32b93aa983d20df58bea1ca845f663e3cec1baffa733565b49e67ee6b\", \"size_bytes\": 40001, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"drift\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 117, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"drift\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 20,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.16366554268029268,
+        "sample_sd": 0.20169905481883268,
+        "ci95": [
+          -0.6647137711801521,
+          0.33738268581956676
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": -0.18527680852187164,
+        "sample_sd": 0.26993169742778217,
+        "ci95": [
+          -0.8558243176990049,
+          0.48527070065526157
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.14008587041373924,
+        "sample_sd": 0.08490929889503891,
+        "ci95": [
+          -0.35101226187718604,
+          0.07084052104970756
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": -0.2691055619657416,
+        "sample_sd": 0.39288163389414116,
+        "ci95": [
+          -1.2450776449762642,
+          0.7068665210447811
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.5160250585899502,
+        "sample_sd": 0.09259255933269644,
+        "ci95": [
+          -0.7460377270557814,
+          -0.28601239012411894
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": -0.277046842022968,
+        "sample_sd": 0.4451161328647504,
+        "ci95": [
+          -1.3827766137807649,
+          0.828682929734829
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.011444277861069465,
+        "sample_sd": 0.004955659421314166,
+        "ci95": [
+          -0.000866262594007872,
+          0.0237548183161468
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.5044677661169416,
+        "sample_sd": 0.04452722375890861,
+        "ci95": [
+          -0.6150795218559917,
+          -0.3938560103778914
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": 0.9061161677042643,
+        "sample_sd": 0.9663937269652554,
+        "ci95": [
+          -1.4945389338490789,
+          3.3067712692576072
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.16366554268029268,
+        "sample_sd": 0.20169905481883268,
+        "ci95": [
+          -0.6647137711801521,
+          0.33738268581956676
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": 0.277046842022968,
+        "sample_sd": 0.4451161328647504,
+        "ci95": [
+          -0.828682929734829,
+          1.3827766137807649
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 0.002923538230884537,
+        "sample_sd": 0.004933877862639965,
+        "ci95": [
+          -0.009332893832869515,
+          0.015179970294638589
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": 0.005430717359411493,
+        "sample_sd": 0.011402171344009865,
+        "ci95": [
+          -0.022893846472082358,
+          0.033755281190905345
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.005987966013994687,
+        "sample_sd": 0.017395825435591074,
+        "ci95": [
+          -0.03722565997758271,
+          0.04920159200557208
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.003920227920227892,
+        "sample_sd": 0.006790033935084781,
+        "ci95": [
+          -0.012947151441980706,
+          0.02078760728243649
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.004877492877492877,
+        "sample_sd": 0.008448065477372984,
+        "ci95": [
+          -0.016108665166185407,
+          0.025863650921171162
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": 90.33333333333333,
+        "sample_sd": 96.91405126880898,
+        "ci95": [
+          -150.41451622201998,
+          331.0811828886866
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": -0.18527680852187164,
+        "sample_sd": 0.26993169742778217,
+        "ci95": [
+          -0.8558243176990049,
+          0.48527070065526157
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.14008587041373924,
+        "sample_sd": 0.08490929889503891,
+        "ci95": [
+          -0.35101226187718604,
+          0.07084052104970756
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.3698550884783006,
+        "sample_sd": 0.22292759415772012,
+        "ci95": [
+          -0.9236379321152658,
+          0.18392775515866455
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.56640625,
+        "sample_sd": 0.04800080362283011,
+        "ci95": [
+          -0.6856468564737941,
+          -0.44716564352620586
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -124.78641595441596,
+        "sample_sd": 0.10429960347793861,
+        "ci95": [
+          -125.04551053273612,
+          -124.5273213760958
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -121.85399430199429,
+        "sample_sd": 0.10664293694699979,
+        "ci95": [
+          -122.11891004335615,
+          -121.58907856063243
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f\", \"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"sha256\": \"566deac32b93aa983d20df58bea1ca845f663e3cec1baffa733565b49e67ee6b\", \"size_bytes\": 40001, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"drift\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 117, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"replay_pps\": 100, \"scenario\": \"drift\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "sampling_rate": 50,
+    "reference_sampling_rate": 1,
+    "paired_trial_ids": [
+      "1",
+      "2",
+      "3"
+    ],
+    "delta_definition": "N minus N=1 within identical trial ID",
+    "metrics": {
+      "attack_f1": {
+        "n": 3,
+        "mean": -0.16352073718669338,
+        "sample_sd": 0.20005339862964142,
+        "ci95": [
+          -0.6604809290864074,
+          0.3334394547130207
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_precision": {
+        "n": 3,
+        "mean": -0.18774310354568555,
+        "sample_sd": 0.27472396308401886,
+        "ci95": [
+          -0.8701952605642023,
+          0.4947090534728311
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "attack_recall": {
+        "n": 3,
+        "mean": -0.1333954853432776,
+        "sample_sd": 0.07570994967311162,
+        "ci95": [
+          -0.32146942648097376,
+          0.054678455794418546
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_f1": {
+        "n": 3,
+        "mean": -0.2907046446173976,
+        "sample_sd": 0.42896283577787536,
+        "ci95": [
+          -1.3563074019125816,
+          0.7748981126777865
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_precision": {
+        "n": 3,
+        "mean": -0.5679217517528028,
+        "sample_sd": 0.16458921473742055,
+        "ci95": [
+          -0.9767840270294024,
+          -0.15905947647620322
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "benign_recall": {
+        "n": 3,
+        "mean": -0.29376684700269556,
+        "sample_sd": 0.475865835030085,
+        "ci95": [
+          -1.4758831135344908,
+          0.8883494195290997
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_mean": {
+        "n": 3,
+        "mean": 0.005697151424287856,
+        "sample_sd": 0.004998937824506509,
+        "ci95": [
+          -0.006720898544263918,
+          0.01811520139283963
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "controller_cpu_percent_p95": {
+        "n": 3,
+        "mean": 0.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_mean": {
+        "n": 3,
+        "mean": -0.47573213393303354,
+        "sample_sd": 0.02044397257131053,
+        "ci95": [
+          -0.5265177771754154,
+          -0.4249464906906517
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "cpu_percent_p95": {
+        "n": 3,
+        "mean": -1.0,
+        "sample_sd": 0.0,
+        "ci95": [
+          -1.0,
+          -1.0
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "detection_time_seconds": {
+        "n": 3,
+        "mean": 0.7393839359283447,
+        "sample_sd": 0.6619325778192868,
+        "ci95": [
+          -0.9049477432686557,
+          2.383715615125345
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "f1": {
+        "n": 3,
+        "mean": -0.16352073718669338,
+        "sample_sd": 0.20005339862964142,
+        "ci95": [
+          -0.6604809290864074,
+          0.3334394547130207
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "false_positive_rate": {
+        "n": 3,
+        "mean": 0.2937668470026955,
+        "sample_sd": 0.47586583503008495,
+        "ci95": [
+          -0.8883494195290997,
+          1.4758831135344908
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "flow_table_entries": {
+        "n": 3,
+        "mean": 4.9975012493745176e-05,
+        "sample_sd": 0.008583235674695669,
+        "ci95": [
+          -0.021271964415858553,
+          0.021371914440846046
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_ms": {
+        "n": 3,
+        "mean": 0.0035877127196006636,
+        "sample_sd": 0.01600031812252837,
+        "ci95": [
+          -0.036159280928574296,
+          0.04333470636777562
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "inference_latency_p95_ms": {
+        "n": 3,
+        "mean": 0.0029862494291895783,
+        "sample_sd": 0.020536084749443337,
+        "ci95": [
+          -0.04802821314860344,
+          0.054000712006982594
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": 0.0027350427350427142,
+        "sample_sd": 0.004737232977966124,
+        "ci95": [
+          -0.009032896354870255,
+          0.014502981824955683
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "openflow_bandwidth_kbps": {
+        "n": 3,
+        "mean": 0.003373219373219364,
+        "sample_sd": 0.005842587339491582,
+        "ci95": [
+          -0.011140572171006705,
+          0.017887010917445434
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "packets_to_detect": {
+        "n": 3,
+        "mean": 74.0,
+        "sample_sd": 66.57326790837296,
+        "ci95": [
+          -91.37716540564728,
+          239.37716540564728
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "post_drift_recovery_seconds": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "precision": {
+        "n": 3,
+        "mean": -0.18774310354568555,
+        "sample_sd": 0.27472396308401886,
+        "ci95": [
+          -0.8701952605642023,
+          0.4947090534728311
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "recall": {
+        "n": 3,
+        "mean": -0.1333954853432776,
+        "sample_sd": 0.07570994967311162,
+        "ci95": [
+          -0.32146942648097376,
+          0.054678455794418546
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "roc_auc": {
+        "n": 3,
+        "mean": -0.2884031622206964,
+        "sample_sd": 0.18683589507572543,
+        "ci95": [
+          -0.7525292550869338,
+          0.17572293064554095
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "rss_mb_peak": {
+        "n": 3,
+        "mean": -0.42578125,
+        "sample_sd": 0.19307309931652183,
+        "ci95": [
+          -0.9054014171366888,
+          0.05383891713668876
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "sflow_bandwidth_kbit_s": {
+        "n": 3,
+        "mean": -128.54272364672363,
+        "sample_sd": 0.16351629368009296,
+        "ci95": [
+          -128.94892063833998,
+          -128.13652665510728
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "telemetry_bandwidth_kbps": {
+        "n": 3,
+        "mean": -125.51010826210826,
+        "sample_sd": 0.160268914687847,
+        "ci95": [
+          -125.90823831710564,
+          -125.11197820711088
+        ],
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      },
+      "unseen_attack_recall": {
+        "n": 0,
+        "mean": null,
+        "sample_sd": null,
+        "ci95": null,
+        "ci_method": "Student-t, two-sided, unbounded; repeatability not population proof",
+        "small_sample_warning": true
+      }
+    }
+  }
+]

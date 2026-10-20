@@ -22,7 +22,7 @@ trees, not a new machine-learning algorithm."
 
 **0:25 - Source and live path.** Show the provenance checksum and live-sFlow mode.
 "Original packets come from the official 5G-NIDD release. We replay selected,
-labelled packets at equal rates in an isolated SDN emulator. The physical5G
+labelled packets at equal rates in an isolated SDN emulator. The physical 5G
 network and natural traffic timing are outside this experiment."
 
 **0:50 - Independent evidence.** "Separate sender and receiver captures verify
@@ -37,8 +37,9 @@ when normal traffic also produces many alerts."
 
 **1:45 - Cost.** Change to a compatible trial at another N. Show sampled count,
 detector/controller CPU, sFlow and OpenFlow costs. "This screen shows individual
-trials. The report summarizes all three repeats and uncertainty. Costs on this
-screen and scientific combined IP-layer costs have explicitly documented units."
+trials. The report summarizes all three repeats and uncertainty. Choose combined
+IP-layer bandwidth on this screen to match the report. Legacy
+payload/frame fields remain separately labelled."
 
 **2:10 - Research results.** Show the report's repeated-trial tables, paired
 intervals, ablations, sensitivity and descriptive Pareto recommendation. Use the
@@ -47,7 +48,7 @@ actual reported N and numbers, not a remembered pilot or the best individual run
 **2:35 - Limitations.** "Inputs and labels are controlled. Repeats share fixed
 traffic. Sampling and host timing vary. The drift scenario changes family and
 cadence together. Oracle labels enable adaptation. We cannot claim universal
-zero-day protection, physical5G performance or automatic attack blocking."
+zero-day protection, physical 5G performance or automatic attack blocking."
 
 ## Questions to expect
 
@@ -63,7 +64,7 @@ zero-day protection, physical5G performance or automatic attack blocking."
 
 ## Manual checks and known limits
 
-The user explicitly waived browser visual verification on20 October2026.
+The user explicitly waived browser visual verification on 20 October 2026.
 Automated UI tests, real local API integration and the production frontend build
 are separate checks. Do not say a human/browser visual pass occurred.
 Presentation previews do not prove that PowerPoint itself was opened or tested.

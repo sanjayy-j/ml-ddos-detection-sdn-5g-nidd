@@ -1,0 +1,664 @@
+{
+  "protocol": {
+    "schema": "m3-controlled-research-protocol-v1",
+    "declared_before_primary_results": true,
+    "purpose": "Controlled equal-rate official-packet sampling study; not natural 5G deployment performance",
+    "sampling_rates": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      50
+    ],
+    "model_seeds": [
+      42,
+      43,
+      44
+    ],
+    "planned_trials": 54,
+    "ordering_seed": 20261019,
+    "primary_pps": 100,
+    "gap_seconds": 2,
+    "primary_window_seconds": 0.1,
+    "sensitivity_window_seconds": 1.0,
+    "label_delay_seconds": 0.5,
+    "model": {
+      "grace_period": 200,
+      "drift_delta": 0.002,
+      "threshold": 0.5
+    },
+    "tuning": "No hyperparameter selection using primary evaluation results",
+    "replication": "Frozen traffic common to every N/trial; seeds control model only; OVS sampling randomness is uncontrolled and recorded",
+    "provenance": "Official release checksums, exact flow-family match, disjoint original capture packet indices within and across scenarios, mappings retain original and rewritten hashes; naturally duplicate payloads are possible",
+    "eligibility": "Only independently observed fully covered windows; gaps, transitions, capture failures and unknown/drain windows are not benign zeros",
+    "minimum_support": "Report actual evaluated benign/attack windows for each run; undefined metrics stay unavailable; no minimum F1 is a completion or exclusion rule",
+    "scenarios": {
+      "baseline": {
+        "purpose": "Known benign/UDP/SYN distribution from warm-up with later disjoint selections",
+        "warmup_blocks": 4,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          }
+        ]
+      },
+      "drift": {
+        "purpose": "Controlled attack-family covariate shift from UDP to ICMP after block7; not naturally occurring concept drift",
+        "warmup_blocks": 4,
+        "drift_before_block": 8,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          }
+        ]
+      },
+      "unseen": {
+        "purpose": "SYN excluded from the entire initial learning segment and first introduced during evaluation",
+        "warmup_blocks": 4,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          }
+        ]
+      }
+    }
+  },
+  "cells": [
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "ffe5f8b67b5a403c93d72328a2f4279b"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "attempts": [
+        {
+          "scenario": "drift",
+          "sampling": 20,
+          "seed": 43,
+          "trial_id": 2,
+          "status": "failed",
+          "error": "Independent oracle did not become ready"
+        }
+      ],
+      "retry_explanation": "Technical startup failure: unrelated manifest path traversal on WSL was optimized; checksums and planned trial order are unchanged",
+      "retry_at": "2026-10-20T03:21:01.688861+00:00",
+      "run_id": "c93b09e9e3bc40319b39ce895f9d2855"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "d96cce3d316a461db1790cfbe7a16642"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "f927b06d71d6419d87a7191f217a3f1b"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "5501cc06adf2492c9600a26ed376838a"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "0677b6a553004f75a768fbd98276d8d6"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "fa7fcb6a02724da5bc5b4eefe5d02894"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "a842e2ee1c8c475889a5d874388f44c9"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "d881b4ade2c64dd4906c3318df1ec04e"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "a3d12a7a49234657a543966695ba95bc"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "c7d572c24a2d41eebe25b61fb68fce5b"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "a7cbec7892e24bf4aea04c9027135dbc"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "253df87b1cd64808b5de24d114775472"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "a49615dcd9b34e2ebd2ad898ee44b53b"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "61787c02b2244e21a54a0cb5e00a7b12"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "85796cf4f33c4b5483534c6b49393b4c"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "ade04564cfea4cb293df1793aa92c323"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "dfc844ccfb684e2dbd25f19fc2eeca8e"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "40657727f3a747f081e0c1e36b8b0393"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "e7ca94a9d25d46faa9eafdcfc7196c49"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "230f53cb65f54c28853417f69ed7c527"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "a67bf2bb41c948ce8928d79816c3e318"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "5be127afa1994dd986ae2ab31e682178"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "776df04180ae4f93ac00632fe126631e"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "a03e9342308445be95a16e2a540a9758"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "f54433e1438949878e293a13358f1c69"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "b3acb7fcab774b7b995561f11223517b"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "5ecb10016b1841b290759b457dc67f46"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "9caf482f067948769a1aeece27f84aff"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "db766294bd18458ca62d4b67ab2c3c9d"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "2d2d99113ebb4358aa70a5178b9ff052"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "8c6742088e4c4df8911540dd67a787fb"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "d8c76097c13b4986804d0706ea1c8991"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "5fb319b28bcc47e48a1cd85468e9c4cd"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "1bcfa840847644c092408784a2b1a6ff"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "754bce4b93eb472aa51b8765f3e214c6"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "d7afe07c26ca4d7ba15183ec55a3837b"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "44ddcdbe86234511b35d0d9899fd39b5"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "cf0ce88c81194aee9704a2b723beab8c"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "70334ec14c3748038b90fd0ba99869a7"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "822a9f29a6ae4bc1a363bdf495b58c57"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "7d0bc88760c84f9ea29b57afa0987c20"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "9e42d825b25d4f6488fd791554d12003"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "c6b61d5f645447238cda679346b11992"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "8728f918c0144d42a88a4fe22b0024aa"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "2f4caa5c2f8445c5ab7908211132424d"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "3b7273ddaffc466887f2480086331c72"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "ffa15ef18fc249c692e325e90fdd8ef2"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "8726a62154f64cbaac428d61460585f4"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "8d77d25da0924004b5c12bccb4c18485"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "fd6f3c8fe7834e518fffa28d8139c6de"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "635c64cb911d491698fae910ef7dd290"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "b46a50be1cab40c897fbeeee98a2916d"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "d8ffa97cef0f4cfc85425367e223b285"
+    }
+  ]
+}

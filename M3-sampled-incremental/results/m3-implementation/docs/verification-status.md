@@ -1,3 +1,39 @@
+# Current M3 completion checkpoint - 20 October 2026
+
+The declared controlled M3 study is complete: 54 accepted official live trials, 18 cells, three distinct trial IDs per cell. `research/results/research_readiness.json` has `ready=true`, no missing cells and no input-read errors. This certifies the declared evidence package, not novelty, production readiness or publication acceptance.
+
+## Scientific evidence
+
+- Every trial uses actual OVS sampling at its declared N and preserves independent full-frame TX/RX and kernel-timestamp checks, zero capture drops, and prediction-before-current-label chronology.
+- The final report builder rechecked all 594 raw-artifact SHA256 links. Raw summaries remain immutable; analysis verifies backing ablation/sensitivity files and derives completion flags in memory.
+- Stored HAT quality reproduces exactly for all 54 runs. All runs have HT and fixed-majority quality ablations and one-second raw-export sensitivity results.
+- All 80 prepared packet/mapping files match frozen hashes. The annotation archive contains three pinned flow-label snapshots and 40 mapping files. The derived trial archive contains 378 entries for 54 runs. Both pass CRC and safe-member checks.
+- The fixed protocol and the failed technical attempts/retry explanation remain preserved. No quality threshold excluded a trial or selected a rerun.
+
+## Findings and scope
+
+N=2 is the descriptive equal-weight quality/cost selection in every primary scenario. Mean F1 is 0.956 (baseline), 0.954 (drift) and 0.962 (unseen). Combined IP-layer bandwidth falls by 46.94%, 45.90% and 46.40% respectively versus N=1. Corresponding false-positive rates are 8.96%, 9.51% and 7.72%.
+
+These are fixed-traffic repeatability estimates, not general population or deployment guarantees. The curve is non-monotonic, one-second results differ, and even selected settings retain material false positives. Recovery meets the declared criterion in 3/3 N=2 drift trials (mean 6.506 seconds); other outcomes and external alarm counts remain visible. No causal benefit of ADWIN is asserted.
+
+## Software and artifacts
+
+- Windows: 139 Python tests passed, 81% measured `m3` coverage; Ruff passes.
+- Linux: 138 passed, one optional report-rendering test skipped, one upstream Starlette/httpx warning. Reporting dependencies were not added to the frozen live-study runtime.
+- Frontend: 18 tests passed, including four real-API checks; production TypeScript/Vite build passes. Three new checks cover measured IP-channel cost selection/summing and comparison display; a real accepted-live check also exercises the published-only bundle.
+- The published bundle is separately unpacked for review; its accepted-live API/UI test passes without the omitted raw captures. This is archived evidence display, not a fresh raw-capture validation.
+- Final report: 11 pages; text/headings/glyph checks and every rendered page inspected. A regression test prevents table captions from separating from their tables.
+- Final presentation: 10 slides, four editable native charts with workbook snapshots, package/layout/font/import checks pass; every final slide rendered and inspected. Literal chart means use 12 significant digits for Excel portability; full precision remains in analysis files.
+- Browser visual verification was explicitly waived by the user. No browser visual-pass claim is made. PowerPoint was not opened; slide previews and package checks do not establish native PowerPoint execution.
+- PDF build environment: Windows CPython 3.12.2, ReportLab 4.5.1, pypdf 6.21.1 and Matplotlib 3.11.2. Live Python package versions are recorded separately in `requirements/research-linux.txt`.
+
+## Completion boundary
+
+Implementation, declared experiments, analysis, report, slides, derived evidence and reproduction/demo instructions are complete within M3 scope. Physical 5G deployment, automatic mitigation, M1/M2 implementation and broad unseen-capture generalization were not part of this study. Human scientific review must still assess contribution novelty and venue suitability.
+
+---
+
+The following entries are historical checkpoints. Their pending lists describe their original dates, not the completed state above.
 # Verified implementation checkpoint — 19 October 2026
 
 This is a verified increment, not completion of the full real-time M3 study.

@@ -23,3 +23,17 @@ def test_paper_generation_refuses_incomplete_evidence_before_creating_output(tmp
 def test_statistical_missing_values_remain_explicit():
     assert report.number(None) == "NA"
     assert report.number(0) == "0.000"
+
+
+def test_table_caption_stays_with_its_complete_table(tmp_path):
+    pytest.importorskip("reportlab")
+    pdf = pytest.importorskip("pypdf")
+    markdown = "\n\n".join(["Pagination fixture paragraph."] * 30)
+    markdown += "\n\n#### Results table\n\n| N column | Measurement |\n|---|---|\n"
+    markdown += "\n".join(f"| Row {index} | Fixture |" for index in range(6))
+    target = tmp_path / "pagination.pdf"
+    report.render_pdf(markdown, tmp_path, target)
+    pages = [page.extract_text() for page in pdf.PdfReader(target).pages]
+    caption_page = next(text for text in pages if "Results table" in text)
+    assert "N column" in caption_page
+    assert "Row 5" in caption_page

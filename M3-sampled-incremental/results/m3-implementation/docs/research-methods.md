@@ -8,7 +8,7 @@
    isolated implementation?
 3. How do held-out SYN introduction and a constructed family/cadence shift
    affect missed attacks, false positives and predeclared recovery?
-4. How sensitive are quality conclusions to a one-second rather than0.1-second
+4. How sensitive are quality conclusions to a one-second rather than 0.1-second
    window, and to adaptive versus nonadaptive tree or majority prediction?
 
 This M3-only study does not answer the original overview's M1-versus-M2-versus-M3
@@ -18,7 +18,7 @@ questions. N=1 is an internal unsampled M3 reference. It is not an implemented M
 
 The frozen protocol is `configs/research_protocol.json`, SHA256
 `f8196653b1a0dfe6da652fa75d1aba720a6bd243842292d5a017b8cc2f8cc36d`.
-Three scenarios, six N values(1,2,5,10,20,50), and three model seeds(42,43,44)
+Three scenarios, six N values (1, 2, 5, 10, 20, 50), and three model seeds (42, 43, 44)
 yield 54 planned primary trials. Trial order uses seed 20261019. No threshold or
 hyperparameter tuning uses primary evaluation outcomes. Technical pilots and
 failed attempts remain separate from the randomized matrix.
@@ -65,8 +65,10 @@ change together, so this is a joint covariate/cadence-shift scenario. It does no
 isolate a causal benefit of ADWIN or demonstrate a natural concept change.
 
 The first four blocks form warm-up. Baseline exposes UDP and SYN during warm-up.
-Unseen exposes UDP but excludes SYN from its entire warm-up. Actual run metadata,
-not these approximate schedule offsets, defines physical origin and boundaries.
+Unseen exposes UDP but excludes SYN from its entire warm-up. Kernel receive events
+define physical attack onset. Warm-up and recovery boundaries use the declared
+stage schedule relative to each trial's recorded origin, not a natural source
+capture change point.
 
 ## Isolated live testbed
 
@@ -88,7 +90,7 @@ VLAN headers before matching. Unknown or conflicting frames remain unknown.
 
 The observer publishes pure-class window snapshots after a fixed settling
 interval. Empty, mixed and unknown windows are unscored; they are never assumed
-benign. For every completed feature window, the detector waits a declared0.5s,
+benign. For every completed feature window, the detector waits a declared 0.5 s,
 predicts, records completion time, then opens the independent truth snapshot.
 It logs/scores the observation before learning its newly revealed oracle label.
 Labels for gaps do not train the classifier. A zero-sample window with known
@@ -106,7 +108,7 @@ asynchronous human annotation or an operational labelling service.
 ## Features and model
 
 Primary windows are 0.1 s, indexed by collector receipt time. Features are estimated
-packets/s and bytes/s(weighted by N), sampled mean packet size, UDP/TCP/ICMP/SYN
+packets/s and bytes/s (weighted by N), sampled mean packet size, UDP/TCP/ICMP/SYN
 fractions, and an empty-window indicator. sFlow export batching, queueing and host
 scheduling can delay features relative to packet onset. Error near boundaries is
 part of the measured observation pipeline, not removed based on model outcomes.
@@ -121,8 +123,11 @@ Warm-up observations train but do not contribute to reported quality.
 Per-class precision, recall and F1, rank-based tie-aware ROC-AUC, false-positive
 rate, and held-out SYN recall use independently labelled evaluation windows.
 Physical detection delay uses prediction completion minus original received attack
-onset. Packets-to-detect counts all original IP packets from onset through alert
-completion, not selected samples. Undetected episodes remain censored. Inference
+onset. The top-level delay and packets-to-detect summaries describe the first
+post-warm-up attack episode in each trial, averaged only across detected trials.
+Per-episode results retain all later episodes. Packets-to-detect counts all
+original IP packets from onset through alert completion, not selected samples.
+Undetected episodes remain censored. Inference
 latency measures only the model's predict call, not export/window/label delay.
 
 CPU values represent percentages of one logical CPU, not the whole machine.
@@ -133,11 +138,17 @@ The scientific Pareto aliases use a consistent **IP-layer** basis: IPv4/UDP/payl
 for sFlow, captured IP packet bytes for OpenFlow. Report both channel components
 and their sum, including periodic counter/control traffic. These virtual-link
 costs do not measure physical wire overhead or production switch CPU.
+The host was not CPU-isolated, and development/verification activity could
+overlap collection. CPU and latency therefore describe an instrumented shared
+host, not dedicated-host capacity or a controlled hardware benchmark.
 
 Recovery requires rolling balanced accuracy >= 0.90 across 40 scored post-boundary
 observations, sustained for three consecutive checks with both classes in each
 window. Missing recovery is censored, not zero. Block cadence affects whether this
 criterion can be observed and must accompany interpretation.
+Reported recovery delay starts at the scheduled stage-8 shift boundary and ends
+at the first qualifying check in a confirmed streak. The raw recovery record
+also preserves the later confirmation time relative to the trial origin.
 
 ## Comparisons and uncertainty
 
@@ -151,7 +162,7 @@ Quality-only offline ablations consume the exact saved features and causal label
 order: HAT, nonadaptive Hoeffding Tree, and a fixed warm-up-majority dummy. These
 do not compare equivalent live CPU/latency costs. One-second sensitivity rebuilds
 features from the actual raw datagrams and original RX events, not averages of
-nonlinear0.1s feature vectors. It remains explicitly post-hoc quality sensitivity.
+nonlinear 0.1 s feature vectors. It remains explicitly post-hoc quality sensitivity.
 
 Pareto candidates maximize F1 and minimize measured combined IP-layer channel
 bandwidth. A descriptive recommendation minimizes normalized ideal-point distance
@@ -167,7 +178,7 @@ official release and applying the documented preparation and lab commands.
 
 The selected release/session, constructed timing, flow identity correlations,
 oracle labels, low fixed replay rate, short shifts, shared-host scheduling and
-uncontrolled sampling limit external validity. No physical5G/RAN or MEC experiment,
+uncontrolled sampling limit external validity. No physical 5G/RAN or MEC experiment,
 automatic mitigation, broad zero-day guarantee, or causal adaptation advantage is
 established by this design. Paper acceptance and sufficient novelty require human
 review beyond automated artifact-completeness gates.
