@@ -1,0 +1,4 @@
+experiment,window_count,tp,tn,fp,fn,accuracy,precision,recall,f1_score,false_positive_rate,ground_truth_rule,label_column
+baseline_k3_vote2,1000,165,147,181,507,0.312,0.476878612716763,0.24553571428571427,0.3241650294695481,0.551829268292683,Any malicious flow makes the window malicious,Label
+sensitive_k2_vote2,1000,195,127,201,477,0.322,0.49242424242424243,0.29017857142857145,0.36516853932584276,0.6128048780487805,Any malicious flow makes the window malicious,Label
+vote1_k3,1000,202,121,207,470,0.323,0.4938875305623472,0.3005952380952381,0.3737280296022202,0.6310975609756098,Any malicious flow makes the window malicious,Label
