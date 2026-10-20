@@ -228,5 +228,213 @@ class TestEWMA(unittest.TestCase):
         pd.testing.assert_frame_equal(df, df_copy)
 
 
+class TestEWMASessionCol(unittest.TestCase):
+    """Unit tests for the session_col parameter of smooth_entropy_dataframe."""
+
+    def _make_df(self, entropy_values, session_values, index=None):
+        """Build a minimal test DataFrame with an entropy column and a session column."""
+        data = {
+            "feat_entropy": entropy_values,
+            "session": session_values,
+        }
+        return pd.DataFrame(data, index=index)
+
+    # -------------------------------------------------------------------------
+    # 1. Correct EWMA values within a single session
+    # -------------------------------------------------------------------------
+    def test_ewma_values_within_single_session(self):
+        """EWMA within a session must match the non-session-aware result exactly."""
+        if not HAS_PANDAS:
+            self.skipTest("pandas required")
+
+        df = self._make_df([1.0, 2.0, 3.0], ["A", "A", "A"])
+        result_session = smooth_entropy_dataframe(df, alpha=0.5, session_col="session")
+        result_plain  = smooth_entropy_dataframe(df, alpha=0.5)
+
+        self.assertListEqual(
+            list(result_session["feat_entropy_ewma"]),
+            list(result_plain["feat_entropy_ewma"]),
+        )
+
+    # -------------------------------------------------------------------------
+    # 2. EWMA resets when the session ID changes
+    # -------------------------------------------------------------------------
+    def test_ewma_resets_on_session_change(self):
+        """First value of the new session segment must equal that segment's first entropy value."""
+        if not HAS_PANDAS:
+            self.skipTest("pandas required")
+
+        # Rows 0-2: session A,  Rows 3-5: session B
+        df = self._make_df(
+            [1.0, 2.0, 3.0, 10.0, 20.0, 30.0],
+            ["A", "A", "A", "B", "B", "B"],
+        )
+        result = smooth_entropy_dataframe(df, alpha=0.5, session_col="session")
+        ewma_col = list(result["feat_entropy_ewma"])
+
+        # Session A: s[0]=1.0, s[1]=0.5*2+0.5*1=1.5, s[2]=0.5*3+0.5*1.5=2.25
+        self.assertAlmostEqual(ewma_col[0], 1.0)
+        self.assertAlmostEqual(ewma_col[1], 1.5)
+        self.assertAlmostEqual(ewma_col[2], 2.25)
+
+        # Session B must start fresh: s[3]=10.0 (reset), not influenced by session A
+        self.assertAlmostEqual(ewma_col[3], 10.0)
+        self.assertAlmostEqual(ewma_col[4], 0.5 * 20.0 + 0.5 * 10.0)   # 15.0
+        self.assertAlmostEqual(ewma_col[5], 0.5 * 30.0 + 0.5 * 15.0)   # 22.5
+
+    # -------------------------------------------------------------------------
+    # 3. Multiple contiguous sessions (A → B → C)
+    # -------------------------------------------------------------------------
+    def test_multiple_contiguous_sessions(self):
+        """Each of three sessions must be smoothed independently."""
+        if not HAS_PANDAS:
+            self.skipTest("pandas required")
+
+        df = self._make_df(
+            [4.0, 8.0, 2.0, 6.0, 1.0, 3.0],
+            ["A", "A", "B", "B", "C", "C"],
+        )
+        result = smooth_entropy_dataframe(df, alpha=0.5, session_col="session")
+        ewma_col = list(result["feat_entropy_ewma"])
+
+        # Session A
+        self.assertAlmostEqual(ewma_col[0], 4.0)
+        self.assertAlmostEqual(ewma_col[1], 0.5 * 8.0 + 0.5 * 4.0)   # 6.0
+
+        # Session B — reset
+        self.assertAlmostEqual(ewma_col[2], 2.0)
+        self.assertAlmostEqual(ewma_col[3], 0.5 * 6.0 + 0.5 * 2.0)   # 4.0
+
+        # Session C — reset
+        self.assertAlmostEqual(ewma_col[4], 1.0)
+        self.assertAlmostEqual(ewma_col[5], 0.5 * 3.0 + 0.5 * 1.0)   # 2.0
+
+    # -------------------------------------------------------------------------
+    # 4. Non-contiguous same label is treated as two separate segments
+    # -------------------------------------------------------------------------
+    def test_non_contiguous_same_session_treated_as_separate_segments(self):
+        """Session A reappearing after session B must restart EWMA again."""
+        if not HAS_PANDAS:
+            self.skipTest("pandas required")
+
+        # A, B, A  — two separate A-segments
+        df = self._make_df(
+            [1.0, 2.0, 10.0, 20.0, 5.0, 6.0],
+            ["A", "A", "B", "B",  "A", "A"],
+        )
+        result = smooth_entropy_dataframe(df, alpha=0.5, session_col="session")
+        ewma_col = list(result["feat_entropy_ewma"])
+
+        # Second A-segment starts fresh at 5.0
+        self.assertAlmostEqual(ewma_col[4], 5.0)
+        self.assertAlmostEqual(ewma_col[5], 0.5 * 6.0 + 0.5 * 5.0)   # 5.5
+
+    # -------------------------------------------------------------------------
+    # 5. Missing session column raises KeyError
+    # -------------------------------------------------------------------------
+    def test_missing_session_column_raises_key_error(self):
+        """Passing a session_col that does not exist must raise KeyError."""
+        if not HAS_PANDAS:
+            self.skipTest("pandas required")
+
+        df = pd.DataFrame({"feat_entropy": [1.0, 2.0, 3.0]})
+        with self.assertRaises(KeyError):
+            smooth_entropy_dataframe(df, alpha=0.5, session_col="nonexistent_col")
+
+    # -------------------------------------------------------------------------
+    # 6. Original DataFrame and index remain unchanged
+    # -------------------------------------------------------------------------
+    def test_input_dataframe_not_mutated_with_session_col(self):
+        """smooth_entropy_dataframe must not mutate the input DataFrame."""
+        if not HAS_PANDAS:
+            self.skipTest("pandas required")
+
+        df = self._make_df(
+            [1.0, 2.0, 3.0, 4.0],
+            ["A", "A", "B", "B"],
+            index=[10, 11, 12, 13],
+        )
+        df_copy = df.copy()
+        result = smooth_entropy_dataframe(df, alpha=0.5, session_col="session")
+
+        # Input unchanged
+        pd.testing.assert_frame_equal(df, df_copy)
+
+        # Output has original index
+        self.assertListEqual(list(result.index), [10, 11, 12, 13])
+
+        # Output contains the new column
+        self.assertIn("feat_entropy_ewma", result.columns)
+
+    # -------------------------------------------------------------------------
+    # 7. Existing behaviour unchanged when session_col is omitted
+    # -------------------------------------------------------------------------
+    def test_existing_behavior_without_session_col(self):
+        """Omitting session_col must produce identical output to the original API."""
+        if not HAS_PANDAS:
+            self.skipTest("pandas required")
+
+        df = pd.DataFrame({"val_entropy": [1.0, 2.0, 3.0]})
+
+        result_new  = smooth_entropy_dataframe(df, alpha=0.5)               # new default
+        result_old  = smooth_entropy_dataframe(df, alpha=0.5, session_col=None)  # explicit None
+
+        pd.testing.assert_frame_equal(result_new, result_old)
+        self.assertListEqual(
+            list(result_new["val_entropy_ewma"]),
+            [1.0, 1.5, 2.25],
+        )
+
+    def test_consecutive_missing_session_labels_form_one_segment(self):
+        """Consecutive NaN, None, and pd.NA labels belong to one segment."""
+        df = self._make_df(
+            [1.0, 2.0, 3.0, 4.0],
+            [float("nan"), None, pd.NA, float("nan")],
+        )
+
+        result = smooth_entropy_dataframe(
+            df, alpha=0.5, session_col="session"
+        )
+
+        self.assertEqual(
+            list(result["feat_entropy_ewma"]),
+            [1.0, 1.5, 2.25, 3.125],
+        )
+
+    def test_missing_to_named_session_resets_ewma(self):
+        """Transitions between missing and named sessions reset EWMA."""
+        df = self._make_df(
+            [1.0, 3.0, 10.0, 20.0, 30.0],
+            [None, float("nan"), "A", "A", pd.NA],
+        )
+
+        result = smooth_entropy_dataframe(
+            df, alpha=0.5, session_col="session"
+        )
+
+        self.assertEqual(
+            list(result["feat_entropy_ewma"]),
+            [1.0, 2.0, 10.0, 15.0, 30.0],
+        )
+
+    def test_duplicate_dataframe_index_preserves_rows_and_order(self):
+        """Duplicate index labels must not change row count or EWMA ordering."""
+        df = self._make_df(
+            [1.0, 3.0, 10.0, 20.0],
+            ["A", "A", "B", "B"],
+            index=[5, 5, 2, 5],
+        )
+
+        result = smooth_entropy_dataframe(
+            df, alpha=0.5, session_col="session"
+        )
+
+        self.assertEqual(len(result), len(df))
+        self.assertEqual(list(result.index), [5, 5, 2, 5])
+        self.assertEqual(
+            list(result["feat_entropy_ewma"]),
+            [1.0, 2.0, 10.0, 15.0],
+        )
+
 if __name__ == "__main__":
     unittest.main()

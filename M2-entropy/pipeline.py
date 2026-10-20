@@ -199,12 +199,22 @@ def run_entropy_pipeline(config: Optional[PipelineConfig] = None) -> PipelineRes
         if c.endswith("_entropy") and c not in EWMA_METADATA_COLS
     ]
 
-    # Step F & G: Apply EWMA smoothing
+    # Step F & G: Apply EWMA smoothing.
+    # raw_entropy_df always carries 'session_id' (from WindowEntropyResult.to_dict()),
+    # regardless of how the session column was named in the source DataFrame.
+    # Resolve the EWMA session column to 'session_id' whenever session-aware
+    # processing is active, so smooth_entropy_dataframe receives a column that
+    # actually exists in raw_entropy_df.
+    ewma_session_col: Optional[str] = None
+    if session_col_to_use is not None and "session_id" in raw_entropy_df.columns:
+        ewma_session_col = "session_id"
+
     smoothed_df = smooth_entropy_dataframe(
         entropy_df=raw_entropy_df,
         alpha=cfg.alpha,
         entropy_columns=raw_entropy_cols,
         suffix="_ewma",
+        session_col=ewma_session_col,
     )
 
     ewma_cols = [

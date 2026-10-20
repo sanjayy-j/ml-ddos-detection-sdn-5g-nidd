@@ -128,6 +128,7 @@ def smooth_entropy_dataframe(
     entropy_columns: Optional[List[str]] = None,
     suffix: str = "_ewma",
     initial: Optional[float] = None,
+    session_col: Optional[str] = None,
 ) -> Any:
     """Smooth selected entropy columns in a pandas DataFrame using EWMA.
 
@@ -138,12 +139,17 @@ def smooth_entropy_dataframe(
             selects all columns ending with '_entropy' (excluding metadata).
         suffix: Suffix appended to smoothed column names (default '_ewma').
         initial: Optional explicit initial value for smoothing.
+        session_col: Optional column name that identifies session segments. When provided,
+            each contiguous run of identical session values is smoothed independently;
+            EWMA is reinitialised at the start of every new segment. Rows are never
+            reordered and the original DataFrame index is preserved. Raises KeyError if
+            the column does not exist in entropy_df.
 
     Returns:
         pandas DataFrame: New DataFrame containing original columns and smoothed EWMA columns.
 
     Raises:
-        KeyError: If a column requested in `entropy_columns` does not exist.
+        KeyError: If a column requested in ``entropy_columns`` or ``session_col`` does not exist.
         TypeError: If a selected column contains non-numeric data.
         ValueError: If alpha is invalid.
     """
@@ -151,6 +157,10 @@ def smooth_entropy_dataframe(
 
     if not HAS_PANDAS or not isinstance(entropy_df, pd.DataFrame):
         raise TypeError(f"Expected pandas DataFrame for entropy_df, got {type(entropy_df).__name__}")
+
+    # Validate session_col early so callers get a clear error regardless of DataFrame length.
+    if session_col is not None and session_col not in entropy_df.columns:
+        raise KeyError(f"Session column '{session_col}' not found in DataFrame.")
 
     out_df = entropy_df.copy()
 
@@ -181,10 +191,95 @@ def smooth_entropy_dataframe(
         if not pd.api.types.is_numeric_dtype(series):
             raise TypeError(f"Column '{col}' is non-numeric and cannot be smoothed using EWMA.")
 
-        smoothed_series = ewma(series, alpha=alpha, initial=initial)
+        if session_col is None:
+            smoothed_series = ewma(series, alpha=alpha, initial=initial)
+        else:
+            smoothed_series = _ewma_by_session(
+                series=series,
+                session_labels=entropy_df[session_col],
+                alpha=alpha,
+                initial=initial,
+            )
+
         out_df[f"{col}{suffix}"] = smoothed_series
 
     return out_df
+
+
+def _labels_are_same_segment(a: Any, b: Any) -> bool:
+    """Return True when two session labels belong to the same contiguous segment.
+
+    Rules:
+    - Two missing values (NaN / None / pd.NA) are treated as the *same* segment.
+    - A missing value and a non-missing value are *different* segments.
+    - Two equal non-missing values are the *same* segment.
+    - Two unequal non-missing values are *different* segments.
+    """
+    # Check both for missingness using pandas (handles NaN, None, pd.NA uniformly).
+    a_missing = pd.isna(a) if HAS_PANDAS else (a is None or a != a)
+    b_missing = pd.isna(b) if HAS_PANDAS else (b is None or b != b)
+
+    if a_missing and b_missing:
+        return True   # consecutive missing → same segment
+    if a_missing != b_missing:
+        return False  # one missing, one not → new segment
+    return a == b     # both non-missing: compare normally
+
+
+def _ewma_by_session(
+    series: "pd.Series",
+    session_labels: "pd.Series",
+    alpha: float,
+    initial: Optional[float],
+) -> "pd.Series":
+    """Apply EWMA independently to each contiguous session segment.
+
+    Rows are processed in their original order. When the session label changes,
+    EWMA is reinitialised for the new segment. Non-contiguous occurrences of the
+    same label are treated as separate segments.
+
+    Missing session labels (NaN / None / pd.NA) are all treated as the *same*
+    missing-label value: consecutive missing rows belong to one segment, and a
+    transition from missing to any non-missing label (or vice-versa) starts a new
+    segment.
+
+    Parameters:
+        series: Numeric entropy series aligned to ``entropy_df``'s index.
+        session_labels: Series of session identifiers with the same index as ``series``.
+        alpha: EWMA smoothing factor.
+        initial: Optional explicit first-value override for each segment.
+
+    Returns:
+        pd.Series of smoothed values with the same index as ``series``.
+    """
+    smoothed_values: List[float] = []
+    smoothed_index = list(series.index)
+
+    seg_values: List[float] = []
+
+    _SENTINEL = object()  # distinct from any real value, including NaN
+    prev_label: Any = _SENTINEL
+
+    for val, label in zip(series.values, session_labels.values):
+        same = (prev_label is not _SENTINEL) and _labels_are_same_segment(prev_label, label)
+
+        if not same:
+            # Flush the previous segment.
+            if seg_values:
+                smoothed_seg = ewma(pd.Series(seg_values, dtype=float), alpha=alpha, initial=initial)
+                smoothed_values.extend(smoothed_seg)
+            # Start a new segment.
+            seg_values = [float(val)]
+            prev_label = label
+        else:
+            seg_values.append(float(val))
+
+    # Flush the final segment.
+    if seg_values:
+        smoothed_seg = ewma(pd.Series(seg_values, dtype=float), alpha=alpha, initial=initial)
+        smoothed_values.extend(smoothed_seg)
+
+    return pd.Series(smoothed_values, index=smoothed_index, name=series.name)
 
 
 def _validate_alpha(alpha: float) -> None:

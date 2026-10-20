@@ -186,6 +186,189 @@ class TestPipelineIntegration(unittest.TestCase):
         self.assertEqual(res.number_of_windows, 0)
         self.assertEqual(len(res.output_df), 0)
 
+    def test_session_aware_ewma_resets_at_boundaries(self):
+        """EWMA must reset at session boundaries when session_col is active.
+
+        Strategy
+        --------
+        Build a DataFrame with **two sessions × two windows each** (400 rows
+        total, W=100, S=100, drop_incomplete=True → 4 complete windows).
+
+        Window layout
+        ~~~~~~~~~~~~~
+        Rows 0-99   : session A, window A0 — Proto = all 'tcp'       → H_Proto = 0.0
+        Rows 100-199: session A, window A1 — Proto = 50 'tcp'+50 'udp' → H_Proto = 1.0
+        Rows 200-299: session B, window B0 — Proto = all 'udp'       → H_Proto = 0.0
+        Rows 300-399: session B, window B1 — Proto = 50 'udp'+50 'icmp'→ H_Proto = 1.0
+
+        With alpha=0.5 the expected EWMA values are:
+
+          A0: ewma[A0] = 0.0          (first observation = raw value)
+          A1: ewma[A1] = 0.5×1.0 + 0.5×0.0 = 0.5  (EWMA carry-over from A0)
+          B0: ewma[B0] = 0.0          (RESET: first observation of session B)
+          B1: ewma[B1] = 0.5×1.0 + 0.5×0.0 = 0.5  (EWMA carry-over from B0)
+
+        Without a session reset, B0 would instead be:
+          ewma[B0] = 0.5×0.0 + 0.5×0.5 = 0.25  ← distinguishably wrong.
+
+        This also exercises the "session" source-column name (not 'session_id')
+        to verify the column-name resolution path introduced by the bug fix.
+        """
+        n = 100  # rows per window
+
+        proto_a0 = ["tcp"] * n                           # all same  → H = 0.0
+        proto_a1 = ["tcp"] * (n // 2) + ["udp"] * (n // 2)  # 50/50  → H = 1.0
+        proto_b0 = ["udp"] * n                           # all same  → H = 0.0
+        proto_b1 = ["udp"] * (n // 2) + ["icmp"] * (n // 2)  # 50/50 → H = 1.0
+
+        df = pd.DataFrame({
+            # Proto column drives the analytically known entropy values.
+            "Proto":   proto_a0 + proto_a1 + proto_b0 + proto_b1,
+            # All other default categorical and numerical columns held constant
+            # so that Proto_entropy is the only feature whose value changes.
+            "State":   ["CON"] * (4 * n),
+            "sTtl":    [64]    * (4 * n),
+            "sDSb":    [0]     * (4 * n),
+            "TotPkts": [10]    * (4 * n),
+            "TotBytes":[1000]  * (4 * n),
+            "Rate":    [100.0] * (4 * n),
+            "Dur":     [0.1]   * (4 * n),
+            # Use "session" (not "session_id") to exercise the name-resolution path.
+            "session": ["A"] * (2 * n) + ["B"] * (2 * n),
+        })
+
+        alpha = 0.5
+        cfg = PipelineConfig(
+            df=df,
+            window_size=n,
+            step_size=n,
+            drop_incomplete=True,
+            alpha=alpha,
+            session_col="session",
+            threshold_config=ThresholdConfig(
+                min_history=1, min_valid_history=1, voting_threshold=1
+            ),
+        )
+        res = run_entropy_pipeline(cfg)
+
+        self.assertEqual(res.number_of_windows, 4)
+        self.assertEqual(res.number_of_complete_windows, 4)
+
+        out = res.output_df
+
+        # session_id must be present and carry the right labels.
+        self.assertIn("session_id", out.columns)
+        self.assertEqual(list(out["session_id"]), ["A", "A", "B", "B"])
+
+        # --- Verify Proto_entropy_ewma specifically ---
+        self.assertIn("Proto_entropy", out.columns, "Proto_entropy must be a raw entropy column")
+        self.assertIn("Proto_entropy_ewma", out.columns, "Proto_entropy_ewma must exist")
+
+        raw = list(out["Proto_entropy"])
+        ewma_col = list(out["Proto_entropy_ewma"])
+
+        # Raw entropy sanity check (H=0 for constant, H=1 for 50/50 binary).
+        self.assertAlmostEqual(raw[0], 0.0, places=10, msg="A0 raw: constant proto → H=0")
+        self.assertAlmostEqual(raw[1], 1.0, places=10, msg="A1 raw: 50/50 proto → H=1")
+        self.assertAlmostEqual(raw[2], 0.0, places=10, msg="B0 raw: constant proto → H=0")
+        self.assertAlmostEqual(raw[3], 1.0, places=10, msg="B1 raw: 50/50 proto → H=1")
+
+        # EWMA assertions derived independently from the recurrence.
+        # Session A -------------------------------------------------------
+        expected_ewma_A0 = 0.0                                  # first value = raw
+        expected_ewma_A1 = alpha * raw[1] + (1 - alpha) * expected_ewma_A0  # = 0.5
+        # Session B (reset) -----------------------------------------------
+        expected_ewma_B0 = 0.0                                  # RESET: first value of new session
+        expected_ewma_B1 = alpha * raw[3] + (1 - alpha) * expected_ewma_B0  # = 0.5
+
+        self.assertAlmostEqual(ewma_col[0], expected_ewma_A0, places=10,
+                               msg="A0: EWMA must equal first raw value")
+        self.assertAlmostEqual(ewma_col[1], expected_ewma_A1, places=10,
+                               msg="A1: EWMA must follow recurrence from A0")
+        self.assertAlmostEqual(ewma_col[2], expected_ewma_B0, places=10,
+                               msg="B0: EWMA must RESET (not carry over from session A)")
+        self.assertAlmostEqual(ewma_col[3], expected_ewma_B1, places=10,
+                               msg="B1: EWMA must follow recurrence from B0")
+
+        # The reset discriminant: without reset B0 would be
+        #   0.5 * raw[2] + 0.5 * ewma_col[1] = 0.5*0.0 + 0.5*0.5 = 0.25 ≠ 0.0
+        wrong_b0 = alpha * raw[2] + (1 - alpha) * ewma_col[1]
+        self.assertNotAlmostEqual(
+            wrong_b0, expected_ewma_B0, places=5,
+            msg="Discriminant: without reset, B0 would differ from the asserted value",
+        )
+
+    def test_session_unaware_behavior_unchanged(self):
+        """Omitting session_col must produce EWMA values matching an independently
+        computed expected sequence (alpha=0.5, Proto_entropy).
+
+        Strategy
+        --------
+        Build a DataFrame whose windows yield analytically known Proto_entropy
+        values: constant-proto windows give H=0, alternating-proto windows give
+        H=1.  With no session boundaries and alpha=0.5 the EWMA recurrence is:
+
+            ewma[0] = raw[0]
+            ewma[t] = 0.5 * raw[t] + 0.5 * ewma[t-1]    for t >= 1
+
+        We compute the expected sequence in the test and assert element-wise equality,
+        proving that the session-unaware code path is correct and unchanged.
+        """
+        n = 100  # rows per window
+        # 4 windows, no session column:
+        #   window 0: Proto = all 'tcp'          → H_Proto = 0.0
+        #   window 1: Proto = 50 'tcp' + 50 'udp'→ H_Proto = 1.0
+        #   window 2: Proto = all 'tcp'          → H_Proto = 0.0
+        #   window 3: Proto = 50 'tcp' + 50 'udp'→ H_Proto = 1.0
+        proto = (
+            ["tcp"] * n
+            + ["tcp"] * (n // 2) + ["udp"] * (n // 2)
+            + ["tcp"] * n
+            + ["tcp"] * (n // 2) + ["udp"] * (n // 2)
+        )
+        df = pd.DataFrame({
+            "Proto":   proto,
+            "State":   ["CON"] * (4 * n),
+            "sTtl":    [64]    * (4 * n),
+            "sDSb":    [0]     * (4 * n),
+            "TotPkts": [10]    * (4 * n),
+            "TotBytes":[1000]  * (4 * n),
+            "Rate":    [100.0] * (4 * n),
+            "Dur":     [0.1]   * (4 * n),
+        })
+
+        alpha = 0.5
+        cfg = PipelineConfig(
+            df=df,
+            window_size=n,
+            step_size=n,
+            drop_incomplete=True,
+            alpha=alpha,
+            session_col=None,          # explicit: no session awareness
+            threshold_config=ThresholdConfig(
+                min_history=1, min_valid_history=1, voting_threshold=1
+            ),
+        )
+        res = run_entropy_pipeline(cfg)
+
+        self.assertEqual(res.number_of_windows, 4)
+        self.assertIn("Proto_entropy",      res.output_df.columns)
+        self.assertIn("Proto_entropy_ewma", res.output_df.columns)
+
+        raw   = list(res.output_df["Proto_entropy"])
+        ewma_actual = list(res.output_df["Proto_entropy_ewma"])
+
+        # Independently compute the expected EWMA from the recurrence.
+        expected: list = [float(raw[0])]
+        for t in range(1, len(raw)):
+            expected.append(alpha * raw[t] + (1 - alpha) * expected[t - 1])
+
+        for t, (exp, act) in enumerate(zip(expected, ewma_actual)):
+            self.assertAlmostEqual(
+                act, exp, places=10,
+                msg=f"Window {t}: session-unaware EWMA mismatch (expected {exp}, got {act})",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
