@@ -105,17 +105,34 @@ def compute_window_entropy(
     else:
         df_input = pd.DataFrame(data_slice) if HAS_PANDAS else data_slice
 
+    # Compute address and port entropy only when explicitly selected.
+    # Keep the two distributions separate and exclude missing values.
+    raw_entropy_scores: Dict[str, float] = {}
+    if HAS_PANDAS and isinstance(df_input, pd.DataFrame):
+        selected_cols = set(extractor.config.categorical_cols)
+        selected_cols.update(extractor.config.numerical_cols)
+        for col in ("SrcAddr", "Dport"):
+            if col in selected_cols and col in df_input.columns:
+                values = df_input[col].dropna()
+                raw_entropy_scores[f"{col}_entropy"] = (
+                    float(calculate_shannon_entropy(values, base=base))
+                    if not values.empty else 0.0
+                )
+
     # Extract features
     if HAS_PANDAS and isinstance(df_input, pd.DataFrame):
         feature_df = extractor.extract_features(df_input)
 
         entropy_scores: Dict[str, float] = {}
+        entropy_scores.update(raw_entropy_scores)
         if len(feature_df) == 0:
             for col in feature_df.columns:
                 score_name = f"{col}_entropy" if not col.endswith("_entropy") else col
                 entropy_scores[score_name] = 0.0
         else:
             for col in feature_df.columns:
+                if col in ("SrcAddr", "Dport") and f"{col}_entropy" in raw_entropy_scores:
+                    continue
                 score_name = f"{col}_entropy" if not col.endswith("_entropy") else col
                 series = feature_df[col]
                 score = calculate_shannon_entropy(series, base=base)
