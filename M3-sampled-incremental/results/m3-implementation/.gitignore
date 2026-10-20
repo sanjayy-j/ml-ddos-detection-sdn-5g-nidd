@@ -18,6 +18,7 @@ output/runs/
 output/analysis/
 output/sdn/
 output/pdf/
+output/research/
 *.pcap
 *.pcapng
 *.log

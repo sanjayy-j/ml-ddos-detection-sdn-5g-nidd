@@ -1044,6 +1044,1508 @@
         "Construct packet timestamps as selection_index/pps; not natural chronology",
         "Repeated blocks may reuse first eligible source packets; not independent data"
       ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_00.pcap",
+      "sha256": "72e542ed59de08d8e5b7ae102df1e1c1afc889067115f2e2d5ad2d156b7326e4",
+      "size_bytes": 939318,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_00_mapping.csv",
+      "sha256": "a91ad118d991fab5a860f5d8a789f525d7924628922ab36c6d39767bbf7a9d68",
+      "size_bytes": 133273,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_01.pcap",
+      "sha256": "b120b1794b51561551b22d293195efb3380d20ae9aeadde445f6926f568dabe1",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_01_mapping.csv",
+      "sha256": "3fd67181beb581dda1517e1a2fcf8930796045dd69e0ea05ce0493811af0e330",
+      "size_bytes": 137389,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_02.pcap",
+      "sha256": "575af4782cd8ddeda0f6d5149723adf0d2428fdc926872f90576265d2dbbc613",
+      "size_bytes": 1013372,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_02_mapping.csv",
+      "sha256": "8e29145f51ad602620f5f2c1cd481e121d9f4be2fee03888e98c26b2d6242d41",
+      "size_bytes": 133989,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_03.pcap",
+      "sha256": "626fb2f74791089f041087d04dff99f40c9853744d618c8063acdb39b2b62cdc",
+      "size_bytes": 57096,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_03_mapping.csv",
+      "sha256": "3caa8add4c811d27867afa37856571a4e92636d09370a202e6b109957f901615",
+      "size_bytes": 136566,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_04.pcap",
+      "sha256": "18afdce83ec21f774442a624e0b89c5e99368445fcc7e2c78ebaba35ca18c076",
+      "size_bytes": 972842,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_04_mapping.csv",
+      "sha256": "4e7a74b273180d71ff294e3189ab720df7aaa393ba140f6c0cc56e1130d918c6",
+      "size_bytes": 134183,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_05.pcap",
+      "sha256": "6a95653be1c23718a6af5cb57e11c96f792f2ca53b5e244cda8634ade8a24d97",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_05_mapping.csv",
+      "sha256": "99cf587f33a152e0e33ae56f64ba3fbf2398d7948bb5f157e3805f1c6b9bf901",
+      "size_bytes": 137394,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_06.pcap",
+      "sha256": "6553a5b05cb9276529c6b5d11c7d371e500cee16dec09f033d1897e585bd0d49",
+      "size_bytes": 982876,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_06_mapping.csv",
+      "sha256": "88d1e219e34b530f1b5b63eada663778c475ce830073947cd88913904e8a7078",
+      "size_bytes": 134167,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_07.pcap",
+      "sha256": "09d931f87b4d3dabba224307cab79de24a8b266659a3ae87f3c2b309934c4bf4",
+      "size_bytes": 57100,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_07_mapping.csv",
+      "sha256": "a33b815a55cf86a1bb8e7b6faef24134de6ab507193a77b40ad3dbf6c633679b",
+      "size_bytes": 136585,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_08.pcap",
+      "sha256": "e6560e83a5230b3c20faf10134ee9584f2a76a186336f62f24ec0f314d4215e0",
+      "size_bytes": 923426,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_08_mapping.csv",
+      "sha256": "b4047b6b80e6de1057cb29681662b65f1a1a9f63bb18bc5c0058cf015e98e704",
+      "size_bytes": 134167,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_09.pcap",
+      "sha256": "4c980f9d638301a54d8be1d97a4a59b0a459b50a0516d2f461fe885513246978",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_09_mapping.csv",
+      "sha256": "7bea1a24408f79632d12085db10d729a194afed8fad6bc976312f85e9dbbcfd4",
+      "size_bytes": 137376,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_10.pcap",
+      "sha256": "41f6508608a89a74dc96df8c9e8a52223e842b66908a09409ad9452d56e3268a",
+      "size_bytes": 982515,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_10_mapping.csv",
+      "sha256": "a9d89b6e5cc1c76c03dd6e04b5bf7597a1db4c4d20d3783dcd17421aa940d319",
+      "size_bytes": 134173,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_11.pcap",
+      "sha256": "b38c6578b23b4ebfffbeb7933ed10211648441365cdde95a89de9979eb7435db",
+      "size_bytes": 57092,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/block_11_mapping.csv",
+      "sha256": "a3e8cbc24d4b4af52df8eb4a32766f8ff30ae0bb87a87582e60897359f51d231",
+      "size_bytes": 136551,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/baseline/blocks.json",
+      "sha256": "c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5",
+      "size_bytes": 30150,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_00.pcap",
+      "sha256": "bac56d5d404857cd64ce05be3659d7ac17c595925c68ba433416b086edf97d1d",
+      "size_bytes": 948924,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_00_mapping.csv",
+      "sha256": "31552e77178ebbc8fed1f3f242b6b8d120e45ae6c11665fe4745ad274e00c831",
+      "size_bytes": 134121,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_01.pcap",
+      "sha256": "c415ee3ff59e6982214bbd3580cc853cddd5ec36fc6c67137f75a53d9c3a22f4",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_01_mapping.csv",
+      "sha256": "735dd2f3442f0558058a4b8a80f773b51750a4d69d70a17d3aac4c1a49329111",
+      "size_bytes": 137398,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_02.pcap",
+      "sha256": "a4a494ae32be12e5c1de91ef33bb3a6184ec03c210f732bcc70deb7d0c436907",
+      "size_bytes": 974168,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_02_mapping.csv",
+      "sha256": "5d8f002253152f5427d6829f79a9b1b57991422a3835f36b3a3eaeeca6dfeab9",
+      "size_bytes": 134152,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_03.pcap",
+      "sha256": "15152605e30b17d47080f155b013464eedd4ce94687957c2f675b861c18a86ef",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_03_mapping.csv",
+      "sha256": "5b6c9979d55d6684bc52ea383b0e13f849317d0b0cd7f6d6e8873c152fc20a30",
+      "size_bytes": 137370,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_04.pcap",
+      "sha256": "e55727530ca70611acf3537bc0b1e4e6315fb0ae65a1cb40235e42620db66749",
+      "size_bytes": 957858,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_04_mapping.csv",
+      "sha256": "9e59df78120c31a9ba169f103cc405eaa1c4ccf15155f160e384e12fedefca90",
+      "size_bytes": 134181,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_05.pcap",
+      "sha256": "d220dad10a5940b42204e7432b5a675b44ff9182e8e706a8c6cf475ba35eb969",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_05_mapping.csv",
+      "sha256": "3b748e704ed16c83ba4d90cbcac85597d6679faa655efc637465015610c6bcb8",
+      "size_bytes": 137353,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_06.pcap",
+      "sha256": "8a05b87c69a10faa2c543872ad8848b7a2721440368f79088e8b5c719c5c6b5f",
+      "size_bytes": 1003125,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_06_mapping.csv",
+      "sha256": "b64c3aefb699454a16d3658f66ebe2a85ba60c38303b683c54da21918e4acdc0",
+      "size_bytes": 134194,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_07.pcap",
+      "sha256": "d0919b9290c9a2462b18ec953b31c446cefc40cab5779fc165ad44fddf82ea6b",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_07_mapping.csv",
+      "sha256": "1dff01c4d04948ac785b835a6dab90c64c87de2a7b61c636c340fd73a4f11c18",
+      "size_bytes": 137398,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_08.pcap",
+      "sha256": "515aef1c7fdaee96228cc2da8c60c3cb48d5730dbbe7b9853106f82e8b18d1b6",
+      "size_bytes": 225056,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_08_mapping.csv",
+      "sha256": "ab58aa0dbac00b5f2ec0507caa0bb3c206d03ea14010c08077648851c048ae50",
+      "size_bytes": 33540,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_09.pcap",
+      "sha256": "2e15bb680020311baaa7c735a74573469591a865a63a0bdb5cd414f34ffec5e5",
+      "size_bytes": 11624,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_09_mapping.csv",
+      "sha256": "4812831838ea332852ce748a77e4e7f8396c220a7e4ed6c1678a945bc872d2ce",
+      "size_bytes": 34544,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_10.pcap",
+      "sha256": "6ea296bb2d34d33e10467b736b45b41a65830429e744a54b34a7f5361c2c4288",
+      "size_bytes": 208418,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_10_mapping.csv",
+      "sha256": "b37dd69668f3cb7f0c118e4d3129b1ec1bc92dad5ebc4aaca90d1c85ba9a65e1",
+      "size_bytes": 33532,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_11.pcap",
+      "sha256": "bb845facf6c442d10dccdb3bc651118c35fad6d6b56538e1f1d7fbf663900f2a",
+      "size_bytes": 11624,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_11_mapping.csv",
+      "sha256": "8fa29f50d625f1f670f0a0816ff08c908408f6e47f5923129e372b110fef6c03",
+      "size_bytes": 34534,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_12.pcap",
+      "sha256": "0e4caf3a5ba4a1c3cd943b40b9115dc3b00b7ada0b5e78d97cc650245fa4267e",
+      "size_bytes": 258452,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_12_mapping.csv",
+      "sha256": "01cb134d5efff4064d8acf2148e0834ef9154490de9005bd86d8fb2e149ee45d",
+      "size_bytes": 33524,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_13.pcap",
+      "sha256": "126571d248bf5a79d530105369dde2fde321b8e88d2dca0fee6732689747ac17",
+      "size_bytes": 11624,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_13_mapping.csv",
+      "sha256": "1a9f8fc4abbaf71e5b3e1c3767538105093ab59a12596f246b18378c2cb48e08",
+      "size_bytes": 34552,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_14.pcap",
+      "sha256": "40571000655acbc072a585fc5a9120bd41aafb589d32e5e2ed1a79194576e433",
+      "size_bytes": 209573,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_14_mapping.csv",
+      "sha256": "0bbc01d05b3f5c47577c2d1558469d7fc799d50ce0ab2b9038278cf645548412",
+      "size_bytes": 33540,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_15.pcap",
+      "sha256": "bdc6cf8bcca5302d657c2973fc05309ec6703354d226e778626d91e8881e45af",
+      "size_bytes": 11624,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/block_15_mapping.csv",
+      "sha256": "9f25e34fcd02b8f32aeb6edba92b6e4032ad5cd38bf82d1d0a2c41f82bf2c2d1",
+      "size_bytes": 34538,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/drift/blocks.json",
+      "sha256": "566deac32b93aa983d20df58bea1ca845f663e3cec1baffa733565b49e67ee6b",
+      "size_bytes": 40001,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f",
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+        "43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38",
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_00.pcap",
+      "sha256": "2e04c3d687d5d23e0f78d79e4e24cbb39a63e9842c5008e5e11c1e34b27d84b2",
+      "size_bytes": 947433,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_00_mapping.csv",
+      "sha256": "4f8a5673dae8f7576279221305511255661c10f3f08db578853ca901724b657b",
+      "size_bytes": 134174,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_01.pcap",
+      "sha256": "a00a4bb5adae7b1dc7572b7f806c58da5793c534bd3403a9bbf01e33d990d20e",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_01_mapping.csv",
+      "sha256": "ac3a2c79705a13ecc6a26182c4e680ff288aef9ba48383725c33b9b15c2c61af",
+      "size_bytes": 137354,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_02.pcap",
+      "sha256": "5740209ed622dd9563f7592a4a745990816010b74b26ee88061294c6b9421de0",
+      "size_bytes": 937737,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_02_mapping.csv",
+      "sha256": "9e5c7a85a2b9100cf6b923ac5df06edd9f9f1efff31954f591f86cbc5c1c06bb",
+      "size_bytes": 134734,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_03.pcap",
+      "sha256": "101228066fab38f41e6926e1ae11ff5fa80c7daef3d693994b63059a0b910765",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_03_mapping.csv",
+      "sha256": "374e7cfea0a45a9e41dcd8ee0218ec54765290ea2164e2c5966d4302c63d69eb",
+      "size_bytes": 137387,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_04.pcap",
+      "sha256": "02ea323c3c81db1d4e6165efe859415329886551709c08b6307f6ddab38ec2de",
+      "size_bytes": 990427,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_04_mapping.csv",
+      "sha256": "0059d90934f9235babda370ed885d02a71cd872f3feb473348adb33de3bdb9ae",
+      "size_bytes": 134966,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_05.pcap",
+      "sha256": "2a181287fa9aceba292ec940ac99bca0e815eca1d77d9869508ac4cfdcb026b6",
+      "size_bytes": 57100,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_05_mapping.csv",
+      "sha256": "1f22ff3bdfb19ec0ea96177d6bdd622fe6d4aaba471bc5013b7812bd81bdf8e7",
+      "size_bytes": 136567,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_06.pcap",
+      "sha256": "8d54dddbaad90561449762c759804355628df8d43bba1f2ecda46dbf9c98c028",
+      "size_bytes": 946828,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_06_mapping.csv",
+      "sha256": "a66e0f0ee62b591d98d8189e10f9450a1e4f7838c16c10e0589ae214625e4d9d",
+      "size_bytes": 134974,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_07.pcap",
+      "sha256": "ac83def5208c74614380d9c70ed970af786f8e2c5849b5de0e8171419755cd38",
+      "size_bytes": 57092,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_07_mapping.csv",
+      "sha256": "f6cc91309b2abf6c001dc073b3a4f2db0f77d16980b077e679ca7b807db13fcf",
+      "size_bytes": 136584,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_08.pcap",
+      "sha256": "8a37e1041cd3d6370f087502cc21b0d2bc701ac8377b2ab432894ce63722aa14",
+      "size_bytes": 933064,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_08_mapping.csv",
+      "sha256": "c3e557413d0b1e93f2afeedbdd159ff301b3e6950130decb2c8a9de03e2b8f0c",
+      "size_bytes": 135010,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_09.pcap",
+      "sha256": "beb6b4cbe6bae3f6c9e7785e57d8b8e5323f48d3c962198635f7be96a4679073",
+      "size_bytes": 46424,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_09_mapping.csv",
+      "sha256": "714674aaaa340ebe3fc6af374f82b04694fb95256f322f858c547ab131e1c3fe",
+      "size_bytes": 137392,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_10.pcap",
+      "sha256": "977a5faed894c5cde5f3804aaf0f5d48d035f8f51b11bf4df14903f82e0ec190",
+      "size_bytes": 937836,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_10_mapping.csv",
+      "sha256": "7c3eee4d55c107b6a4033845319239bee920765b9715e777c44eb7ce440511da",
+      "size_bytes": 134968,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_11.pcap",
+      "sha256": "f9677dc0cbff55fac301ae9f5dc5822b58e2a71d1d021ebdba743bf409c00924",
+      "size_bytes": 57100,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/block_11_mapping.csv",
+      "sha256": "956b794ef636d4ed3e94a4cb0b26bd0c381ca6af7319acc10963dc8dfd5f9d7a",
+      "size_bytes": 136593,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
+    },
+    {
+      "path": "data/prepared/research_20261019_equalrate_v1/unseen/blocks.json",
+      "sha256": "1091f89f0186cbeb5b447d103e912ca1fcf72b0bd61f85f42f15525ff1d12a05",
+      "size_bytes": 30201,
+      "verification_status": "verified",
+      "parent_sha256s": [
+        "2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c",
+        "3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c",
+        "68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e",
+        "921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94"
+      ],
+      "fixture": false,
+      "transformations": [
+        "Select only exact original FlowLabels family matches; unknowns excluded",
+        "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
+        "Construct packet timestamps as selection_index/pps; not natural chronology",
+        "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+        "Frozen blocks are reused across trials; trials are not independent source datasets"
+      ]
     }
   ],
   "status": "verified",

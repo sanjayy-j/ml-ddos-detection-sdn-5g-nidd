@@ -22,10 +22,14 @@ class ResourceMonitor:
         self.telemetry_bytes = 0
         self.stop_event = threading.Event()
         self.started = time.perf_counter()
+        self.measurement_epoch = None
+        self.measurement_duration = None
         self.thread = threading.Thread(target=self._loop, daemon=True)
 
     def start(self):
         self.started = time.perf_counter()
+        if self.measurement_epoch is not None:
+            self.started += self.measurement_epoch - time.time()
         self.lab.start()
         self.process.cpu_percent()
         if self.controller:
@@ -52,13 +56,18 @@ class ResourceMonitor:
 
     def _loop(self):
         while not self.stop_event.wait(1):
-            self.sample()
+            elapsed = time.perf_counter() - self.started
+            if elapsed >= 0 and (self.measurement_duration is None or elapsed <= self.measurement_duration):
+                self.sample()
 
     def finish(self, live=False):
         self.stop_event.set()
         self.thread.join()
-        self.sample()
+        if not self.rows or self.measurement_duration is None:
+            self.sample()
         elapsed = max(time.perf_counter() - self.started, 1e-9)
+        if self.measurement_duration is not None:
+            elapsed = min(elapsed, self.measurement_duration)
         cpus = [r["cpu_percent"] for r in self.rows]
         controllers = [
             r["controller_cpu_percent"]

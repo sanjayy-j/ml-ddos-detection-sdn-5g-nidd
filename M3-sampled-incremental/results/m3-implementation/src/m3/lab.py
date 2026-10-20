@@ -13,6 +13,8 @@ class LabMeasurements:
     def __init__(self, writer):
         self.writer = writer
         config = writer.summary["config"]
+        self.origin = config.get("start_epoch")
+        self.duration = config.get("duration_seconds")
         self.bridge = config.get("ovs_bridge") if config["mode"] == "live_sflow" else None
         self.port = config.get("openflow_port") if config["mode"] == "live_sflow" else None
         self.capture = None
@@ -80,7 +82,9 @@ class LabMeasurements:
                 if self.capture.returncode != 0:
                     raise ValueError("tcpdump failed; inspect openflow_capture.log")
                 with (self.writer.path / "openflow.pcap").open("rb") as stream:
-                    byte_count = sum(len(packet) for _, packet in dpkt.pcap.Reader(stream))
+                    byte_count = sum(len(packet) for epoch, packet in dpkt.pcap.Reader(stream)
+                                     if self.origin is None or self.origin <= float(epoch)
+                                     < self.origin + self.duration)
             except (OSError, ValueError, dpkt.UnpackError, subprocess.SubprocessError) as exc:
                 self.capture_error = f"OpenFlow capture unavailable: {exc}"
             finally:

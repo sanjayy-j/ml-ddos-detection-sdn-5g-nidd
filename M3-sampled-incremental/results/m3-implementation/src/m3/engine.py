@@ -35,6 +35,7 @@ class Evaluation:
         sampled_packets=None,
         observed_time=None,
         ground_truth_packets=None,
+        prediction=None,
     ):
         counts = self.writer.summary["counts"]
         label = record.label
@@ -49,7 +50,7 @@ class Evaluation:
                     self.packet_counts_known = False
                 else:
                     self.attack_packets += ground_truth_packets
-        predicted, score, latency = self.detector.predict(record.features)
+        predicted, score, latency = prediction or self.detector.predict(record.features)
         observed_time = (
             observed_time
             if observed_time is not None

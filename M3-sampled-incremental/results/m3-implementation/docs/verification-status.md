@@ -52,3 +52,22 @@ This is a checkpoint, not a claim that the full M3 study is finished.
 - Populated browser visual inspection, final charts/report/demo rehearsal.
 
 Generated outputs, downloaded archives, environments and temporary files are intentionally outside version control. The manifest records provenance; repeat validation on another machine rather than treating a stored checkpoint as fresh proof.
+# Research extension: 20 October 2026
+
+The causal N=1 validation pilot `2dd988ddfafd420f8efc050390492dbe` passed
+independent full-frame TX/RX matching and receiver-kernel timestamp matching for
+9,600 selected official packets. Prediction completion precedes independent
+label reading. Source is `official_realtime_verified`, with
+`research.study_role=validation_pilot`, excluded from primary aggregation.
+Pilot F1=0.8938547486, recall=0.9907120743, FPR=0.2253086420.
+This is a technical pilot, not the final repeated study or a novelty claim.
+
+The earlier observer-VLAN failure and startup failures are retained under
+`output/research/causal_validation/`. Linux PACKET_AUXDATA now restores
+kernel-stripped VLAN tags using authoritative metadata; a regression test covers
+this case. No packet content or label is guessed to force a match.
+
+The 54-trial randomized primary matrix is in progress. Current full-suite
+checkpoint:129 Python tests passed,81% measured Python coverage,14 frontend
+tests passed including real API checks. Browser inventory currently contains no
+connected browser, so rendered dashboard visual checks remain unverified.

@@ -31,20 +31,25 @@ def prepare_blocks(plan, output_dir, manifest_path="data/manifest.json"):
         raise ValueError("Use a new output directory under data/prepared")
     for segment in segments:
         count, rate = segment["packet_count"], segment["pps"]
+        skip = segment.get("skip_matching", 0)
+        if type(skip) is not int or skip < 0:
+            raise ValueError("skip_matching must be a nonnegative integer")
         if segment["family"] not in FAMILIES or type(count) is not int or not 1 <= count <= 100000:
             raise ValueError("Invalid block family or packet count")
         if isinstance(rate, bool) or not math.isfinite(rate) or not 0 < rate <= 10000:
             raise ValueError("Invalid bounded replay rate")
-    parents = []
+    parents, verified_sources = [], {}
     for segment in segments:
-        parents.append(
-            (
-                verify_input(segment["capture"], manifest_path),
-                verify_input(segment["flow_labels"], manifest_path),
-            )
-        )
+        sources = []
+        for field in ("capture", "flow_labels"):
+            path = segment[field]
+            if path not in verified_sources:
+                verified_sources[path] = verify_input(path, manifest_path)
+            sources.append(verified_sources[path])
+        parents.append(tuple(sources))
     output_dir.mkdir(parents=True, exist_ok=False)
     entries, blocks = [], []
+    used_source_packets, reuse_count = set(), 0
 
     def register(path, sources):
         entries.append(
@@ -59,19 +64,23 @@ def prepare_blocks(plan, output_dir, manifest_path="data/manifest.json"):
                     "Select only exact original FlowLabels family matches; unknowns excluded",
                     "Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged",
                     "Construct packet timestamps as selection_index/pps; not natural chronology",
-                    "Repeated blocks may reuse first eligible source packets; not independent data",
+                    "Select after declared skip_matching exact-family matches; packet indices/hashes disclosed",
+                    "Frozen blocks are reused across trials; trials are not independent source datasets",
                 ],
             }
         )
 
     try:
+        loaded_labels = {}
         for number, (segment, sources) in enumerate(zip(segments, parents, strict=True)):
             family = segment["family"]
-            labels = FlowLabels(segment["flow_labels"])
+            if segment["flow_labels"] not in loaded_labels:
+                loaded_labels[segment["flow_labels"]] = FlowLabels(segment["flow_labels"])
+            labels = loaded_labels[segment["flow_labels"]]
             target = output_dir / f"block_{number:02d}.pcap"
             partial = target.with_suffix(".pcap.partial")
             mapping = output_dir / f"block_{number:02d}_mapping.csv"
-            selected, examined = 0, 0
+            selected, examined, skipped = 0, 0, 0
             with partial.open("xb") as output, mapping.open("x", newline="") as map_stream:
                 writer = dpkt.pcap.Writer(output, snaplen=262144)
                 map_writer = csv.writer(map_stream)
@@ -93,6 +102,15 @@ def prepare_blocks(plan, output_dir, manifest_path="data/manifest.json"):
                     label, actual_family = labels.match(frame, timestamp)
                     if actual_family != family or label != int(family != "Benign"):
                         continue
+                    if skipped < segment.get("skip_matching", 0):
+                        skipped += 1
+                        continue
+                    source_key = (sources[0]["sha256"], packet_index)
+                    if source_key in used_source_packets:
+                        reuse_count += 1
+                        if plan.get("require_disjoint_source_packets"):
+                            raise ValueError("Source packet index reused within disjoint plan")
+                    used_source_packets.add(source_key)
                     rewritten = MAC_PREFIX + frame[12:]
                     writer.writepkt(rewritten, selected / segment["pps"])
                     map_writer.writerow(
@@ -125,6 +143,7 @@ def prepare_blocks(plan, output_dir, manifest_path="data/manifest.json"):
                     "packet_count": selected,
                     "pps": segment["pps"],
                     "source_packets_examined": examined,
+                    "skip_matching": segment.get("skip_matching", 0),
                     "source_provenance": list(sources),
                 }
             )
@@ -133,7 +152,8 @@ def prepare_blocks(plan, output_dir, manifest_path="data/manifest.json"):
             "status": "prepared",
             "blocks": blocks,
             "plan": plan,
-            "selection_policy": "First N exact-family original packets per block; repeated selections reuse source packets",
+            "selection_policy": "Skip skip_matching eligible exact-family packets, then select packet_count; source indices and hashes disclosed",
+            "source_packet_reuse_count": reuse_count,
             "timing": "Constructed index/pps, not natural capture chronology",
             "fixture": any(source.get("fixture") for pair in parents for source in pair),
         }

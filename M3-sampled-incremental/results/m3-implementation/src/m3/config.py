@@ -32,6 +32,9 @@ class RunConfig:
     openflow_port: int | None = None
     grace_period: int = 200
     drift_delta: float = 0.002
+    trial_id: int = 1
+    label_delay_seconds: float = 0.5
+    replay_pps: float = 100.0
 
     def __post_init__(self):
         if self.mode not in {"csv_replay", "pcap_replay", "live_sflow"}:
@@ -44,6 +47,12 @@ class RunConfig:
             raise ValueError(f"sampling_rate must be one of {SAMPLING_RATES}")
         if type(self.seed) is not int:
             raise ValueError("seed must be an integer")
+        if type(self.trial_id) is not int or self.trial_id < 1:
+            raise ValueError("trial_id must be a positive integer")
+        if not math.isfinite(self.label_delay_seconds) or self.label_delay_seconds < 0:
+            raise ValueError("label_delay_seconds must be nonnegative and finite")
+        if not math.isfinite(self.replay_pps) or not 0 < self.replay_pps <= 10000:
+            raise ValueError("replay_pps must be positive and bounded")
         for name in ("warmup_records", "grace_period", "port"):
             if type(getattr(self, name)) is not int:
                 raise ValueError(f"{name} must be an integer")

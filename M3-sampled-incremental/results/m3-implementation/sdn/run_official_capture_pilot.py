@@ -17,6 +17,7 @@ import sys
 import tempfile
 import time
 import uuid
+import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -25,6 +26,21 @@ from m3.provenance import sha256, verify_input
 from m3.store import atomic_json
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def preserve_truth(source, destination):
+    """Retain all oracle evidence without thousands of slow cross-filesystem copies."""
+    if not source.is_dir() or destination.exists():
+        return
+    destination.mkdir()
+    for name in ("packet_events.csv", "health.json", "ready.json"):
+        if (source / name).is_file():
+            shutil.copyfile(source / name, destination / name)
+    archive = source.parent / "truth_windows.zip"
+    with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as stream:
+        for path in source.glob("*.json"):
+            stream.write(path, path.name)
+    shutil.copyfile(archive, destination / archive.name)
 
 
 def block_path(block, directory):
@@ -75,7 +91,7 @@ def wait_until(epoch):
         time.sleep(min(remaining, 0.1))
 
 
-def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
+def run(blocks_path, manifest, sampling=1, output_root="output/sdn", *, research=None):
     if sys.platform != "linux" or os.geteuid() != 0:
         raise ValueError("Run as root inside the configured isolated Linux/WSL lab")
     if sampling not in (1, 2, 5, 10, 20, 50):
@@ -106,7 +122,7 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
     native_capture = tempfile.TemporaryDirectory(prefix="m3_official_capture_")
     capture_dir = Path(native_capture.name)
     report = {"status": "running", "blocks_provenance": provenance, "sampling_rate": sampling}
-    controller = collector = net = None
+    controller = collector = teacher = net = None
     captures = []
     logs = []
     binaries = Path(sys.executable).parent
@@ -115,6 +131,8 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
             with socket.socket(
                 socket.AF_INET, socket.SOCK_STREAM if port == 6653 else socket.SOCK_DGRAM
             ) as probe:
+                if port == 6653:
+                    probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 probe.bind(("127.0.0.1", port))
         log = (output / "controller.log").open("w")
         logs.append(log)
@@ -192,35 +210,61 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
         time.sleep(1)
         if any(process.poll() is not None for _, process in captures):
             raise RuntimeError("Independent capture startup failed")
-        origin = math.ceil(time.time()) + 15
+        origin = math.ceil(time.time()) + (30 if research else 15)
         offset = 1.0
         stages = []
         for block in blocks:
             duration = block["packet_count"] / block["pps"]
             stages.append({"start": offset, "duration": duration, **block})
-            offset += math.ceil(duration) + 4
+            offset += math.ceil(duration) + (2 if research else 4)
         total_duration = math.ceil(offset + 4)
         config = {
             "mode": "live_sflow",
             "sampling_rate": sampling,
-            "seed": 42,
-            "scenario": "baseline",
+            "seed": research["seed"] if research else 42,
+            "scenario": research["scenario"] if research else "baseline",
             "output_root": str(ROOT / "output/runs"),
             "bind": "127.0.0.1",
             "port": 6343,
             "start_epoch": origin,
             "duration_seconds": total_duration,
-            "warmup_seconds": 0,
-            "window_seconds": 1,
+            "warmup_seconds": stages[4]["start"] if research else 0,
+            "window_seconds": 0.1 if research else 1,
             "controller_pid": controller.pid,
             "ovs_bridge": "m3s1",
             "openflow_port": 6653,
         }
+        if research:
+            config.update(input_path=str(blocks_path), manifest_path=str(manifest),
+                          trial_id=research["trial_id"], label_delay_seconds=0.5, replay_pps=100)
+            log = (output / "teacher.log").open("w")
+            logs.append(log)
+            teacher = hosts[3].popen(
+                [str(binaries / "python"), str(ROOT / "sdn/live_ground_truth.py"),
+                 "--blocks", str(blocks_path), "--manifest", str(manifest),
+                 "--interface", "m3victim-eth0", "--output", str(capture_dir / "truth"),
+                 "--origin", str(origin), "--duration", str(total_duration), "--window", "0.1",
+                 "--control", str(capture_dir / "origin.json")],
+                stdout=log, stderr=subprocess.STDOUT, cwd=ROOT)
+            ready_deadline = time.monotonic() + 90
+            while not (capture_dir / "truth/ready.json").is_file():
+                if teacher.poll() is not None or time.monotonic() > ready_deadline:
+                    raise RuntimeError("Independent oracle did not become ready")
+                time.sleep(0.1)
+            origin = math.ceil(time.time()) + 30
+            config["start_epoch"] = origin
+            atomic_json(capture_dir / "origin.json", {"origin_epoch": origin})
         atomic_json(output / "collector_config.json", config)
         log = (output / "collector.log").open("w")
         logs.append(log)
+        collector_command = (
+            [str(binaries / "python"), "-m", "m3.causal_live", "--config",
+             str(output / "collector_config.json"), "--truth", str(capture_dir / "truth")]
+            if research else
+            [str(binaries / "m3"), "live", "--config", str(output / "collector_config.json")]
+        )
         collector = subprocess.Popen(
-            [str(binaries / "m3"), "live", "--config", str(output / "collector_config.json")],
+            collector_command,
             stdout=log,
             stderr=subprocess.STDOUT,
             cwd=ROOT,
@@ -231,12 +275,14 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
                 raise RuntimeError("Collector did not become ready before measurement")
             time.sleep(0.1)
         set_sampling(sampling, "127.0.0.1:6343")
+        sampling_before = ovs("get", "sflow", ovs("get", "bridge", "m3s1", "sflow"), "sampling")
         report.update(
             origin_epoch=origin,
             duration_seconds=total_duration,
             stages=stages,
             capture_scope="isolated sender TX and victim RX; no physical uplink",
-            evaluation_timing="unlabelled live collection; any subsequent scoring is post hoc",
+            evaluation_timing=("real-time prediction followed by independent oracle revelation"
+                               if research else "unlabelled live collection; any subsequent scoring is post hoc"),
         )
         for number, stage in enumerate(stages):
             wait_until(origin + stage["start"])
@@ -272,6 +318,11 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
         collector.wait(timeout=max(1, origin + total_duration - time.time()) + 20)
         if collector.returncode:
             raise RuntimeError("Live collector failed; raw evidence retained")
+        if teacher:
+            teacher.wait(timeout=10)
+            if teacher.returncode:
+                raise RuntimeError("Independent oracle failed")
+            preserve_truth(capture_dir / "truth", output / "truth")
         for _, process in captures:
             process.send_signal(signal.SIGINT)
             process.wait(timeout=10)
@@ -291,6 +342,16 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
         if not match:
             raise RuntimeError("Collector run identity missing")
         report.update(status="validated_collection", collector_run_id=match[1])
+        if research:
+            sampling_after = ovs("get", "sflow", ovs("get", "bridge", "m3s1", "sflow"), "sampling")
+            if sampling_before != str(sampling) or sampling_after != str(sampling):
+                raise RuntimeError("Actual switch sampling configuration changed")
+            report["switch_sampling"] = {"before": int(sampling_before), "after": int(sampling_after)}
+            from research_validation import accept_realtime
+
+            report["research"] = research
+            accept_realtime(ROOT / "output/runs" / match[1], output, report)
+            report["status"] = "validated_realtime"
     except BaseException as error:
         report.update(status="failed", error=str(error))
         raise
@@ -299,7 +360,7 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
             if process.poll() is None:
                 process.send_signal(signal.SIGINT)
                 process.wait(timeout=10)
-        for process in (collector, controller):
+        for process in (collector, teacher, controller):
             if process and process.poll() is None:
                 process.terminate()
                 process.wait(timeout=10)
@@ -311,6 +372,8 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn"):
             destination = output / source.name
             if not destination.exists():
                 shutil.copyfile(source, destination)
+        if (capture_dir / "truth").is_dir() and not (output / "truth").exists():
+            preserve_truth(capture_dir / "truth", output / "truth")
         native_capture.cleanup()
         atomic_json(output / "execution.json", report)
         print(
@@ -328,5 +391,11 @@ if __name__ == "__main__":
     parser.add_argument("--manifest", default="data/manifest.json")
     parser.add_argument("--sampling", type=int, default=1)
     parser.add_argument("--output-root", default="output/sdn")
+    parser.add_argument("--research-scenario", choices=["baseline", "drift", "unseen"])
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--trial-id", type=int, default=1)
     args = parser.parse_args()
-    run(args.blocks, args.manifest, args.sampling, args.output_root)
+    research = ({"scenario": args.research_scenario, "seed": args.seed, "trial_id": args.trial_id,
+                 "study_role": "validation_pilot"}
+                if args.research_scenario else None)
+    run(args.blocks, args.manifest, args.sampling, args.output_root, research=research)

@@ -24,6 +24,7 @@ export interface RunSummary {
   config: Record<string, unknown>;
   provenance?: { sha256?: string | null; [key: string]: unknown } | null;
   feature_schema?: string;
+  validation?: { accepted?: boolean; [key: string]: unknown };
 }
 
 export interface Prediction {
