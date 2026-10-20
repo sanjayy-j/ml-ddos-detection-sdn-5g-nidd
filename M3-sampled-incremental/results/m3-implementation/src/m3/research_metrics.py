@@ -439,6 +439,15 @@ def research_readiness(runs):
         run.get("config", {}).get("window_seconds") == 0.1 for run in accepted)
     evidence["both_classes_scored"] = bool(accepted) and all(
         run.get("validation", {}).get("both_classes_scored") is True for run in accepted)
+    core = ("f1", "recall", "roc_auc", "false_positive_rate", "cpu_percent_mean",
+            "cpu_percent_p95", "controller_cpu_percent_mean", "controller_cpu_percent_p95",
+            "sflow_bandwidth_kbit_s", "openflow_bandwidth_kbit_s", "inference_latency_ms",
+            "inference_latency_p95_ms", "flow_table_entries")
+    evidence["measured_core_quality_and_cost"] = bool(accepted) and all(
+        _metric(run, key) is not None for run in accepted for key in core)
+    evidence["consistent_ip_layer_bandwidth_units"] = bool(accepted) and all(
+        run.get("metrics", {}).get(key, {}).get("unit") == "kbit/s"
+        for run in accepted for key in ("sflow_bandwidth_kbit_s", "openflow_bandwidth_kbit_s"))
     for key in ("ablations_completed", "sensitivity_completed"):
         evidence[key] = bool(accepted) and all(run.get("research", {}).get(key) is True
                                              for run in accepted)

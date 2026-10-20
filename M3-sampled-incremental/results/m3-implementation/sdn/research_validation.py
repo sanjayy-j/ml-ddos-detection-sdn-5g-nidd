@@ -104,6 +104,8 @@ def accept_realtime(run_path, evidence, report):
     if (evidence / "truth/truth_windows.zip").is_file():
         paths["oracle_windows"] = evidence / "truth/truth_windows.zip"
     summary.update(source="official_realtime_verified", research_metrics=physical,
+                   implementation_sha256=report.get("implementation_sha256"),
+                   environment=report.get("environment"),
                    artifacts={key: str(path) for key, path in paths.items()},
                    raw_hashes={key: sha256(path) for key, path in paths.items()},
                    validation={"accepted": True, "actual_switch_config_verified": True,

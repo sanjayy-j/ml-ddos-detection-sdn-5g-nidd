@@ -216,8 +216,17 @@ def test_full_matrix_needs_all_evidence_and_no_performance_threshold():
                 item["validation"]["both_classes_scored"] = True
                 item["raw_hashes"] = {"rx.pcap": "a" * 64}
                 item["research"] = {"ablations_completed": True, "sensitivity_completed": True}
+                for key in ("recall", "roc_auc", "false_positive_rate", "cpu_percent_mean",
+                            "cpu_percent_p95", "controller_cpu_percent_mean", "controller_cpu_percent_p95",
+                            "sflow_bandwidth_kbit_s", "openflow_bandwidth_kbit_s", "inference_latency_ms",
+                            "inference_latency_p95_ms", "flow_table_entries"):
+                    item["metrics"][key] = {"value": 0.3, "status": "measured",
+                                            "unit": "kbit/s" if "bandwidth" in key else "ratio"}
                 runs.append(item)
     assert research_readiness(runs)["ready"] is True
+    runs[0]["metrics"]["openflow_bandwidth_kbit_s"]["value"] = None
+    assert research_readiness(runs)["ready"] is False
+    runs[0]["metrics"]["openflow_bandwidth_kbit_s"]["value"] = 0.3
     runs[0]["validation"]["zero_capture_drops"] = False
     assert research_readiness(runs)["ready"] is False
 

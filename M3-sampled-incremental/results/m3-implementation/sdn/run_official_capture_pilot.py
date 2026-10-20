@@ -8,6 +8,7 @@ import argparse
 import json
 import math
 import os
+import platform
 import re
 import shutil
 import signal
@@ -122,6 +123,16 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn", *, research
     native_capture = tempfile.TemporaryDirectory(prefix="m3_official_capture_")
     capture_dir = Path(native_capture.name)
     report = {"status": "running", "blocks_provenance": provenance, "sampling_rate": sampling}
+    if research:
+        report["research"] = dict(research)
+        report["implementation_sha256"] = {
+            name: sha256(ROOT / name) for name in (
+                "src/m3/model.py", "src/m3/packets.py", "src/m3/engine.py",
+                "src/m3/causal_live.py", "src/m3/metrics.py", "sdn/live_ground_truth.py",
+                "sdn/research_validation.py")}
+        report["environment"] = {"kernel": platform.platform(), "python": sys.version,
+                                 "logical_cpus": os.cpu_count(),
+                                 "ovs": subprocess.check_output(["ovs-vsctl", "--version"], text=True).splitlines()[0]}
     controller = collector = teacher = net = None
     captures = []
     logs = []
@@ -354,6 +365,14 @@ def run(blocks_path, manifest, sampling=1, output_root="output/sdn", *, research
             report["status"] = "validated_realtime"
     except BaseException as error:
         report.update(status="failed", error=str(error))
+        collector_log = output / "collector.log"
+        identity = re.search(r"run=([0-9a-f]{32})", collector_log.read_text()) if collector_log.is_file() else None
+        if identity:
+            summary_path = ROOT / "output/runs" / identity[1] / "run_summary.json"
+            if summary_path.is_file():
+                failed = json.loads(summary_path.read_text())
+                failed.update(status="failed", error=str(error), validation={"accepted": False})
+                atomic_json(summary_path, failed)
         raise
     finally:
         for _, process in captures:

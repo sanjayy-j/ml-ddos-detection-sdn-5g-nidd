@@ -19,27 +19,48 @@ questions. N=1 is an internal unsampled M3 reference. It is not an implemented M
 The frozen protocol is `configs/research_protocol.json`, SHA256
 `f8196653b1a0dfe6da652fa75d1aba720a6bd243842292d5a017b8cc2f8cc36d`.
 Three scenarios, six N values(1,2,5,10,20,50), and three model seeds(42,43,44)
-yield54 planned primary trials. Trial order uses seed20261019. No threshold or
+yield 54 planned primary trials. Trial order uses seed 20261019. No threshold or
 hyperparameter tuning uses primary evaluation outcomes. Technical pilots and
 failed attempts remain separate from the randomized matrix.
 
-Exact authoritative flow-family matches supply27,200 original packet selections
-in40 prepared blocks. Mapping audits found no reused source packet indices or
+Exact authoritative flow-family matches supply 27,200 original packet selections
+in 40 prepared blocks. Mapping audits found no reused source packet indices or
 identical original frame hashes across these selected scenarios. This does not
 establish independence of source flows, sessions or capture conditions. Training
 and evaluation can still share traffic-generation and flow identities. Raw
 addresses, tools, labels and frame hashes never enter the model's feature vector.
 
+A packet inherits a label only through a compatible original bidirectional
+endpoint/protocol/time interval, including numeric transport ports for TCP/UDP.
+ICMP uses endpoints, protocol and time, without guessed pseudo-ports. The interval
+tolerance is 1 microsecond. A SYN flag or an attack-session filename alone is not
+evidence that a packet is malicious. Unknown and conflicting matches are excluded
+from prepared blocks, rather than relabelled benign.
+
+Full original-stream audits, before selection, gave the following coverage.
+These are label-join coverage figures, not classifier scores:
+
+| BS2 session | Original packets | Known benign | Known flood | Unknown |
+|---|---:|---:|---:|---:|
+| SYN | 93,312 | 64,648 | 14,691 | 13,973 |
+| ICMP | 313,667 | 294,232 | 1,079 | 18,356 |
+| UDP | 656,389 | 230,118 | 417,404 | 8,867 |
+
+Argus suppresses some numeric zero ports in text output. UDP reconstruction used
+binary-flow port-zero filters and exact original record offsets, not blanket
+replacement of missing values. Conservative unresolved values remain unknown.
+Selection from confidently labelled packets limits representativeness.
+
 Only Ethernet destination/source MAC addresses change. Network-layer headers and
 payloads remain original. Packet timestamps become selection_index/100 for replay.
-All selected classes use100pps. The original dataset's attack intensity, burst
+All selected classes use 100 pps. The original dataset's attack intensity, burst
 structure and natural chronology are not preserved. This design removes selected
 rate-label confounding but cannot estimate line-rate attack performance.
 
-Baseline and unseen scenarios each have12 eight-second blocks, alternating
+Baseline and unseen scenarios each have 12 eight-second blocks, alternating
 benign/attack conditions. Drift has eight eight-second blocks followed by eight
 two-second blocks. Two-second gaps separate blocks. The drift post-stage uses
-800 confidently matched ICMP packets from the available1,079. Family and cadence
+800 confidently matched ICMP packets from the available 1,079. Family and cadence
 change together, so this is a joint covariate/cadence-shift scenario. It does not
 isolate a causal benefit of ADWIN or demonstrate a natural concept change.
 
@@ -49,7 +70,7 @@ not these approximate schedule offsets, defines physical origin and boundaries.
 
 ## Isolated live testbed
 
-An OS-Ken OpenFlow1.3 learning controller drives a four-host Mininet topology and
+An OS-Ken OpenFlow 1.3 learning controller drives a four-host Mininet topology and
 OVS userspace datapath. The testbed has no physical-network uplink. Bounded
 tcpreplay injects verified blocks through the sender interface. The victim's full
 received packets and sender's transmitted packets are captured independently.
@@ -74,18 +95,23 @@ Labels for gaps do not train the classifier. A zero-sample window with known
 original-packet truth remains scored and can be a false negative or false positive.
 
 This is delayed **experimental oracle supervision**. A production system does
-not know packet truth automatically. The0.5s delay contributes to physical alarm
+not know packet truth automatically. The 0.5 s delay contributes to physical alarm
 latency and is not presented as pure inference cost.
+
+Precisely, `label_delay_seconds` names a **window-closure holdback**, not a
+0.5-second delay after prediction. Once prediction completes, that window's
+experimental label is read and learned immediately. This study does not model
+asynchronous human annotation or an operational labelling service.
 
 ## Features and model
 
-Primary windows are0.1s, indexed by collector receipt time. Features are estimated
+Primary windows are 0.1 s, indexed by collector receipt time. Features are estimated
 packets/s and bytes/s(weighted by N), sampled mean packet size, UDP/TCP/ICMP/SYN
 fractions, and an empty-window indicator. sFlow export batching, queueing and host
 scheduling can delay features relative to packet onset. Error near boundaries is
 part of the measured observation pipeline, not removed based on model outcomes.
 
-River HAT uses grace_period200, threshold0.5, internal ADWIN delta0.002, and a
+River HAT uses grace_period 200, threshold 0.5, internal ADWIN delta 0.002, and a
 separate external ADWIN prediction-error monitor. The external monitor does not
 reset the classifier. Internal branch changes are not inferred from its alarms.
 Warm-up observations train but do not contribute to reported quality.
@@ -108,15 +134,15 @@ for sFlow, captured IP packet bytes for OpenFlow. Report both channel components
 and their sum, including periodic counter/control traffic. These virtual-link
 costs do not measure physical wire overhead or production switch CPU.
 
-Recovery requires rolling balanced accuracy>=0.90 across40 scored post-boundary
+Recovery requires rolling balanced accuracy >= 0.90 across 40 scored post-boundary
 observations, sustained for three consecutive checks with both classes in each
 window. Missing recovery is censored, not zero. Block cadence affects whether this
 criterion can be observed and must accompany interpretation.
 
 ## Comparisons and uncertainty
 
-Report all three trial values, mean, sample SD, and an unbounded two-sided95%
-Student-t mean interval. N=3 gives a wide interval with critical value4.30265.
+Report all three trial values, mean, sample SD, and an unbounded two-sided 95%
+Student-t mean interval. N=3 gives a wide interval with critical value 4.30265.
 Pair each N with N=1 using the same scenario/trial identity. This pairing controls
 the fixed input/model seed, not OVS sampling RNG. Do not claim independent new
 traffic populations or statistical superiority from overlapping/limited repeats.

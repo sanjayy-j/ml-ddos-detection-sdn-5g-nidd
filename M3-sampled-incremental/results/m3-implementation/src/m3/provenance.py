@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 from pathlib import Path
 
 OFFICIAL_DOI = "10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361"
@@ -18,7 +19,12 @@ def verify_input(path: str | Path, manifest_path: str | Path) -> dict:
     manifest = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
     if manifest.get("dataset") != "5G-NIDD" or manifest.get("doi") != OFFICIAL_DOI:
         raise ValueError("Input requires the official 5G-NIDD provenance manifest")
-    for entry in manifest.get("files", []):
+    entries = manifest.get("files", [])
+    # Most records use the exact canonical path. Resolve only a matching entry;
+    # traversing every unrelated path is exceptionally slow on WSL's 9p/DrvFS.
+    direct = [entry for entry in entries if Path(os.path.abspath(entry["path"])) == source]
+    candidates = direct or entries  # Preserve resolved/symlink alias compatibility.
+    for entry in candidates:
         if Path(entry["path"]).resolve() == source:
             if (
                 manifest.get("status") != "verified"

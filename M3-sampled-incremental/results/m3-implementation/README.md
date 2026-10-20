@@ -11,9 +11,11 @@ This project implements **M3 only** using the **official 5G-NIDD release**. It c
 - Prepared 27,200 disjoint original packet selections across baseline, constructed drift and unseen-SYN scenarios. All classes replay at 100 pps. The primary window is now **0.1 seconds**, with a separately recomputed one-second sensitivity study.
 - Frozen the 54-trial protocol in [research_protocol.json](configs/research_protocol.json). The randomized live matrix is in progress; failed attempts remain preserved.
 - Added physical onset-to-alert timing, original-packet counts, censored recovery, paired comparisons, uncertainty intervals, quality ablations and strict evidence gates. Read [methods](docs/research-methods.md), [related work](docs/research-related-work.md), and [readiness criteria](docs/research-readiness-gates.md).
-- Latest checks: **129 Python tests passed, 81% Python coverage; 14 dashboard tests passed including real local API integration**. Browser visual verification is currently unavailable because no browser surface is connected. No visual-pass or completed-paper claim is made.
+- Latest full regression checkpoint: **136 Python tests passed, 81% Python coverage; 14 dashboard tests passed including real local API integration**. Two additional frozen-annotation restoration tests pass. Browser visual verification was explicitly waived by the user on 20 October. No visual-pass or completed-paper claim is made.
 
 The study is not complete. Paper novelty and acceptance require scientific review beyond automated artifact checks. Historical evidence below is retained with its original scope.
+
+Reproduction and demonstration instructions: [reproduce-study.md](docs/reproduce-study.md) and [demo-script.md](docs/demo-script.md). Final paper and presentation generators require completed evidence gates; they do not create illustrative results when trials are missing.
 
 The core software is implemented, official flow-record and SYN packet-window pilots have completed, and real SDN forwarding and sampled-telemetry collection have been verified. **The complete official-packet real-time attack study is not finished.** This README distinguishes implemented features, measured evidence and planned work. Passing a software test is not the same as proving attack-detection performance.
 

@@ -56,6 +56,12 @@ def analyse(runs_root, output):
                     drift_delta=config.get("drift_delta", 0.002),
                     threshold=config.get("threshold", 0.5),
                 )
+                for key in ("f1", "precision", "recall", "roc_auc", "false_positive_rate"):
+                    observed = run["metrics"].get(key, {}).get("value")
+                    replayed = result["hat_adwin"]["metrics"][key]["value"]
+                    if (observed is None) != (replayed is None) or (
+                            observed is not None and abs(observed - replayed) > 1e-12):
+                        raise ValueError(f"Recorded HAT quality does not reproduce: {key}")
                 ablations.append({"run_id": run["run_id"], "models": result})
                 run.setdefault("research", {})["ablations_completed"] = True
             except (OSError, ValueError, KeyError, TypeError) as exc:

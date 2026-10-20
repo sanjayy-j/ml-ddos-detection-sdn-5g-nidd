@@ -51,14 +51,35 @@ delay separately with independently timestamped received originals.
 
 - Specification: <https://sflow.org/sflow_version_5.txt>
 
-**Towards sFlow and adaptive polling sampling for deep learning based DDoS
-detection in SDN**, publisher article S0167739X19318333, already studies sampling,
-SDN intrusion detection and accuracy-resource trade-offs. Its publisher abstract
-was retrievable through search, but the full page returned403 during this review.
-No detailed implementation or numerical comparison is inferred from inaccessible
-sections. The generic accuracy-overhead question must not be claimed as new.
+Ujjan et al., **Towards sFlow and adaptive polling sampling for deep learning based
+DDoS detection in SDN**, Future Generation Computer Systems111(2020),763-779,
+DOI10.1016/j.future.2019.10.015, already study sampling and accuracy-resource
+trade-offs. Their author-accepted manuscript describes OVS/Ryu, sFlow and polling,
+Snort and a stacked autoencoder, with separate training/testing records. This
+study instead measures causal online window prediction with independently
+observed packet truth and fixed equal replay rates. Different tasks, rates,
+features and testbeds prevent direct numerical superiority claims.
 
 - Publisher: <https://www.sciencedirect.com/science/article/pii/S0167739X19318333>
+- Full author manuscript: <https://myresearchspace.uws.ac.uk/ws/portalfiles/portal/52936719/2019_10_27_Ujjan_et_al_sFlow_accepted.pdf>
+
+Eldhai et al., **Improved Feature Selection and Stream Traffic Classification
+Based on Machine Learning in Software-Defined Networks**, IEEE Access12(2024),
+34141-34159, DOI10.1109/ACCESS.2024.3370435, use HAT, adaptive random forest and
+KNN-ADWIN for stream traffic classification. Consequently neither online trees
+in SDN nor handling changing traffic is new here. The author-hosted PDF's indexed
+text supplied these method details; direct access displayed a human-verification
+page, so no claim of fully reviewing its experiments is made.
+
+- DOI: <https://doi.org/10.1109/ACCESS.2024.3370435>
+- Author-hosted source: <https://expert.taylors.edu.my/file/rems/publication/109566_14409_1.pdf>
+
+Wang, Fok and Thing, **Exploring Emerging Trends in5G Malicious Traffic Analysis
+and Incremental Learning Intrusion Detection Strategies**, arXiv:2402.14353(2024),
+study incremental learning for5G malicious traffic. This further rules out a
+generic claim that incremental learning with5G-NIDD is novel.
+
+- Paper: <https://arxiv.org/abs/2402.14353>
 
 Ilias et al., **Convolutional Neural Networks and Mixture of Experts for Intrusion
 Detection in5G Networks and beyond**, arXiv:2412.03483 (2024), provide a later

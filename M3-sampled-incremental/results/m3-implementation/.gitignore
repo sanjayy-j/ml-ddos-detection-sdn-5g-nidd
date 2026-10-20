@@ -7,6 +7,7 @@ Partner Work/
 __pycache__/
 .pytest_cache/
 .ruff_cache/
+.coverage
 *.egg-info/
 frontend/node_modules/
 frontend/dist/
@@ -18,6 +19,7 @@ output/runs/
 output/analysis/
 output/sdn/
 output/pdf/
+output/presentations/
 output/research/
 *.pcap
 *.pcapng
