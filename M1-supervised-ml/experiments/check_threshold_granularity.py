@@ -11,6 +11,13 @@ the validation FPR at the next LOWER available ROC threshold. If that FPR
 exceeds the 1% cap, the selection had no closer operating point available
 and its headroom is forced by score granularity rather than chosen.
 
+It then checks whether that next threshold IS the dominant conflicting
+vector's score: if the vector receives exactly one score and it equals
+that threshold, and if the rows at that score are exactly the rows
+carrying the vector, then the operating point sits directly on the
+ambiguous plateau. That single fact accounts for the carrier recall of
+zero, the forced headroom, and the window-position recall swing.
+
 Run from the repository root; trains the published configuration, which
 is deterministic, so it reproduces the committed frozen threshold.
 """
@@ -44,3 +51,44 @@ print(f"\n  next LOWER available threshold: {thr[nxt]:.10f}")
 print(f"  its validation FPR: {fpr[nxt]:.8f} = {100*fpr[nxt]:.4f}%")
 print(f"  exceeds the 1% cap: {fpr[nxt] > 0.01}")
 print(f"  jump factor from the frozen point: {fpr[nxt]/fpr[i]:.1f}x")
+
+
+# --- is that threshold the dominant conflicting vector's score? -----------
+
+import pandas as pd  # noqa: E402
+
+from preprocessing.features import build_target  # noqa: E402
+from preprocessing.splitting import (  # noqa: E402
+    detect_capture_blocks,
+    make_split,
+)
+
+raw = pd.read_csv(
+    "data/raw/Combined.csv",
+    usecols=["Unnamed: 0", "Offset", "Proto", "Dur", "TotPkts", "TotBytes",
+             "State", "sTtl", "Rate", "Cause", "Label"],
+    low_memory=False)
+y_all = build_target(raw, cfg).to_numpy()
+assignment = make_split(y_all, detect_capture_blocks(raw, cfg), cfg)
+carrier_all = ((raw["Proto"].astype(str).str.lower() == "udp")
+               & (raw["Dur"] == 0) & (raw["TotPkts"] == 1)
+               & (raw["TotBytes"] == 42)
+               & (raw["State"].astype(str) == "REQ") & (raw["sTtl"] == 63)
+               & (raw["Rate"] == 0)
+               & (raw["Cause"].astype(str) == "Status")).to_numpy()
+carrier = carrier_all[assignment == "val"]
+
+print("")
+print(f"  dominant vector, whole dataset: {carrier_all.sum():,} rows, "
+      f"{100 * y_all[carrier_all].mean():.4f}% malicious")
+print(f"  validation rows carrying it: {carrier.sum():,} "
+      f"({100 * carrier.sum() / len(y):.2f}% of validation), "
+      f"{100 * y[carrier].mean():.4f}% malicious")
+scores = np.unique(s[carrier])
+print(f"  distinct RF scores among them: {len(scores)} -> "
+      f"{[f'{v:.10f}' for v in scores[:3]]}")
+tie = np.isclose(s, thr[nxt], atol=1e-9)
+print(f"  validation rows at threshold {thr[nxt]:.10f}: {tie.sum():,} "
+      f"({int(y[tie].sum()):,} malicious, "
+      f"{int((1 - y[tie]).sum()):,} benign)")
+print(f"  tie group == carrier set: {bool((tie == carrier).all())}")

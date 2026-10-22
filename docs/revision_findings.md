@@ -410,6 +410,41 @@ conservative and kept headroom** — the opposite of fragility. It is the same
 plateau structure that produces the identical Random Forest confusion matrices
 across seeds (§3.1).
 
+### 4.2.4 These are not three findings — they are one
+
+The frozen threshold sits **directly on the dominant conflicting vector's score
+plateau**. Confirmed by identity, not inferred from the ratio:
+
+- the dominant vector receives **exactly one** Random Forest score, and it is
+  **0.4605289001** — precisely the next lower ROC threshold found above;
+- **49,325** validation rows carry it (27.04% of the validation split), of which
+  29,056 are malicious and 20,269 benign — **58.9072%** malicious, against
+  58.8910% for the vector dataset-wide (159,875 of 271,476);
+- the tie group at that score and the carrier set are **the same rows**: zero
+  tie-only rows, zero carrier-only rows.
+
+The arithmetic closes exactly. Validation benign total is 71,605 + 54 = 71,659.
+At the frozen threshold there are 54 false positives, FPR 0.00075357. Crossing
+the plateau admits all 20,269 benign carriers at once: 54 + 20,269 = 20,323,
+giving FPR 20,323 / 71,659 = **0.28360708** — the measured value, to eight
+decimals.
+
+So the operating point is pinned immediately above a single plateau of 49,325
+identically-scored, irreducibly ambiguous records that are 59% malicious. That
+one fact produces all three observations:
+
+- **carrier recall is exactly 0.000000** (§4.2.1) because the threshold sits
+  above the plateau and no carrier can ever be predicted malicious;
+- **the 13× headroom is forced** (§4.2.3) because the only lower operating point
+  admits the whole plateau and lands 28× over the 1% cap;
+- **pooled recall swings with window position** (§4.2.2) because what varies
+  between windows is how many of these records the window contains.
+
+This should be written as one mechanism with three consequences, not as three
+separate results. It is also the cleanest available statement of the paper's
+central argument: the FPR-constrained operating point is positioned by the
+label-conflict structure of the representation, not by the model.
+
 **Decomposing the forty-fold swing** between windows for the Random Forest:
 validation FPR rose by 13.26× (0.00075357 → 0.009992) while test FPR fell to
 0.3297× (0.007828 → 0.002581). The ratio therefore changed by
