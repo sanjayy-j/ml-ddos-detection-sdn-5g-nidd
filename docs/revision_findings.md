@@ -129,7 +129,7 @@ outlier (threshold 0.524450, FP 17, recall 0.426372).
 
 The published seed 42 is therefore the **modal** result, matched by three of
 the other four seeds. The mean sits below it only because one seed fell onto a
-different plateau. This is the discrete-score effect §4.3 already documents:
+different plateau. This is the discrete-score effect manuscript §4.3 already documents:
 identical inputs produce identical scores, the Random Forest takes few distinct
 score values, and several thresholds land on the same operating point.
 
@@ -155,7 +155,7 @@ seeds, with the shorter training run given as the reason.
 |---|---|---|
 | Abstract, p. 1 | "precision of 0.982–0.997" | **0.974–1.000** (min SVC seed 46, max CNN seed 45) |
 | Abstract, p. 1 | "recall of only 0.426–0.438" | **0.426–0.440** (min CNN seed 43, max SVC seed 46) |
-| Table 5 / §4.1 / §5.1 | ROC-AUC 0.850–0.853, "within 0.003 of one another" | **0.846–0.853**, a spread of 0.0068 — more than double the stated 0.003 |
+| Table 5 / manuscript §4.1 / §5.1 | ROC-AUC 0.850–0.853, "within 0.003 of one another" | **0.846–0.853**, a spread of 0.0068 — more than double the stated 0.003 |
 
 The abstract's wording on the alarm budget — "decision thresholds chosen to
 keep **validation** false alarms at or below 1%" — is precise and needs no
@@ -164,14 +164,14 @@ reports.
 
 **The SVC exceeded the 1% test FPR budget on all five seeds:** 0.012111 (42),
 0.010493 (43), 0.012027 (44), 0.013060 (45), 0.017874 (46). This strengthens
-the §4.3 threshold-transfer finding; it should be stated as "all five seeds"
+the manuscript's §4.3 threshold-transfer finding; it should be stated as "all five seeds"
 rather than as a single-run observation.
 
 **Scope qualifier:** all five of those seeds were run on the **published**
-window. The alternative-window results in §4.5 show that the
+window. The alternative-window results in §4.2.3 show that the
 validation-to-test FPR ratio is itself window-dependent, so the breach should
 be reported as "on all five seeds of the published split" rather than as an
-unconditional property of the SVC. §4.3's measurement is correct and is not
+unconditional property of the SVC. Manuscript §4.3's measurement is correct and is not
 weakened — only its scope needs stating.
 
 ### 3.4 Cost comparison needs correcting
@@ -369,6 +369,64 @@ splits than the published one: **711,650** rows versus **686,830**
 course unchanged — 33,709 conflicting vectors, 632,402 rows, ceiling 76.8455%
 in both, since that is a property of the representation and not of the split.
 
+### 4.2.3 Threshold transfer is window-dependent
+
+Validation-to-test FPR ratio at the frozen operating point. Published values
+are from the committed run records; rotated values are measured on the
+alternative window at seed 42.
+
+| Model | Window | Validation FPR | Test FPR | Ratio |
+|---|---|---|---|---|
+| Random Forest | published | 0.00075357 | 0.007828 | **10.39×** |
+| Nyström + linear SVC | published | 0.00999177 | 0.012111 | **1.21×** |
+| 1-D CNN | published | 0.00018141 | 0.001688 | **9.30×** |
+| Random Forest | rotated | 0.009992 | 0.002581 | **0.26×** |
+| Nyström + linear SVC | rotated | *being measured* | 0.002288 | — |
+| 1-D CNN | rotated | *being measured* | 0.000084 | — |
+
+The natural reading of these ratios is backwards. **The smallest ratio is the
+only budget breach, and the two near 10× never breach.** The SVC transfers at
+1.21× and still exceeds 1% on test; the Random Forest and CNN move by 10.39×
+and 9.30× and both stay comfortably inside it.
+
+The reason is the validation denominator, not fragility. The rule takes the
+lowest threshold whose validation FPR is ≤ 1%, so it should land just under the
+cap. The SVC does — 0.9992% of the 1% cap — because its decision values are
+smooth and dense. The Random Forest and CNN land 13× and 55× *below* the cap
+because their scores are heavily tied and the next available threshold jumps
+straight past 1%.
+
+**Confirmed directly, not inferred.** For the Random Forest on the published
+validation split (8,391 distinct score values, 6,217 ROC operating points), the
+frozen threshold is 0.4787342346 at validation FPR 0.00075357. The **next lower
+available threshold is 0.4605289001, whose validation FPR is 0.28360708 =
+28.36%** — a 376× jump, and 28× over the cap. Recall would have gone from
+0.534044 to 0.796465 in that one step. The committed
+`random_forest/threshold_analysis.csv` shows the same cliff on its 0.01 grid:
+validation FPR is 0.00075357 at thresholds 0.47–0.51 and 0.28360708 at 0.46.
+
+So a large validation-to-test ratio means the selection was **forced to be
+conservative and kept headroom** — the opposite of fragility. It is the same
+plateau structure that produces the identical Random Forest confusion matrices
+across seeds (§3.1).
+
+**Decomposing the forty-fold swing** between windows for the Random Forest:
+validation FPR rose by 13.26× (0.00075357 → 0.009992) while test FPR fell to
+0.3297× (0.007828 → 0.002581). The ratio therefore changed by
+0.3297 / 13.26 = 0.02486, which matches 0.2583 / 10.388 = 0.02486 as it must.
+On a multiplicative scale the validation side accounts for
+ln(13.26) / ln(40.22) = **70%** of the change — about two thirds — and the test
+side for the remaining 30%. **Most of the apparent instability in the ratio is
+movement in its denominator, caused by where the ambiguous records fall.**
+
+**Recommendation for manuscript §4.3.** Report **absolute test FPR against the 1% budget as
+the primary quantity** — that is the number with operational meaning, and it is
+what shows the SVC breaching while the other two hold. Keep the
+validation-to-test ratio as a secondary diagnostic and attribute it explicitly
+to score granularity, noting that a large ratio reflects a conservative forced
+selection rather than unstable transfer. That measurement itself stands
+unchanged; what changes is which number carries the claim.
+
 ### 4.3 Boundary asymmetry, to state explicitly
 
 `purge_rows` is 0, so no gap is inserted at any split boundary. In capture
@@ -445,7 +503,7 @@ Minor consistency point, not an error: the paper calls the second base station
 **BS0** and **BS1**. Worth aligning so a reviewer comparing paper to repo is
 not tripped up.
 
-For item S1 (§4.2, p. 14), the unrounded values are **0.786126** (Random Forest
+For item S1 (manuscript §4.2, p. 14), the unrounded values are **0.786126** (Random Forest
 test accuracy at the F1-selected threshold, from
 `random_forest/test_metrics.json`: 0.786126248615695) against the ceiling
 **0.786258** (`empirical_feature_space_ceiling`). The difference is
@@ -456,6 +514,8 @@ printed 4-dp values make it read as 0.02 pp.
 
 Body text with the running header stripped: **11,496 words over 25 pages**,
 mean **460 words/page**.
+
+Section numbers in this table are the **manuscript's**, not this document's.
 
 | Page | Words | Content |
 |---|---|---|
@@ -489,7 +549,7 @@ M2 and M3 methods and results into one shorter diagnostics section ≈ −4.5 pp
 tightening related work ≈ −0.8 pp; tightening the discussion and folding §5.4
 in ≈ −1.5 pp; trimming the introduction ≈ −0.3 pp; shortening acknowledgements
 ≈ −0.2 pp. That totals about −9.4 pp, giving roughly **18 pages** with the new
-results included, or **16–17 pages** if Figures 2–3 and the §4.4 held-out table
+results included, or **16–17 pages** if Figures 2–3 and the manuscript's §4.4 held-out table
 move to supplementary material.
 
 These are estimates (±1 page) from the measured word counts and page
@@ -508,14 +568,15 @@ grading is what the review praised; reformatting it is fine, losing it is not.
 - **ORCIDs** — not available. Leave placeholders for Nithis Nandhan E,
   Sanjay J, Jani Rose Lawwellman and Kalaavathi B; keep Jaivarshan V's existing
   0009-0001-4147-3934. None have been invented here.
-- **Tagged release (item 5)** — no tag exists (`origin` has 0 tags) and
-  `aa5a572`, cited on pp. 7, 13, 22 and 23, is absent from history. A tag name
-  has not been chosen, and nothing has been tagged or pushed for it. The tag
-  should be created only once items 1–4 have landed.
+- **Tagged release (item 5)** — no tag exists yet (`origin` had 0 tags) and
+  `aa5a572`, cited on pp. 7, 13, 22 and 23, is absent from history. The tag
+  name is **`v1.0-review1-revision`**, to be created only once items 1–4 have
+  landed. All four aa5a572 citations should then point at it.
 - **Figures 2–5 and the derived-analysis scripts** — not in the repository and
   not recoverable; they were produced outside version control. Data and code
   availability must say that plainly rather than implying they are archived.
   Replacement plotting scripts are planned.
-- **Route (b) for item 3** — not authorised; see §5 for the cost estimate.
+- **Route (b) for item 3** — **authorised**, to be run in addition to
+  route (a); see §5 for what it needs and why it is computable.
 - **Scope** — removing the M2 or M3 sections is a co-author decision that has
   not been taken. All planning here assumes all three paradigms stay.
