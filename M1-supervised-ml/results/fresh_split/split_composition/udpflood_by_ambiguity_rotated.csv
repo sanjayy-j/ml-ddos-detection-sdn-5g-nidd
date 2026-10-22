@@ -1,0 +1,5 @@
+window,subset,support,detected,recall
+rotated,carrier,27137,0,0.0
+rotated,non_carrier,41465,19047,0.459351
+rotated,all_udpflood,68602,19047,0.277645
+rotated,carrier_share_of_udpflood,68602,27137,0.395572

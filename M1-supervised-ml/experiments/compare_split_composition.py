@@ -39,10 +39,47 @@ from evaluation.thresholds import (  # noqa: E402
 from models.random_forest import build_random_forest  # noqa: E402
 from preprocessing.data_loader import load_config_file  # noqa: E402
 from preprocessing.pipeline import load_processed, resolve_path  # noqa: E402
+from preprocessing.features import build_target  # noqa: E402
+from preprocessing.splitting import (  # noqa: E402
+    detect_capture_blocks,
+    make_split,
+)
 from training.metadata import load_split_metadata  # noqa: E402
 
 # The configuration the Stage F validation search selected.
 CHOSEN = {"max_depth": 20, "min_samples_leaf": 20, "max_features": "sqrt"}
+
+# The dominant conflicting feature vector documented in the paper: it occurs
+# 271,476 times as 159,875 UDP-flood and 111,601 benign records, so rows
+# carrying it are irreducibly ambiguous. Conditioning on it separates the
+# effect of ambiguity density from everything else that changes with the
+# window.
+CARRIER_COLUMNS = ["Proto", "Dur", "TotPkts", "TotBytes", "State", "sTtl",
+                   "Rate", "Cause"]
+
+
+def carrier_mask_for_test_split(config: dict, raw_path: Path) -> np.ndarray:
+    """Per-test-row flag: does this row carry the dominant ambiguous vector?
+
+    The split assignment is recomputed with the same config that produced
+    the processed matrices, and rows are selected in original order, which
+    is the order `load_processed` and `load_split_metadata` both use.
+    """
+    needed = sorted(set(CARRIER_COLUMNS + ["Unnamed: 0", "Offset", "Label"]))
+    df = pd.read_csv(raw_path, usecols=needed, low_memory=False)
+    y = build_target(df, config).to_numpy()
+    blocks = detect_capture_blocks(df, config)
+    assignment = make_split(y, blocks, config)
+
+    carrier = ((df["Proto"].astype(str).str.lower() == "udp")
+               & (df["Dur"] == 0)
+               & (df["TotPkts"] == 1)
+               & (df["TotBytes"] == 42)
+               & (df["State"].astype(str) == "REQ")
+               & (df["sTtl"] == 63)
+               & (df["Rate"] == 0)
+               & (df["Cause"].astype(str) == "Status")).to_numpy()
+    return carrier[assignment == "test"]
 
 
 def main() -> int:
@@ -102,6 +139,39 @@ def main() -> int:
     frame.to_csv(path, index=False)
     print(frame.to_string(index=False), flush=True)
     print("      wrote " + str(path), flush=True)
+
+    print("[5/5] UDP-flood recall conditioned on the dominant ambiguous vector",
+          flush=True)
+    raw_path = resolve_path(
+        REPO_ROOT, (config.get("dataset") or {}).get("raw_path",
+                                                     "data/raw/Combined.csv"))
+    carrier = carrier_mask_for_test_split(config, raw_path)
+    if len(carrier) != len(y_te):
+        raise SystemExit("carrier mask length {} != test rows {}".format(
+            len(carrier), len(y_te)))
+    udp = groups == "UDPFlood"
+    cond_rows = []
+    for name, sel in (("carrier", udp & carrier), ("non_carrier", udp & ~carrier)):
+        support = int(sel.sum())
+        detected = int(y_pred[sel].sum())
+        recall = detected / support if support else float("nan")
+        cond_rows.append({"window": args.label, "subset": name,
+                          "support": support, "detected": detected,
+                          "recall": round(recall, 6)})
+        print("      {:<12} support {:>7,}  detected {:>7,}  recall {:.6f}"
+              .format(name, support, detected, recall), flush=True)
+    all_udp = int((udp).sum())
+    cond_rows.append({"window": args.label, "subset": "all_udpflood",
+                      "support": all_udp,
+                      "detected": int(y_pred[udp].sum()),
+                      "recall": round(float(y_pred[udp].sum()) / all_udp, 6)})
+    cond_rows.append({"window": args.label, "subset": "carrier_share_of_udpflood",
+                      "support": all_udp,
+                      "detected": int((udp & carrier).sum()),
+                      "recall": round(float((udp & carrier).sum()) / all_udp, 6)})
+    cond_path = out_dir / f"udpflood_by_ambiguity_{args.label}.csv"
+    pd.DataFrame(cond_rows).to_csv(cond_path, index=False)
+    print("      wrote " + str(cond_path), flush=True)
     return 0
 
 

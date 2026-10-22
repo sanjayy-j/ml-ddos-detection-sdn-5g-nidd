@@ -264,6 +264,41 @@ irreducibly ambiguous:
 | Published, tail of each stream | 51,933 / 68,602 = **75.70%** |
 | Rotated, old [0.55, 0.70) | 27,137 / 68,602 = **39.56%** |
 
+### 4.2.1 How much of the effect ambiguity density explains — measured
+
+Splitting the UDP-flood test rows by whether they carry the dominant vector
+(`udpflood_by_ambiguity_*.csv` in each `split_composition/` directory):
+
+| | Published window | Rotated window |
+|---|---|---|
+| Carrier support | 51,933 | 27,137 |
+| **Carrier recall** | **0.000000** | **0.000000** |
+| Non-carrier support | 16,669 | 41,465 |
+| **Non-carrier recall** | **0.382506** | **0.459351** |
+
+Carrier recall is exactly zero in both windows: under the FPR ≤ 1% cap the
+models never fire on the ambiguous vector, because 111,601 of its 271,476
+occurrences are benign. Every UDP-flood true positive comes from non-carriers.
+
+Decomposing the +12,671 UDP-flood true positives:
+
+- holding non-carrier recall at the published 0.382506 and applying it to the
+  rotated window's 41,465 non-carriers predicts 15,861 detections;
+- so **ambiguity density explains 9,485 of 12,671 = 74.9%**;
+- the residual **3,186 = 25.1%** is non-carrier recall itself rising from
+  0.382506 to 0.459351, a 20.1% relative improvement, attributable to the
+  different training composition and the different frozen threshold
+  (0.503424 against 0.478734).
+
+So density is the dominant mechanism but **not the whole effect**, and the
+write-up should quote the 75/25 split rather than claiming UDP-flood ambiguity
+accounts for all of it. (The commit that first recorded this analysis,
+`4ad4254`, says UDP flood "accounts for the entire effect" of the *pooled*
+change, which is true at the attack-type level — UDP flood supplies 12,671 of
+the +12,667 net change — but it should not be read as ambiguity density alone
+explaining the within-UDP-flood change. This section is the measured
+statement.)
+
 The vector's density rises along capture position inside both UDP-flood
 sessions:
 
@@ -286,6 +321,38 @@ ones.
 uncontaminated, and **do not write** that the published window was
 intrinsically harder. Neither follows. The comparison shows where the
 irreducible ambiguity sits in capture order, not that the protocol was clean.
+
+### 4.2.2 What this experiment actually establishes
+
+This is more than a pass on item 4, and it should not be presented as an
+awkward result to explain away.
+
+The same model, the same hyperparameters and the same locked operating-point
+protocol swing pooled recall from 0.438040 to 0.552433 on the basis of **window
+position alone**, with the entire movement inside a single attack type. All
+three model families move together — rotated recall 0.552433 (Random Forest),
+0.544856 (SVC), 0.545597 (CNN) — so this is a property of the data, not of any
+one learner.
+
+Two consequences for the paper:
+
+1. **Pooled recall is an unstable quantity across contiguous windows on this
+   dataset.** A ±0.11 swing is available from the choice of which contiguous
+   15% serves as test, with no change to the model or the protocol. Any
+   published 5G-NIDD recall figure that does not state its window position is
+   therefore not comparable with any other, which sharpens the paper's
+   methodological critique considerably.
+2. **This is direct evidence for the Eq. (5) representation-limit argument.**
+   Carrier recall is exactly 0.000000 in both windows, so the detectable
+   fraction of UDP-flood traffic is fixed by how many records carry an
+   irreducibly ambiguous vector, and nothing the model does changes it. The
+   label-conflict bound is not an abstract ceiling computed off to one side of
+   the results — it is the mechanism that moves the headline number.
+
+**Per-attack-type recall conditioned on ambiguity is the only statistic that is
+comparable between windows.** Pooled recall, pooled accuracy and pooled F1 all
+inherit the window's ambiguity composition and should not be compared across
+splits — in this paper or against the 99%-accuracy literature.
 
 Consistent with this, the rotated split shares more feature vectors across
 splits than the published one: **711,650** rows versus **686,830**

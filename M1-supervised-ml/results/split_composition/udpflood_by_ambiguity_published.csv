@@ -1,0 +1,5 @@
+window,subset,support,detected,recall
+published,carrier,51933,0,0.0
+published,non_carrier,16669,6376,0.382506
+published,all_udpflood,68602,6376,0.092942
+published,carrier_share_of_udpflood,68602,51933,0.757019
