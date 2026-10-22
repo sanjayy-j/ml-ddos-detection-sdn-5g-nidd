@@ -58,8 +58,8 @@ METRICS = ("accuracy", "precision", "recall", "f1", "fpr", "tnr",
            "roc_auc", "pr_auc")
 COUNTS = ("TP", "TN", "FP", "FN")
 
-ROW_FIELDS = ("model", "seed", "threshold", *METRICS, *COUNTS,
-              "train_seconds", "notes")
+ROW_FIELDS = ("model", "seed", "threshold", "val_fpr", "val_recall",
+              *METRICS, *COUNTS, "train_seconds", "notes")
 
 
 def selected_hyperparameters(results_root: Path) -> dict[str, dict]:
@@ -85,12 +85,18 @@ def seeded_config(config: dict, seed: int) -> dict:
     return out
 
 
-def evaluate(y_va, val_scores, y_te, test_scores) -> tuple[float, dict]:
-    """Locked protocol: freeze on validation, then score test once."""
+def evaluate(y_va, val_scores, y_te, test_scores):
+    """Locked protocol: freeze on validation, then score test once.
+
+    The achieved VALIDATION FPR and recall at the frozen threshold are
+    returned alongside the test metrics, because the validation-to-test
+    FPR ratio is itself a reported quantity (Table 6).
+    """
     operating = select_threshold_at_fpr(y_va, val_scores, PRIMARY_FPR_CAP)
     threshold = float(operating["threshold"])
     y_pred = (test_scores >= threshold).astype(np.int8)
-    return threshold, compute_metrics(y_te, y_pred, test_scores)
+    return (threshold, compute_metrics(y_te, y_pred, test_scores),
+            float(operating["fpr"]), float(operating["recall"]))
 
 
 def run_rf(config, chosen, data, seed):
@@ -159,6 +165,9 @@ def main() -> int:
                         help="comma-separated seeds (default: 42,43,44,45,46)")
     parser.add_argument("--models", default="RandomForest,SVM,CNN_1D",
                         help="comma-separated subset of the three models")
+    parser.add_argument("--out", default=None,
+                        help="CSV to append runs to (default: "
+                             "<results_dir>/seed_sweep/seed_sweep_runs.csv)")
     parser.add_argument("--hparams-from", default=None,
                         help="results directory holding the run records whose "
                              "selected hyperparameters should be reused "
@@ -198,7 +207,18 @@ def main() -> int:
         len(data["y"]["train"]), len(data["y"]["val"]),
         len(data["y"]["test"]), n_feat), flush=True)
 
-    rows_path = out_dir / "seed_sweep_runs.csv"
+    rows_path = (Path(args.out) if args.out
+                 else out_dir / "seed_sweep_runs.csv")
+    rows_path.parent.mkdir(parents=True, exist_ok=True)
+    if rows_path.is_file():
+        with rows_path.open(encoding="utf-8") as fh:
+            existing = (fh.readline().strip().split(",") if fh else [])
+        if existing and existing != list(ROW_FIELDS):
+            print("refusing to append to {}: its header is {} but this run "
+                  "writes {}. Pass --out with a new path."
+                  .format(rows_path, existing, list(ROW_FIELDS)),
+                  file=sys.stderr)
+            return 2
     fresh = not rows_path.is_file()
     handle = rows_path.open("a", newline="", encoding="utf-8")
     writer = csv.DictWriter(handle, fieldnames=ROW_FIELDS)
@@ -217,10 +237,12 @@ def main() -> int:
                 val_scores, test_scores, train_s, notes = result
             else:
                 val_scores, test_scores, train_s = result
-            threshold, metrics = evaluate(
+            threshold, metrics, val_fpr, val_recall = evaluate(
                 data["y"]["val"], val_scores, data["y"]["test"], test_scores)
             row = {"model": name, "seed": seed,
                    "threshold": round(threshold, 6),
+                   "val_fpr": round(val_fpr, 8),
+                   "val_recall": round(val_recall, 6),
                    "train_seconds": round(train_s, 2), "notes": notes}
             for key in METRICS:
                 row[key] = round(float(metrics[key]), 6)

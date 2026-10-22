@@ -167,6 +167,13 @@ reports.
 the §4.3 threshold-transfer finding; it should be stated as "all five seeds"
 rather than as a single-run observation.
 
+**Scope qualifier:** all five of those seeds were run on the **published**
+window. The alternative-window results in §4.5 show that the
+validation-to-test FPR ratio is itself window-dependent, so the breach should
+be reported as "on all five seeds of the published split" rather than as an
+unconditional property of the SVC. §4.3's measurement is correct and is not
+weakened — only its scope needs stating.
+
 ### 3.4 Cost comparison needs correcting
 
 Measured over five seeds, with the published single run for comparison:
@@ -337,11 +344,13 @@ one learner.
 Two consequences for the paper:
 
 1. **Pooled recall is an unstable quantity across contiguous windows on this
-   dataset.** A ±0.11 swing is available from the choice of which contiguous
-   15% serves as test, with no change to the model or the protocol. Any
-   published 5G-NIDD recall figure that does not state its window position is
-   therefore not comparable with any other, which sharpens the paper's
-   methodological critique considerably.
+   dataset.** **At least 0.11 of recall is available** from the choice of which
+   contiguous 15% serves as test, with no change to the model or the protocol.
+   This is a lower bound, not a range: only two of the possible contiguous
+   windows have been evaluated, so the full spread across all window positions
+   is unmeasured and can only be larger. Any published 5G-NIDD recall figure
+   that does not state its window position is therefore not comparable with any
+   other, which sharpens the paper's methodological critique considerably.
 2. **This is direct evidence for the Eq. (5) representation-limit argument.**
    Carrier recall is exactly 0.000000 in both windows, so the detectable
    fraction of UDP-flood traffic is fixed by how many records carry an
