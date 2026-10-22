@@ -153,6 +153,12 @@ def main() -> int:
     # ---------------- 2. hyperparameter search (validation only) ----------------
     print("[2/6] hyperparameter search (criterion: validation " + SELECTION_METRIC + ")",
           flush=True)
+    _rf_cfg = (config.get("models") or {}).get("random_forest") or {}
+    rf_configured = {
+        "max_depth": _rf_cfg.get("max_depth", None),
+        "min_samples_leaf": _rf_cfg.get("min_samples_leaf", 1),
+        "max_features": _rf_cfg.get("max_features", "sqrt"),
+    }
     if args.skip_search:
         candidates = [{}]
     else:
@@ -179,9 +185,14 @@ def main() -> int:
         pred_s = time.perf_counter() - t0
         row = compute_metrics(y_va, (scores >= 0.5).astype(np.int8), scores)
         row["candidate"] = i
-        row["max_depth"] = overrides.get("max_depth", "config")
-        row["min_samples_leaf"] = overrides.get("min_samples_leaf", "config")
-        row["max_features"] = overrides.get("max_features", "config")
+        # Under --skip-search there are no overrides, so the configured value
+        # is recorded. The search grid always supplies all three keys, so this
+        # fallback never changes a real search run.
+        row["max_depth"] = overrides.get("max_depth", rf_configured["max_depth"])
+        row["min_samples_leaf"] = overrides.get(
+            "min_samples_leaf", rf_configured["min_samples_leaf"])
+        row["max_features"] = overrides.get(
+            "max_features", rf_configured["max_features"])
         row["fit_seconds"] = round(fit_s, 2)
         row["val_predict_seconds"] = round(pred_s, 2)
         for k, v in describe_forest(model).items():

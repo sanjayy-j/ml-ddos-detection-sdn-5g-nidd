@@ -1,0 +1,2 @@
+n,accuracy,precision,recall,f1,fpr,tnr,TN,FP,FN,TP,roc_auc,pr_auc,candidate,max_depth,min_samples_leaf,max_features,fit_seconds,val_predict_seconds,forest_n_estimators,forest_mean_depth,forest_max_depth_reached,forest_mean_leaves,forest_total_nodes
+182382,0.7166661183669442,0.9990702863518036,0.53379153382766,0.695816483303018,0.0007675239676802635,0.9992324760323197,71604,55,51620,59103,0.8698549225931995,0.9010342024521112,1,20,20,sqrt,38.57,0.4,200,19.645,20,461.5,184406
