@@ -46,6 +46,8 @@ class FeatureConfig:
         categorical_missing_fill: String token used for missing categorical entries.
         numeric_missing_fill: Policy for missing numeric values ('median', 'zero', 'mean').
         exclude_cols: List of columns barred from entropy feature matrices.
+        unobserved_missing_cols: Categorical columns whose missing values stay NaN (see field).
+        min_observed: Minimum observed values per window for those columns (see field).
     """
 
     categorical_cols: List[str] = field(
@@ -60,6 +62,13 @@ class FeatureConfig:
     categorical_missing_fill: str = "__missing__"
     numeric_missing_fill: str = "median"
     exclude_cols: List[str] = field(default_factory=lambda: list(DEFAULT_EXCLUDE_COLS))
+    # Categorical columns whose missing values are NOT replaced by `categorical_missing_fill`.
+    # They stay NaN so the entropy stage can compute entropy over OBSERVED values only and
+    # report how many records were unobserved (used for Dport: never invent port values).
+    unobserved_missing_cols: List[str] = field(default_factory=list)
+    # Minimum observed (non-missing) values in a window for an entropy score of the columns
+    # above; fewer -> entropy is NaN ("not evaluable") instead of a misleading number.
+    min_observed: int = 10
 
 
 class FeatureExtractor:
@@ -166,6 +175,10 @@ class FeatureExtractor:
         # 1. Process Categorical Columns
         for col in valid_cat:
             series = df[col].copy()
+            if col in self.config.unobserved_missing_cols:
+                # Keep missing as NaN (never invent a value); non-missing become strings.
+                feature_df[col] = series.astype(object).where(series.isnull(), series.astype(str))
+                continue
             # Handle missing categorical values explicitly
             if series.isnull().any():
                 series = series.fillna(self.config.categorical_missing_fill)
