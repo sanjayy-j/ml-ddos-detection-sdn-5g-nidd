@@ -159,6 +159,13 @@ def main() -> int:
                         help="comma-separated seeds (default: 42,43,44,45,46)")
     parser.add_argument("--models", default="RandomForest,SVM,CNN_1D",
                         help="comma-separated subset of the three models")
+    parser.add_argument("--hparams-from", default=None,
+                        help="results directory holding the run records whose "
+                             "selected hyperparameters should be reused "
+                             "(default: this config's own results_dir). Used by "
+                             "Phase 3.3, which writes to a fresh-split results "
+                             "directory but must keep the published "
+                             "hyperparameters.")
     args = parser.parse_args()
 
     seeds = [int(s) for s in args.seeds.split(",") if s.strip()]
@@ -175,8 +182,11 @@ def main() -> int:
     out_dir = results_root / "seed_sweep"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    chosen = selected_hyperparameters(results_root)
-    print("[1/3] selected configurations (from the committed run records)",
+    hparams_root = (resolve_path(REPO_ROOT, args.hparams_from)
+                    if args.hparams_from else results_root)
+    chosen = selected_hyperparameters(hparams_root)
+    print("[1/3] selected configurations (from the committed run records in "
+          + str(hparams_root) + ")",
           flush=True)
     for name in wanted:
         print(f"      {name}: {chosen[name]}", flush=True)

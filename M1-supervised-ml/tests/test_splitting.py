@@ -174,3 +174,40 @@ def test_split_manifest_is_complete_and_reproducible():
         assert manifest[f"{name}_rows"].sum() == int((assignment == name).sum())
     assert "attack_types" in manifest.columns
     assert manifest.equals(again)
+
+
+# --- Phase 3.3: alternative contiguous cut (faculty item 4) ----------------
+
+def _rotated_config(fraction):
+    config = synthetic_config()
+    config["split"] = dict(config.get("split") or {}, rotate_fraction=fraction)
+    return config
+
+
+def test_rotate_fraction_absent_or_zero_is_the_original_split():
+    """The default must reproduce the published protocol byte for byte."""
+    df, config, y, blocks = _setup()
+    baseline = make_split(y, blocks, config)
+    explicit_zero = make_split(y, blocks, _rotated_config(0.0))
+    assert list(baseline) == list(explicit_zero)
+
+
+def test_rotate_fraction_moves_the_test_window_and_keeps_sizes():
+    """A rotated cut is a different partition of the same size."""
+    df, config, y, blocks = _setup()
+    baseline = make_split(y, blocks, config)
+    rotated = make_split(y, blocks, _rotated_config(0.70))
+
+    for name in SPLIT_NAMES:
+        assert (rotated == name).sum() == (baseline == name).sum()
+    assert_split_is_disjoint(rotated)
+
+    assert list(rotated) != list(baseline)
+    assert ((baseline == "test") != (rotated == "test")).any()
+
+
+def test_rotate_fraction_rejects_out_of_range():
+    df, config, y, blocks = _setup()
+    for bad in (-0.1, 1.0, 1.5):
+        with pytest.raises(SplitError):
+            make_split(y, blocks, _rotated_config(bad))

@@ -116,6 +116,18 @@ def make_split(
     Deterministic: identical inputs always produce an identical result.
     """
     train_ratio, val_ratio, _, purge = _ratios(config)
+    # Optional cyclic rotation of each (block, label) stream before the
+    # contiguous cut. 0.0 (the default) reproduces the original protocol
+    # exactly: first train_ratio -> train, next val_ratio -> val, rest ->
+    # test. A non-zero fraction starts the cut at that position in the
+    # stream instead, which yields a DIFFERENT contiguous 70/15/15 cut
+    # from the same capture order. Exactly one segment wraps around the
+    # end of the stream; with rotate_fraction = 0.70 the wrapped segment
+    # is train, so val and test are both strictly contiguous.
+    rotate_fraction = float((config.get("split") or {}).get(
+        "rotate_fraction", 0.0) or 0.0)
+    if not 0.0 <= rotate_fraction < 1.0:
+        raise SplitError("split.rotate_fraction must be in [0.0, 1.0).")
     y_arr = np.asarray(y)
     n = len(y_arr)
     if len(block_ids) != n:
@@ -128,6 +140,8 @@ def make_split(
     # which is capture order — exactly what the contiguous cut needs.
     for _, positions in strata.groupby(["block", "label"], sort=True).indices.items():
         k = len(positions)
+        if rotate_fraction:
+            positions = np.roll(positions, -int(k * rotate_fraction))
         train_end = int(k * train_ratio)
         val_end = int(k * (train_ratio + val_ratio))
 
