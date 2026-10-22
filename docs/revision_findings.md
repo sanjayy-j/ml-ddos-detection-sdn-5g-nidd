@@ -171,17 +171,26 @@ rather than as a single-run observation.
 
 Measured over five seeds, with the published single run for comparison:
 
-| Model | Five-seed mean ± SD | Range | Published (seed 42) |
-|---|---|---|---|
-| Random Forest | 33.6 s ± 0.3 | 33.3–34.0 | 31.1 s |
-| 1-D CNN | 296 s ± 54 | 205–343 | 159.6 s |
-| Nyström + linear SVC | 2,060 s ± 647 | 1,341–3,093 | 3,093.6 s |
+| Model | Five-seed range | Published (seed 42) |
+|---|---|---|
+| Random Forest | 33.3–34.0 s | 31.1 s |
+| 1-D CNN | 205–343 s | 159.6 s |
+| Nyström + linear SVC | 1,341–3,093 s | 3,093.6 s |
 
-The published figures use the **slowest** SVC run and the **fastest** CNN run
-(the latter being the 19-epoch seed). The ordering RF ≪ CNN ≪ SVC holds
-regardless, but the "100×" style comparison should be restated from the means.
-Timings come from a machine whose load was not controlled, as Table 5 already
-notes.
+**No standard deviation is quoted for training time, because the spread is not
+a seed effect.** The published SVC run and sweep seed 42 are the *same seed*
+and the *same configuration*, yet took 3,093.6 s and 1,858.6 s respectively —
+a 1.7× difference from machine load alone. Table 5 already notes that timings
+come from a machine whose load was not controlled; these ranges should be read
+the same way, as indicative of relative cost only.
+
+The CNN comparison has a second, real cause: the published run early-stopped at
+19 epochs where the others ran 26–30, so part of its lower time is less
+training, not faster training.
+
+The ordering RF ≪ CNN ≪ SVC holds throughout, but any "100×" style claim should
+be stated as a range rather than computed from the single published pair, which
+happens to combine the slowest SVC run with the shortest CNN run.
 
 ## 4. Item 4 — alternative contiguous split
 
@@ -205,18 +214,102 @@ Default `rotate_fraction = 0.0` reproduces the published protocol byte for
 byte — verified by comparing all 20 blocks × 6 columns of the regenerated
 manifest against the committed one (no differences), and covered by a test.
 
-Results are being generated and are not yet complete; they will be added here
-when they are. The first completed run (Random Forest, seed 42) scored
-**higher** on the rotated split than on the published one, which points toward
-the published test window being the harder one rather than toward
-contamination having inflated it. That reading must not be written up until all
-seeds are in.
+### 4.1 Results, seed 42
 
-**Known confound to state in the write-up:** CNN early stopping is driven by
-the validation set, which the rotation changes, so part of any old-vs-new CNN
-difference is training length rather than the split. The fresh-split run is
-therefore being repeated across seeds 42, 43 and 44 so the comparison is not
-made from a single seed.
+| Model | Published test | Rotated test |
+|---|---|---|
+| Random Forest | acc 0.655771, recall 0.438040, FPR 0.007828, ROC-AUC 0.852824 | acc 0.727278, recall 0.552433, FPR 0.002581, ROC-AUC 0.872863 |
+| Nyström + linear SVC | acc 0.653874, recall 0.437687, FPR 0.012111, ROC-AUC 0.850177 | acc 0.722794, recall 0.544856, FPR 0.002288, ROC-AUC 0.871860 |
+| 1-D CNN | acc 0.650985, recall 0.426182, FPR 0.001688, ROC-AUC 0.850978 | acc 0.724109, recall 0.545597, FPR 0.000084, ROC-AUC 0.873574 |
+
+All three score markedly higher on the rotated window. **Pooled recall must not
+be used to interpret this**, for the reason below.
+
+### 4.2 The difference is UDP-flood ambiguity by capture position
+
+Pooled recall on this dataset is almost entirely a function of the UDP-flood
+records in the window, because UDP-flood recall is ~0.09 while the other seven
+types are detected at ≥0.986. Per attack type, Random Forest at the locked
+operating point:
+
+| Attack type | Support | Published recall | Rotated recall | Δ detected |
+|---|---|---|---|---|
+| UDPFlood | 68,602 | 0.092942 | **0.277645** | **+12,671** |
+| HTTPFlood | 21,123 | 0.999953 | 0.999905 | −1 |
+| TCPConnectScan | 3,009 | 1.000000 | 0.999335 | −2 |
+| UDPScan | 2,387 | 1.000000 | 0.999581 | −1 |
+| SYNScan | 3,007 | 1.000000 | 1.000000 | 0 |
+| SlowrateDoS | 10,971 | 1.000000 | 1.000000 | 0 |
+| SYNFlood | 1,459 | 1.000000 | 1.000000 | 0 |
+| ICMPFlood | 174 | 1.000000 | 1.000000 | 0 |
+
+Net true-positive change +12,667, of which UDP-flood accounts for 12,671 —
+**the whole effect**; the other seven types lose 4 records between them.
+
+**The attack-type composition of the two windows is identical.** The split is
+stratified per (block, label), so every block contributes exactly 15% of its
+rows to test regardless of rotation: UDP-flood support is 68,602 in both
+windows and its share of test malicious rows is 61.95% in both. An explanation
+based on the rotated window containing *fewer* UDP-flood rows is therefore
+wrong — there are exactly as many.
+
+What differs is how many of those UDP-flood records carry the dominant
+conflicting feature vector (udp, Dur = 0, TotPkts = 1, TotBytes = 42,
+State = REQ, sTtl = 63, Rate = 0, Cause = Status), which occurs 271,476 times
+in the dataset as 159,875 UDP-flood and 111,601 benign records and is
+irreducibly ambiguous:
+
+| Test window | UDP-flood rows carrying the dominant ambiguous vector |
+|---|---|
+| Published, tail of each stream | 51,933 / 68,602 = **75.70%** |
+| Rotated, old [0.55, 0.70) | 27,137 / 68,602 = **39.56%** |
+
+The vector's density rises along capture position inside both UDP-flood
+sessions:
+
+| Position in stream | Block 4 | Block 14 |
+|---|---|---|
+| [0.00, 0.40) | 25.80% | 19.05% |
+| [0.40, 0.55) | 10.47% | 44.76% |
+| [0.55, 0.70) | 42.44% | 46.37% |
+| [0.70, 0.85) | 46.73% | 46.48% |
+| [0.85, 1.00) | **59.43%** | **71.55%** |
+
+**Wording for the paper.** UDP-flood records carrying the ambiguous 42-byte
+single-packet vector are unevenly distributed along capture position, becoming
+denser toward the end of each session. The published test window is the tail of
+each stream and is therefore ambiguity-heavy; a window drawn from the middle of
+the stream contains the same number of UDP-flood records but fewer ambiguous
+ones.
+
+**Do not write** that the rotated split shows the published results were
+uncontaminated, and **do not write** that the published window was
+intrinsically harder. Neither follows. The comparison shows where the
+irreducible ambiguity sits in capture order, not that the protocol was clean.
+
+Consistent with this, the rotated split shares more feature vectors across
+splits than the published one: **711,650** rows versus **686,830**
+(`leakage_audit.json` in each results directory). Dataset-level ambiguity is of
+course unchanged — 33,709 conflicting vectors, 632,402 rows, ceiling 76.8455%
+in both, since that is a property of the representation and not of the split.
+
+### 4.3 Boundary asymmetry, to state explicitly
+
+`purge_rows` is 0, so no gap is inserted at any split boundary. In capture
+order the rotated test window at [0.55, 0.70) is immediately **followed** by
+training data as well as preceded by it, whereas the published test window ends
+the stream and has training data on one side only. The rotated window therefore
+has adjacency to training rows on both edges. This is a property of the
+alternative cut that should be reported, not hidden; running it with
+`purge_rows > 0` would quantify how much it matters and has not been done.
+
+### 4.4 Confound in the CNN comparison
+
+CNN early stopping is driven by validation PR-AUC, and the rotation changes the
+validation set, so part of any old-vs-new CNN difference is training length
+rather than the split. The fresh-split run is therefore repeated across seeds
+42, 43 and 44; results for 43 and 44 will be appended here. A single-seed CNN
+comparison must not be reported without this confound stated.
 
 ## 5. Item 3 — what is and is not computable
 

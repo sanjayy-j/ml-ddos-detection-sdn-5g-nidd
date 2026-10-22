@@ -1,0 +1,53 @@
+column,decision,role,dtype,missing_pct,cardinality,reason,leakage_concern,notes
+Unnamed: 0,DROP,identifier,int64,0.0,728316,CSV row-index artifact; monotonic capture position,"HIGH - encodes capture order, which is target-associated",Used only to locate the base-station boundary (single decrease)
+Seq,DROP,identifier,int64,0.0,137210,Argus sequence number (identifier),"HIGH - acquisition counter, not a network property","137,210 distinct values"
+Dur,KEEP,numeric_feature,float64,0.0,218694,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,Flow duration; the single retained copy of six identical columns
+RunTime,DROP,excluded,float64,0.0,218694,Byte-identical copy of Dur,None - redundant,Verified equal
+Mean,DROP,excluded,float64,0.0,218694,Byte-identical copy of Dur,None - redundant,Verified equal
+Sum,DROP,excluded,float64,0.0,218694,Byte-identical copy of Dur,None - redundant,Verified equal
+Min,DROP,excluded,float64,0.0,218694,Byte-identical copy of Dur,None - redundant,Verified equal
+Max,DROP,excluded,float64,0.0,218694,Byte-identical copy of Dur,None - redundant,Verified equal
+Proto,KEEP,categorical_feature,str,0.0,8,Genuine network-flow feature retained in the M1 matrix (categorical),None identified,Genuine L3/L4 protocol; nominal one-hot
+sTos,DROP,excluded,float64,0.0176,12,Bijective 1:1 with retained sDSb (12 <-> 12 levels),None - redundant encoding,Numeric ToS byte; sDSb keeps the nominal DSCP semantics
+dTos,DROP,excluded,float64,77.5619,7,1:1 into retained dDSb (7 -> 6 levels),None - redundant encoding,Only 550 rows are finer-grained than dDSb
+sDSb,KEEP,categorical_feature,str,0.0176,12,Genuine network-flow feature retained in the M1 matrix (categorical),None identified,Symbolic source DSCP class; nominal one-hot (replaces sTos)
+dDSb,KEEP,categorical_feature,str,77.5619,6,Genuine network-flow feature retained in the M1 matrix (categorical),None identified,Symbolic destination DSCP class; nominal one-hot (replaces dTos)
+sTtl,KEEP,numeric_feature,float64,0.0176,35,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,Source TTL; retained instead of the coarser sHops
+dTtl,KEEP,numeric_feature,float64,77.5619,33,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,Destination TTL; retained instead of the coarser dHops
+sHops,DROP,excluded,float64,0.0176,27,Deterministic function of retained sTtl,None - redundant,Each sTtl value maps to exactly one sHops value
+dHops,DROP,excluded,float64,77.5619,26,Deterministic function of retained dTtl,None - redundant,Each dTtl value maps to exactly one dHops value
+Cause,KEEP,categorical_feature,str,0.0,3,Genuine network-flow feature retained in the M1 matrix (categorical),None identified,Argus record type (Start/Status/Shutdown). Acquisition-related but a legitimate flow attribute; flagged for ablation in Stage E
+TotPkts,KEEP,numeric_feature,int64,0.0,572,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+SrcPkts,KEEP,numeric_feature,int64,0.0,472,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+DstPkts,KEEP,numeric_feature,int64,0.0,462,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+TotBytes,KEEP,numeric_feature,int64,0.0,24614,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+SrcBytes,KEEP,numeric_feature,int64,0.0,17540,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+DstBytes,KEEP,numeric_feature,int64,0.0,10079,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+Offset,DROP,identifier,int64,0.0,1118981,Argus byte offset into the capture file (identifier),HIGH - encodes position within the capture,Used only for capture-block detection (19 resets)
+sMeanPktSz,KEEP,numeric_feature,float64,0.0,21243,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+dMeanPktSz,KEEP,numeric_feature,float64,0.0,15441,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+Load,KEEP,numeric_feature,float64,0.0,230997,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+SrcLoad,KEEP,numeric_feature,float64,0.0,226800,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+DstLoad,KEEP,numeric_feature,float64,0.0,148712,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+Loss,KEEP,numeric_feature,int64,0.0,24,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+SrcLoss,KEEP,numeric_feature,int64,0.0,14,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+DstLoss,KEEP,numeric_feature,int64,0.0,14,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+pLoss,KEEP,numeric_feature,float64,0.0,170,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+SrcGap,DROP,excluded,float64,77.0809,15,Near-zero variance: 77.08% missing; ~all present values are 0.0,MEDIUM - missingness is exactly Proto != tcp,Only ~11 non-zero rows in 1.2M
+DstGap,DROP,excluded,float64,77.0809,17,Near-zero variance: 77.08% missing; ~all present values are 0.0,MEDIUM - missingness is exactly Proto != tcp,Only ~70 non-zero rows in 1.2M
+Rate,KEEP,numeric_feature,float64,0.0,188573,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+SrcRate,KEEP,numeric_feature,float64,0.0,171389,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+DstRate,KEEP,numeric_feature,float64,0.0,142821,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+State,KEEP,categorical_feature,str,0.0,11,Genuine network-flow feature retained in the M1 matrix (categorical),None identified,Genuine Argus flow state; nominal one-hot
+SrcWin,KEEP,numeric_feature,float64,80.0623,1087,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+DstWin,KEEP,numeric_feature,float64,85.4363,1085,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+sVid,DROP,excluded,float64,90.5772,1,Constant (single value 610) with 90.58% missing,"HIGH - P(malicious | present) = 0.00, a pure capture artifact","Zero variance: no predictive content, only capture provenance"
+dVid,DROP,excluded,float64,99.8348,1,Constant (single value 610) with 99.83% missing,"HIGH - P(malicious | present) = 0.00, a pure capture artifact","Zero variance: no predictive content, only capture provenance"
+SrcTCPBase,DROP,excluded,float64,77.0809,203756,TCP initial sequence number: pseudo-random identifier,"HIGH - identifier-like, 203,756 distinct values up to 2^32",Excluded by project mandate and confirmed by inspection
+DstTCPBase,DROP,excluded,float64,81.0799,135743,TCP initial sequence number: pseudo-random identifier,"HIGH - identifier-like, 135,743 distinct values up to 2^32",Excluded by project mandate and confirmed by inspection
+TcpRtt,KEEP,numeric_feature,float64,0.0,18745,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+SynAck,KEEP,numeric_feature,float64,0.0,3896,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+AckDat,KEEP,numeric_feature,float64,0.0,23870,Genuine network-flow feature retained in the M1 matrix (numeric),None identified,
+Label,DROP,target,str,0.0,2,Prediction target,TARGET,"Benign=0, Malicious=1"
+Attack Type,DROP,target_metadata,str,0.0,9,Target-derived metadata (perfectly aligned with Label),TARGET-DERIVED - would trivially reveal the label,Retained outside the feature matrix for per-attack analysis
+Attack Tool,DROP,target_metadata,str,0.0,6,Target-derived metadata (perfectly aligned with Label),TARGET-DERIVED - would trivially reveal the label,Retained outside the feature matrix for per-tool analysis
