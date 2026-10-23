@@ -1,0 +1,5 @@
+window,subset,support,detected,recall
+window_k10,carrier,51933,79,0.001521
+window_k10,non_carrier,16669,6375,0.382446
+window_k10,all_udpflood,68602,6454,0.094079
+window_k10,carrier_share_of_udpflood,68602,51933,0.757019

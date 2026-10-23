@@ -1,0 +1,99 @@
+{
+  "seed": 42,
+  "n_rows_total": 1215890,
+  "n_input_features": 38,
+  "n_numeric_input_features": 33,
+  "n_categorical_input_features": 5,
+  "n_output_features": 74,
+  "cnn_input_shape": [
+    74,
+    1
+  ],
+  "split_strategy": "block_label_contiguous",
+  "purge_rows": 0,
+  "n_purged_rows": 0,
+  "log1p_skew_threshold": 2.0,
+  "log1p_columns": [
+    "sTtl",
+    "dTtl",
+    "TotPkts",
+    "SrcPkts",
+    "DstPkts",
+    "TotBytes",
+    "SrcBytes",
+    "DstBytes",
+    "sMeanPktSz",
+    "dMeanPktSz",
+    "Load",
+    "SrcLoad",
+    "DstLoad",
+    "Loss",
+    "SrcLoss",
+    "DstLoss",
+    "pLoss",
+    "Rate",
+    "SrcRate",
+    "DstRate",
+    "SrcWin",
+    "DstWin",
+    "TcpRtt",
+    "SynAck",
+    "AckDat",
+    "win100_bytes_sum",
+    "win100_bytes_mean",
+    "win100_pkts_sum",
+    "win100_pkts_mean"
+  ],
+  "splits": {
+    "train": {
+      "rows": 851106,
+      "benign": 334408,
+      "malicious": 516698,
+      "malicious_pct": 60.709,
+      "shape": [
+        851106,
+        74
+      ]
+    },
+    "val": {
+      "rows": 182382,
+      "benign": 71659,
+      "malicious": 110723,
+      "malicious_pct": 60.7094,
+      "shape": [
+        182382,
+        74
+      ]
+    },
+    "test": {
+      "rows": 182402,
+      "benign": 71670,
+      "malicious": 110732,
+      "malicious_pct": 60.7077,
+      "shape": [
+        182402,
+        74
+      ]
+    }
+  },
+  "svm_subsample": {
+    "configured": 50000,
+    "selected_rows": 50000,
+    "malicious_pct": 60.71
+  },
+  "duplicates": {
+    "n_rows": 1215890,
+    "n_unique_feature_vectors": 535988,
+    "n_duplicate_rows": 679902,
+    "n_duplicate_groups": 121900,
+    "n_ambiguous_groups": 95022,
+    "rows_in_ambiguous_groups": 604294,
+    "bayes_error_rows": 272089,
+    "bayes_error_pct": 22.3778,
+    "max_achievable_accuracy_pct": 77.6222,
+    "duplicate_groups_crossing_blocks": 95329,
+    "duplicate_vectors_shared_across_splits": 3711,
+    "rows_whose_vector_appears_in_another_split": 401402
+  },
+  "svm_subsample_indices_saved": true
+}

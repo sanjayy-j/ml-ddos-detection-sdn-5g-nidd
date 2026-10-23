@@ -389,8 +389,13 @@ and only the smallest one breaches. On the rotated window **all three
 undershoot** (0.26×, 0.44×, 0.35×) and **none breaches** — the SVC's test FPR
 falls from 0.012111 to 0.002288, comfortably inside the budget.
 
-**So the SVC's budget breach is a property of the published window, not of the
-SVC.** That is the scope qualifier §3.3 requires, stated from measurement.
+**What this does and does not establish.** Because all three models undershoot
+on the rotated window, that window cannot discriminate between the SVC being
+safe and the window simply being lenient. What is established is narrower: the
+breach **does not reproduce on a second window**, so it must not be reported as
+an unconditional property of the SVC. This is a scope qualification, not an
+exoneration — the SVC still exceeded the budget on all five seeds of the
+published split, and that measurement stands.
 
 The natural reading of these ratios is backwards. **The smallest ratio is the
 only budget breach, and the two near 10× never breach.** The SVC transfers at
@@ -537,6 +542,99 @@ block boundary, are strictly backward-looking, and read no label column. This
 tests **temporal** aggregation using row order as a proxy for time — the same
 proxy M2 relies on. It is **not** per-source aggregation, and the write-up must
 say so.
+
+### 5.1 Route (a) results — temporal aggregation does not resolve the ambiguity
+
+Three representations, each adding its 7 causal aggregates to the 31 retained
+raw columns (38 raw → **74 encoded features**), Random Forest at the published
+hyperparameters and the locked FPR ≤ 1% protocol on the published window.
+
+**Eq. (5) label-conflict bound under the enlarged representation:**
+
+| Representation | Features | Conflicting vectors | Rows in conflicts | Ceiling |
+|---|---|---|---|---|
+| Baseline | 67 | 33,709 | 632,402 | 76.8455% |
+| K = 10 | 74 | 75,963 | 625,344 | 76.9549% |
+| K = 50 | 74 | 93,984 | 613,083 | 77.2681% |
+| K = 100 | 74 | 95,022 | 604,294 | 77.6222% |
+
+The ceiling rises by only **0.11 to 0.78 pp**. Rows in conflicting vectors fall
+from 632,402 to 604,294 — just **4.4%** fewer. The window aggregates split many
+vectors into finer groups (33,709 → 95,022 conflict groups) without resolving
+the conflicts: the records are still ambiguous, just distributed over more
+distinct vectors.
+
+**Test results:**
+
+| Representation | Recall | FPR | ROC-AUC | UDP-flood recall |
+|---|---|---|---|---|
+| Baseline (67) | 0.438040 | 0.007828 | 0.852824 | 0.092942 |
+| K = 10 | 0.438690 | 0.008902 | 0.853727 | 0.094079 |
+| K = 50 | 0.441778 | **0.012348** | 0.851450 | 0.098991 |
+| K = 100 | 0.440081 | 0.009893 | 0.843455 | 0.096251 |
+
+Pooled recall gains are 0.0007–0.0037 and are bought with higher FPR — K = 50
+**breaches the 1% test budget** at 0.012348. ROC-AUC is flat at K = 10 and 50
+and clearly **worse** at K = 100 (0.843455 against 0.852824).
+
+### 5.1.1 Carrier recall moves off zero, and the reason is prior estimation
+
+Conditioning on the dominant ambiguous vector as in §4.2.1:
+
+| Representation | Carrier recall | Non-carrier recall |
+|---|---|---|
+| Baseline (67) | **0.000000** | 0.382506 |
+| K = 10 | 0.001521 | 0.382446 |
+| K = 50 | **0.009435** | 0.378007 |
+| K = 100 | 0.006085 | 0.377167 |
+
+Carrier recall does move off exactly zero, which the baseline representation
+cannot do at all — the carriers are one identical vector there, so no threshold
+can split them. With window features they are no longer identical and 490 of
+51,933 become detectable at K = 50. **Non-carrier recall falls at every K**
+(0.382506 → 0.377167), so the models get slightly worse at the part of the
+problem that was already solvable.
+
+The mechanism is **not** temporal information. Every capture block is one
+attack session, so `win{K}_frac_udp` and its siblings approximate a block
+fingerprint, and block identity nearly determines a carrier's label:
+
+| Block | Carriers | Malicious | % malicious |
+|---|---|---|---|
+| 4 (BS0 UDP flood) | 159,874 | 48,273 | 30.19% |
+| 14 (BS1 UDP flood) | 111,602 | 111,602 | **100.00%** |
+
+All carriers lie in these two blocks. Where they are detected, measured at
+K = 50 on the test split:
+
+| Block | Test carriers | Malicious | Detected | Of those malicious | Precision |
+|---|---|---|---|---|---|
+| 4 | 50,531 | 20,539 (40.65%) | 470 | 131 | **27.87%** |
+| 14 | 31,394 | 31,394 (100%) | 359 | 359 | 100% |
+
+In block 14, where every carrier is malicious, the detections are trivially
+correct. In block 4, where the carrier prior is 40.65% malicious, precision is
+**27.87% — below the block's own prior**, and the 470 detections introduce
+**339 false positives**. Those false positives are what pushes FPR from
+0.007828 to 0.012348 and breaches the budget. The 490 true positives and the
+339 false positives are the same phenomenon.
+
+**Conclusion for the write-up.** Route (a) must **not** be reported as evidence
+that temporal aggregation helps. What the window features supply is a soft
+capture identifier that lets the model estimate a block-local label prior; where
+that prior is certain the predictions are right, and where it is mixed they are
+no better than the prior. No window aggregate can separate the ambiguous
+vector's halves, because the halves differ only in which capture they were
+recorded in — which is exactly the information the paper's
+identifier-controlled framing claims to exclude. The measured gain is 0.0037 of
+recall at best, against a 0.78 pp ceiling rise, a falling non-carrier recall and
+a budget breach.
+
+This is a negative result and belongs in the paper as one: it shows that the
+limit is not an artifact of omitting window context, which is the obvious
+objection to the Eq. (5) argument, and it strengthens the case that route (b) —
+real per-source and per-second features with addresses and timestamps — is the
+experiment that could actually answer the question.
 
 **Route (b), the per-session Fairdata files** — the stronger test, and much
 cheaper than first assumed. None of these files are currently on disk
