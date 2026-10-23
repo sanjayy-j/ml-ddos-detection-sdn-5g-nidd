@@ -613,11 +613,44 @@ K = 50 on the test split:
 | 14 | 31,394 | 31,394 (100%) | 359 | 359 | 100% |
 
 In block 14, where every carrier is malicious, the detections are trivially
-correct. In block 4, where the carrier prior is 40.65% malicious, precision is
-**27.87% — below the block's own prior**, and the 470 detections introduce
-**339 false positives**. Those false positives are what pushes FPR from
-0.007828 to 0.012348 and breaches the budget. The 490 true positives and the
-339 false positives are the same phenomenon.
+correct. In block 4 the 470 detections introduce **339 false positives**, which
+are what pushes FPR from 0.007828 to 0.012348 and breaches the budget.
+
+**Block 4's detections are anti-informative, not merely uninformative.** At the
+block's test prior of 40.65% malicious, 470 detections should yield
+**191.0 ± 10.6** correct by chance. **131** were correct — **5.6 standard
+deviations below chance** (z = −5.64). The window aggregates that raise a
+block-4 carrier's score are therefore *negatively* associated with that record
+being malicious. This is the cleanest available falsification of the
+temporal-aggregation objection: the added features do not merely fail to carry
+information about the ambiguous records, they are actively misleading about
+them.
+
+### 5.1.2 The size of the channel route (a) is leaking from
+
+It is worth quantifying what capture identity is actually worth here, because
+the result is not that window context barely helps.
+
+On the test split there are 81,925 carriers: 51,933 malicious and 29,992
+benign.
+
+- **Majority rule without block knowledge** — predict malicious for every
+  carrier, since 51,933 > 29,992: **29,992 errors**.
+- **Majority rule with block knowledge** — benign in block 4 (29,992 benign
+  against 20,539 malicious) and malicious in block 14: **20,539 errors**.
+
+So knowing which capture a record came from would fix **9,453 carrier errors**.
+
+Route (a) netted 490 true positives minus 339 false positives = **+151**, which
+is **1.60%** of that channel — about **one part in sixty** — while lowering
+non-carrier recall at every K and breaching the FPR budget at K = 50.
+
+**That is the finding to report.** A large signal does exist in this dataset;
+it is **capture identity**; the paper excludes it by design and says so; and
+route (a) leaks roughly one sixtieth of it at a net cost in false positives and
+non-carrier recall. Window aggregation is not a weak remedy for the
+representation limit — it is a partial, lossy, anti-informative proxy for an
+identifier the protocol deliberately withholds.
 
 **Conclusion for the write-up.** Route (a) must **not** be reported as evidence
 that temporal aggregation helps. What the window features supply is a soft
@@ -654,8 +687,44 @@ M3's own committed code (`sdn/inspect_session_labels.py`,
 `sdn/prepare_flow_labels.py`) reads `SrcAddr`, `DstAddr`, `Sport`, `Dport`,
 `StartTime` and `LastTime` from these exports, so the faculty's actual request
 **is** computable from route (b), for roughly 95 MB of downloads using the
-existing `scripts/fetch_dataset.py`. Route (b) has not been authorised and has
-not been run.
+existing `scripts/fetch_dataset.py`. Route (b) is authorised and not yet run.
+
+### 5.2 The trap route (b) must avoid, stated before it is run
+
+Route (a) failed in a specific and instructive way: the features it added acted
+as a soft capture identifier rather than carrying rate information (§5.1.1,
+§5.1.2). **The same trap applies more sharply to route (b), not less.**
+
+On this testbed the attack traffic in each session is generated from a small,
+fixed set of hosts, so a **source address is close to a perfect session
+identifier**. A per-source feature can therefore separate the ambiguous records
+almost completely while carrying no rate information at all — it would simply be
+naming the capture, which is the one thing the identifier-controlled protocol
+exists to exclude. A per-second feature built from `StartTime` has the same
+exposure, because each session occupies a disjoint wall-clock interval, so a
+timestamp also names the capture.
+
+**Before any per-source or per-second result is interpreted, run the two
+diagnostics that settle it:**
+
+1. **Carrier / non-carrier breakdown** (§4.2.1). If carrier recall rises while
+   non-carrier recall does not, the feature is resolving ambiguity rather than
+   improving detection generally — and the next question is how.
+2. **Per-block precision against that block's own prior** (§5.1.1). Within each
+   capture block, compare the precision of the new detections with the block's
+   label prior. Precision at or below the prior means the feature is naming the
+   block, not measuring traffic. Precision meaningfully above the prior, in a
+   block whose prior is mixed, is the only evidence that would count as genuine
+   rate information.
+
+A route (b) result that passes diagnostic 1 but fails diagnostic 2 must be
+reported as capture identification, not as a remedy for the representation
+limit. The capture-identity channel on test carriers is worth 9,453 errors
+(§5.1.2); any method that closes a large fraction of that gap should be assumed
+to be using identity until diagnostic 2 says otherwise.
+
+Both diagnostics already exist in code: `compare_split_composition.py` produces
+the first and `check_carrier_blocks.py` the second.
 
 ## 6. Verification of the numbers already in the paper
 
