@@ -1,0 +1,18 @@
+{
+  "purpose": "manuscript Figures 2 and 3, rebuilt from committed artifacts",
+  "generated_utc": "2026-10-23T06:21:30+00:00",
+  "generation_script": "M1-supervised-ml/experiments/generate_paper_figures.py",
+  "figures": [
+    "figure2_test_roc_curves.png",
+    "figure3_per_attack_and_ambiguity.png"
+  ],
+  "inputs": [
+    "results/{random_forest,svm,cnn}/test_roc_curve.csv",
+    "results/evaluation/three_model_fpr1pct_summary.csv",
+    "results/{random_forest,svm,cnn}/per_attack_type_fpr_constrained.csv",
+    "results/split_composition/udpflood_by_ambiguity_published.csv"
+  ],
+  "operating_point": "validation FPR <= 1%, thresholds frozen before test",
+  "evaluation_scope": "within-capture (within-session) generalisation; these figures do NOT establish unseen-capture, unseen-session, unseen-base-station or unseen-attack generalisation",
+  "figures_4_and_5": "not reproducible here: the M2 and M3 synthetic diagnostics behind them were never committed, as the manuscript's data-availability statement records. Their owners must re-run and archive those outputs."
+}

@@ -687,7 +687,33 @@ M3's own committed code (`sdn/inspect_session_labels.py`,
 `sdn/prepare_flow_labels.py`) reads `SrcAddr`, `DstAddr`, `Sport`, `Dport`,
 `StartTime` and `LastTime` from these exports, so the faculty's actual request
 **is** computable from route (b), for roughly 95 MB of downloads using the
-existing `scripts/fetch_dataset.py`. Route (b) is authorised and not yet run.
+existing `scripts/fetch_dataset.py`.
+
+**Route (b) was authorised but has not been run, and item 3 is answered
+without it.** The reasons, so the decision can be revisited rather than
+inherited:
+
+1. **The question is already answered.** Item 3 asks whether the 42-byte UDP
+   ambiguity is resolvable with richer features. The per-source and per-second
+   features as specified are **impossible** on `Combined.csv` — no source
+   identifier, no clock — which is documented above and is itself a finding.
+   Route (a) then tested the nearest computable alternative and showed the
+   ambiguity is **not** resolved: the ceiling moves 0.11–0.78 pp, conflicting
+   rows fall 4.4%, and the apparent gain is capture identity leaking in
+   (§5.1.1, §5.1.2).
+2. **Route (b) could not cleanly answer it on this testbed anyway.** Source
+   addresses here are near-perfect session identifiers and sessions occupy
+   disjoint wall-clock intervals (§5.2), so a strong per-source or per-second
+   result would most likely be capture identification. It would need the two
+   diagnostics below to be interpretable at all, and the prior from route (a)
+   is that it would fail the second one.
+3. **It is a new experiment, not a finishing step** — data acquisition plus a
+   label-join pipeline, which is where M3 recorded its own join audits.
+
+What would change this: if a reviewer presses on item 3, route (b) is the right
+response, it costs about 95 MB and a day's work, and §5.2 specifies exactly how
+its output must be gated before it is believed. Nothing in the current write-up
+depends on it.
 
 ### 5.2 The trap route (b) must avoid, stated before it is run
 
@@ -808,15 +834,25 @@ grading is what the review praised; reformatting it is fine, losing it is not.
 - **ORCIDs** — not available. Leave placeholders for Nithis Nandhan E,
   Sanjay J, Jani Rose Lawwellman and Kalaavathi B; keep Jaivarshan V's existing
   0009-0001-4147-3934. None have been invented here.
-- **Tagged release (item 5)** — no tag exists yet (`origin` had 0 tags) and
-  `aa5a572`, cited on pp. 7, 13, 22 and 23, is absent from history. The tag
-  name is **`v1.0-review1-revision`**, to be created only once items 1–4 have
-  landed. All four aa5a572 citations should then point at it.
-- **Figures 2–5 and the derived-analysis scripts** — not in the repository and
-  not recoverable; they were produced outside version control. Data and code
-  availability must say that plainly rather than implying they are archived.
-  Replacement plotting scripts are planned.
-- **Route (b) for item 3** — **authorised**, to be run in addition to
-  route (a); see §5 for what it needs and why it is computable.
+- **Tagged release (item 5)** — `aa5a572`, cited on pp. 7, 13, 22 and 23, is
+  absent from history. Items 1–4 have landed, so the tag
+  **`v1.0-review1-revision`** has been created and pushed. All four aa5a572
+  citations should now point at it instead.
+- **Figures 2 and 3** — rebuilt and committed. `experiments/generate_paper_figures.py`
+  regenerates both from committed artifacts only; it trains nothing, selects no
+  threshold and cannot change any reported number. Outputs in
+  `results/paper_figures/` with a manifest. Figure 2(b) reproduces the SVC curve
+  falling to zero below FPR ~2x10^-4, which is what correction S2 asks to be
+  explained; Figure 3(b) shows the carrier/non-carrier split directly.
+- **Figures 4 and 5 — still not reproducible.** They show the M2 entropy
+  decision rule and the M3 flow-record mode on synthetic streams, and the
+  diagnostic outputs behind them were never committed. Regenerating them needs
+  their owners to re-run those diagnostics and archive the outputs; M2 was
+  reworked on 2026-10-22 (`8ac29c3`), so a re-run may not reproduce the
+  published figure exactly. Data and code availability must keep saying plainly
+  that these were produced outside the repository and are not recoverable.
+- **Route (b) for item 3** — authorised but **not run**; item 3 is answered by
+  the documented impossibility plus route (a). See §5 for the reasoning and for
+  what would justify revisiting it.
 - **Scope** — removing the M2 or M3 sections is a co-author decision that has
   not been taken. All planning here assumes all three paradigms stay.
