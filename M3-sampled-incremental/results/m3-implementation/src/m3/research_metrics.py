@@ -336,16 +336,21 @@ def select_pareto(points, quality_weight=0.5):
             "quality_weight": quality_weight, "descriptive_only": True}
 
 
-def evaluate_ablations(rows, *, seed=1, grace_period=50, drift_delta=0.002, threshold=0.5):
+def evaluate_ablations(rows, *, seed=1, grace_period=50, drift_delta=0.002, threshold=0.5,
+                       naive_bayes="log_space", unseen_enabled=False):
     """Offline quality-only ablations of the exact recorded feature sequence.
 
     Models predict before receiving each available label. The dummy is fixed to
     the warm-up majority (ties benign), never fitted on scored observations.
     These results do not claim equivalent measured live runtime costs.
+    naive_bayes selects the tree leaves' vote (m3.naive_bayes); replaying a run made
+    before that option existed requires "river". unseen_enabled reports held-out
+    SYN recall, as the live summary does for the unseen scenario.
     """
     from river import drift, tree
 
     from m3.metrics import QualityMetrics
+    from m3.naive_bayes import likelihood
 
     rows = list(rows)
     models = {
@@ -379,36 +384,40 @@ def evaluate_ablations(rows, *, seed=1, grace_period=50, drift_delta=0.002, thre
     dummy = int(sum(warm_labels) > len(warm_labels) / 2)
     quality = {name: QualityMetrics() for name in (*models, "majority_warmup")}
     evaluated, pending = 0, []
-    for index, row in enumerate(rows):
-        label = _label(row)
-        if label is None:
-            continue
-        features = row.get("features")
-        if not isinstance(features, dict) or not features:
-            raise ValueError("Every labelled observation requires its recorded features")
-        warm = _warmup(row)
-        if delayed:
-            while pending and pending[0][0] <= float(row["observed_time"]):
-                _, _, old_features, old_label = heapq.heappop(pending)
-                for model in models.values():
-                    model.learn_one(old_features, old_label)
-        for name, model in models.items():
-            score = float(model.predict_proba_one(features).get(1, 0))
+    with likelihood(naive_bayes):
+        for index, row in enumerate(rows):
+            label = _label(row)
+            if label is None:
+                continue
+            features = row.get("features")
+            if not isinstance(features, dict) or not features:
+                raise ValueError("Every labelled observation requires its recorded features")
+            warm = _warmup(row)
+            if delayed:
+                while pending and pending[0][0] <= float(row["observed_time"]):
+                    _, _, old_features, old_label = heapq.heappop(pending)
+                    for model in models.values():
+                        model.learn_one(old_features, old_label)
+            for name, model in models.items():
+                score = float(model.predict_proba_one(features).get(1, 0))
+                if not warm:
+                    quality[name].update(label, int(score >= threshold), score, 0,
+                                         row.get("attack_family", row.get("family", "unknown")))
+                if not delayed:
+                    model.learn_one(features, label)
+            if delayed:
+                heapq.heappush(pending, (float(row["label_available_time"]), index, features, label))
             if not warm:
-                quality[name].update(label, int(score >= threshold), score, 0,
-                                     row.get("attack_family", row.get("family", "unknown")))
-            if not delayed:
-                model.learn_one(features, label)
-        if delayed:
-            heapq.heappush(pending, (float(row["label_available_time"]), index, features, label))
-        if not warm:
-            quality["majority_warmup"].update(label, dummy, float(dummy), 0,
-                                              row.get("attack_family", row.get("family", "unknown")))
-            evaluated += 1
-    return {name: {"metrics": {key: value for key, value in metric.summary().items()
+                quality["majority_warmup"].update(label, dummy, float(dummy), 0,
+                                                  row.get("attack_family", row.get("family", "unknown")))
+                evaluated += 1
+    return {name: {"metrics": {key: value for key, value
+                               in metric.summary(unseen_enabled=unseen_enabled).items()
                                if not key.startswith("inference_latency")},
                    "evaluated": evaluated, "fixed_prediction": dummy
                    if name == "majority_warmup" else None,
+                   "naive_bayes": naive_bayes if name in models else None,
+                   "tree_nodes": models[name].n_nodes if name in models else None,
                    "label_policy": "Recorded delayed availability; no early learning" if delayed
                    else "Immediate oracle label after prediction; availability timestamps absent",
                    "scope": "Offline quality-only; same exact recorded features and order"}
