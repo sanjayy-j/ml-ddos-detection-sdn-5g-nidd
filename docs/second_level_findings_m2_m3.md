@@ -109,4 +109,91 @@ NumPy 2.4.4 (recorded in each `metrics.json`); each full-file run takes about 12
 
 ## 2. M3 — sampled incremental detector (review item 2)
 
-In progress on this branch; this section will be added when the M3 analysis is committed.
+### 2.1 What the review found
+
+- The unsampled N = 1 reference is anomalous in all three scenarios (recall ≈ 0.999, FPR 0.63–0.90),
+  so "1-in-2 sampling raises F1 by 0.26" rests on a broken comparator.
+- Suspected cause: sFlow datagram batching against 0.1-s windows. Requested: diagnose (timestamps or
+  1-s windows), otherwise move M3 to the supplement.
+
+### 2.2 Diagnosis
+
+All of it is measured from the committed `research/results/derived_trial_evidence.zip` (per-window
+features, predictions and run summaries of all 54 trials); the raw sFlow exports are not needed.
+
+- **The offline replay is exact.** Replaying every trial reproduces all 12 live quality metrics
+  (largest difference 0), and the archived summaries reproduce the committed
+  `aggregated_metrics.json`, `paired_deltas.json` and `pareto_recommendations.json` (difference 0).
+- **Cause 1, no split.** In 8 of the 9 N = 1 trials the Hoeffding Adaptive Tree stayed a single leaf.
+  Its two best splits, mean packet size and byte rate (merits 0.984–0.997 and 0.966–0.988), separate
+  the classes almost perfectly and tie: their difference stayed below the Hoeffding bound
+  (0.077–0.086), which stayed above the tie threshold τ = 0.05. A tie split needs 3,224 labelled
+  windows; the trials had 1,091–1,352.
+- **Cause 2, a wrong leaf vote.** River 0.23's naive-Bayes vote adds `log(p) if p > 0 else 0.0`, so a
+  density that underflows to 0 counts as certainty. Benign windows (~1,200-byte packets) have zero
+  density under the flood class (~53-byte packets), so the leaf scores them as attacks with
+  probability ≈ 1.
+- **Control.** The one N = 1 trial whose tree did split (drift, trial 2) reached F1 0.990 at FPR 0.016
+  as run, which is also why drift N = 1 had a standard deviation of 0.18.
+- **Not batching.** At N = 1 only 0.1–1.2% of benign and 1.3–4.2% of attack windows are empty, and the
+  archived one-second re-scoring (made during the study) keeps the N = 1 FPR at 0.73–0.81. At one second
+  the N = 2 advantage also disappears (F1 0.65–0.68). Batching does make attack windows empty more
+  often than benign ones at N ≥ 2 (46–50% against 4.5–7.5% at N = 2), and empty windows are flagged;
+  after the fix this, not the learner, limits quality from N = 5.
+
+### 2.3 What changed in the repository
+
+| Commit | Contents |
+|---|---|
+| `45e80a7` | `m3.naive_bayes`: log-space naive-Bayes vote, identical to River when nothing underflows; `RunConfig.naive_bayes` (`"log_space"` default, `"river"` = the published trials) used by the detector and `evaluate_ablations`; `analyse_research.py` and `compute_sensitivity.py` replay each run with its recorded vote, so committed outputs still reproduce; 5 new tests (M3 suite 138 → 143 passing, 1 skipped as before) |
+| `c462b73` | `scripts/reanalyse_naive_bayes.py` and its outputs (`research/N1_Baseline_Reanalysis.md`, `research/results/naive_bayes_reanalysis.json` / `_cells.csv`); M3 README, verification status, methods and reproduction guide state the correction; `research/SHA256SUMS.txt` covers the new and edited files |
+
+The live study, its evidence archive and the committed as-run results, including
+`M3_Research_Report.md`/`.pdf`/`.pptx`, are unchanged. Only the vote differs in the re-analysis.
+
+### 2.4 Corrected results
+
+Mean attack F1 / FPR over three trials, as run → corrected; bandwidth (combined IP-layer sFlow and
+OpenFlow, baseline scenario) is learner-independent and unchanged.
+
+| N | Baseline | Drift | Unseen | Bandwidth (kbit/s) |
+|---|---|---|---|---|
+| 1 | 0.692 / 0.887 → **0.997 / 0.006** | 0.778 / 0.629 → **0.985 / 0.016** | 0.688 / 0.901 → **0.994 / 0.012** | 160.5 |
+| 2 | 0.956 / 0.090 → 0.963 / 0.074 | 0.954 / 0.095 → 0.959 / 0.084 | 0.962 / 0.077 → 0.968 / 0.063 | 85.1 |
+| 5 | 0.777 / 0.473 → 0.807 / 0.438 | 0.776 / 0.488 → 0.785 / 0.461 | 0.777 / 0.494 → 0.799 / 0.456 | 40.3 |
+| 10 | 0.688 / 0.710 → 0.715 / 0.693 | 0.702 / 0.726 → 0.706 / 0.708 | 0.709 / 0.719 → 0.729 / 0.703 | 25.1 |
+| 20 | 0.601 / 0.820 → 0.677 / 0.839 | 0.614 / 0.906 → 0.657 / 0.845 | 0.630 / 0.912 → 0.681 / 0.827 | 17.9 |
+| 50 | 0.615 / 0.761 → 0.661 / 0.802 | 0.614 / 0.922 → 0.649 / 0.914 | 0.595 / 0.854 → 0.650 / 0.891 | 13.4 |
+
+- **Paired against N = 1 (corrected, 95% Student-t, n = 3):** N = 2 changes F1 by −0.034 [−0.051, −0.016]
+  (baseline), −0.026 [−0.054, 0.002] (drift) and −0.025 [−0.029, −0.022] (unseen); N = 50 by −0.336 to
+  −0.344. Quality now falls as N grows.
+- **Quality–cost front:** the equal-weight rule still selects N = 2 in all three scenarios (corrected
+  F1 0.959–0.968 at 76.7–85.6 kbit/s); N = 1 joins the front as the highest-quality point.
+- **Held-out SYN recall (unseen):** N = 2 0.997 → 0.997; N = 50 0.813 → 0.924.
+- **Adaptive versus non-adaptive tree:** still within 0.05 F1 in every cell (largest corrected
+  difference 0.0095), so "no benefit from adaptation" stands.
+- **Not re-scored:** detection delay, post-drift recovery (e.g. the 6.51 s at N = 2), CPU and latency
+  are live measurements of the original learner. Per-trial values for every cell are in
+  `naive_bayes_reanalysis.json` (also answering the review's request for per-trial values).
+
+### 2.5 Manuscript statements to update (v3)
+
+| Location | Current text (abridged) | Measured replacement |
+|---|---|---|
+| Abstract | "the sampled detector reached mean F1 of 0.954–0.962 at 1-in-2 sampling with 46–47% less telemetry" | Unsampled export F1 0.985–0.997; 1-in-2 sampling F1 0.959–0.968 with 46–47% less telemetry (−0.025 to −0.034 F1) |
+| §3.5 | HAT settings | Add the log-space naive-Bayes vote; state that the trials ran with River's vote and were re-scored offline from the recorded features |
+| §4.7 and Table 6 | Non-monotonic quality; N = 2 best; "F1 at N = 2 exceeded that at N = 1 by 0.264 … 0.274"; N = 1 FPRs of 63–90% | Table in §2.4 and the paired differences; report the as-run N = 1 failure as a diagnosed learner defect (§2.2). Held-out SYN recall 0.997 (N = 2) and 0.924 (N = 50). The "within 0.05 F1" sentence stands. |
+| §5.4 | "We did not isolate export batching, feature timing or learner state, so this design cannot explain the non-monotonic curve or the high false-positive rate of unsampled export." | Explained: the learner (no split plus the underflowing vote), not batching; empty windows limit quality from N = 5 |
+| §5.6 | M3 limitations | Add: corrected quality is an offline re-scoring of recorded features; delay, recovery and CPU are as run |
+| §6 | "the sampled detector exceeded an F1 of 0.95 at 1-in-2 sampling" | Unsampled 0.985–0.997; 1-in-2 sampling 0.959–0.968 for about half the telemetry |
+| Data availability | — | Add `scripts/reanalyse_naive_bayes.py` and its outputs |
+
+### 2.6 Reproduce
+
+```bash
+cd M3-sampled-incremental/results/m3-implementation
+python -m pip install -e .            # Python 3.12, river 0.23.0, numpy 2.5.4, scipy 1.18.1 as in the live study
+python scripts/reanalyse_naive_bayes.py   # stops unless both reproduction checks pass; about 5 s
+python -m pytest
+```
