@@ -11,7 +11,7 @@ if SYS_PATH_M2 not in sys.path:
 import numpy as np
 import pandas as pd
 
-from evaluation import compute_metrics, evaluate_windows, label_windows
+from evaluation import compute_metrics, evaluate_windows, label_windows, metrics_from_counts
 
 
 class TestLabelWindows(unittest.TestCase):
@@ -74,6 +74,37 @@ class TestMetrics(unittest.TestCase):
         self.assertEqual(r["evaluable_windows"]["n_windows"], 2)       # rows 1 and 3
         self.assertEqual(r["n_warmup_or_unevaluable_windows"], 2)
         self.assertEqual(r["per_attack_type_recall"]["UDPFlood"]["alarmed"], 1)
+
+
+class TestChanceReferences(unittest.TestCase):
+    def test_known_confusion_matrix(self):
+        m = metrics_from_counts(tp=2, fp=1, fn=2, tn=3)
+        self.assertAlmostEqual(m["base_rate"], 0.5)
+        self.assertAlmostEqual(m["alarm_rate"], 3 / 8)
+        self.assertAlmostEqual(m["precision_lift"], (2 / 3) / 0.5)
+        self.assertAlmostEqual(m["balanced_accuracy"], (0.5 + 0.75) / 2)
+        self.assertAlmostEqual(m["mcc"], (2 * 3 - 1 * 2) / np.sqrt(3 * 4 * 4 * 5))
+
+    def test_matches_compute_metrics(self):
+        y_true = np.array([1, 1, 1, 0, 0, 0, 0, 1])
+        y_pred = np.array([1, 1, 0, 1, 0, 0, 0, 0])
+        self.assertEqual(compute_metrics(y_true, y_pred), metrics_from_counts(tp=2, fp=1, fn=2, tn=3))
+
+    def test_worse_than_chance_on_legacy_prefix_counts(self):
+        # Counts of results/sensitivity_summary.csv, baseline_k3_vote2 (legacy 50,000-row run).
+        m = metrics_from_counts(tp=165, fp=181, fn=507, tn=147)
+        self.assertAlmostEqual(m["base_rate"], 0.672)
+        self.assertAlmostEqual(m["precision"], 165 / 346)
+        self.assertLess(m["precision_lift"], 1.0)
+        self.assertLess(m["balanced_accuracy"], 0.5)
+        self.assertLess(m["mcc"], 0.0)
+
+    def test_undefined_references_are_none(self):
+        m = metrics_from_counts(tp=0, fp=0, fn=0, tn=4)
+        self.assertEqual(m["base_rate"], 0.0)
+        self.assertIsNone(m["precision_lift"])
+        self.assertIsNone(m["balanced_accuracy"])
+        self.assertIsNone(m["mcc"])
 
 
 if __name__ == "__main__":

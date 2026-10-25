@@ -84,25 +84,49 @@ def compute_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, Any]:
     fp = int(((y_true == 0) & (y_pred == 1)).sum())
     fn = int(((y_true == 1) & (y_pred == 0)).sum())
     tn = int(((y_true == 0) & (y_pred == 0)).sum())
+    return metrics_from_counts(tp, fp, fn, tn)
 
-    def ratio(a: int, b: int) -> Optional[float]:
+
+def metrics_from_counts(tp: int, fp: int, fn: int, tn: int) -> Dict[str, Any]:
+    """Standard rates and chance-level references from a confusion matrix.
+
+    A detector that alarms independently of the labels has an expected precision equal to
+    the base rate (share of attack windows) at any alarm rate, a balanced accuracy of 0.5
+    and an MCC of 0. precision_lift = precision / base_rate is below 1 when the detector's
+    alarms are less often attacks than randomly chosen windows are.
+    """
+    n = tp + fp + fn + tn
+
+    def ratio(a: float, b: float) -> Optional[float]:
         return float(a / b) if b > 0 else None
 
     precision = ratio(tp, tp + fp)
     recall = ratio(tp, tp + fn)
+    specificity = ratio(tn, tn + fp)
+    base_rate = ratio(tp + fn, n)
     f1 = None
     if precision is not None and recall is not None and (precision + recall) > 0:
         f1 = float(2 * precision * recall / (precision + recall))
+    balanced_accuracy = None
+    if recall is not None and specificity is not None:
+        balanced_accuracy = float((recall + specificity) / 2)
+    mcc_den = float((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
+    mcc = float((tp * tn - fp * fn) / np.sqrt(mcc_den)) if mcc_den > 0 else None
     return {
-        "n_windows": int(len(y_true)),
-        "n_attack_windows": int((y_true == 1).sum()),
-        "n_benign_windows": int((y_true == 0).sum()),
-        "tp": tp, "fp": fp, "fn": fn, "tn": tn,
+        "n_windows": int(n),
+        "n_attack_windows": int(tp + fn),
+        "n_benign_windows": int(tn + fp),
+        "tp": int(tp), "fp": int(fp), "fn": int(fn), "tn": int(tn),
         "precision": precision,
         "recall": recall,
         "f1": f1,
         "false_positive_rate": ratio(fp, fp + tn),
-        "accuracy": ratio(tp + tn, len(y_true)),
+        "accuracy": ratio(tp + tn, n),
+        "base_rate": base_rate,
+        "alarm_rate": ratio(tp + fp, n),
+        "precision_lift": ratio(precision, base_rate) if precision is not None and base_rate else None,
+        "balanced_accuracy": balanced_accuracy,
+        "mcc": mcc,
     }
 
 
