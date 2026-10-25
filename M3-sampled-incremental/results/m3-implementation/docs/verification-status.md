@@ -14,7 +14,9 @@ The declared controlled M3 study is complete: 54 accepted official live trials, 
 
 N=2 is the descriptive equal-weight quality/cost selection in every primary scenario. Mean F1 is 0.956 (baseline), 0.954 (drift) and 0.962 (unseen). Combined IP-layer bandwidth falls by 46.94%, 45.90% and 46.40% respectively versus N=1. Corresponding false-positive rates are 8.96%, 9.51% and 7.72%.
 
-These are fixed-traffic repeatability estimates, not general population or deployment guarantees. The curve is non-monotonic, one-second results differ, and even selected settings retain material false positives. Recovery meets the declared criterion in 3/3 N=2 drift trials (mean 6.506 seconds); other outcomes and external alarm counts remain visible. No causal benefit of ADWIN is asserted.
+These are fixed-traffic repeatability estimates, not general population or deployment guarantees. As run, the curve is non-monotonic, one-second results differ, and even selected settings retain material false positives.
+
+Correction (second-level review): the non-monotonic curve came from the N=1 learner, not from sampling. In 8 of 9 N=1 trials the tree never split, and River 0.23's naive-Bayes leaf vote treats an underflowed density as certainty. Replaying the exact recorded features reproduces every live quality metric (difference 0); with a log-space vote and nothing else changed, N=1 reaches F1 0.985-0.997 at FPR 0.006-0.016, N=2 0.959-0.968 at FPR 0.063-0.084, and quality falls as N grows. The equal-weight rule still selects N=2. Details: `research/N1_Baseline_Reanalysis.md`; data: `research/results/naive_bayes_reanalysis.json`. Recovery meets the declared criterion in 3/3 N=2 drift trials (mean 6.506 seconds); other outcomes and external alarm counts remain visible. No causal benefit of ADWIN is asserted.
 
 ## Software and artifacts
 

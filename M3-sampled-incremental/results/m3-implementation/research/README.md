@@ -19,6 +19,10 @@ readiness result reports evidence completeness, not publication acceptance.
 - `results/pareto_recommendations.json`: descriptive mean-quality/cost frontiers.
 - `results/experiment_matrix.json`, `trial_index.json`, `failed_attempts.json`:
   run identities, frozen order, raw hashes and retained technical failures.
+- `N1_Baseline_Reanalysis.md`, `results/naive_bayes_reanalysis.json` and
+  `results/naive_bayes_reanalysis_cells.csv`: why the unsampled N=1 trials failed and
+  all 54 trials re-scored with the corrected naive-Bayes vote (second-level review).
+  They supersede the manuscript's interpretation of the non-monotonic curve.
 
 ## Derived archives
 

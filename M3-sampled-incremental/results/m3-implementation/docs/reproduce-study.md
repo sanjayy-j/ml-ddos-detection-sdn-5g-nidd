@@ -22,6 +22,17 @@ live collection or a fresh local verification of the omitted raw packet files.
 The manuscript, per-window records and aggregate CSV are available for inspection.
 Full experiment reproduction still requires the official inputs and Linux lab below.
 
+The N=1 re-analysis needs only the derived archive and the Python package:
+
+```sh
+python scripts/reanalyse_naive_bayes.py
+```
+
+It first checks that replaying each trial reproduces its live quality metrics and that
+the archive reproduces the committed aggregates, then re-scores all 54 trials with the
+log-space naive-Bayes vote and writes `research/N1_Baseline_Reanalysis.md` and
+`research/results/naive_bayes_reanalysis.json` / `_cells.csv`.
+
 ## 1. Install and obtain official inputs
 
 Use the repository setup instructions and inspect scripts before running them:
@@ -117,6 +128,8 @@ against primary live scores. It also evaluates nonadaptive HT and a fixed
 warm-up-majority dummy. One-second sensitivity reconstructs features from actual
 raw exports, rather than averaging 0.1-second ratios. Neither is a live resource
 comparison. The final readiness JSON must say 54 accepted trials and `ready=true`.
+Both scripts replay each run with the naive-Bayes vote recorded in its configuration;
+runs without the field (the 54 primary trials) use River's vote, `"river"`.
 
 ## 6. Generate the manuscript and derived evidence
 
