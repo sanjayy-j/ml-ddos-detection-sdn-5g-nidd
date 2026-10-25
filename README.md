@@ -8,7 +8,7 @@ detection in Software-Defined Networking (SDN).
 | Methodology | Owner | Status in this repository |
 |---|---|---|
 | M1 — Supervised ML | Sanjay | **Implemented and evaluated** — see [`M1-supervised-ml/README.md`](M1-supervised-ml/README.md) |
-| M2 — Entropy-Based Statistical Detection | Jani | Directory contains only its original scaffolding and a `.gitkeep` file |
+| M2 — Entropy-Based Statistical Detection | Jani | **Implemented and evaluated on the full file** (chance-level detection) — see [`M2-entropy/README.md`](M2-entropy/README.md) |
 | M3 — Sampled Telemetry + Incremental ML | Jaivarshan, Nithis | Directory contains only its original scaffolding and a `.gitkeep` file |
 
 The M2/M3 rows state only what is currently present in the repository.
@@ -47,6 +47,10 @@ Label-free detection using:
 - Shannon entropy
 - Sliding windows
 - Adaptive EWMA thresholds
+
+- Documentation: [`M2-entropy/README.md`](M2-entropy/README.md)
+- Results summary: [`M2-entropy/results/m2_results_summary.csv`](M2-entropy/results/m2_results_summary.csv)
+- Second-level review findings: [`docs/second_level_findings_m2_m3.md`](docs/second_level_findings_m2_m3.md)
 
 ### M3 — Sampled Telemetry + Incremental ML
 
