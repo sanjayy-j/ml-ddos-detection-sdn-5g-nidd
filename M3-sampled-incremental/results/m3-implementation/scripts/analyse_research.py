@@ -55,6 +55,7 @@ def analyse(runs_root, output):
                     grace_period=config.get("grace_period", 50),
                     drift_delta=config.get("drift_delta", 0.002),
                     threshold=config.get("threshold", 0.5),
+                    naive_bayes=config.get("naive_bayes", "river"),
                 )
                 for key in ("f1", "precision", "recall", "roc_auc", "false_positive_rate"):
                     observed = run["metrics"].get(key, {}).get("value")

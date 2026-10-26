@@ -46,7 +46,17 @@ Official captures + verified flow labels
 
 ## Main findings
 
-N=2 has the strongest observed mean F1 and is selected by the predeclared equal-weight quality/cost rule in all three primary scenarios.
+**Correction (second-level review).** The unsampled N=1 trials failed because of the learner, not
+sampling: in 8 of 9 trials the tree never split (two redundant, near-perfect features tied below
+the Hoeffding bound), and River 0.23's naive-Bayes leaf vote treats an underflowed density as
+certainty, so it scored benign windows as attacks. Re-scoring the recorded features with a
+log-space vote (`m3.naive_bayes`, now the default; nothing else changed) gives N=1 F1 0.985-0.997
+at FPR 0.006-0.016 and N=2 F1 0.959-0.968 at FPR 6.3-8.4%; quality falls as N grows, and the
+equal-weight rule still selects N=2 as the quality/cost trade-off. See
+[`research/N1_Baseline_Reanalysis.md`](research/N1_Baseline_Reanalysis.md). The results below are
+the study as run.
+
+As run, N=2 had the strongest observed mean F1 and is selected by the predeclared equal-weight quality/cost rule in all three primary scenarios.
 
 | Scenario | Selected N | Attack F1 mean +/- sample SD | False-positive rate | Combined IP bandwidth reduction vs N=1 |
 |---|---|---|---|---|
@@ -56,7 +66,7 @@ N=2 has the strongest observed mean F1 and is selected by the predeclared equal-
 
 These are window-level results from three repeats on fixed traffic, not a population-wide optimum or significance claim. Across all 18 cells, mean F1 ranges from 0.595 to 0.962.
 
-The curve is non-monotonic. N=1 and aggressive sampling often produce substantial false positives. One-second sensitivity changes the observation unit and learning opportunities, giving different quality results. At N=2, drift recovery meets the fixed criterion in 3/3 trials (mean 6.506 seconds from the scheduled shift boundary). External ADWIN alarms do not themselves establish attacks or prove internal HAT adaptation.
+As run, the curve is non-monotonic because the N=1 learner failed (see the correction above); aggressive sampling also produces substantial false positives, and still does after the correction. One-second sensitivity changes the observation unit and learning opportunities, giving different quality results. At N=2, drift recovery meets the fixed criterion in 3/3 trials (mean 6.506 seconds from the scheduled shift boundary). External ADWIN alarms do not themselves establish attacks or prove internal HAT adaptation.
 
 Even the selected cells misclassify about 8-10% of benign windows. The study does not establish production readiness or broad zero-day protection.
 

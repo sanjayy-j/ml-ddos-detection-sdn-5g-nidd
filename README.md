@@ -8,8 +8,8 @@ detection in Software-Defined Networking (SDN).
 | Methodology | Owner | Status in this repository |
 |---|---|---|
 | M1 — Supervised ML | Sanjay | **Implemented and evaluated** — see [`M1-supervised-ml/README.md`](M1-supervised-ml/README.md) |
-| M2 — Entropy-Based Statistical Detection | Jani | Directory contains only its original scaffolding and a `.gitkeep` file |
-| M3 — Sampled Telemetry + Incremental ML | Jaivarshan, Nithis | Directory contains only its original scaffolding and a `.gitkeep` file |
+| M2 — Entropy-Based Statistical Detection | Jani | **Implemented and evaluated on the full file** (chance-level detection) — see [`M2-entropy/README.md`](M2-entropy/README.md) |
+| M3 — Sampled Telemetry + Incremental ML | Jaivarshan, Nithis | **Implemented; 54-trial controlled live study**, N = 1 baseline re-analysed — see [`M3-sampled-incremental/results/m3-implementation/README.md`](M3-sampled-incremental/results/m3-implementation/README.md) |
 
 The M2/M3 rows state only what is currently present in the repository.
 
@@ -48,6 +48,10 @@ Label-free detection using:
 - Sliding windows
 - Adaptive EWMA thresholds
 
+- Documentation: [`M2-entropy/README.md`](M2-entropy/README.md)
+- Results summary: [`M2-entropy/results/m2_results_summary.csv`](M2-entropy/results/m2_results_summary.csv)
+- Second-level review findings: [`docs/second_level_findings_m2_m3.md`](docs/second_level_findings_m2_m3.md)
+
 ### M3 — Sampled Telemetry + Incremental ML
 
 **Owners:** Jaivarshan, Nithis
@@ -58,6 +62,10 @@ Reduced telemetry using:
 - Hoeffding Tree / Adaptive Tree
 - Incremental learning
 - Concept-drift detection
+
+- Documentation: [`M3-sampled-incremental/results/m3-implementation/README.md`](M3-sampled-incremental/results/m3-implementation/README.md)
+- N = 1 baseline re-analysis: [`research/N1_Baseline_Reanalysis.md`](M3-sampled-incremental/results/m3-implementation/research/N1_Baseline_Reanalysis.md)
+- Second-level review findings: [`docs/second_level_findings_m2_m3.md`](docs/second_level_findings_m2_m3.md)
 
 ## Project Structure
 

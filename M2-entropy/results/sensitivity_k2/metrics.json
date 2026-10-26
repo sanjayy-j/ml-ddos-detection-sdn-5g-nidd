@@ -1,0 +1,329 @@
+{
+  "input_file": "BTS1_BTS2_fields_preserved.csv",
+  "arguments": {
+    "output_dir": "M2-entropy/results/sensitivity_k2",
+    "max_rows": null,
+    "chunksize": 200000,
+    "window_size": 100,
+    "step_size": 50,
+    "drop_incomplete": false,
+    "alpha": 0.2,
+    "history_len": 50,
+    "min_history": 10,
+    "k_sensitivity": 2.0,
+    "direction": "both",
+    "voting_threshold": 2,
+    "dport_missing": "exclude",
+    "min_observed": 10,
+    "attack_fraction": 0.5,
+    "benign_label": "Benign",
+    "malicious_label": "Malicious",
+    "no_eval": false
+  },
+  "environment": {
+    "python": "3.14.7",
+    "pandas": "3.0.2",
+    "numpy": "2.4.4"
+  },
+  "data_quality": {
+    "n_rows": 1215890,
+    "truncated_by_max_rows": false,
+    "n_sessions": 20,
+    "session_sizes": {
+      "1": 11450,
+      "2": 11645,
+      "3": 10043,
+      "4": 18279,
+      "5": 467717,
+      "6": 44636,
+      "7": 93803,
+      "8": 31015,
+      "9": 38120,
+      "10": 1608,
+      "11": 11526,
+      "12": 11653,
+      "13": 10305,
+      "14": 14452,
+      "15": 286197,
+      "16": 14108,
+      "17": 93650,
+      "18": 12656,
+      "19": 31669,
+      "20": 1358
+    },
+    "session_rule": "new session at first row and wherever Rank <= previous Rank (Rank reset)",
+    "rank_gaps_within_sessions": 0,
+    "ordering": "original file order (Rank strictly increasing by 1 inside each session); StartTime is mm:ss.f only and is not used",
+    "label_counts": {
+      "Malicious": 738153,
+      "Benign": 477737
+    },
+    "n_unique_src_addr": 121,
+    "src_addr_missing": 0,
+    "dport_missing": 857853,
+    "dport_missing_fraction": 0.7055350401763317,
+    "dport_token_kinds": {
+      "missing": 857853,
+      "service_name": 282462,
+      "decimal": 45939,
+      "hex": 29636
+    },
+    "n_unique_dport_tokens": 3668,
+    "dport_missing_by_label": {
+      "Malicious": 457340,
+      "Benign": 400513
+    },
+    "attack_type_counts": {
+      "Benign": 477737,
+      "UDPFlood": 457340,
+      "HTTPFlood": 140812,
+      "SlowrateDoS": 73124,
+      "TCPConnectScan": 20052,
+      "SYNScan": 20043,
+      "UDPScan": 15906,
+      "SYNFlood": 9721,
+      "ICMPFlood": 1155
+    },
+    "dport_missing_by_attack_type": {
+      "UDPFlood": 457340,
+      "Benign": 400513
+    },
+    "dport_missing_by_proto": {
+      "udp": 853370,
+      "sctp": 4327,
+      "lldp": 115,
+      "arp": 41
+    },
+    "dport_missing_by_session": {
+      "1": 85,
+      "2": 100,
+      "3": 90,
+      "4": 11432,
+      "5": 458531,
+      "6": 31419,
+      "7": 9625,
+      "8": 18812,
+      "9": 333,
+      "10": 1028,
+      "11": 105,
+      "12": 100,
+      "13": 1140,
+      "14": 10278,
+      "15": 281849,
+      "16": 7568,
+      "17": 22296,
+      "18": 1868,
+      "19": 280,
+      "20": 914
+    }
+  },
+  "pipeline": {
+    "input_rows": 1215890,
+    "windows": 24311,
+    "complete_windows": 24291,
+    "entropy_columns": [
+      "SrcAddr_entropy",
+      "Dport_entropy"
+    ],
+    "ewma_columns": [
+      "SrcAddr_entropy_ewma",
+      "Dport_entropy_ewma"
+    ],
+    "windows_with_unevaluable_dport_entropy": 16258,
+    "windows_flagged_anomaly": 1097,
+    "windows_in_warmup": 202
+  },
+  "evaluation": {
+    "all_windows": {
+      "n_windows": 24311,
+      "n_attack_windows": 14881,
+      "n_benign_windows": 9430,
+      "tp": 683,
+      "fp": 414,
+      "fn": 14198,
+      "tn": 9016,
+      "precision": 0.6226071103008204,
+      "recall": 0.04589745312814999,
+      "f1": 0.08549255225935662,
+      "false_positive_rate": 0.04390243902439024,
+      "accuracy": 0.3989552054625478,
+      "base_rate": 0.6121097445600757,
+      "alarm_rate": 0.04512360659783637,
+      "precision_lift": 1.0171494831344159,
+      "balanced_accuracy": 0.5009975070518798,
+      "mcc": 0.0046831662054107335
+    },
+    "evaluable_windows": {
+      "n_windows": 7853,
+      "n_attack_windows": 5712,
+      "n_benign_windows": 2141,
+      "tp": 683,
+      "fp": 414,
+      "fn": 5029,
+      "tn": 1727,
+      "precision": 0.6226071103008204,
+      "recall": 0.11957282913165267,
+      "f1": 0.20061683066529593,
+      "false_positive_rate": 0.1933675852405418,
+      "accuracy": 0.3068890869731313,
+      "base_rate": 0.7273653380873552,
+      "alarm_rate": 0.13969183751432573,
+      "precision_lift": 0.8559757768193877,
+      "balanced_accuracy": 0.46310262194555546,
+      "mcc": -0.0947937710472752
+    },
+    "n_warmup_or_unevaluable_windows": 16458,
+    "per_attack_type_recall": {
+      "HTTPFlood": {
+        "attack_windows": 2861,
+        "alarmed": 363,
+        "recall_all": 0.1268787137364558,
+        "evaluable_attack_windows": 2861,
+        "recall_evaluable": 0.1268787137364558
+      },
+      "SYNFlood": {
+        "attack_windows": 153,
+        "alarmed": 7,
+        "recall_all": 0.0457516339869281,
+        "evaluable_attack_windows": 153,
+        "recall_evaluable": 0.0457516339869281
+      },
+      "SYNScan": {
+        "attack_windows": 401,
+        "alarmed": 41,
+        "recall_all": 0.10224438902743142,
+        "evaluable_attack_windows": 385,
+        "recall_evaluable": 0.10649350649350649
+      },
+      "SlowrateDoS": {
+        "attack_windows": 1577,
+        "alarmed": 149,
+        "recall_all": 0.09448319594166138,
+        "evaluable_attack_windows": 1576,
+        "recall_evaluable": 0.09454314720812183
+      },
+      "TCPConnectScan": {
+        "attack_windows": 404,
+        "alarmed": 42,
+        "recall_all": 0.10396039603960396,
+        "evaluable_attack_windows": 389,
+        "recall_evaluable": 0.10796915167095116
+      },
+      "UDPFlood": {
+        "attack_windows": 9129,
+        "alarmed": 0,
+        "recall_all": 0.0,
+        "evaluable_attack_windows": 3,
+        "recall_evaluable": 0.0
+      },
+      "UDPScan": {
+        "attack_windows": 356,
+        "alarmed": 81,
+        "recall_all": 0.22752808988764045,
+        "evaluable_attack_windows": 345,
+        "recall_evaluable": 0.23478260869565218
+      }
+    }
+  },
+  "evaluation_rule": "window is attack if malicious flow fraction >= 0.5; prediction = window_anomaly; labels never used by the detector",
+  "evaluation_any_malicious_flow": {
+    "all_windows": {
+      "n_windows": 24311,
+      "n_attack_windows": 15868,
+      "n_benign_windows": 8443,
+      "tp": 801,
+      "fp": 296,
+      "fn": 15067,
+      "tn": 8147,
+      "precision": 0.7301731996353692,
+      "recall": 0.050478951348626164,
+      "f1": 0.09442970822281167,
+      "false_positive_rate": 0.035058628449603224,
+      "accuracy": 0.3680638394142569,
+      "base_rate": 0.6527086504051663,
+      "alarm_rate": 0.04512360659783637,
+      "precision_lift": 1.1186816647551967,
+      "balanced_accuracy": 0.5077101614495115,
+      "mcc": 0.035369152581113
+    },
+    "evaluable_windows": {
+      "n_windows": 7853,
+      "n_attack_windows": 6443,
+      "n_benign_windows": 1410,
+      "tp": 801,
+      "fp": 296,
+      "fn": 5642,
+      "tn": 1114,
+      "precision": 0.7301731996353692,
+      "recall": 0.12432096849293807,
+      "f1": 0.21246684350132625,
+      "false_positive_rate": 0.2099290780141844,
+      "accuracy": 0.24385585126703171,
+      "base_rate": 0.8204507831402011,
+      "alarm_rate": 0.13969183751432573,
+      "precision_lift": 0.8899658756381429,
+      "balanced_accuracy": 0.45719594523937684,
+      "mcc": -0.09478080531805555
+    },
+    "n_warmup_or_unevaluable_windows": 16458,
+    "per_attack_type_recall": {
+      "HTTPFlood": {
+        "attack_windows": 2999,
+        "alarmed": 417,
+        "recall_all": 0.13904634878292765,
+        "evaluable_attack_windows": 2991,
+        "recall_evaluable": 0.13941825476429287
+      },
+      "ICMPFlood": {
+        "attack_windows": 115,
+        "alarmed": 1,
+        "recall_all": 0.008695652173913044,
+        "evaluable_attack_windows": 113,
+        "recall_evaluable": 0.008849557522123894
+      },
+      "SYNFlood": {
+        "attack_windows": 621,
+        "alarmed": 9,
+        "recall_all": 0.014492753623188406,
+        "evaluable_attack_windows": 445,
+        "recall_evaluable": 0.020224719101123594
+      },
+      "SYNScan": {
+        "attack_windows": 423,
+        "alarmed": 58,
+        "recall_all": 0.13711583924349882,
+        "evaluable_attack_windows": 405,
+        "recall_evaluable": 0.14320987654320988
+      },
+      "SlowrateDoS": {
+        "attack_windows": 1598,
+        "alarmed": 159,
+        "recall_all": 0.09949937421777222,
+        "evaluable_attack_windows": 1596,
+        "recall_evaluable": 0.09962406015037593
+      },
+      "TCPConnectScan": {
+        "attack_windows": 423,
+        "alarmed": 57,
+        "recall_all": 0.1347517730496454,
+        "evaluable_attack_windows": 406,
+        "recall_evaluable": 0.14039408866995073
+      },
+      "UDPFlood": {
+        "attack_windows": 9317,
+        "alarmed": 7,
+        "recall_all": 0.0007513148009015778,
+        "evaluable_attack_windows": 128,
+        "recall_evaluable": 0.0546875
+      },
+      "UDPScan": {
+        "attack_windows": 372,
+        "alarmed": 93,
+        "recall_all": 0.25,
+        "evaluable_attack_windows": 359,
+        "recall_evaluable": 0.2590529247910863
+      }
+    }
+  },
+  "evaluation_rule_any_malicious_flow": "window is attack if at least one of its flows is malicious (rule of the legacy prefix run); same predictions as 'evaluation'"
+}

@@ -132,7 +132,11 @@ def run(args: argparse.Namespace) -> dict:
             benign_label=args.benign_label, attack_fraction=args.attack_fraction,
         )
         metrics = evaluate_windows(out)
+        # The legacy prefix run scored a window as an attack if ANY of its flows was malicious.
+        # Report that rule too, from the same windows, so the two can be compared directly.
+        metrics_any = evaluate_windows(out.assign(y_true=(out["malicious_fraction"] > 0).astype(int)))
     else:
+        metrics_any = {}
         print("[3/5] Evaluation skipped (--no-eval).")
 
     dport_nan_windows = int(out[f"{DPORT_COL}_entropy"].isna().sum()) if len(out) else 0
@@ -156,6 +160,11 @@ def run(args: argparse.Namespace) -> dict:
             f"window is attack if malicious flow fraction >= {args.attack_fraction}; "
             "prediction = window_anomaly; labels never used by the detector"
         ),
+        "evaluation_any_malicious_flow": metrics_any,
+        "evaluation_rule_any_malicious_flow": (
+            "window is attack if at least one of its flows is malicious (rule of the legacy prefix run); "
+            "same predictions as 'evaluation'"
+        ),
     }
 
     print(f"[4/5] Writing results to {args.output_dir}")
@@ -173,6 +182,9 @@ def run(args: argparse.Namespace) -> dict:
         m = metrics["evaluable_windows"]
         print(f"      evaluable windows: TP={m['tp']} FP={m['fp']} FN={m['fn']} TN={m['tn']} "
               f"precision={m['precision']} recall={m['recall']} f1={m['f1']}")
+        m = metrics_any["all_windows"]
+        print(f"      any-malicious rule (all windows): precision={m['precision']} base rate={m['base_rate']} "
+              f"lift={m['precision_lift']}")
     return summary
 
 

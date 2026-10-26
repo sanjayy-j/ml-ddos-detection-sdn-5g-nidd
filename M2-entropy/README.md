@@ -91,6 +91,12 @@ unevaluable windows count as "no alarm") and **evaluable windows** (not warm-up,
 Windows overlap (step < size), so counts are windows, not flows. The team protocol document was
 not in the M2 sources; if M1/M3 use another rule (e.g. flow-level), re-derive from `windows.csv`
 (`malicious_fraction`, `start_idx`, `end_idx`) or change `--attack-fraction`.
+`metrics.json` also reports, under `evaluation_any_malicious_flow`, the same predictions scored
+with the rule of the legacy prefix run (a window is an attack if any of its flows is malicious).
+Every metric block includes chance references: `base_rate` (share of attack windows),
+`precision_lift` (precision / base rate), `balanced_accuracy` and `mcc`. A detector whose alarms
+are independent of the labels has precision equal to the base rate, so a lift below 1, a balanced
+accuracy below 0.5 or a negative MCC means worse than chance.
 
 ## Tests
 
@@ -117,8 +123,31 @@ Tests are self-contained (synthetic data in the real schema); the dataset is not
 * Window definition is flow-count based (no usable timestamps).
 
 ## Included results (genuine, produced by this code on the uploaded dataset)
-`results/5gnidd_default/` (`metrics.json`, `windows.csv.gz`) is the default-configuration run:
+All full-file runs read the complete `BTS1_BTS2_fields_preserved.csv` (1,215,890 rows, 20
+sessions; SHA-256 `37287d51…1b9d`, as in the M3 data manifest).
+`results/5gnidd_default/` (`metrics.json`, `windows.csv.gz`, `per_session.csv`) is the default-configuration run:
 `python M2-entropy/run_m2.py --input BTS1_BTS2_fields_preserved.csv --output-dir M2-entropy/results/5gnidd_default`.
-`results/sensitivity_*/metrics.json` are the same data with `--voting-threshold 1` and/or
-`--dport-missing category`; they are illustrative sensitivity runs, **not tuned or selected** results.
-Re-running overwrites them. Raw dataset files are not included.
+`results/sensitivity_*/metrics.json` are the same data with `--k-sensitivity 2`, `--voting-threshold 1`,
+`--dport-missing category`, or the last two together; they are illustrative sensitivity runs, **not
+tuned or selected** results. Re-running overwrites them. Raw dataset files are not included.
+`results/m2_results_summary.csv` tabulates every run under both window-labelling rules, with the
+chance references; regenerate it with `python M2-entropy/summarize_results.py`.
+
+`results/sensitivity_summary.csv` is the **legacy prefix run** (superseded): `run_sensitivity.py`
+with the older ten-attribute feature set (Proto, State, sTtl, sDSb, SrcAddr, Dport, TotPkts,
+TotBytes, Rate, Dur), no session resets and the any-malicious-flow rule, on the first 50,000 rows
+only (1,000 windows). Running `run_sensitivity.py` from commit `541fdb0` reproduces it byte for
+byte. The current shared modules change two of its windows (TN 147 -> 148 for k = 3 and
+127 -> 128 for k = 2), because of the later session and NaN handling in EWMA.
+
+| Run (all windows) | Rule | Windows | Base rate | Precision | Lift | Recall | FPR | Balanced acc. | MCC |
+|---|---|---|---|---|---|---|---|---|---|
+| Legacy prefix, k = 3, 2 votes | any malicious flow | 1,000 | 0.672 | 0.477 | 0.71 | 0.246 | 0.552 | 0.347 | -0.302 |
+| Full file, default | malicious fraction >= 0.5 | 24,311 | 0.612 | 0.563 | 0.92 | 0.029 | 0.035 | 0.497 | -0.018 |
+| Full file, default | any malicious flow | 24,311 | 0.653 | 0.679 | 1.04 | 0.032 | 0.029 | 0.502 | 0.010 |
+
+The legacy prefix run was worse than chance. On the full file the current detector is at chance
+level: no setting reaches a balanced accuracy above 0.508 or an MCC above 0.035. UDP flood makes up
+9,129 of the 14,881 attack windows (>= 0.5 rule), and 14,752 of the 15,077 windows of the two
+UDP-flood sessions have no observed destination port, so with two votes they cannot alarm
+(UDP-flood recall 0). Per-session counts are in `results/5gnidd_default/per_session.csv`.

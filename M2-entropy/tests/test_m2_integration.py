@@ -132,6 +132,10 @@ class TestCli(unittest.TestCase):
         self.assertEqual(m["pipeline"]["entropy_columns"], ["SrcAddr_entropy", "Dport_entropy"])
         self.assertIn("y_true", w.columns)
         self.assertIn("all_windows", m["evaluation"])
+        half, anymal = m["evaluation"]["all_windows"], m["evaluation_any_malicious_flow"]["all_windows"]
+        self.assertEqual(half["tp"] + half["fp"], anymal["tp"] + anymal["fp"])      # same predictions
+        self.assertGreaterEqual(anymal["n_attack_windows"], half["n_attack_windows"])
+        self.assertEqual(anymal["n_attack_windows"], int((w["malicious_fraction"] > 0).sum()))
 
     def test_subprocess_entry_point(self):
         script = os.path.join(SYS_PATH_M2, "run_m2.py")

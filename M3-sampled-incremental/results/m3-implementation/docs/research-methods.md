@@ -118,6 +118,11 @@ separate external ADWIN prediction-error monitor. The external monitor does not
 reset the classifier. Internal branch changes are not inferred from its alarms.
 Warm-up observations train but do not contribute to reported quality.
 
+Leaf naive-Bayes votes are computed in log space (`naive_bayes = "log_space"`,
+`m3.naive_bayes`). The 54 primary trials used River 0.23's vote (`"river"`), which
+treats a density that underflows to zero as certainty; their re-analysis is in
+`research/N1_Baseline_Reanalysis.md`.
+
 ## Measurements
 
 Per-class precision, recall and F1, rank-based tie-aware ROC-AUC, false-positive

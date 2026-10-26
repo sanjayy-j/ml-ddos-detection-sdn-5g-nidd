@@ -60,7 +60,8 @@ def compute(run_path):
                      "label_available_time": record.time + 1 + config["label_delay_seconds"],
                      "sampled_packets": count})
     models = evaluate_ablations(rows, seed=config["seed"], grace_period=config["grace_period"],
-                               drift_delta=config["drift_delta"], threshold=config["threshold"])
+                               drift_delta=config["drift_delta"], threshold=config["threshold"],
+                               naive_bayes=config.get("naive_bayes", "river"))
     result = {"primary_run_id": summary["run_id"], "window_seconds": 1.0,
               "source": "posthoc_saved_raw_exports", "raw_hashes": summary["raw_hashes"],
               "models": models, "rows": len(rows),

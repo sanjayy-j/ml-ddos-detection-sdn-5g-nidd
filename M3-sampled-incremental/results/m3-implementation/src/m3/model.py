@@ -2,6 +2,8 @@ from time import perf_counter
 
 from river import drift, tree
 
+from m3.naive_bayes import likelihood
+
 
 class OnlineDetector:
     def __init__(self, config):
@@ -14,10 +16,12 @@ class OnlineDetector:
         )
         self.monitor = drift.ADWIN(delta=config.drift_delta)
         self.threshold = config.threshold
+        self.naive_bayes = config.naive_bayes
 
     def predict(self, features):
         started = perf_counter()
-        probabilities = self.model.predict_proba_one(features)
+        with likelihood(self.naive_bayes):
+            probabilities = self.model.predict_proba_one(features)
         score = float(probabilities.get(1, 0.0))
         return int(score >= self.threshold), score, (perf_counter() - started) * 1000
 
@@ -26,5 +30,6 @@ class OnlineDetector:
         if monitor:
             self.monitor.update(int(label != predicted))
             detected = self.monitor.drift_detected
-        self.model.learn_one(features, label)
+        with likelihood(self.naive_bayes):
+            self.model.learn_one(features, label)
         return detected

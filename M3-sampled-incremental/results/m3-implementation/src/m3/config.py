@@ -32,6 +32,7 @@ class RunConfig:
     openflow_port: int | None = None
     grace_period: int = 200
     drift_delta: float = 0.002
+    naive_bayes: str = "log_space"
     trial_id: int = 1
     label_delay_seconds: float = 0.5
     replay_pps: float = 100.0
@@ -87,6 +88,10 @@ class RunConfig:
             or self.grace_period < 1
         ):
             raise ValueError("Invalid model configuration")
+        # "river" reproduces runs made before this option existed (River 0.23's vote, which
+        # treats an underflowed density as certainty); see m3.naive_bayes.
+        if self.naive_bayes not in ("river", "log_space"):
+            raise ValueError("naive_bayes must be river or log_space")
         if self.mode != "live_sflow" and not self.input_path:
             raise ValueError("Replay modes require input_path")
 
