@@ -20,6 +20,16 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+@pytest.mark.parametrize(("original", "expected"), [
+    ("C:\\restore", "\\\\?\\C:\\restore"),
+    ("\\\\server\\share\\restore", "\\\\?\\UNC\\server\\share\\restore"),
+    ("\\\\?\\C:\\restore", "\\\\?\\C:\\restore"),
+    ("\\\\?\\UNC\\server\\share", "\\\\?\\UNC\\server\\share"),
+])
+def test_windows_extended_paths_preserve_drive_unc_and_existing_prefix(original, expected):
+    assert backup._windows_extended_path(original) == expected
+
+
 def make_backup(tmp_path, members=None, expected=None, split=29):
     members = members or [("src/example.py", b"print('restored')\n", None)]
     expected = expected if expected is not None else [(n, d) for n, d, t in members]
@@ -70,6 +80,17 @@ def test_restore_stream_split_inside_gzip_and_tar_headers(tmp_path):
     assert result["uncompressed_bytes"] == 3000
     receipt = json.loads((destination / backup.RECEIPT_NAME).read_text())
     assert receipt["files_count"] == 2
+
+
+def test_restore_member_beyond_windows_max_path(tmp_path):
+    name = "/".join(["nested_" + str(i) + "x" * 70 for i in range(4)] + ["evidence.json"])
+    manifest, assets = make_backup(tmp_path, members=[(name, b"verified evidence", None)])
+    destination = tmp_path / "long-restoration"
+    result = backup.restore_backup(manifest, assets, destination)
+    restored = backup._restore_destination(destination).joinpath(*name.split("/"))
+    assert len(str(restored)) > 260
+    assert restored.read_bytes() == b"verified evidence"
+    assert result["files_count"] == 1
 
 
 @pytest.mark.parametrize("failure", ["missing", "tampered", "size"])

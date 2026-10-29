@@ -14,6 +14,7 @@ import argparse
 import hashlib
 import io
 import json
+import os
 import re
 import sys
 import tarfile
@@ -31,6 +32,21 @@ MAX_PART_SIZE = 1024 ** 3
 
 class BackupError(ValueError):
     """A backup did not pass a required safety or integrity check."""
+
+
+def _windows_extended_path(absolute_path):
+    """Keep deeply nested archive members usable beyond Win32's MAX_PATH limit."""
+    if absolute_path.startswith("\\\\?\\"):
+        return absolute_path
+    if absolute_path.startswith("\\\\"):
+        return "\\\\?\\UNC\\" + absolute_path[2:]
+    return "\\\\?\\" + absolute_path
+
+
+def _restore_destination(path):
+    if sys.platform == "win32":
+        return Path(_windows_extended_path(os.path.abspath(path)))
+    return Path(path)
 
 
 def safe_relative_path(value: str) -> str:
@@ -230,6 +246,8 @@ class ConcatenatedReader(io.RawIOBase):
 
 def verify_archive(archive, records, assets, destination=None):
     """Verify every tar member, optionally restoring regular file bytes."""
+    if destination is not None:
+        destination = _restore_destination(destination)
     expected = {r["path"]: r for r in records}
     seen = set()
     size_total = 0
@@ -292,7 +310,7 @@ def restore_backup(manifest, assets, destination=None, *, download=False, verify
     if not verify_only:
         if destination is None:
             raise BackupError("A destination is required for restoration")
-        destination = Path(destination)
+        destination = _restore_destination(destination)
         if destination.is_symlink() or (destination.exists() and (
                 not destination.is_dir() or any(destination.iterdir()))):
             raise BackupError("Restore destination must be new or empty")

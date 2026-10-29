@@ -59,6 +59,11 @@ archive paths/types and verifies every extracted file against the manifest. A
 successful full restore writes `.m3_restore_verification.json`. Keep enough free
 space for both compressed assets and the uncompressed project.
 
+Use the current restoration script from the repository. It enables Windows
+extended-length paths for deeply nested historical evidence and temporary work.
+The archive preserves the earlier source snapshot; backup tooling fixes and
+verification metadata committed afterward remain available in the GitHub source.
+
 For an offline asset check, use `--verify-only` with the manifest and asset
 directory. This checks payload/member hashes as well as archive parts; it does
 not recreate a project tree. For exact pre-backup Git history, clone the separate
