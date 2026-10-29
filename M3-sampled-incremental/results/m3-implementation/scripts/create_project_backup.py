@@ -121,7 +121,7 @@ def collect(root, output, excluded_root):
 
 
 def create(root, output, manifest_path, *, repository, tag, bundle=None,
-           exclude_root='tmp/github_backup_20261029', part_size=1024**3):
+           exclude_root='tmp/github_backup_20261029', part_size=128 * 1024**2):
     root, output, manifest_path = root.resolve(), output.resolve(), manifest_path.resolve()
     if not 1 <= part_size < 2 * 1024**3:
         raise ValueError('Archive parts must be positive and smaller than 2 GiB')
