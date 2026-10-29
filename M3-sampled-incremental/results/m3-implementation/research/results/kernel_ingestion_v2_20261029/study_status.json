@@ -1,0 +1,12 @@
+{
+  "study_id": "m3-kernel-ingestion-v2-20261028",
+  "updated_at": "2026-10-29T10:57:52.449661+00:00",
+  "phase": "complete",
+  "pilot_run_id": "f4398f332bc84e68b500e29112f8ccc8",
+  "source_revision": "6cf8c036d12b387745afce40a0ac871ae36c625f",
+  "accepted_trials": 54,
+  "sensitivity_completed": 54,
+  "ready": true,
+  "protected_documents_verified": 6,
+  "dashboard_runs": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/kernel_ingestion_v2_20261028/runs"
+}

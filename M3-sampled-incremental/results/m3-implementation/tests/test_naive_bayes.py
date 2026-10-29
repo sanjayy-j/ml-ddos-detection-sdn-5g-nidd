@@ -48,15 +48,43 @@ def test_underflowed_density_no_longer_counts_as_certainty():
 
 def test_context_restores_river_function_even_after_an_error():
     originals = [site.do_naive_bayes_prediction for site in (htc_nodes, hatc_nodes, last_nodes)]
-    with pytest.raises(RuntimeError):
-        with likelihood("log_space"):
-            assert htc_nodes.do_naive_bayes_prediction is log_space_naive_bayes
-            raise RuntimeError
+    with pytest.raises(RuntimeError), likelihood("log_space"):
+        assert htc_nodes.do_naive_bayes_prediction is log_space_naive_bayes
+        raise RuntimeError
     assert [site.do_naive_bayes_prediction
             for site in (htc_nodes, hatc_nodes, last_nodes)] == originals
-    with pytest.raises(ValueError):
-        with likelihood("gaussian"):
-            pass
+    with pytest.raises(ValueError), likelihood("gaussian"):
+        pass
+
+
+@pytest.mark.parametrize("outer,inner", [("log_space", "river"), ("river", "log_space")])
+def test_nested_modes_honor_each_vote_and_restore_after_an_error(outer, inner):
+    rng = random.Random(7)
+    model = nb_tree([(separable(rng, label), label) for label in (0, 1) * 300])
+    benign = {"mean_packet_size": 1200.0, "bytes_per_second": 120_000.0,
+              "packets_per_second": 100.0}
+    originals = [site.do_naive_bayes_prediction for site in (htc_nodes, hatc_nodes, last_nodes)]
+
+    def assert_vote(mode):
+        attack_score = model.predict_proba_one(benign)[1]
+        if mode == "river":
+            assert attack_score > 0.99
+        else:
+            assert attack_score < 1e-6
+
+    assert_vote("river")
+    with likelihood(outer):
+        assert_vote(outer)
+        with likelihood(inner):
+            assert_vote(inner)
+        assert_vote(outer)
+        with pytest.raises(RuntimeError, match="inner failed"), likelihood(inner):
+            assert_vote(inner)
+            raise RuntimeError("inner failed")
+        assert_vote(outer)
+    assert_vote("river")
+    assert [site.do_naive_bayes_prediction
+            for site in (htc_nodes, hatc_nodes, last_nodes)] == originals
 
 
 def test_config_default_and_validation():

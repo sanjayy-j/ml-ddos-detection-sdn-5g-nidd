@@ -12,6 +12,7 @@ SIGNATURE_KEYS = (
     "threshold",
     "grace_period",
     "drift_delta",
+    "naive_bayes",
     "window_seconds",
     "warmup_records",
     "warmup_seconds",
@@ -20,6 +21,10 @@ SIGNATURE_KEYS = (
 
 
 def comparison_key(run):
+    settings = {key: run["config"].get(key, "river" if key == "naive_bayes" else None)
+                for key in SIGNATURE_KEYS}
+    if run["config"].get("telemetry_clock") == "kernel_receive":
+        settings["telemetry_clock"] = "kernel_receive"
     return json.dumps(
         {
             "source": run["source"],
@@ -28,7 +33,7 @@ def comparison_key(run):
             "scenario": run["scenario"],
             "feature_schema": run.get("feature_schema"),
             "checksum": (run.get("provenance") or {}).get("sha256"),
-            "settings": {k: run["config"].get(k) for k in SIGNATURE_KEYS},
+            "settings": settings,
         },
         sort_keys=True,
     )

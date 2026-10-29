@@ -4,6 +4,11 @@ import { compatibleRuns, formatMetric, metricValue, modeName, overheadMetric, pa
 import type { Metric, Overview, RunSummary, Series } from './types';
 
 const POLL_MS = 3000;
+const SCENARIO_ORDER = new Map([['baseline', 0], ['drift', 1], ['unseen', 2]]);
+const orderRuns = (runs: RunSummary[]) => [...runs].sort((a, b) =>
+  a.sampling_rate - b.sampling_rate ||
+  (SCENARIO_ORDER.get(a.scenario) ?? 3) - (SCENARIO_ORDER.get(b.scenario) ?? 3) ||
+  a.scenario.localeCompare(b.scenario) || a.seed - b.seed || a.run_id.localeCompare(b.run_id));
 const emptySeries: Series = { predictions: [], resources: [], drift: [] };
 const number = (value: number) => value.toLocaleString('en');
 const timeLabel = (value: number | string) => typeof value === 'number' ? `${value.toFixed(2)} s` : value;
@@ -83,6 +88,39 @@ function Tradeoff({ runs, selectedId }: { runs: RunSummary[]; selectedId: string
   </>;
 }
 
+function BandwidthChart({ runs, selectedId }: { runs: RunSummary[]; selectedId: string }) {
+  const tasks = runs.map(run => ({ run, bandwidth: metricValue(overheadMetric(run, 'combined_ip_bandwidth_kbit_s')) }))
+    .filter((task): task is { run: RunSummary; bandwidth: number } => task.bandwidth !== null);
+  if (!tasks.length) return <div className="chart-empty compact"><h3>Bandwidth unavailable</h3><p>Both sFlow and OpenFlow IP-layer bandwidth measurements are needed for this comparison.</p></div>;
+  const width = 840, left = 125, right = 105, top = 18, rowHeight = 27, bottom = 48;
+  const height = top + tasks.length * rowHeight + bottom;
+  const maxBandwidth = Math.max(1, Math.ceil(Math.max(...tasks.map(task => task.bandwidth)) * 1.1 / 10) * 10);
+  const plotWidth = width - left - right;
+  const x = (bandwidth: number) => left + bandwidth / maxBandwidth * plotWidth;
+  return <>
+    <svg className="bandwidth-svg" viewBox={`0 0 ${width} ${height}`} role="img"
+      aria-label={`Combined sFlow and OpenFlow bandwidth for ${tasks.length} trials in the ${runs[0]?.scenario || 'selected'} scenario.`}>
+      {[0, .25, .5, .75, 1].map(tick => <g key={tick}>
+        <line className="grid-line" x1={x(tick * maxBandwidth)} y1={top - 4} x2={x(tick * maxBandwidth)} y2={height - bottom + 2} />
+        <text className="axis-label" x={x(tick * maxBandwidth)} y={height - 25} textAnchor="middle">{Number((tick * maxBandwidth).toFixed(1))}</text>
+      </g>)}
+      {tasks.map(({ run, bandwidth }, index) => {
+        const y = top + index * rowHeight;
+        const selected = run.run_id === selectedId;
+        return <g key={run.run_id}>
+          <text className={`bandwidth-label${selected ? ' selected' : ''}`} x={left - 9} y={y + 14} textAnchor="end">N={run.sampling_rate} · {run.seed}</text>
+          <rect className={`bandwidth-bar${selected ? ' selected' : ''}`} x={left} y={y + 3} width={Math.max(0, x(bandwidth) - left)} height="16" rx="3">
+            <title>{`${run.run_id}: ${formatMetric('combined_ip_bandwidth_kbit_s', overheadMetric(run, 'combined_ip_bandwidth_kbit_s'))}`}</title>
+          </rect>
+          <text className="bandwidth-value" x={x(bandwidth) + 7} y={y + 15}>{formatMetric('combined_ip_bandwidth_kbit_s', overheadMetric(run, 'combined_ip_bandwidth_kbit_s'))}</text>
+        </g>;
+      })}
+      <text className="axis-title" x={left + plotWidth / 2} y={height - 3} textAnchor="middle">Combined IP bandwidth (kbit/s) · lower is better</text>
+    </svg>
+    <p className="chart-note">Each bar sums measured sFlow and OpenFlow IP-layer bandwidth for one completed trial in the selected scenario. Labels show sampling rate and seed; the selected trial is highlighted.</p>
+  </>;
+}
+
 const detailMetrics: [string, string][] = [
   ['roc_auc', 'ROC-AUC'], ['false_positive_rate', 'False-positive rate'], ['detection_time_seconds', 'Detection time'],
   ['packets_to_detect', 'Packets to detect'], ['unseen_attack_recall', 'Unseen-attack recall'], ['post_drift_recovery_seconds', 'Post-drift recovery'],
@@ -113,8 +151,9 @@ export default function App() {
       try {
         const [nextRuns, nextOverview] = await Promise.all([getRuns(controller.signal), getOverview(controller.signal)]);
         if (controller.signal.aborted) return;
-        setRuns(nextRuns); setOverview(nextOverview); setError(''); setUpdatedAt(new Date());
-        setSelectedId(current => nextRuns.some(run => run.run_id === current) ? current : nextRuns[0]?.run_id || '');
+        const ordered = orderRuns(nextRuns);
+        setRuns(ordered); setOverview(nextOverview); setError(''); setUpdatedAt(new Date());
+        setSelectedId(current => ordered.some(run => run.run_id === current) ? current : ordered[0]?.run_id || '');
       } catch (e) { if (!controller.signal.aborted) setError(e instanceof Error ? e.message : 'Could not connect to the experiment server.'); }
       finally {
         if (!controller.signal.aborted) { setListLoading(false); if (autoRefresh) timer = setTimeout(load, POLL_MS); }
@@ -142,6 +181,7 @@ export default function App() {
   }, [selectedId, autoRefresh, refreshKey]);
 
   const comparisonCostKey = selected?.source === 'official_realtime_verified' ? 'combined_ip_bandwidth_kbit_s' : 'telemetry_bandwidth_kbps';
+  const samplingRates = useMemo(() => [...new Set(runs.map(run => run.sampling_rate))], [runs]);
   const comparisons = useMemo(() => selected ? compatibleRuns(runs, selected).sort((a, b) => a.sampling_rate - b.sampling_rate || a.seed - b.seed) : [], [runs, selected]);
   return <>
     <a className="skip-link" href="#main">Skip to experiment results</a>
@@ -152,19 +192,21 @@ export default function App() {
       {error && <div className="error-banner" role="alert"><strong>Could not refresh experiments.</strong><span>{error} {runs.length ? 'Previously loaded evidence remains visible.' : 'Start the FastAPI server on port 8000, then refresh.'}</span></div>}
       <section className="overview-strip" aria-label="Experiment overview">{[['Saved runs', overview?.total_runs], ['Completed', overview?.completed_runs], ['Running', overview?.running_runs], ['Failed', overview?.failed_runs]].map(([label, value]) => <div key={String(label)}><span>{label}</span><strong>{value === undefined ? '—' : number(Number(value))}</strong></div>)}<div className="overview-description"><span>METHOD</span><strong>Hoeffding Adaptive Tree <span>+ ADWIN</span></strong></div></section>
       {listLoading ? <div className="state-panel" role="status"><span className="loader" /><h2>Loading experiment evidence</h2><p>Reading saved runs and current experiment status.</p></div> : !runs.length ? <div className="state-panel"><div className="empty-icon" aria-hidden="true">⌁</div><div className="eyebrow">{error ? 'WAITING FOR EXPERIMENT EVIDENCE' : 'READY FOR THE FIRST RUN'}</div><h2>{error ? 'Connect the experiment server' : 'No experiment results yet'}</h2><p>{error ? 'Saved results cannot be checked until the experiment server responds. Start the server on port 8000 and refresh this page.' : 'Run the M3 experiment runner with verified official 5G-NIDD data. Saved results will appear here automatically.'}</p>{!error && <div className="empty-steps"><span>01 · Verify dataset</span><span>02 · Run N = 1 baseline</span><span>03 · Compare sampling rates</span></div>}</div> : <>
-        <section className="run-toolbar" aria-label="Run selection"><div className="run-label"><span className="eyebrow">INSPECT EXPERIMENT</span><label htmlFor="run-select">Selected run</label></div><select id="run-select" value={selectedId} onChange={e => setSelectedId(e.target.value)}>{runs.map(run => <option key={run.run_id} value={run.run_id}>{run.run_id} · N={run.sampling_rate} · {run.scenario} · {run.status}</option>)}</select><div className="selection-count">{runs.length} saved {runs.length === 1 ? 'run' : 'runs'}</div></section>
+        <section className="run-toolbar" aria-label="Run selection"><div className="run-label"><span className="eyebrow">INSPECT EXPERIMENT</span><label htmlFor="run-select">Selected run</label></div><select id="run-select" value={selectedId} onChange={e => setSelectedId(e.target.value)}>{samplingRates.map(rate => <optgroup key={rate} label={`N=${rate}`}>{runs.filter(run => run.sampling_rate === rate).map(run => <option key={run.run_id} value={run.run_id}>N={run.sampling_rate} · {run.scenario} · Seed {run.seed} · {run.status} · {run.run_id}</option>)}</optgroup>)}</select><div className="selection-count">{runs.length} saved {runs.length === 1 ? 'run' : 'runs'}</div></section>
         {detailError && <div className="error-banner" role="alert"><strong>Run evidence could not be loaded.</strong><span>{detailError} {selected ? 'Shown run details are from the last successful refresh.' : ''}</span></div>}
         {detailLoading ? <div className="state-panel small" role="status"><span className="loader" /><p>Loading selected run…</p></div> : selected && <>
           <section className="run-context"><div className="run-context-head"><div><Badge tone={selected.status}>{selected.status}</Badge><Badge tone={selected.source === 'fixture' ? 'fixture' : 'source'}>{sourceName(selected.source)}</Badge><Badge>{modeName(selected.mode)}</Badge><h2>{selected.scenario.replaceAll('_', ' ')}</h2></div><div className="sampling-emblem"><span>SAMPLING RATE</span><strong>1<span> / </span>{selected.sampling_rate}</strong></div></div><div className="context-bottom"><span>Run <code>{selected.run_id}</code></span><span>Seed {selected.seed}</span><span>Evaluation unit: <strong>{selected.unit}</strong></span><span>Started {dateLabel(selected.created_at)}</span></div></section>
-          {selected.source === 'official_realtime_verified' && selected.validation?.accepted ? <div className="notice">Independently validated live trial using controlled official 5G-NIDD packets. Oracle labels are revealed after prediction. This is not a physical 5G deployment or a claim of generalization to all attacks.</div> : selected.source !== 'official_5g_nidd' && <div className="notice">This run is labeled <strong>{sourceName(selected.source)}</strong>. Its results do not establish performance on official 5G-NIDD.</div>}
+          {selected.source === 'official_realtime_verified' && selected.validation?.accepted ? <div className="notice">Independently validated trial using controlled official 5G-NIDD packets. Oracle labels are revealed after prediction. This is not a physical 5G deployment or a claim of generalization to all attacks.</div> : selected.source !== 'official_5g_nidd' && <div className="notice">This run is labeled <strong>{sourceName(selected.source)}</strong>. Its results do not establish performance on official 5G-NIDD.</div>}
           <details className="provenance-details"><summary>Dataset and feature provenance</summary><pre>{JSON.stringify({ feature_schema: selected.feature_schema ?? 'Not recorded', provenance: selected.provenance ?? 'Not recorded' }, null, 2)}</pre></details>
+          {selected.source === 'official_realtime_verified' && selected.config.telemetry_clock !== 'kernel_receive' && <div className="notice">These trials used an earlier collector with known telemetry timing issues. Detection scores are under review.</div>}
           {selected.mode === 'csv_replay' && <div className="notice">This run samples flow records. Packet sampling and live SDN overhead require capture replay or live sFlow measurements.</div>}
           {selected.status === 'failed' && <div className="error-banner" role="alert"><strong>This run failed.</strong><span>{selected.error || 'No error detail was saved.'}</span></div>}
-          <section className="metric-grid" aria-label="Detection metrics"><MetricCard name="Precision" metricKey="precision" metric={selected.metrics.precision} caption="How often attack predictions are correct" /><MetricCard name="Recall" metricKey="recall" metric={selected.metrics.recall} caption="Share of labeled attacks detected" /><MetricCard name="F1 score" metricKey="f1" metric={selected.metrics.f1} caption="Balance of precision and recall" /><MetricCard name="Inference latency" metricKey="inference_latency_ms" metric={selected.metrics.inference_latency_ms} caption="Average time per prediction" /></section>
+          <section className="metric-grid" aria-label="Detection metrics"><MetricCard name="Precision" metricKey="precision" metric={selected.metrics.precision} caption="How often attack predictions are correct" /><MetricCard name="Recall" metricKey="recall" metric={selected.metrics.recall} caption="Share of labeled attacks detected" /><MetricCard name="F1 score" metricKey="f1" metric={selected.metrics.f1} caption="Balance of precision and recall" /><MetricCard name="Bandwidth" metricKey="combined_ip_bandwidth_kbit_s" metric={overheadMetric(selected, 'combined_ip_bandwidth_kbit_s')} caption="Combined sFlow + OpenFlow IP bandwidth" /></section>
           <section className="panel timeline-panel"><div className="panel-heading"><div><span className="eyebrow">DETECTION THROUGH TIME</span><h2>Adaptive learning timeline</h2></div><Badge>{number(selected.drift_count)} drift {selected.drift_count === 1 ? 'alarm' : 'alarms'}</Badge></div><Timeline series={series} unit={selected.unit} threshold={typeof selected.config.threshold === 'number' ? selected.config.threshold : .5} /></section>
-          <div className="analysis-grid"><section className="panel"><div className="panel-heading"><div><span className="eyebrow">ACCURACY × OVERHEAD</span><h2>Sampling trade-off</h2></div></div><Tradeoff key={[selected.source, selected.mode, selected.scenario, selected.feature_schema].join(':')} runs={comparisons} selectedId={selected.run_id} /></section><section className="panel"><div className="panel-heading"><div><span className="eyebrow">STREAM ACCOUNTING</span><h2>Every observation accounted for</h2></div></div><dl className="count-list">{Object.entries(selected.counts).map(([key, value]) => <div key={key}><dt>{key.replaceAll('_', ' ')}</dt><dd>{number(value)}</dd></div>)}</dl><div className="account-note">Input and sampling counts are recorded independently from evaluated labels. Warm-up, exclusions, and unlabeled records are retained in the evidence.</div></section></div>
-          <section className="panel"><div className="panel-heading"><div><span className="eyebrow">COMPATIBLE COMPLETED TRIALS</span><h2>Sampling comparison</h2></div><Badge>{comparisons.length} trials</Badge></div><div className="table-scroll"><table><caption className="sr-only">Individual compatible trials; no implicit averaging of repeated trials.</caption><thead><tr><th scope="col">Run / seed</th><th scope="col">Sampling</th><th scope="col">F1</th><th scope="col">Recall</th><th scope="col">CPU mean</th><th scope="col">{comparisonCostKey === 'combined_ip_bandwidth_kbit_s' ? 'IP channel total' : 'Legacy payload'}</th><th scope="col">Drift alarms</th></tr></thead><tbody>{comparisons.map(run => <tr key={run.run_id} className={run.run_id === selected.run_id ? 'selected-row' : ''}><th scope="row"><button className="run-link" onClick={() => setSelectedId(run.run_id)}>{run.run_id}</button><small>Seed {run.seed}</small></th><td><Badge>1 / {run.sampling_rate}</Badge></td>{['f1', 'recall', 'cpu_percent_mean', comparisonCostKey].map(key => <td key={key}>{formatMetric(key, overheadMetric(run, key))}{overheadMetric(run, key)?.status === 'estimated' && <small>estimated</small>}</td>)}<td>{run.drift_count}</td></tr>)}{!comparisons.length && <tr><td colSpan={7}>No compatible completed trials yet.</td></tr>}</tbody></table></div></section>
           <div className="analysis-grid details-grid"><section className="panel"><div className="panel-heading"><div><span className="eyebrow">METRIC EVIDENCE</span><h2>Measurements & limitations</h2></div></div><div className="evidence-list">{detailMetrics.map(([key, label]) => <div key={key}><div><strong>{label}</strong><small>{metricValue(selected.metrics[key]) === null ? selected.metrics[key]?.reason || 'No measurement saved.' : selected.metrics[key]?.reason || selected.metrics[key]?.status}</small></div><span>{formatMetric(key, selected.metrics[key])}</span></div>)}</div></section><section className="panel"><div className="panel-heading"><div><span className="eyebrow">ADWIN / HAT</span><h2>Drift event log</h2></div></div>{series.drift.length ? <ol className="drift-log">{series.drift.map((event, i) => <li key={`${event.index}-${i}`}><span className="event-dot" /><div><strong>{event.event.replaceAll('_', ' ')}</strong><p>{event.detector} · observation {event.index}</p><small>{timeLabel(event.time)}</small></div></li>)}</ol> : <div className="chart-empty compact"><h3>No drift events saved</h3><p>Absence of an alarm does not establish absence of a distribution change.</p></div>}<details className="config-details"><summary>Run configuration and provenance</summary><pre>{JSON.stringify(selected.config, null, 2)}</pre></details></section></div>
+          <section className="panel"><div className="panel-heading"><div><span className="eyebrow">TELEMETRY OVERHEAD</span><h2>Bandwidth by trial</h2></div><Badge>{comparisons.filter(run => metricValue(overheadMetric(run, 'combined_ip_bandwidth_kbit_s')) !== null).length} trials</Badge></div><BandwidthChart runs={comparisons} selectedId={selected.run_id} /></section>
+          <section className="panel"><div className="panel-heading"><div><span className="eyebrow">COMPATIBLE COMPLETED TRIALS</span><h2>Sampling comparison</h2></div><Badge>{comparisons.length} trials</Badge></div><div className="table-scroll"><table><caption className="sr-only">Individual compatible trials; no implicit averaging of repeated trials.</caption><thead><tr><th scope="col">Run / seed</th><th scope="col">Sampling</th><th scope="col">F1</th><th scope="col">Recall</th><th scope="col">CPU mean</th><th scope="col">{comparisonCostKey === 'combined_ip_bandwidth_kbit_s' ? 'IP channel total' : 'Legacy payload'}</th><th scope="col">Drift alarms</th></tr></thead><tbody>{comparisons.map(run => <tr key={run.run_id} className={run.run_id === selected.run_id ? 'selected-row' : ''}><th scope="row"><button className="run-link" onClick={() => setSelectedId(run.run_id)}>{run.run_id}</button><small>Seed {run.seed}</small></th><td><Badge>1 / {run.sampling_rate}</Badge></td>{['f1', 'recall', 'cpu_percent_mean', comparisonCostKey].map(key => <td key={key}>{formatMetric(key, overheadMetric(run, key))}{overheadMetric(run, key)?.status === 'estimated' && <small>estimated</small>}</td>)}<td>{run.drift_count}</td></tr>)}{!comparisons.length && <tr><td colSpan={7}>No compatible completed trials yet.</td></tr>}</tbody></table></div></section>
+          <div className="analysis-grid"><section className="panel"><div className="panel-heading"><div><span className="eyebrow">ACCURACY × OVERHEAD</span><h2>Sampling trade-off</h2></div></div><Tradeoff key={[selected.source, selected.mode, selected.scenario, selected.feature_schema].join(':')} runs={comparisons} selectedId={selected.run_id} /></section><section className="panel"><div className="panel-heading"><div><span className="eyebrow">STREAM ACCOUNTING</span><h2>Every observation accounted for</h2></div></div><dl className="count-list">{Object.entries(selected.counts).map(([key, value]) => <div key={key}><dt>{key.replaceAll('_', ' ')}</dt><dd>{number(value)}</dd></div>)}</dl><div className="account-note">Input and sampling counts are recorded independently from evaluated labels. Warm-up, exclusions, and unlabeled records are retained in the evidence.</div></section></div>
         </>}
       </>}
       <footer><span>M3 Observatory <span className="footer-dot">·</span> 5G-NIDD sampled telemetry</span><span>Evidence first. Every number traces to a saved run.</span></footer>

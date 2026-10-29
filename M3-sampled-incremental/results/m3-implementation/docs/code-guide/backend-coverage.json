@@ -1,0 +1,92 @@
+{
+  "src/m3/__init__.py": {
+    "lines": 3,
+    "sha256": "3c16faf3df0efd9e0210c1ae9cad4245f8824e294442fcec9f93902721a31afe",
+    "chapter": "backend.md"
+  },
+  "src/m3/config.py": {
+    "lines": 93,
+    "sha256": "330794a520a634829a4a0f1e9c19564f59c513e052324a59c6a974a1e1fa92dc",
+    "chapter": "backend.md"
+  },
+  "src/m3/data.py": {
+    "lines": 119,
+    "sha256": "9e8ac45f7820a09082877768e7e0b85cbeaf13a1b7d8a5ff0c4d1a9421458e9f",
+    "chapter": "backend.md"
+  },
+  "src/m3/model.py": {
+    "lines": 30,
+    "sha256": "6110282de738ea0aa149e0181187053dac8c70262b82806d8ddce47011a96b03",
+    "chapter": "backend.md"
+  },
+  "src/m3/metrics.py": {
+    "lines": 92,
+    "sha256": "bceece8e984d031c70bfa66a952a7dd661ca08cd830d720dd170006614ee89ec",
+    "chapter": "backend.md"
+  },
+  "src/m3/engine.py": {
+    "lines": 236,
+    "sha256": "9e99cd0676d80f647099d2de20f780eaef724480f2af393907a2d21fbc6b21f7",
+    "chapter": "backend.md"
+  },
+  "src/m3/packets.py": {
+    "lines": 132,
+    "sha256": "b7eef6e17c986b923014416da92e7f07dd381b51cfba5db03705143c8ebbd692",
+    "chapter": "backend.md"
+  },
+  "src/m3/ground_truth.py": {
+    "lines": 172,
+    "sha256": "0f71ce43cfc297b8a7021adebfeeeb53c0d9b5a797ee87dda55420c1f410327d",
+    "chapter": "backend.md"
+  },
+  "src/m3/labels.py": {
+    "lines": 39,
+    "sha256": "b1bfe98ebdad8df896736d299325d83b8402f39abaa9803ef225d1322bbb1e97",
+    "chapter": "backend.md"
+  },
+  "src/m3/sflow.py": {
+    "lines": 79,
+    "sha256": "b2fc1e1166b1fcaff16081dff2c7fe451294d74d636edc805088487171c836c2",
+    "chapter": "backend.md"
+  },
+  "src/m3/live.py": {
+    "lines": 112,
+    "sha256": "38699a758a1d423919d38e69e4f2bbb3acac6bba2627179c0e13e8a852225de7",
+    "chapter": "backend.md"
+  },
+  "src/m3/resources.py": {
+    "lines": 91,
+    "sha256": "456ff4f6423e070466508aeec620a03ae86f2520d1c258f19d79d4075e2ad73e",
+    "chapter": "backend.md"
+  },
+  "src/m3/lab.py": {
+    "lines": 103,
+    "sha256": "eef3df4094748f83ca5f3876c7e03d12e7cd05660c62267405d84ea918f19c08",
+    "chapter": "backend.md"
+  },
+  "src/m3/provenance.py": {
+    "lines": 33,
+    "sha256": "06bb4a015d87b6ea526f4bc195c695efb1d9468dcaf7501fc8ded2c28989e41e",
+    "chapter": "backend.md"
+  },
+  "src/m3/store.py": {
+    "lines": 182,
+    "sha256": "1d6e7674d40e71c71b04c96850503b2feccc8abd4c06509f2674c4524ca6836d",
+    "chapter": "backend.md"
+  },
+  "src/m3/analysis.py": {
+    "lines": 234,
+    "sha256": "b6117bd3a5df59fb84a18684c7a8022227921d4ce7bbb2debde89005bd361f2b",
+    "chapter": "backend.md"
+  },
+  "src/m3/api.py": {
+    "lines": 64,
+    "sha256": "5caf834a79dc8eb42075c91aa790e387a1f8420cedf712d73b89b9d6bb17ef9b",
+    "chapter": "backend.md"
+  },
+  "src/m3/cli.py": {
+    "lines": 88,
+    "sha256": "ce248ea2370c40aa98de2c2126ea32411822470f4cca62dca65023713bcccedd",
+    "chapter": "backend.md"
+  }
+}

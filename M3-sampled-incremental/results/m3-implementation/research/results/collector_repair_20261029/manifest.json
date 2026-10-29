@@ -1,0 +1,18 @@
+{
+  "derived_validation_evidence.zip": {
+    "sha256": "a485301ec32865795f6e5e50295dd83c20fa0aa759c67730304af419c230a9b8",
+    "size_bytes": 1273408
+  },
+  "historical_timing_audit.json": {
+    "sha256": "f0a6d5dd74c02aaab05b34a50b88ffe47e15bb10bb8c6c5c3c7fe7c678d28e46",
+    "size_bytes": 88088
+  },
+  "README.md": {
+    "sha256": "a7b5eeb48979ffbc94eae1a1573a5696b56707b08e6b3f3113d38da2aed44924",
+    "size_bytes": 3009
+  },
+  "validation_results.json": {
+    "sha256": "f3bd9bc007de1d70d199bf5e03268a3c698bad3b830fdbc4191e0f30213afea3",
+    "size_bytes": 68624
+  }
+}

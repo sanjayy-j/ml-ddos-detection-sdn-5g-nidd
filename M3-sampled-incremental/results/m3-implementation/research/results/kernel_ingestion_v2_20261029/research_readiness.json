@@ -1,0 +1,29 @@
+{
+  "ready": true,
+  "accepted_trials": 54,
+  "expected_trials": 54,
+  "missing_cells": [],
+  "evidence_gates": {
+    "actual_switch_config_verified": true,
+    "independent_tx_rx_match": true,
+    "zero_capture_drops": true,
+    "raw_hashes_verified": true,
+    "chronological_prediction_before_label": true,
+    "telemetry_kernel_clock": true,
+    "telemetry_ingestion_timing": true,
+    "telemetry_tail_complete": true,
+    "independent_sflow_capture": true,
+    "consistent_telemetry_clock": true,
+    "raw_hash_links": true,
+    "exactly_54_planned_trials": true,
+    "primary_window_0_1_seconds": true,
+    "both_classes_scored": true,
+    "measured_core_quality_and_cost": true,
+    "consistent_ip_layer_bandwidth_units": true,
+    "ablations_completed": true,
+    "sensitivity_completed": true
+  },
+  "assessment": "Research evidence complete",
+  "caveat": "Passing gates does not establish novelty or guarantee paper acceptance. Three repeats describe controlled repeatability with wide uncertainty.",
+  "input_read_errors": []
+}

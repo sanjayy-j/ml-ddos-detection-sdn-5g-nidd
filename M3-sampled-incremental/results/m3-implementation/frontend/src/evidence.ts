@@ -12,13 +12,13 @@ export function formatMetric(key: string, metric: Metric | undefined): string {
   return `${new Intl.NumberFormat('en', { maximumFractionDigits: 2 }).format(value)}${metric?.unit ? ` ${metric.unit}` : ''}`;
 }
 export function sourceName(source: string) {
-  if (source === 'official_realtime_verified') return 'Validated official live trial';
+  if (source === 'official_realtime_verified') return 'Validated official 5G-NIDD trial';
   if (source === 'provisional_realtime') return 'Unvalidated live trial';
   if (source === 'official_5g_nidd_recorded_sflow') return 'Post-hoc recorded exports';
   return source === 'official_5g_nidd' ? 'Official 5G-NIDD' : source === 'fixture' ? 'Development fixture' : source === 'live_sflow' ? 'Live telemetry' : source.replaceAll('_', ' ');
 }
 export function modeName(mode: RunSummary['mode']) {
-  return { csv_replay: 'CSV flow replay', pcap_replay: 'Packet capture replay', live_sflow: 'Live sFlow' }[mode];
+  return { csv_replay: 'CSV flow replay', pcap_replay: 'Packet capture replay', live_sflow: 'sFlow telemetry' }[mode];
 }
 export function overheadMetric(run: RunSummary, key: string): Metric | undefined {
   if (key !== 'combined_ip_bandwidth_kbit_s') return run.metrics[key];
@@ -34,8 +34,10 @@ export function overheadMetric(run: RunSummary, key: string): Metric | undefined
 }
 export function compatibleRuns(runs: RunSummary[], selected: RunSummary): RunSummary[] {
   if (selected.source === 'provisional_realtime') return [];
-  const settings = ['threshold', 'grace_period', 'drift_delta', 'window_seconds', 'warmup_records', 'warmup_seconds', 'max_records', 'duration_seconds', 'replay_pps', 'label_delay_seconds'];
-  const signature = (run: RunSummary) => JSON.stringify(settings.map(key => [key, run.config[key] ?? null]));
+  const settings = ['threshold', 'grace_period', 'drift_delta', 'naive_bayes', 'telemetry_clock', 'window_seconds', 'warmup_records', 'warmup_seconds', 'max_records', 'duration_seconds', 'replay_pps', 'label_delay_seconds'];
+  const signature = (run: RunSummary) => JSON.stringify(settings.map(key => [key,
+    key === 'naive_bayes' && run.config[key] === undefined ? 'river' :
+      key === 'telemetry_clock' && run.config[key] === undefined ? 'userspace' : run.config[key] ?? null]));
   return runs.filter(run => run.status === 'completed' && run.source === selected.source && run.mode === selected.mode &&
     (run.source !== 'official_realtime_verified' || run.validation?.accepted === true) &&
     run.scenario === selected.scenario && run.unit === selected.unit &&

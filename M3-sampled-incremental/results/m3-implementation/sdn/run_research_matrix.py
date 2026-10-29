@@ -7,6 +7,7 @@ from pathlib import Path
 
 from run_official_capture_pilot import run
 
+from m3.naive_bayes import MODES
 from m3.store import atomic_json, utc_now
 
 
@@ -21,20 +22,35 @@ def retry_failed(matrix, reason):
             cell.pop("error", None)
 
 
-def execute(protocol, prepared, output, *, limit=None, retry_reason=None):
+def execute(protocol, prepared, output, *, limit=None, retry_reason=None, runs_output=None):
     protocol = json.loads(Path(protocol).read_text())
+    # The frozen primary protocol predates this selector and used River's vote.
+    vote = protocol.get("model", {}).get("naive_bayes", "river")
+    clock = protocol.get("telemetry_clock", "userspace")
+    if clock not in {"userspace", "kernel_receive"}:
+        raise ValueError("Invalid protocol telemetry clock")
+    if vote not in MODES:
+        raise ValueError("Invalid protocol naive-Bayes vote")
+    runs_output = str(Path(runs_output).resolve()) if runs_output is not None else None
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     matrix_path = output / "matrix.json"
     if matrix_path.exists():
         matrix = json.loads(matrix_path.read_text())
+        if matrix.get("naive_bayes", "river") != vote:
+            raise ValueError("Cannot resume a matrix with a different naive-Bayes vote")
+        if matrix.get("runs_output") != runs_output:
+            raise ValueError("Cannot resume a matrix with a different collector results directory")
+        if matrix.get("telemetry_clock", "userspace") != clock:
+            raise ValueError("Cannot resume a matrix with a different telemetry clock")
     else:
         cells = [{"scenario": scenario, "sampling": rate, "seed": seed, "trial_id": number + 1,
                   "status": "pending"}
                  for scenario in protocol["scenarios"] for rate in protocol["sampling_rates"]
                  for number, seed in enumerate(protocol["model_seeds"])]
         random.Random(protocol["ordering_seed"]).shuffle(cells)
-        matrix = {"protocol": protocol, "cells": cells}
+        matrix = {"protocol": protocol, "naive_bayes": vote, "telemetry_clock": clock,
+                  "runs_output": runs_output, "cells": cells}
         atomic_json(matrix_path, matrix)
     if retry_reason:
         retry_failed(matrix, retry_reason)
@@ -49,9 +65,11 @@ def execute(protocol, prepared, output, *, limit=None, retry_reason=None):
         cell["status"] = "running"
         atomic_json(matrix_path, matrix)
         try:
+            run_options = {"runs_root": runs_output} if runs_output is not None else {}
             report = run(Path(prepared) / cell["scenario"] / "blocks.json", "data/manifest.json",
-                         cell["sampling"], output, research={key: cell[key]
-                         for key in ("scenario", "seed", "trial_id")})
+                         cell["sampling"], output, research={
+                             **{key: cell[key] for key in ("scenario", "seed", "trial_id")},
+                             "naive_bayes": vote, "telemetry_clock": clock}, **run_options)
             cell.update(status="completed", run_id=report["collector_run_id"])
         except Exception as error:
             cell.update(status="failed", error=str(error))
@@ -70,7 +88,9 @@ if __name__ == "__main__":
     parser.add_argument("--protocol", default="configs/research_protocol.json")
     parser.add_argument("--prepared", default="data/prepared/research_20261019_equalrate_v1")
     parser.add_argument("--output", default="output/research/equalrate_v1")
+    parser.add_argument("--runs-output", help="Separate collector results directory for this study")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--retry-failed", help="Documented technical reason; failed attempts remain saved")
     args = parser.parse_args()
-    execute(args.protocol, args.prepared, args.output, limit=args.limit, retry_reason=args.retry_failed)
+    execute(args.protocol, args.prepared, args.output, limit=args.limit,
+            retry_reason=args.retry_failed, runs_output=args.runs_output)

@@ -6,7 +6,7 @@ from dataclasses import replace
 import pytest
 from fastapi.testclient import TestClient
 
-from m3.analysis import aggregate, pareto
+from m3.analysis import aggregate, comparison_key, pareto
 from m3.api import create_app
 from m3.config import RunConfig
 from m3.data import binary_label, extract_flow_features
@@ -266,6 +266,29 @@ def test_aggregate_variation_and_status():
     assert row["distinct_seeds"] == 3
     runs[0]["provenance"] = {"sha256": "different"}
     assert len(aggregate(runs)) == 2
+
+
+def test_aggregate_separates_corrected_votes_and_preserves_historical_river_group():
+    historical = {
+        "source": "official_realtime_verified", "status": "completed", "mode": "live_sflow",
+        "unit": "window", "scenario": "baseline", "config": {"threshold": 0.5},
+        "feature_schema": "packet-window-v1", "sampling_rate": 1,
+        "provenance": {"sha256": "same-input"}, "validation": {"accepted": True},
+        "run_id": "historical", "seed": 42, "metrics": {"f1": measurement(0.6)},
+    }
+    river = {**historical, "run_id": "river", "seed": 43,
+             "config": {**historical["config"], "naive_bayes": "river"}}
+    corrected = {**historical, "run_id": "corrected", "seed": 44,
+                 "config": {**historical["config"], "naive_bayes": "log_space"},
+                 "metrics": {"f1": measurement(0.99)}}
+    assert comparison_key(historical) == comparison_key(river)
+    assert comparison_key(corrected) != comparison_key(historical)
+    assert comparison_key(corrected) != comparison_key(river)
+    rows = aggregate([historical, river, corrected])
+    assert sorted(row["metrics"]["f1"]["n"] for row in rows) == [1, 2]
+    assert sorted(row["metrics"]["f1"]["mean"] for row in rows) == pytest.approx([0.6, 0.99])
+    assert comparison_key({**river, "config": {**river["config"], "threshold": 0.8}}) != comparison_key(river)
+    assert aggregate([{**historical, "status": "running"}]) == []
 
 
 def test_real_hat_and_adwin():

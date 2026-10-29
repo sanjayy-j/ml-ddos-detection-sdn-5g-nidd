@@ -1,0 +1,2711 @@
+{
+  "created_utc": "2026-10-29T07:55:25.034213+00:00",
+  "study_root": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028",
+  "diagnostic_only": true,
+  "model_replays": 0,
+  "live_trials": 0,
+  "method": {
+    "purpose": "Reproduce timing/coverage observations without changing saved trials or scores",
+    "prefix_matching": "Exact Ethernet captured-header prefix with a length-indexed RX mapping; only one-candidate matches contribute delays, bins and coverage",
+    "quantiles": "Sorted values at min(n-1,floor(n*p)); no interpolation",
+    "window_comparison": "floor((userspace_receive-origin)/width) versus floor((RX-origin)/width)",
+    "delay_population": "All decoded raw samples, including samples read after fixed measurement end; used-sample results separately restrict raw receive time to measurement interval",
+    "missing_coverage": "Unmatched RX occurrences/distinct frames using unambiguous raw prefix matches; coverage is inconclusive when ambiguous_samples is nonzero",
+    "limitations": "RX pcap timestamps have capture precision and small negative delay jitter can occur. This diagnoses observation distortion; it does not prove the exact cause of each model error.",
+    "prohibition": "Independent RX timestamps and labels are diagnostic only. Never deploy them as telemetry timestamps, reconstruct deployable features from the oracle, or use these results to exclude low scores."
+  },
+  "audit_sources": {
+    "scripts/audit_collector_backlog.py": {
+      "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\scripts\\audit_collector_backlog.py",
+      "sha256": "53541e8b071cdd82a3b95d4fe12cf8a408c1393b66a75a2ff91e777cb0960d63",
+      "size_bytes": 15105
+    },
+    "src/m3/packets.py": {
+      "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\src\\m3\\packets.py",
+      "sha256": "b7eef6e17c986b923014416da92e7f07dd381b51cfba5db03705143c8ebbd692",
+      "size_bytes": 4668
+    },
+    "src/m3/sflow.py": {
+      "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\src\\m3\\sflow.py",
+      "sha256": "02e25bf4de8f219bc99c1e6dfe801e4d12f728ad7f67b20c911b090ac42bd1af",
+      "size_bytes": 2981
+    }
+  },
+  "focus_run_ids": [
+    "50a9cfabd3c948409ba967f444f3081b",
+    "ef6b6262c44e4f88aeb14797f1607467",
+    "4580fd2c59ef4fc0ac76377793004752",
+    "7314798c3ae5416ca0d8032764b318f3",
+    "4a96a47739da454ab97f558e6601ba77",
+    "92011ddcf7514e47a341679170bcc388",
+    "31950a7004b54cc8a31b873e58314aef"
+  ],
+  "trials": [
+    {
+      "run_id": "50a9cfabd3c948409ba967f444f3081b",
+      "scenario": "baseline",
+      "sampling_rate": 1,
+      "seed": 43,
+      "saved_f1": {
+        "value": 0.4488888888888889,
+        "unit": "ratio",
+        "status": "measured",
+        "reason": null
+      },
+      "source": "official_realtime_verified",
+      "status": "completed",
+      "accepted": true,
+      "settings": {
+        "origin_epoch": 1793173110,
+        "duration_seconds": 125,
+        "window_seconds": 0.1,
+        "warmup_seconds": 41.0,
+        "telemetry_clock": "userspace",
+        "naive_bayes": "log_space"
+      },
+      "inputs": {
+        "summary": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\50a9cfabd3c948409ba967f444f3081b\\run_summary.json",
+          "sha256": "b6e99813e1d7ef534547f27dd0e9112bb7ed128bd1911000d84fc9fe231f3c00",
+          "size_bytes": 13366
+        },
+        "features": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\50a9cfabd3c948409ba967f444f3081b\\features.jsonl",
+          "sha256": "d928185f72264d525303c229cd48d5dde2a96b148c22a7e264bb4f7d50fac649",
+          "size_bytes": 825934
+        },
+        "datagrams": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\50a9cfabd3c948409ba967f444f3081b\\sflow.datagrams",
+          "sha256": "a6408d96acf322183671c2e74167944bf5298ba0f3d675138125a005fd9906c6",
+          "size_bytes": 2468796
+        },
+        "execution": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_3fd1d85ca8274d23a7ecc4e742217288\\execution.json",
+          "sha256": "656347753bf89a59bb45fc9f5032e60032bcbaf2982e369f3728d484da2bf69e",
+          "size_bytes": 35876
+        },
+        "rx": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_3fd1d85ca8274d23a7ecc4e742217288\\rx.pcap",
+          "sha256": "0671c6f272c78838e3f373bd69953a50da92f3b6ccad749e69ca01d9da2d0e5f",
+          "size_bytes": 6124645
+        },
+        "oracle_health": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_3fd1d85ca8274d23a7ecc4e742217288\\truth\\health.json",
+          "sha256": "47317c8cdcd14ce016ba5269050cd67abe19239812301debe7fb69a94f955029",
+          "size_bytes": 98
+        }
+      },
+      "saved_counts": {
+        "input": 9601,
+        "sampled": 9601,
+        "evaluated": 679,
+        "warmup": 330,
+        "excluded": 0,
+        "unlabeled": 241
+      },
+      "windows": {
+        "total": 1250,
+        "scored": 679,
+        "scored_empty": 346,
+        "wrong": 248,
+        "wrong_empty": 157,
+        "warmup_sample_pps": {
+          "n": 330,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 190.0,
+          "max": 2280.0
+        },
+        "evaluation_sample_pps": {
+          "n": 679,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 220.0,
+          "max": 1740.0
+        },
+        "prediction_completion_lag_seconds": {
+          "n": 1250,
+          "min": 0.5001528263092041,
+          "p50": 0.5693576812744112,
+          "p95": 1.929079341888425,
+          "max": 2.8337832450866642
+        },
+        "feature_bins_disagreeing_with_raw_receive_time": 0
+      },
+      "observation": {
+        "raw_samples": 9601,
+        "datagrams": 2129,
+        "samples_before_origin": 0,
+        "samples_read_at_or_after_fixed_end": 0,
+        "samples_per_datagram": {
+          "n": 2129,
+          "min": 0,
+          "p50": 3,
+          "p95": 10,
+          "max": 10
+        },
+        "datagram_gap_seconds": {
+          "n": 2128,
+          "min": 0.0007071495056152344,
+          "p50": 0.0043599605560302734,
+          "p95": 0.1094510555267334,
+          "max": 2.7579503059387207
+        },
+        "sequence_gaps": 0,
+        "first_sequence": 22,
+        "last_sequence": 2150
+      },
+      "rx_prefix_diagnosis": {
+        "unambiguous_sample_matches": 9601,
+        "unmatched_samples": 0,
+        "ambiguous_samples": 0,
+        "unsupported_non_ethernet_samples": 0,
+        "indexed_header_lengths": [
+          42,
+          54,
+          58,
+          60,
+          62,
+          63,
+          64,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          81,
+          82,
+          89,
+          90,
+          91,
+          99,
+          102,
+          104,
+          105,
+          115,
+          116,
+          118,
+          121,
+          122,
+          126,
+          128,
+          139,
+          142,
+          143,
+          150,
+          158,
+          162,
+          163,
+          170,
+          199,
+          209,
+          210,
+          217,
+          230,
+          231,
+          240,
+          241,
+          247,
+          251,
+          252,
+          256
+        ],
+        "rx_packets": 9600,
+        "rx_distinct_frames": 9600,
+        "covered_distinct_rx_frames": 9600,
+        "missing_distinct_rx_frames": 0,
+        "missing_rx_occurrences": 0,
+        "missing_rx_relative_time_min": null,
+        "missing_rx_relative_time_max": null,
+        "additional_duplicate_samples": 1,
+        "coverage_unambiguous": true,
+        "all_sample_delays_seconds": {
+          "n": 9601,
+          "min": 1.3113021850585938e-05,
+          "p50": 0.8136792182922363,
+          "p95": 4.45976996421814,
+          "max": 5.728290557861328
+        },
+        "used_sample_delays_seconds": {
+          "n": 9601,
+          "min": 1.3113021850585938e-05,
+          "p50": 0.8136792182922363,
+          "p95": 4.45976996421814,
+          "max": 5.728290557861328
+        },
+        "samples_delayed_over_half_second": 5324,
+        "wrong_bin_samples": 7730,
+        "wrong_bin_fraction": 0.8051244662014374,
+        "used_wrong_bin_samples": 7730,
+        "used_wrong_bin_fraction": 0.8051244662014374,
+        "receive_minus_rx_bin_offset": {
+          "n": 9601,
+          "min": 0,
+          "p50": 8,
+          "p95": 45,
+          "max": 58
+        }
+      },
+      "exporter_clock_diagnosis": {
+        "observed_uptime_step_gcd_ms": 1000,
+        "uptime_remainders_mod_1000_ms": [
+          0
+        ],
+        "uptime_span_seconds": 125.0,
+        "userspace_receive_span_seconds": 125.0967652797699,
+        "receive_minus_uptime_excess_above_run_min_seconds": {
+          "n": 2129,
+          "min": 0.0,
+          "p50": 1.5281147956848145,
+          "p95": 5.0749993324279785,
+          "max": 6.43817925453186
+        },
+        "interpretation": "Variation after exporter uptime stamping, including uptime quantization; does not isolate kernel queue versus loopback scheduling or infer packet event time."
+      },
+      "stages": [
+        {
+          "index": 0,
+          "family": "Benign",
+          "scheduled_start": 1.0,
+          "requested_pps": 100,
+          "actual_start": 1.0001356601715088,
+          "actual_end": 9.798648595809937,
+          "wall_duration_ratio": 1.0998141169548035,
+          "start_lateness_seconds": 0.00013566017150878906
+        },
+        {
+          "index": 1,
+          "family": "UDPFlood",
+          "scheduled_start": 11.0,
+          "requested_pps": 100,
+          "actual_start": 11.00014591217041,
+          "actual_end": 19.645848751068115,
+          "wall_duration_ratio": 1.0807128548622131,
+          "start_lateness_seconds": 0.00014591217041015625
+        },
+        {
+          "index": 2,
+          "family": "Benign",
+          "scheduled_start": 21.0,
+          "requested_pps": 100,
+          "actual_start": 21.00017023086548,
+          "actual_end": 29.86808466911316,
+          "wall_duration_ratio": 1.10848930478096,
+          "start_lateness_seconds": 0.00017023086547851562
+        },
+        {
+          "index": 3,
+          "family": "SYNFlood",
+          "scheduled_start": 31.0,
+          "requested_pps": 100,
+          "actual_start": 31.000112295150757,
+          "actual_end": 39.36541390419006,
+          "wall_duration_ratio": 1.0456627011299133,
+          "start_lateness_seconds": 0.00011229515075683594
+        },
+        {
+          "index": 4,
+          "family": "Benign",
+          "scheduled_start": 41.0,
+          "requested_pps": 100,
+          "actual_start": 41.00014328956604,
+          "actual_end": 49.920571088790894,
+          "wall_duration_ratio": 1.1150534749031067,
+          "start_lateness_seconds": 0.00014328956604003906
+        },
+        {
+          "index": 5,
+          "family": "UDPFlood",
+          "scheduled_start": 51.0,
+          "requested_pps": 100,
+          "actual_start": 51.000160932540894,
+          "actual_end": 59.502763986587524,
+          "wall_duration_ratio": 1.0628253817558289,
+          "start_lateness_seconds": 0.0001609325408935547
+        },
+        {
+          "index": 6,
+          "family": "Benign",
+          "scheduled_start": 61.0,
+          "requested_pps": 100,
+          "actual_start": 61.000160217285156,
+          "actual_end": 71.29940915107727,
+          "wall_duration_ratio": 1.2874061167240143,
+          "start_lateness_seconds": 0.00016021728515625
+        },
+        {
+          "index": 7,
+          "family": "SYNFlood",
+          "scheduled_start": 71.0,
+          "requested_pps": 100,
+          "actual_start": 71.59819269180298,
+          "actual_end": 80.06556820869446,
+          "wall_duration_ratio": 1.058421939611435,
+          "start_lateness_seconds": 0.5981926918029785
+        },
+        {
+          "index": 8,
+          "family": "Benign",
+          "scheduled_start": 81.0,
+          "requested_pps": 100,
+          "actual_start": 81.00011706352234,
+          "actual_end": 89.62085914611816,
+          "wall_duration_ratio": 1.0775927603244781,
+          "start_lateness_seconds": 0.00011706352233886719
+        },
+        {
+          "index": 9,
+          "family": "UDPFlood",
+          "scheduled_start": 91.0,
+          "requested_pps": 100,
+          "actual_start": 91.00033664703369,
+          "actual_end": 99.43436908721924,
+          "wall_duration_ratio": 1.0542540550231934,
+          "start_lateness_seconds": 0.00033664703369140625
+        },
+        {
+          "index": 10,
+          "family": "Benign",
+          "scheduled_start": 101.0,
+          "requested_pps": 100,
+          "actual_start": 101.00011038780212,
+          "actual_end": 111.99225521087646,
+          "wall_duration_ratio": 1.3740181028842926,
+          "start_lateness_seconds": 0.00011038780212402344
+        },
+        {
+          "index": 11,
+          "family": "SYNFlood",
+          "scheduled_start": 111.0,
+          "requested_pps": 100,
+          "actual_start": 112.09823393821716,
+          "actual_end": 120.5006492137909,
+          "wall_duration_ratio": 1.0503019094467163,
+          "start_lateness_seconds": 1.098233938217163
+        }
+      ]
+    },
+    {
+      "run_id": "ef6b6262c44e4f88aeb14797f1607467",
+      "scenario": "baseline",
+      "sampling_rate": 1,
+      "seed": 42,
+      "saved_f1": {
+        "value": 0.9922958397534669,
+        "unit": "ratio",
+        "status": "measured",
+        "reason": null
+      },
+      "source": "official_realtime_verified",
+      "status": "completed",
+      "accepted": true,
+      "settings": {
+        "origin_epoch": 1793172544,
+        "duration_seconds": 125,
+        "window_seconds": 0.1,
+        "warmup_seconds": 41.0,
+        "telemetry_clock": "userspace",
+        "naive_bayes": "log_space"
+      },
+      "inputs": {
+        "summary": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\ef6b6262c44e4f88aeb14797f1607467\\run_summary.json",
+          "sha256": "53099c744b9867fbbb9a647f4ad043e4767d6413a1b7b898be527d40707609eb",
+          "size_bytes": 13278
+        },
+        "features": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\ef6b6262c44e4f88aeb14797f1607467\\features.jsonl",
+          "sha256": "dc1ae9d3425d945e7454db6aff6509a84b6db7f44f4f2b50177708970fc3b5ec",
+          "size_bytes": 823439
+        },
+        "datagrams": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\ef6b6262c44e4f88aeb14797f1607467\\sflow.datagrams",
+          "sha256": "f4ae608e954292615560ae7d1dbcb0b290f29174d5353c8f0df6b9bdcaa409f0",
+          "size_bytes": 2468836
+        },
+        "execution": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_9e8a59f6e7174a5083476f2bb7c40788\\execution.json",
+          "sha256": "307997c65be232775d0a82ce73b4b30d6908ea89a8d40f36f5e4485a5e4dfe6c",
+          "size_bytes": 35763
+        },
+        "rx": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_9e8a59f6e7174a5083476f2bb7c40788\\rx.pcap",
+          "sha256": "a023147e0794d754829e32d50d4a89f1ccff3d3a81f914349ed12da3a699405d",
+          "size_bytes": 6124645
+        },
+        "oracle_health": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_9e8a59f6e7174a5083476f2bb7c40788\\truth\\health.json",
+          "sha256": "47317c8cdcd14ce016ba5269050cd67abe19239812301debe7fb69a94f955029",
+          "size_bytes": 98
+        }
+      },
+      "saved_counts": {
+        "input": 9601,
+        "sampled": 9601,
+        "evaluated": 644,
+        "warmup": 324,
+        "excluded": 0,
+        "unlabeled": 282
+      },
+      "windows": {
+        "total": 1250,
+        "scored": 644,
+        "scored_empty": 11,
+        "wrong": 5,
+        "wrong_empty": 2,
+        "warmup_sample_pps": {
+          "n": 324,
+          "min": 0.0,
+          "p50": 90.0,
+          "p95": 130.0,
+          "max": 200.0
+        },
+        "evaluation_sample_pps": {
+          "n": 644,
+          "min": 0.0,
+          "p50": 90.0,
+          "p95": 140.0,
+          "max": 200.0
+        },
+        "prediction_completion_lag_seconds": {
+          "n": 1250,
+          "min": 0.5000768184661863,
+          "p50": 0.5042750835418666,
+          "p95": 0.5100926876068144,
+          "max": 0.5452867031097384
+        },
+        "feature_bins_disagreeing_with_raw_receive_time": 0
+      },
+      "observation": {
+        "raw_samples": 9601,
+        "datagrams": 2130,
+        "samples_before_origin": 0,
+        "samples_read_at_or_after_fixed_end": 0,
+        "samples_per_datagram": {
+          "n": 2130,
+          "min": 0,
+          "p50": 3,
+          "p95": 10,
+          "max": 10
+        },
+        "datagram_gap_seconds": {
+          "n": 2129,
+          "min": 0.0011107921600341797,
+          "p50": 0.030310869216918945,
+          "p95": 0.10023260116577148,
+          "max": 1.001896619796753
+        },
+        "sequence_gaps": 0,
+        "first_sequence": 28,
+        "last_sequence": 2157
+      },
+      "rx_prefix_diagnosis": {
+        "unambiguous_sample_matches": 9601,
+        "unmatched_samples": 0,
+        "ambiguous_samples": 0,
+        "unsupported_non_ethernet_samples": 0,
+        "indexed_header_lengths": [
+          42,
+          54,
+          58,
+          60,
+          62,
+          63,
+          64,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          81,
+          82,
+          89,
+          90,
+          91,
+          99,
+          102,
+          104,
+          105,
+          115,
+          116,
+          118,
+          121,
+          122,
+          126,
+          128,
+          139,
+          142,
+          143,
+          150,
+          158,
+          162,
+          163,
+          170,
+          199,
+          209,
+          210,
+          217,
+          230,
+          231,
+          240,
+          241,
+          247,
+          251,
+          252,
+          256
+        ],
+        "rx_packets": 9600,
+        "rx_distinct_frames": 9600,
+        "covered_distinct_rx_frames": 9600,
+        "missing_distinct_rx_frames": 0,
+        "missing_rx_occurrences": 0,
+        "missing_rx_relative_time_min": null,
+        "missing_rx_relative_time_max": null,
+        "additional_duplicate_samples": 1,
+        "coverage_unambiguous": true,
+        "all_sample_delays_seconds": {
+          "n": 9601,
+          "min": -3.743171691894531e-05,
+          "p50": 0.030159950256347656,
+          "p95": 0.09033679962158203,
+          "max": 0.1700286865234375
+        },
+        "used_sample_delays_seconds": {
+          "n": 9601,
+          "min": -3.743171691894531e-05,
+          "p50": 0.030159950256347656,
+          "p95": 0.09033679962158203,
+          "max": 0.1700286865234375
+        },
+        "samples_delayed_over_half_second": 0,
+        "wrong_bin_samples": 3724,
+        "wrong_bin_fraction": 0.38787626288928234,
+        "used_wrong_bin_samples": 3724,
+        "used_wrong_bin_fraction": 0.38787626288928234,
+        "receive_minus_rx_bin_offset": {
+          "n": 9601,
+          "min": 0,
+          "p50": 0,
+          "p95": 1,
+          "max": 2
+        }
+      },
+      "exporter_clock_diagnosis": {
+        "observed_uptime_step_gcd_ms": 1000,
+        "uptime_remainders_mod_1000_ms": [
+          0
+        ],
+        "uptime_span_seconds": 125.0,
+        "userspace_receive_span_seconds": 125.00085973739624,
+        "receive_minus_uptime_excess_above_run_min_seconds": {
+          "n": 2130,
+          "min": 0.0,
+          "p50": 0.4587862491607666,
+          "p95": 0.9484713077545166,
+          "max": 1.0991804599761963
+        },
+        "interpretation": "Variation after exporter uptime stamping, including uptime quantization; does not isolate kernel queue versus loopback scheduling or infer packet event time."
+      },
+      "stages": [
+        {
+          "index": 0,
+          "family": "Benign",
+          "scheduled_start": 1.0,
+          "requested_pps": 100,
+          "actual_start": 1.0003092288970947,
+          "actual_end": 9.183610200881958,
+          "wall_duration_ratio": 1.022912621498108,
+          "start_lateness_seconds": 0.00030922889709472656
+        },
+        {
+          "index": 1,
+          "family": "UDPFlood",
+          "scheduled_start": 11.0,
+          "requested_pps": 100,
+          "actual_start": 11.000291109085083,
+          "actual_end": 19.19029450416565,
+          "wall_duration_ratio": 1.0237504243850708,
+          "start_lateness_seconds": 0.0002911090850830078
+        },
+        {
+          "index": 2,
+          "family": "Benign",
+          "scheduled_start": 21.0,
+          "requested_pps": 100,
+          "actual_start": 21.000443935394287,
+          "actual_end": 29.17149543762207,
+          "wall_duration_ratio": 1.021381437778473,
+          "start_lateness_seconds": 0.0004439353942871094
+        },
+        {
+          "index": 3,
+          "family": "SYNFlood",
+          "scheduled_start": 31.0,
+          "requested_pps": 100,
+          "actual_start": 31.000321626663208,
+          "actual_end": 39.22024130821228,
+          "wall_duration_ratio": 1.027489960193634,
+          "start_lateness_seconds": 0.0003216266632080078
+        },
+        {
+          "index": 4,
+          "family": "Benign",
+          "scheduled_start": 41.0,
+          "requested_pps": 100,
+          "actual_start": 41.00035810470581,
+          "actual_end": 49.15969181060791,
+          "wall_duration_ratio": 1.0199167132377625,
+          "start_lateness_seconds": 0.0003581047058105469
+        },
+        {
+          "index": 5,
+          "family": "UDPFlood",
+          "scheduled_start": 51.0,
+          "requested_pps": 100,
+          "actual_start": 51.000450134277344,
+          "actual_end": 59.20366954803467,
+          "wall_duration_ratio": 1.0254024267196655,
+          "start_lateness_seconds": 0.00045013427734375
+        },
+        {
+          "index": 6,
+          "family": "Benign",
+          "scheduled_start": 61.0,
+          "requested_pps": 100,
+          "actual_start": 61.00033402442932,
+          "actual_end": 69.19190287590027,
+          "wall_duration_ratio": 1.0239461064338684,
+          "start_lateness_seconds": 0.00033402442932128906
+        },
+        {
+          "index": 7,
+          "family": "SYNFlood",
+          "scheduled_start": 71.0,
+          "requested_pps": 100,
+          "actual_start": 71.0003182888031,
+          "actual_end": 79.17400121688843,
+          "wall_duration_ratio": 1.021710366010666,
+          "start_lateness_seconds": 0.00031828880310058594
+        },
+        {
+          "index": 8,
+          "family": "Benign",
+          "scheduled_start": 81.0,
+          "requested_pps": 100,
+          "actual_start": 81.00032329559326,
+          "actual_end": 89.19508337974548,
+          "wall_duration_ratio": 1.0243450105190277,
+          "start_lateness_seconds": 0.00032329559326171875
+        },
+        {
+          "index": 9,
+          "family": "UDPFlood",
+          "scheduled_start": 91.0,
+          "requested_pps": 100,
+          "actual_start": 91.0003457069397,
+          "actual_end": 99.18200159072876,
+          "wall_duration_ratio": 1.0227069854736328,
+          "start_lateness_seconds": 0.0003457069396972656
+        },
+        {
+          "index": 10,
+          "family": "Benign",
+          "scheduled_start": 101.0,
+          "requested_pps": 100,
+          "actual_start": 101.00025844573975,
+          "actual_end": 109.19170999526978,
+          "wall_duration_ratio": 1.0239314436912537,
+          "start_lateness_seconds": 0.00025844573974609375
+        },
+        {
+          "index": 11,
+          "family": "SYNFlood",
+          "scheduled_start": 111.0,
+          "requested_pps": 100,
+          "actual_start": 111.00028777122498,
+          "actual_end": 119.17521929740906,
+          "wall_duration_ratio": 1.0218664407730103,
+          "start_lateness_seconds": 0.00028777122497558594
+        }
+      ]
+    },
+    {
+      "run_id": "4580fd2c59ef4fc0ac76377793004752",
+      "scenario": "drift",
+      "sampling_rate": 1,
+      "seed": 44,
+      "saved_f1": {
+        "value": 0.6016597510373444,
+        "unit": "ratio",
+        "status": "measured",
+        "reason": null
+      },
+      "source": "official_realtime_verified",
+      "status": "completed",
+      "accepted": true,
+      "settings": {
+        "origin_epoch": 1793175506,
+        "duration_seconds": 117,
+        "window_seconds": 0.1,
+        "warmup_seconds": 41.0,
+        "telemetry_clock": "userspace",
+        "naive_bayes": "log_space"
+      },
+      "inputs": {
+        "summary": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\4580fd2c59ef4fc0ac76377793004752\\run_summary.json",
+          "sha256": "7b25058080d87d444f800e3d58a8618ad08924da1b92fc2a1ddbc51121736ac2",
+          "size_bytes": 14395
+        },
+        "features": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\4580fd2c59ef4fc0ac76377793004752\\features.jsonl",
+          "sha256": "8d8fe893d5d98156e91cf6233709bac3c4445ad8fa4ffbd1b4b21f3c794a22a7",
+          "size_bytes": 770143
+        },
+        "datagrams": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\4580fd2c59ef4fc0ac76377793004752\\sflow.datagrams",
+          "sha256": "8fece20f9ec20b2cf4acd57eec74a9856e6485e1d7f3b5c492d7af11c30dd3b4",
+          "size_bytes": 1730616
+        },
+        "execution": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_3701945e8c5d425ea0a0de8fc941c570\\execution.json",
+          "sha256": "ec37e16ceaf6f7d972ed7d3d47986a6717dd16fbc6ee3ced008dd0ac440cb679",
+          "size_bytes": 44443
+        },
+        "rx": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_3701945e8c5d425ea0a0de8fc941c570\\rx.pcap",
+          "sha256": "eeba3ae36060122b44127358c0c32892191617d30d3fda3e06ee4565752b8f4d",
+          "size_bytes": 5017406
+        },
+        "oracle_health": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_3701945e8c5d425ea0a0de8fc941c570\\truth\\health.json",
+          "sha256": "a7892c92786c0fcaa88368fa17b61f159ed6e5487e530a86f399b01e0f4e8f27",
+          "size_bytes": 98
+        }
+      },
+      "saved_counts": {
+        "input": 6813,
+        "sampled": 6745,
+        "evaluated": 492,
+        "warmup": 324,
+        "excluded": 0,
+        "unlabeled": 354
+      },
+      "windows": {
+        "total": 1170,
+        "scored": 492,
+        "scored_empty": 224,
+        "wrong": 192,
+        "wrong_empty": 98,
+        "warmup_sample_pps": {
+          "n": 324,
+          "min": 0.0,
+          "p50": 100.0,
+          "p95": 210.0,
+          "max": 660.0
+        },
+        "evaluation_sample_pps": {
+          "n": 492,
+          "min": 0.0,
+          "p50": 30.0,
+          "p95": 200.0,
+          "max": 1600.0
+        },
+        "prediction_completion_lag_seconds": {
+          "n": 1170,
+          "min": 0.5001366138458252,
+          "p50": 0.5170448303222628,
+          "p95": 0.707503080368042,
+          "max": 0.8482963085174546
+        },
+        "feature_bins_disagreeing_with_raw_receive_time": 0
+      },
+      "observation": {
+        "raw_samples": 6813,
+        "datagrams": 1500,
+        "samples_before_origin": 0,
+        "samples_read_at_or_after_fixed_end": 68,
+        "samples_per_datagram": {
+          "n": 1500,
+          "min": 0,
+          "p50": 3,
+          "p95": 10,
+          "max": 10
+        },
+        "datagram_gap_seconds": {
+          "n": 1499,
+          "min": 0.0007569789886474609,
+          "p50": 0.030122756958007812,
+          "p95": 0.3725767135620117,
+          "max": 1.0173180103302002
+        },
+        "sequence_gaps": 0,
+        "first_sequence": 29,
+        "last_sequence": 1528
+      },
+      "rx_prefix_diagnosis": {
+        "unambiguous_sample_matches": 6813,
+        "unmatched_samples": 0,
+        "ambiguous_samples": 0,
+        "unsupported_non_ethernet_samples": 0,
+        "indexed_header_lengths": [
+          42,
+          60,
+          62,
+          63,
+          64,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          80,
+          81,
+          82,
+          85,
+          86,
+          99,
+          104,
+          105,
+          107,
+          115,
+          116,
+          117,
+          119,
+          121,
+          122,
+          126,
+          127,
+          128,
+          133,
+          135,
+          140,
+          155,
+          157,
+          158,
+          162,
+          186,
+          207,
+          209,
+          210,
+          211,
+          217,
+          218,
+          225,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          239,
+          240,
+          250,
+          256
+        ],
+        "rx_packets": 8000,
+        "rx_distinct_frames": 8000,
+        "covered_distinct_rx_frames": 6812,
+        "missing_distinct_rx_frames": 1188,
+        "missing_rx_occurrences": 1188,
+        "missing_rx_relative_time_min": 89.57122206687927,
+        "missing_rx_relative_time_max": 111.44476795196533,
+        "additional_duplicate_samples": 1,
+        "coverage_unambiguous": true,
+        "all_sample_delays_seconds": {
+          "n": 6813,
+          "min": -5.269050598144531e-05,
+          "p50": 4.513302803039551,
+          "p95": 28.71200442314148,
+          "max": 30.603198766708374
+        },
+        "used_sample_delays_seconds": {
+          "n": 6745,
+          "min": -5.269050598144531e-05,
+          "p50": 4.182077884674072,
+          "p95": 28.00179409980774,
+          "max": 30.603198766708374
+        },
+        "samples_delayed_over_half_second": 3849,
+        "wrong_bin_samples": 5586,
+        "wrong_bin_fraction": 0.8199031263760458,
+        "used_wrong_bin_samples": 5518,
+        "used_wrong_bin_fraction": 0.8180874722016308,
+        "receive_minus_rx_bin_offset": {
+          "n": 6813,
+          "min": 0,
+          "p50": 45,
+          "p95": 287,
+          "max": 306
+        }
+      },
+      "exporter_clock_diagnosis": {
+        "observed_uptime_step_gcd_ms": 1000,
+        "uptime_remainders_mod_1000_ms": [
+          0
+        ],
+        "uptime_span_seconds": 89.0,
+        "userspace_receive_span_seconds": 117.73947834968567,
+        "receive_minus_uptime_excess_above_run_min_seconds": {
+          "n": 1500,
+          "min": 0.0,
+          "p50": 4.3424973487854,
+          "p95": 29.331708669662476,
+          "max": 30.951029539108276
+        },
+        "interpretation": "Variation after exporter uptime stamping, including uptime quantization; does not isolate kernel queue versus loopback scheduling or infer packet event time."
+      },
+      "stages": [
+        {
+          "index": 0,
+          "family": "Benign",
+          "scheduled_start": 1.0,
+          "requested_pps": 100,
+          "actual_start": 1.0001797676086426,
+          "actual_end": 9.293561935424805,
+          "wall_duration_ratio": 1.0366727709770203,
+          "start_lateness_seconds": 0.00017976760864257812
+        },
+        {
+          "index": 1,
+          "family": "UDPFlood",
+          "scheduled_start": 11.0,
+          "requested_pps": 100,
+          "actual_start": 11.000145196914673,
+          "actual_end": 19.66917085647583,
+          "wall_duration_ratio": 1.0836282074451447,
+          "start_lateness_seconds": 0.00014519691467285156
+        },
+        {
+          "index": 2,
+          "family": "Benign",
+          "scheduled_start": 21.0,
+          "requested_pps": 100,
+          "actual_start": 21.00033736228943,
+          "actual_end": 29.561041116714478,
+          "wall_duration_ratio": 1.070087969303131,
+          "start_lateness_seconds": 0.00033736228942871094
+        },
+        {
+          "index": 3,
+          "family": "UDPFlood",
+          "scheduled_start": 31.0,
+          "requested_pps": 100,
+          "actual_start": 31.00019145011902,
+          "actual_end": 39.39587450027466,
+          "wall_duration_ratio": 1.049460381269455,
+          "start_lateness_seconds": 0.0001914501190185547
+        },
+        {
+          "index": 4,
+          "family": "Benign",
+          "scheduled_start": 41.0,
+          "requested_pps": 100,
+          "actual_start": 41.00030851364136,
+          "actual_end": 49.63772177696228,
+          "wall_duration_ratio": 1.0796766579151154,
+          "start_lateness_seconds": 0.0003085136413574219
+        },
+        {
+          "index": 5,
+          "family": "UDPFlood",
+          "scheduled_start": 51.0,
+          "requested_pps": 100,
+          "actual_start": 51.000258445739746,
+          "actual_end": 59.77042603492737,
+          "wall_duration_ratio": 1.0962709486484528,
+          "start_lateness_seconds": 0.00025844573974609375
+        },
+        {
+          "index": 6,
+          "family": "Benign",
+          "scheduled_start": 61.0,
+          "requested_pps": 100,
+          "actual_start": 61.000404596328735,
+          "actual_end": 69.72776079177856,
+          "wall_duration_ratio": 1.0909195244312286,
+          "start_lateness_seconds": 0.00040459632873535156
+        },
+        {
+          "index": 7,
+          "family": "UDPFlood",
+          "scheduled_start": 71.0,
+          "requested_pps": 100,
+          "actual_start": 71.00031518936157,
+          "actual_end": 79.68859624862671,
+          "wall_duration_ratio": 1.086035132408142,
+          "start_lateness_seconds": 0.0003151893615722656
+        },
+        {
+          "index": 8,
+          "family": "Benign",
+          "scheduled_start": 81.0,
+          "requested_pps": 100,
+          "actual_start": 81.00013613700867,
+          "actual_end": 83.74871015548706,
+          "wall_duration_ratio": 1.3742870092391968,
+          "start_lateness_seconds": 0.0001361370086669922
+        },
+        {
+          "index": 9,
+          "family": "ICMPFlood",
+          "scheduled_start": 85.0,
+          "requested_pps": 100,
+          "actual_start": 85.00029015541077,
+          "actual_end": 87.73233771324158,
+          "wall_duration_ratio": 1.3660237789154053,
+          "start_lateness_seconds": 0.00029015541076660156
+        },
+        {
+          "index": 10,
+          "family": "Benign",
+          "scheduled_start": 89.0,
+          "requested_pps": 100,
+          "actual_start": 89.00022649765015,
+          "actual_end": 91.6353862285614,
+          "wall_duration_ratio": 1.3175798654556274,
+          "start_lateness_seconds": 0.00022649765014648438
+        },
+        {
+          "index": 11,
+          "family": "ICMPFlood",
+          "scheduled_start": 93.0,
+          "requested_pps": 100,
+          "actual_start": 93.00029063224792,
+          "actual_end": 95.72160482406616,
+          "wall_duration_ratio": 1.3606570959091187,
+          "start_lateness_seconds": 0.0002906322479248047
+        },
+        {
+          "index": 12,
+          "family": "Benign",
+          "scheduled_start": 97.0,
+          "requested_pps": 100,
+          "actual_start": 97.00029969215393,
+          "actual_end": 99.69069051742554,
+          "wall_duration_ratio": 1.3451954126358032,
+          "start_lateness_seconds": 0.00029969215393066406
+        },
+        {
+          "index": 13,
+          "family": "ICMPFlood",
+          "scheduled_start": 101.0,
+          "requested_pps": 100,
+          "actual_start": 101.00019311904907,
+          "actual_end": 103.64679455757141,
+          "wall_duration_ratio": 1.3233007192611694,
+          "start_lateness_seconds": 0.00019311904907226562
+        },
+        {
+          "index": 14,
+          "family": "Benign",
+          "scheduled_start": 105.0,
+          "requested_pps": 100,
+          "actual_start": 105.00036358833313,
+          "actual_end": 107.70816373825073,
+          "wall_duration_ratio": 1.3539000749588013,
+          "start_lateness_seconds": 0.0003635883331298828
+        },
+        {
+          "index": 15,
+          "family": "ICMPFlood",
+          "scheduled_start": 109.0,
+          "requested_pps": 100,
+          "actual_start": 109.00018835067749,
+          "actual_end": 111.69299507141113,
+          "wall_duration_ratio": 1.3464033603668213,
+          "start_lateness_seconds": 0.00018835067749023438
+        }
+      ]
+    },
+    {
+      "run_id": "7314798c3ae5416ca0d8032764b318f3",
+      "scenario": "drift",
+      "sampling_rate": 1,
+      "seed": 42,
+      "saved_f1": {
+        "value": 0.7867647058823529,
+        "unit": "ratio",
+        "status": "measured",
+        "reason": null
+      },
+      "source": "official_realtime_verified",
+      "status": "completed",
+      "accepted": true,
+      "settings": {
+        "origin_epoch": 1793173883,
+        "duration_seconds": 117,
+        "window_seconds": 0.1,
+        "warmup_seconds": 41.0,
+        "telemetry_clock": "userspace",
+        "naive_bayes": "log_space"
+      },
+      "inputs": {
+        "summary": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\7314798c3ae5416ca0d8032764b318f3\\run_summary.json",
+          "sha256": "2efe717dfcf384a65d0e51620f63249da688ebaf982184a3198bc275d544ce34",
+          "size_bytes": 14316
+        },
+        "features": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\7314798c3ae5416ca0d8032764b318f3\\features.jsonl",
+          "sha256": "62d99f704cb2a87ebd9044c9944a4cfc30b24fd3cc38d3aa7cece7357529caa0",
+          "size_bytes": 771031
+        },
+        "datagrams": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\7314798c3ae5416ca0d8032764b318f3\\sflow.datagrams",
+          "sha256": "47eaae3149a44215bdb6ecd255b37d07a266874978b633980b005b501a272e78",
+          "size_bytes": 1972780
+        },
+        "execution": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_b1a1caad304040b2b7282f23bddaedc4\\execution.json",
+          "sha256": "7566b4f424a22af71ee5e842af1291d65180e5d13b6298f3f7fc8f863741f406",
+          "size_bytes": 44473
+        },
+        "rx": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_b1a1caad304040b2b7282f23bddaedc4\\rx.pcap",
+          "sha256": "c6efacba7b2965e7046f9e3c157f9ae39dc9bc0cff3e54a9b89b5e74375e14b9",
+          "size_bytes": 5017406
+        },
+        "oracle_health": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_b1a1caad304040b2b7282f23bddaedc4\\truth\\health.json",
+          "sha256": "a7892c92786c0fcaa88368fa17b61f159ed6e5487e530a86f399b01e0f4e8f27",
+          "size_bytes": 98
+        }
+      },
+      "saved_counts": {
+        "input": 7728,
+        "sampled": 7702,
+        "evaluated": 504,
+        "warmup": 323,
+        "excluded": 0,
+        "unlabeled": 343
+      },
+      "windows": {
+        "total": 1170,
+        "scored": 504,
+        "scored_empty": 275,
+        "wrong": 116,
+        "wrong_empty": 82,
+        "warmup_sample_pps": {
+          "n": 323,
+          "min": 0.0,
+          "p50": 100.0,
+          "p95": 140.0,
+          "max": 1720.0
+        },
+        "evaluation_sample_pps": {
+          "n": 504,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 130.0,
+          "max": 2700.0
+        },
+        "prediction_completion_lag_seconds": {
+          "n": 1170,
+          "min": 0.5002385616302547,
+          "p50": 0.5126767635345431,
+          "p95": 3.031835126876828,
+          "max": 4.755354785919195
+        },
+        "feature_bins_disagreeing_with_raw_receive_time": 0
+      },
+      "observation": {
+        "raw_samples": 7728,
+        "datagrams": 1710,
+        "samples_before_origin": 0,
+        "samples_read_at_or_after_fixed_end": 26,
+        "samples_per_datagram": {
+          "n": 1710,
+          "min": 0,
+          "p50": 3,
+          "p95": 10,
+          "max": 10
+        },
+        "datagram_gap_seconds": {
+          "n": 1709,
+          "min": 0.0007126331329345703,
+          "p50": 0.024241924285888672,
+          "p95": 0.15496253967285156,
+          "max": 3.7417681217193604
+        },
+        "sequence_gaps": 0,
+        "first_sequence": 29,
+        "last_sequence": 1738
+      },
+      "rx_prefix_diagnosis": {
+        "unambiguous_sample_matches": 7728,
+        "unmatched_samples": 0,
+        "ambiguous_samples": 0,
+        "unsupported_non_ethernet_samples": 0,
+        "indexed_header_lengths": [
+          42,
+          60,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          80,
+          81,
+          82,
+          85,
+          86,
+          99,
+          104,
+          105,
+          107,
+          115,
+          116,
+          117,
+          119,
+          121,
+          122,
+          126,
+          127,
+          128,
+          133,
+          135,
+          140,
+          155,
+          157,
+          158,
+          162,
+          163,
+          186,
+          207,
+          209,
+          210,
+          211,
+          217,
+          218,
+          225,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          239,
+          240,
+          250,
+          256
+        ],
+        "rx_packets": 8000,
+        "rx_distinct_frames": 8000,
+        "covered_distinct_rx_frames": 7726,
+        "missing_distinct_rx_frames": 274,
+        "missing_rx_occurrences": 274,
+        "missing_rx_relative_time_min": 107.039381980896,
+        "missing_rx_relative_time_max": 111.61894488334656,
+        "additional_duplicate_samples": 2,
+        "coverage_unambiguous": true,
+        "all_sample_delays_seconds": {
+          "n": 7728,
+          "min": -0.0001780986785888672,
+          "p50": 0.12699127197265625,
+          "p95": 3.2920165061950684,
+          "max": 10.894978523254395
+        },
+        "used_sample_delays_seconds": {
+          "n": 7702,
+          "min": -0.0001780986785888672,
+          "p50": 0.12204980850219727,
+          "p95": 3.2075276374816895,
+          "max": 7.225696563720703
+        },
+        "samples_delayed_over_half_second": 3341,
+        "wrong_bin_samples": 5718,
+        "wrong_bin_fraction": 0.7399068322981367,
+        "used_wrong_bin_samples": 5692,
+        "used_wrong_bin_fraction": 0.7390288236821605,
+        "receive_minus_rx_bin_offset": {
+          "n": 7728,
+          "min": 0,
+          "p50": 1,
+          "p95": 33,
+          "max": 109
+        }
+      },
+      "exporter_clock_diagnosis": {
+        "observed_uptime_step_gcd_ms": 1000,
+        "uptime_remainders_mod_1000_ms": [
+          0
+        ],
+        "uptime_span_seconds": 106.0,
+        "userspace_receive_span_seconds": 116.30008697509766,
+        "receive_minus_uptime_excess_above_run_min_seconds": {
+          "n": 1710,
+          "min": 0.0,
+          "p50": 0.8511841297149658,
+          "p95": 3.351670503616333,
+          "max": 11.746554613113403
+        },
+        "interpretation": "Variation after exporter uptime stamping, including uptime quantization; does not isolate kernel queue versus loopback scheduling or infer packet event time."
+      },
+      "stages": [
+        {
+          "index": 0,
+          "family": "Benign",
+          "scheduled_start": 1.0,
+          "requested_pps": 100,
+          "actual_start": 1.0001633167266846,
+          "actual_end": 10.005286931991577,
+          "wall_duration_ratio": 1.1256404519081116,
+          "start_lateness_seconds": 0.0001633167266845703
+        },
+        {
+          "index": 1,
+          "family": "UDPFlood",
+          "scheduled_start": 11.0,
+          "requested_pps": 100,
+          "actual_start": 11.00018310546875,
+          "actual_end": 19.364370584487915,
+          "wall_duration_ratio": 1.0455234348773956,
+          "start_lateness_seconds": 0.00018310546875
+        },
+        {
+          "index": 2,
+          "family": "Benign",
+          "scheduled_start": 21.0,
+          "requested_pps": 100,
+          "actual_start": 21.000242471694946,
+          "actual_end": 29.20265555381775,
+          "wall_duration_ratio": 1.0253016352653503,
+          "start_lateness_seconds": 0.00024247169494628906
+        },
+        {
+          "index": 3,
+          "family": "UDPFlood",
+          "scheduled_start": 31.0,
+          "requested_pps": 100,
+          "actual_start": 31.00019598007202,
+          "actual_end": 39.15768527984619,
+          "wall_duration_ratio": 1.0196861624717712,
+          "start_lateness_seconds": 0.00019598007202148438
+        },
+        {
+          "index": 4,
+          "family": "Benign",
+          "scheduled_start": 41.0,
+          "requested_pps": 100,
+          "actual_start": 41.00017261505127,
+          "actual_end": 49.18681716918945,
+          "wall_duration_ratio": 1.023330569267273,
+          "start_lateness_seconds": 0.00017261505126953125
+        },
+        {
+          "index": 5,
+          "family": "UDPFlood",
+          "scheduled_start": 51.0,
+          "requested_pps": 100,
+          "actual_start": 51.00027394294739,
+          "actual_end": 59.16910696029663,
+          "wall_duration_ratio": 1.0211041271686554,
+          "start_lateness_seconds": 0.0002739429473876953
+        },
+        {
+          "index": 6,
+          "family": "Benign",
+          "scheduled_start": 61.0,
+          "requested_pps": 100,
+          "actual_start": 61.00018858909607,
+          "actual_end": 69.79748201370239,
+          "wall_duration_ratio": 1.0996616780757904,
+          "start_lateness_seconds": 0.00018858909606933594
+        },
+        {
+          "index": 7,
+          "family": "UDPFlood",
+          "scheduled_start": 71.0,
+          "requested_pps": 100,
+          "actual_start": 71.00023555755615,
+          "actual_end": 79.62240648269653,
+          "wall_duration_ratio": 1.0777713656425476,
+          "start_lateness_seconds": 0.00023555755615234375
+        },
+        {
+          "index": 8,
+          "family": "Benign",
+          "scheduled_start": 81.0,
+          "requested_pps": 100,
+          "actual_start": 81.00015139579773,
+          "actual_end": 83.49972796440125,
+          "wall_duration_ratio": 1.2497882843017578,
+          "start_lateness_seconds": 0.0001513957977294922
+        },
+        {
+          "index": 9,
+          "family": "ICMPFlood",
+          "scheduled_start": 85.0,
+          "requested_pps": 100,
+          "actual_start": 85.00014352798462,
+          "actual_end": 88.01502132415771,
+          "wall_duration_ratio": 1.5074388980865479,
+          "start_lateness_seconds": 0.00014352798461914062
+        },
+        {
+          "index": 10,
+          "family": "Benign",
+          "scheduled_start": 89.0,
+          "requested_pps": 100,
+          "actual_start": 89.00020837783813,
+          "actual_end": 91.59487509727478,
+          "wall_duration_ratio": 1.2973333597183228,
+          "start_lateness_seconds": 0.00020837783813476562
+        },
+        {
+          "index": 11,
+          "family": "ICMPFlood",
+          "scheduled_start": 93.0,
+          "requested_pps": 100,
+          "actual_start": 93.00029134750366,
+          "actual_end": 95.71352434158325,
+          "wall_duration_ratio": 1.356616497039795,
+          "start_lateness_seconds": 0.0002913475036621094
+        },
+        {
+          "index": 12,
+          "family": "Benign",
+          "scheduled_start": 97.0,
+          "requested_pps": 100,
+          "actual_start": 97.00018000602722,
+          "actual_end": 99.96426248550415,
+          "wall_duration_ratio": 1.4820412397384644,
+          "start_lateness_seconds": 0.0001800060272216797
+        },
+        {
+          "index": 13,
+          "family": "ICMPFlood",
+          "scheduled_start": 101.0,
+          "requested_pps": 100,
+          "actual_start": 101.00019454956055,
+          "actual_end": 103.35085034370422,
+          "wall_duration_ratio": 1.1753278970718384,
+          "start_lateness_seconds": 0.000194549560546875
+        },
+        {
+          "index": 14,
+          "family": "Benign",
+          "scheduled_start": 105.0,
+          "requested_pps": 100,
+          "actual_start": 105.00013279914856,
+          "actual_end": 108.68163013458252,
+          "wall_duration_ratio": 1.84074866771698,
+          "start_lateness_seconds": 0.0001327991485595703
+        },
+        {
+          "index": 15,
+          "family": "ICMPFlood",
+          "scheduled_start": 109.0,
+          "requested_pps": 100,
+          "actual_start": 109.00009799003601,
+          "actual_end": 112.02895426750183,
+          "wall_duration_ratio": 1.5144281387329102,
+          "start_lateness_seconds": 9.799003601074219e-05
+        }
+      ]
+    },
+    {
+      "run_id": "4a96a47739da454ab97f558e6601ba77",
+      "scenario": "drift",
+      "sampling_rate": 1,
+      "seed": 43,
+      "saved_f1": {
+        "value": 0.9878542510121457,
+        "unit": "ratio",
+        "status": "measured",
+        "reason": null
+      },
+      "source": "official_realtime_verified",
+      "status": "completed",
+      "accepted": true,
+      "settings": {
+        "origin_epoch": 1793166273,
+        "duration_seconds": 117,
+        "window_seconds": 0.1,
+        "warmup_seconds": 41.0,
+        "telemetry_clock": "userspace",
+        "naive_bayes": "log_space"
+      },
+      "inputs": {
+        "summary": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\4a96a47739da454ab97f558e6601ba77\\run_summary.json",
+          "sha256": "010df6791e6107d9061b1cc3db24e50a5ee317100bcb4fa1bef1e18251d151d1",
+          "size_bytes": 14315
+        },
+        "features": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\4a96a47739da454ab97f558e6601ba77\\features.jsonl",
+          "sha256": "8d3ab7a24b1812cd16d61e2e54c3e79b7a8de6834bbeab063fb72ca9f51cae4c",
+          "size_bytes": 763696
+        },
+        "datagrams": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\4a96a47739da454ab97f558e6601ba77\\sflow.datagrams",
+          "sha256": "37e763986b721d8fcb5e07f8e93b962d5beea69099271e9ba30de9f7b44aa61f",
+          "size_bytes": 2038492
+        },
+        "execution": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_20bda6dd355e47d2acc27adf8a719fe5\\execution.json",
+          "sha256": "6181dfc60d3db9ef182b990326355de9d2e9e142aebdee6b716b1f70bb8910d5",
+          "size_bytes": 44443
+        },
+        "rx": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_20bda6dd355e47d2acc27adf8a719fe5\\rx.pcap",
+          "sha256": "29d944d6cd8775486e6168db6cf6342454ba715a07ba0f8c4d3ba5bee195ce9f",
+          "size_bytes": 5017406
+        },
+        "oracle_health": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_20bda6dd355e47d2acc27adf8a719fe5\\truth\\health.json",
+          "sha256": "a7892c92786c0fcaa88368fa17b61f159ed6e5487e530a86f399b01e0f4e8f27",
+          "size_bytes": 98
+        }
+      },
+      "saved_counts": {
+        "input": 8001,
+        "sampled": 8001,
+        "evaluated": 492,
+        "warmup": 323,
+        "excluded": 0,
+        "unlabeled": 355
+      },
+      "windows": {
+        "total": 1170,
+        "scored": 492,
+        "scored_empty": 16,
+        "wrong": 6,
+        "wrong_empty": 4,
+        "warmup_sample_pps": {
+          "n": 323,
+          "min": 0.0,
+          "p50": 100.0,
+          "p95": 120.0,
+          "max": 160.0
+        },
+        "evaluation_sample_pps": {
+          "n": 492,
+          "min": 0.0,
+          "p50": 100.0,
+          "p95": 120.0,
+          "max": 150.0
+        },
+        "prediction_completion_lag_seconds": {
+          "n": 1170,
+          "min": 0.500095319747925,
+          "p50": 0.5056776523590045,
+          "p95": 0.5100791454315114,
+          "max": 0.5213150024414119
+        },
+        "feature_bins_disagreeing_with_raw_receive_time": 0
+      },
+      "observation": {
+        "raw_samples": 8001,
+        "datagrams": 1767,
+        "samples_before_origin": 0,
+        "samples_read_at_or_after_fixed_end": 0,
+        "samples_per_datagram": {
+          "n": 1767,
+          "min": 0,
+          "p50": 3,
+          "p95": 10,
+          "max": 10
+        },
+        "datagram_gap_seconds": {
+          "n": 1766,
+          "min": 0.0008535385131835938,
+          "p50": 0.030414342880249023,
+          "p95": 0.10062813758850098,
+          "max": 1.0005788803100586
+        },
+        "sequence_gaps": 0,
+        "first_sequence": 29,
+        "last_sequence": 1795
+      },
+      "rx_prefix_diagnosis": {
+        "unambiguous_sample_matches": 8001,
+        "unmatched_samples": 0,
+        "ambiguous_samples": 0,
+        "unsupported_non_ethernet_samples": 0,
+        "indexed_header_lengths": [
+          42,
+          60,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          80,
+          81,
+          82,
+          85,
+          86,
+          99,
+          104,
+          105,
+          107,
+          115,
+          116,
+          117,
+          119,
+          121,
+          122,
+          126,
+          127,
+          128,
+          133,
+          135,
+          140,
+          155,
+          157,
+          158,
+          162,
+          163,
+          186,
+          207,
+          209,
+          210,
+          211,
+          217,
+          218,
+          225,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          239,
+          240,
+          250,
+          256
+        ],
+        "rx_packets": 8000,
+        "rx_distinct_frames": 8000,
+        "covered_distinct_rx_frames": 8000,
+        "missing_distinct_rx_frames": 0,
+        "missing_rx_occurrences": 0,
+        "missing_rx_relative_time_min": null,
+        "missing_rx_relative_time_max": null,
+        "additional_duplicate_samples": 1,
+        "coverage_unambiguous": true,
+        "all_sample_delays_seconds": {
+          "n": 8001,
+          "min": 0.00014257431030273438,
+          "p50": 0.030149221420288086,
+          "p95": 0.09967589378356934,
+          "max": 0.9047670364379883
+        },
+        "used_sample_delays_seconds": {
+          "n": 8001,
+          "min": 0.00014257431030273438,
+          "p50": 0.030149221420288086,
+          "p95": 0.09967589378356934,
+          "max": 0.9047670364379883
+        },
+        "samples_delayed_over_half_second": 69,
+        "wrong_bin_samples": 2001,
+        "wrong_bin_fraction": 0.25009373828271464,
+        "used_wrong_bin_samples": 2001,
+        "used_wrong_bin_fraction": 0.25009373828271464,
+        "receive_minus_rx_bin_offset": {
+          "n": 8001,
+          "min": 0,
+          "p50": 0,
+          "p95": 1,
+          "max": 9
+        }
+      },
+      "exporter_clock_diagnosis": {
+        "observed_uptime_step_gcd_ms": 1000,
+        "uptime_remainders_mod_1000_ms": [
+          0
+        ],
+        "uptime_span_seconds": 116.0,
+        "userspace_receive_span_seconds": 116.00032877922058,
+        "receive_minus_uptime_excess_above_run_min_seconds": {
+          "n": 1767,
+          "min": 0.0,
+          "p50": 0.4555056095123291,
+          "p95": 0.9405243396759033,
+          "max": 1.0009751319885254
+        },
+        "interpretation": "Variation after exporter uptime stamping, including uptime quantization; does not isolate kernel queue versus loopback scheduling or infer packet event time."
+      },
+      "stages": [
+        {
+          "index": 0,
+          "family": "Benign",
+          "scheduled_start": 1.0,
+          "requested_pps": 100,
+          "actual_start": 1.0003440380096436,
+          "actual_end": 9.171761512756348,
+          "wall_duration_ratio": 1.021427184343338,
+          "start_lateness_seconds": 0.0003440380096435547
+        },
+        {
+          "index": 1,
+          "family": "UDPFlood",
+          "scheduled_start": 11.0,
+          "requested_pps": 100,
+          "actual_start": 11.0001859664917,
+          "actual_end": 19.183740854263306,
+          "wall_duration_ratio": 1.0229443609714508,
+          "start_lateness_seconds": 0.00018596649169921875
+        },
+        {
+          "index": 2,
+          "family": "Benign",
+          "scheduled_start": 21.0,
+          "requested_pps": 100,
+          "actual_start": 21.000343561172485,
+          "actual_end": 29.21592926979065,
+          "wall_duration_ratio": 1.0269482135772705,
+          "start_lateness_seconds": 0.00034356117248535156
+        },
+        {
+          "index": 3,
+          "family": "UDPFlood",
+          "scheduled_start": 31.0,
+          "requested_pps": 100,
+          "actual_start": 31.000325202941895,
+          "actual_end": 39.19721508026123,
+          "wall_duration_ratio": 1.024611234664917,
+          "start_lateness_seconds": 0.00032520294189453125
+        },
+        {
+          "index": 4,
+          "family": "Benign",
+          "scheduled_start": 41.0,
+          "requested_pps": 100,
+          "actual_start": 41.00045895576477,
+          "actual_end": 49.222646951675415,
+          "wall_duration_ratio": 1.0277734994888306,
+          "start_lateness_seconds": 0.0004589557647705078
+        },
+        {
+          "index": 5,
+          "family": "UDPFlood",
+          "scheduled_start": 51.0,
+          "requested_pps": 100,
+          "actual_start": 51.000463008880615,
+          "actual_end": 59.21097159385681,
+          "wall_duration_ratio": 1.0263135731220245,
+          "start_lateness_seconds": 0.0004630088806152344
+        },
+        {
+          "index": 6,
+          "family": "Benign",
+          "scheduled_start": 61.0,
+          "requested_pps": 100,
+          "actual_start": 61.000346183776855,
+          "actual_end": 69.21545696258545,
+          "wall_duration_ratio": 1.0268888473510742,
+          "start_lateness_seconds": 0.00034618377685546875
+        },
+        {
+          "index": 7,
+          "family": "UDPFlood",
+          "scheduled_start": 71.0,
+          "requested_pps": 100,
+          "actual_start": 71.00025987625122,
+          "actual_end": 79.18513822555542,
+          "wall_duration_ratio": 1.023109793663025,
+          "start_lateness_seconds": 0.0002598762512207031
+        },
+        {
+          "index": 8,
+          "family": "Benign",
+          "scheduled_start": 81.0,
+          "requested_pps": 100,
+          "actual_start": 81.0001118183136,
+          "actual_end": 83.22040390968323,
+          "wall_duration_ratio": 1.1101460456848145,
+          "start_lateness_seconds": 0.00011181831359863281
+        },
+        {
+          "index": 9,
+          "family": "ICMPFlood",
+          "scheduled_start": 85.0,
+          "requested_pps": 100,
+          "actual_start": 85.00026154518127,
+          "actual_end": 87.22266983985901,
+          "wall_duration_ratio": 1.1112041473388672,
+          "start_lateness_seconds": 0.00026154518127441406
+        },
+        {
+          "index": 10,
+          "family": "Benign",
+          "scheduled_start": 89.0,
+          "requested_pps": 100,
+          "actual_start": 89.00043773651123,
+          "actual_end": 91.18964767456055,
+          "wall_duration_ratio": 1.0946049690246582,
+          "start_lateness_seconds": 0.00043773651123046875
+        },
+        {
+          "index": 11,
+          "family": "ICMPFlood",
+          "scheduled_start": 93.0,
+          "requested_pps": 100,
+          "actual_start": 93.00034809112549,
+          "actual_end": 95.21860218048096,
+          "wall_duration_ratio": 1.1091270446777344,
+          "start_lateness_seconds": 0.00034809112548828125
+        },
+        {
+          "index": 12,
+          "family": "Benign",
+          "scheduled_start": 97.0,
+          "requested_pps": 100,
+          "actual_start": 97.00046896934509,
+          "actual_end": 99.16895008087158,
+          "wall_duration_ratio": 1.0842405557632446,
+          "start_lateness_seconds": 0.00046896934509277344
+        },
+        {
+          "index": 13,
+          "family": "ICMPFlood",
+          "scheduled_start": 101.0,
+          "requested_pps": 100,
+          "actual_start": 101.00034093856812,
+          "actual_end": 103.19486832618713,
+          "wall_duration_ratio": 1.0972636938095093,
+          "start_lateness_seconds": 0.0003409385681152344
+        },
+        {
+          "index": 14,
+          "family": "Benign",
+          "scheduled_start": 105.0,
+          "requested_pps": 100,
+          "actual_start": 105.00015950202942,
+          "actual_end": 107.24357080459595,
+          "wall_duration_ratio": 1.1217056512832642,
+          "start_lateness_seconds": 0.0001595020294189453
+        },
+        {
+          "index": 15,
+          "family": "ICMPFlood",
+          "scheduled_start": 109.0,
+          "requested_pps": 100,
+          "actual_start": 109.00031089782715,
+          "actual_end": 111.25585007667542,
+          "wall_duration_ratio": 1.1277695894241333,
+          "start_lateness_seconds": 0.0003108978271484375
+        }
+      ]
+    },
+    {
+      "run_id": "92011ddcf7514e47a341679170bcc388",
+      "scenario": "drift",
+      "sampling_rate": 2,
+      "seed": 43,
+      "saved_f1": {
+        "value": 0.6339285714285714,
+        "unit": "ratio",
+        "status": "measured",
+        "reason": null
+      },
+      "source": "official_realtime_verified",
+      "status": "completed",
+      "accepted": true,
+      "settings": {
+        "origin_epoch": 1793172932,
+        "duration_seconds": 117,
+        "window_seconds": 0.1,
+        "warmup_seconds": 41.0,
+        "telemetry_clock": "userspace",
+        "naive_bayes": "log_space"
+      },
+      "inputs": {
+        "summary": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\92011ddcf7514e47a341679170bcc388\\run_summary.json",
+          "sha256": "62c9e838b348a2101d6c3921ee3a0c50f05c64917d0aaed74a06313a924c6ef2",
+          "size_bytes": 14398
+        },
+        "features": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\92011ddcf7514e47a341679170bcc388\\features.jsonl",
+          "sha256": "90bea868873b443c1d63851b7c40dd9a72e54c1d79d920599ec98b61ced65ce0",
+          "size_bytes": 766722
+        },
+        "datagrams": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\92011ddcf7514e47a341679170bcc388\\sflow.datagrams",
+          "sha256": "bcfb5b3116fea87edd55ea5b39475461134d106accabe039c3893b3f646eed8e",
+          "size_bytes": 1070588
+        },
+        "execution": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_07886c350b3a4622a0846ba3d4883048\\execution.json",
+          "sha256": "aed3ec4440ee30e525408c702c747fc6792ed17cd425378cba5dd09c812b152b",
+          "size_bytes": 44433
+        },
+        "rx": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_07886c350b3a4622a0846ba3d4883048\\rx.pcap",
+          "sha256": "937eb9df1245bf7b955f7689e4b7b7e68706dd60ef9e813764dba2f0118e468d",
+          "size_bytes": 5017406
+        },
+        "oracle_health": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_07886c350b3a4622a0846ba3d4883048\\truth\\health.json",
+          "sha256": "a7892c92786c0fcaa88368fa17b61f159ed6e5487e530a86f399b01e0f4e8f27",
+          "size_bytes": 98
+        }
+      },
+      "saved_counts": {
+        "input": 3926,
+        "sampled": 3926,
+        "evaluated": 499,
+        "warmup": 324,
+        "excluded": 0,
+        "unlabeled": 347
+      },
+      "windows": {
+        "total": 1170,
+        "scored": 499,
+        "scored_empty": 298,
+        "wrong": 164,
+        "wrong_empty": 156,
+        "warmup_sample_pps": {
+          "n": 324,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 340.0,
+          "max": 1880.0
+        },
+        "evaluation_sample_pps": {
+          "n": 499,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 240.0,
+          "max": 2140.0
+        },
+        "prediction_completion_lag_seconds": {
+          "n": 1170,
+          "min": 0.500143337249753,
+          "p50": 0.515808057785037,
+          "p95": 1.9053332328796344,
+          "max": 2.8140042781829777
+        },
+        "feature_bins_disagreeing_with_raw_receive_time": 0
+      },
+      "observation": {
+        "raw_samples": 3926,
+        "datagrams": 939,
+        "samples_before_origin": 0,
+        "samples_read_at_or_after_fixed_end": 0,
+        "samples_per_datagram": {
+          "n": 939,
+          "min": 0,
+          "p50": 3,
+          "p95": 10,
+          "max": 10
+        },
+        "datagram_gap_seconds": {
+          "n": 938,
+          "min": 0.0008873939514160156,
+          "p50": 0.02324366569519043,
+          "p95": 0.6657824516296387,
+          "max": 2.448646068572998
+        },
+        "sequence_gaps": 0,
+        "first_sequence": 27,
+        "last_sequence": 965
+      },
+      "rx_prefix_diagnosis": {
+        "unambiguous_sample_matches": 3926,
+        "unmatched_samples": 0,
+        "ambiguous_samples": 0,
+        "unsupported_non_ethernet_samples": 0,
+        "indexed_header_lengths": [
+          42,
+          60,
+          62,
+          63,
+          64,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          80,
+          81,
+          82,
+          86,
+          99,
+          104,
+          105,
+          115,
+          116,
+          117,
+          121,
+          127,
+          128,
+          133,
+          135,
+          140,
+          155,
+          157,
+          162,
+          163,
+          210,
+          211,
+          218,
+          225,
+          229,
+          230,
+          231,
+          233,
+          240,
+          250,
+          256
+        ],
+        "rx_packets": 8000,
+        "rx_distinct_frames": 8000,
+        "covered_distinct_rx_frames": 3925,
+        "missing_distinct_rx_frames": 4075,
+        "missing_rx_occurrences": 4075,
+        "missing_rx_relative_time_min": 1.4981930255889893,
+        "missing_rx_relative_time_max": 111.56086707115173,
+        "additional_duplicate_samples": 1,
+        "coverage_unambiguous": true,
+        "all_sample_delays_seconds": {
+          "n": 3926,
+          "min": -4.649162292480469e-05,
+          "p50": 0.22019481658935547,
+          "p95": 4.265209913253784,
+          "max": 7.190776586532593
+        },
+        "used_sample_delays_seconds": {
+          "n": 3926,
+          "min": -4.649162292480469e-05,
+          "p50": 0.22019481658935547,
+          "p95": 4.265209913253784,
+          "max": 7.190776586532593
+        },
+        "samples_delayed_over_half_second": 1496,
+        "wrong_bin_samples": 3260,
+        "wrong_bin_fraction": 0.8303616912888436,
+        "used_wrong_bin_samples": 3260,
+        "used_wrong_bin_fraction": 0.8303616912888436,
+        "receive_minus_rx_bin_offset": {
+          "n": 3926,
+          "min": 0,
+          "p50": 2,
+          "p95": 43,
+          "max": 72
+        }
+      },
+      "exporter_clock_diagnosis": {
+        "observed_uptime_step_gcd_ms": 1000,
+        "uptime_remainders_mod_1000_ms": [
+          0
+        ],
+        "uptime_span_seconds": 117.0,
+        "userspace_receive_span_seconds": 117.11767673492432,
+        "receive_minus_uptime_excess_above_run_min_seconds": {
+          "n": 939,
+          "min": 0.0,
+          "p50": 0.8813321590423584,
+          "p95": 5.1930437088012695,
+          "max": 8.043712854385376
+        },
+        "interpretation": "Variation after exporter uptime stamping, including uptime quantization; does not isolate kernel queue versus loopback scheduling or infer packet event time."
+      },
+      "stages": [
+        {
+          "index": 0,
+          "family": "Benign",
+          "scheduled_start": 1.0,
+          "requested_pps": 100,
+          "actual_start": 1.0001215934753418,
+          "actual_end": 9.545568704605103,
+          "wall_duration_ratio": 1.06818088889122,
+          "start_lateness_seconds": 0.00012159347534179688
+        },
+        {
+          "index": 1,
+          "family": "UDPFlood",
+          "scheduled_start": 11.0,
+          "requested_pps": 100,
+          "actual_start": 11.000163316726685,
+          "actual_end": 19.228601932525635,
+          "wall_duration_ratio": 1.0285548269748688,
+          "start_lateness_seconds": 0.0001633167266845703
+        },
+        {
+          "index": 2,
+          "family": "Benign",
+          "scheduled_start": 21.0,
+          "requested_pps": 100,
+          "actual_start": 21.00023365020752,
+          "actual_end": 30.139018058776855,
+          "wall_duration_ratio": 1.142348051071167,
+          "start_lateness_seconds": 0.00023365020751953125
+        },
+        {
+          "index": 3,
+          "family": "UDPFlood",
+          "scheduled_start": 31.0,
+          "requested_pps": 100,
+          "actual_start": 31.000274896621704,
+          "actual_end": 39.32086420059204,
+          "wall_duration_ratio": 1.0400736629962921,
+          "start_lateness_seconds": 0.00027489662170410156
+        },
+        {
+          "index": 4,
+          "family": "Benign",
+          "scheduled_start": 41.0,
+          "requested_pps": 100,
+          "actual_start": 41.00011587142944,
+          "actual_end": 50.05946683883667,
+          "wall_duration_ratio": 1.1324188709259033,
+          "start_lateness_seconds": 0.00011587142944335938
+        },
+        {
+          "index": 5,
+          "family": "UDPFlood",
+          "scheduled_start": 51.0,
+          "requested_pps": 100,
+          "actual_start": 51.000176191329956,
+          "actual_end": 59.328230142593384,
+          "wall_duration_ratio": 1.0410067439079285,
+          "start_lateness_seconds": 0.0001761913299560547
+        },
+        {
+          "index": 6,
+          "family": "Benign",
+          "scheduled_start": 61.0,
+          "requested_pps": 100,
+          "actual_start": 61.00017428398132,
+          "actual_end": 69.97346425056458,
+          "wall_duration_ratio": 1.1216612458229065,
+          "start_lateness_seconds": 0.0001742839813232422
+        },
+        {
+          "index": 7,
+          "family": "UDPFlood",
+          "scheduled_start": 71.0,
+          "requested_pps": 100,
+          "actual_start": 71.00022840499878,
+          "actual_end": 79.45857095718384,
+          "wall_duration_ratio": 1.0572928190231323,
+          "start_lateness_seconds": 0.00022840499877929688
+        },
+        {
+          "index": 8,
+          "family": "Benign",
+          "scheduled_start": 81.0,
+          "requested_pps": 100,
+          "actual_start": 81.00018000602722,
+          "actual_end": 83.84675979614258,
+          "wall_duration_ratio": 1.4232898950576782,
+          "start_lateness_seconds": 0.0001800060272216797
+        },
+        {
+          "index": 9,
+          "family": "ICMPFlood",
+          "scheduled_start": 85.0,
+          "requested_pps": 100,
+          "actual_start": 85.00019192695618,
+          "actual_end": 87.23838257789612,
+          "wall_duration_ratio": 1.1190953254699707,
+          "start_lateness_seconds": 0.0001919269561767578
+        },
+        {
+          "index": 10,
+          "family": "Benign",
+          "scheduled_start": 89.0,
+          "requested_pps": 100,
+          "actual_start": 89.00017046928406,
+          "actual_end": 91.13170051574707,
+          "wall_duration_ratio": 1.0657650232315063,
+          "start_lateness_seconds": 0.0001704692840576172
+        },
+        {
+          "index": 11,
+          "family": "ICMPFlood",
+          "scheduled_start": 93.0,
+          "requested_pps": 100,
+          "actual_start": 93.00016736984253,
+          "actual_end": 95.17887806892395,
+          "wall_duration_ratio": 1.0893553495407104,
+          "start_lateness_seconds": 0.00016736984252929688
+        },
+        {
+          "index": 12,
+          "family": "Benign",
+          "scheduled_start": 97.0,
+          "requested_pps": 100,
+          "actual_start": 97.00021433830261,
+          "actual_end": 99.33207678794861,
+          "wall_duration_ratio": 1.165931224822998,
+          "start_lateness_seconds": 0.0002143383026123047
+        },
+        {
+          "index": 13,
+          "family": "ICMPFlood",
+          "scheduled_start": 101.0,
+          "requested_pps": 100,
+          "actual_start": 101.00017428398132,
+          "actual_end": 103.25022053718567,
+          "wall_duration_ratio": 1.1250231266021729,
+          "start_lateness_seconds": 0.0001742839813232422
+        },
+        {
+          "index": 14,
+          "family": "Benign",
+          "scheduled_start": 105.0,
+          "requested_pps": 100,
+          "actual_start": 105.00013613700867,
+          "actual_end": 107.6190755367279,
+          "wall_duration_ratio": 1.3094696998596191,
+          "start_lateness_seconds": 0.0001361370086669922
+        },
+        {
+          "index": 15,
+          "family": "ICMPFlood",
+          "scheduled_start": 109.0,
+          "requested_pps": 100,
+          "actual_start": 109.00013041496277,
+          "actual_end": 111.64680433273315,
+          "wall_duration_ratio": 1.3233369588851929,
+          "start_lateness_seconds": 0.0001304149627685547
+        }
+      ]
+    },
+    {
+      "run_id": "31950a7004b54cc8a31b873e58314aef",
+      "scenario": "drift",
+      "sampling_rate": 2,
+      "seed": 44,
+      "saved_f1": {
+        "value": 0.95703125,
+        "unit": "ratio",
+        "status": "measured",
+        "reason": null
+      },
+      "source": "official_realtime_verified",
+      "status": "completed",
+      "accepted": true,
+      "settings": {
+        "origin_epoch": 1793164801,
+        "duration_seconds": 117,
+        "window_seconds": 0.1,
+        "warmup_seconds": 41.0,
+        "telemetry_clock": "userspace",
+        "naive_bayes": "log_space"
+      },
+      "inputs": {
+        "summary": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\31950a7004b54cc8a31b873e58314aef\\run_summary.json",
+          "sha256": "bd05f74a3b32506f7cd94e96bb2f6ea197fe53eb7e4be670604fee0f64d1893d",
+          "size_bytes": 14295
+        },
+        "features": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\31950a7004b54cc8a31b873e58314aef\\features.jsonl",
+          "sha256": "cc37848067d37a62a0c075dd68c0aa3f60795518c6f058336ad372674fa49b68",
+          "size_bytes": 766859
+        },
+        "datagrams": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\runs\\31950a7004b54cc8a31b873e58314aef\\sflow.datagrams",
+          "sha256": "cd3701ccfe67c1cae3e0b952f7d5ebce114fefbbcf6d74c39a0c3af5a902dad8",
+          "size_bytes": 1081008
+        },
+        "execution": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_da65f6a1f66743e08b9ad0428c16fe55\\execution.json",
+          "sha256": "2e6bb6b20831230f02422abb1648fa1fa018b7d5fbceeced401b121a474c3cf2",
+          "size_bytes": 44442
+        },
+        "rx": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_da65f6a1f66743e08b9ad0428c16fe55\\rx.pcap",
+          "sha256": "ab5e24a1ddeaaecd77e9968a9380c7d5a2358d69e70f6b6116961400b40037e9",
+          "size_bytes": 5017406
+        },
+        "oracle_health": {
+          "path": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\output\\research\\log_space_20261028\\matrix\\official_pilot_da65f6a1f66743e08b9ad0428c16fe55\\truth\\health.json",
+          "sha256": "a7892c92786c0fcaa88368fa17b61f159ed6e5487e530a86f399b01e0f4e8f27",
+          "size_bytes": 98
+        }
+      },
+      "saved_counts": {
+        "input": 3964,
+        "sampled": 3964,
+        "evaluated": 490,
+        "warmup": 324,
+        "excluded": 0,
+        "unlabeled": 356
+      },
+      "windows": {
+        "total": 1170,
+        "scored": 490,
+        "scored_empty": 148,
+        "wrong": 22,
+        "wrong_empty": 17,
+        "warmup_sample_pps": {
+          "n": 324,
+          "min": 0.0,
+          "p50": 120.0,
+          "p95": 200.0,
+          "max": 300.0
+        },
+        "evaluation_sample_pps": {
+          "n": 490,
+          "min": 0.0,
+          "p50": 100.0,
+          "p95": 200.0,
+          "max": 320.0
+        },
+        "prediction_completion_lag_seconds": {
+          "n": 1170,
+          "min": 0.5001091957092214,
+          "p50": 0.505075359344481,
+          "p95": 0.5099646568298368,
+          "max": 0.5432970046997072
+        },
+        "feature_bins_disagreeing_with_raw_receive_time": 0
+      },
+      "observation": {
+        "raw_samples": 3964,
+        "datagrams": 955,
+        "samples_before_origin": 0,
+        "samples_read_at_or_after_fixed_end": 0,
+        "samples_per_datagram": {
+          "n": 955,
+          "min": 0,
+          "p50": 3,
+          "p95": 10,
+          "max": 10
+        },
+        "datagram_gap_seconds": {
+          "n": 954,
+          "min": 0.0012021064758300781,
+          "p50": 0.06731081008911133,
+          "p95": 0.32108473777770996,
+          "max": 1.0007569789886475
+        },
+        "sequence_gaps": 0,
+        "first_sequence": 28,
+        "last_sequence": 982
+      },
+      "rx_prefix_diagnosis": {
+        "unambiguous_sample_matches": 3964,
+        "unmatched_samples": 0,
+        "ambiguous_samples": 0,
+        "unsupported_non_ethernet_samples": 0,
+        "indexed_header_lengths": [
+          42,
+          60,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          81,
+          82,
+          85,
+          99,
+          104,
+          105,
+          107,
+          115,
+          116,
+          117,
+          119,
+          121,
+          127,
+          128,
+          133,
+          140,
+          157,
+          158,
+          162,
+          207,
+          209,
+          210,
+          211,
+          217,
+          218,
+          225,
+          228,
+          230,
+          231,
+          232,
+          233,
+          256
+        ],
+        "rx_packets": 8000,
+        "rx_distinct_frames": 8000,
+        "covered_distinct_rx_frames": 3964,
+        "missing_distinct_rx_frames": 4036,
+        "missing_rx_occurrences": 4036,
+        "missing_rx_relative_time_min": 1.1488440036773682,
+        "missing_rx_relative_time_max": 111.10975193977356,
+        "additional_duplicate_samples": 0,
+        "coverage_unambiguous": true,
+        "all_sample_delays_seconds": {
+          "n": 3964,
+          "min": 0.000244140625,
+          "p50": 0.059777021408081055,
+          "p95": 0.2103404998779297,
+          "max": 0.99945068359375
+        },
+        "used_sample_delays_seconds": {
+          "n": 3964,
+          "min": 0.000244140625,
+          "p50": 0.059777021408081055,
+          "p95": 0.2103404998779297,
+          "max": 0.99945068359375
+        },
+        "samples_delayed_over_half_second": 73,
+        "wrong_bin_samples": 2324,
+        "wrong_bin_fraction": 0.58627648839556,
+        "used_wrong_bin_samples": 2324,
+        "used_wrong_bin_fraction": 0.58627648839556,
+        "receive_minus_rx_bin_offset": {
+          "n": 3964,
+          "min": 0,
+          "p50": 1,
+          "p95": 2,
+          "max": 10
+        }
+      },
+      "exporter_clock_diagnosis": {
+        "observed_uptime_step_gcd_ms": 1000,
+        "uptime_remainders_mod_1000_ms": [
+          0
+        ],
+        "uptime_span_seconds": 116.0,
+        "userspace_receive_span_seconds": 115.99942874908447,
+        "receive_minus_uptime_excess_above_run_min_seconds": {
+          "n": 955,
+          "min": 0.0,
+          "p50": 0.40935659408569336,
+          "p95": 0.9555180072784424,
+          "max": 1.0048668384552002
+        },
+        "interpretation": "Variation after exporter uptime stamping, including uptime quantization; does not isolate kernel queue versus loopback scheduling or infer packet event time."
+      },
+      "stages": [
+        {
+          "index": 0,
+          "family": "Benign",
+          "scheduled_start": 1.0,
+          "requested_pps": 100,
+          "actual_start": 1.0001776218414307,
+          "actual_end": 9.18851923942566,
+          "wall_duration_ratio": 1.0235427021980286,
+          "start_lateness_seconds": 0.00017762184143066406
+        },
+        {
+          "index": 1,
+          "family": "UDPFlood",
+          "scheduled_start": 11.0,
+          "requested_pps": 100,
+          "actual_start": 11.000317811965942,
+          "actual_end": 19.200912952423096,
+          "wall_duration_ratio": 1.0250743925571442,
+          "start_lateness_seconds": 0.0003178119659423828
+        },
+        {
+          "index": 2,
+          "family": "Benign",
+          "scheduled_start": 21.0,
+          "requested_pps": 100,
+          "actual_start": 21.00043511390686,
+          "actual_end": 29.154664039611816,
+          "wall_duration_ratio": 1.0192786157131195,
+          "start_lateness_seconds": 0.00043511390686035156
+        },
+        {
+          "index": 3,
+          "family": "UDPFlood",
+          "scheduled_start": 31.0,
+          "requested_pps": 100,
+          "actual_start": 31.00039267539978,
+          "actual_end": 39.19195294380188,
+          "wall_duration_ratio": 1.0239450335502625,
+          "start_lateness_seconds": 0.00039267539978027344
+        },
+        {
+          "index": 4,
+          "family": "Benign",
+          "scheduled_start": 41.0,
+          "requested_pps": 100,
+          "actual_start": 41.00043702125549,
+          "actual_end": 49.17414665222168,
+          "wall_duration_ratio": 1.0217137038707733,
+          "start_lateness_seconds": 0.00043702125549316406
+        },
+        {
+          "index": 5,
+          "family": "UDPFlood",
+          "scheduled_start": 51.0,
+          "requested_pps": 100,
+          "actual_start": 51.000412940979004,
+          "actual_end": 59.20938324928284,
+          "wall_duration_ratio": 1.0261212885379791,
+          "start_lateness_seconds": 0.00041294097900390625
+        },
+        {
+          "index": 6,
+          "family": "Benign",
+          "scheduled_start": 61.0,
+          "requested_pps": 100,
+          "actual_start": 61.00031590461731,
+          "actual_end": 69.2191104888916,
+          "wall_duration_ratio": 1.0273493230342865,
+          "start_lateness_seconds": 0.0003159046173095703
+        },
+        {
+          "index": 7,
+          "family": "UDPFlood",
+          "scheduled_start": 71.0,
+          "requested_pps": 100,
+          "actual_start": 71.00044417381287,
+          "actual_end": 79.17244696617126,
+          "wall_duration_ratio": 1.0215003490447998,
+          "start_lateness_seconds": 0.00044417381286621094
+        },
+        {
+          "index": 8,
+          "family": "Benign",
+          "scheduled_start": 81.0,
+          "requested_pps": 100,
+          "actual_start": 81.00043296813965,
+          "actual_end": 83.17393636703491,
+          "wall_duration_ratio": 1.0867516994476318,
+          "start_lateness_seconds": 0.0004329681396484375
+        },
+        {
+          "index": 9,
+          "family": "ICMPFlood",
+          "scheduled_start": 85.0,
+          "requested_pps": 100,
+          "actual_start": 85.00032901763916,
+          "actual_end": 87.17092990875244,
+          "wall_duration_ratio": 1.0853004455566406,
+          "start_lateness_seconds": 0.00032901763916015625
+        },
+        {
+          "index": 10,
+          "family": "Benign",
+          "scheduled_start": 89.0,
+          "requested_pps": 100,
+          "actual_start": 89.00029754638672,
+          "actual_end": 91.1759181022644,
+          "wall_duration_ratio": 1.0878102779388428,
+          "start_lateness_seconds": 0.00029754638671875
+        },
+        {
+          "index": 11,
+          "family": "ICMPFlood",
+          "scheduled_start": 93.0,
+          "requested_pps": 100,
+          "actual_start": 93.00032138824463,
+          "actual_end": 95.17363667488098,
+          "wall_duration_ratio": 1.0866576433181763,
+          "start_lateness_seconds": 0.00032138824462890625
+        },
+        {
+          "index": 12,
+          "family": "Benign",
+          "scheduled_start": 97.0,
+          "requested_pps": 100,
+          "actual_start": 97.00029850006104,
+          "actual_end": 99.18296360969543,
+          "wall_duration_ratio": 1.0913325548171997,
+          "start_lateness_seconds": 0.00029850006103515625
+        },
+        {
+          "index": 13,
+          "family": "ICMPFlood",
+          "scheduled_start": 101.0,
+          "requested_pps": 100,
+          "actual_start": 101.00032877922058,
+          "actual_end": 103.16234087944031,
+          "wall_duration_ratio": 1.0810060501098633,
+          "start_lateness_seconds": 0.0003287792205810547
+        },
+        {
+          "index": 14,
+          "family": "Benign",
+          "scheduled_start": 105.0,
+          "requested_pps": 100,
+          "actual_start": 105.00029850006104,
+          "actual_end": 107.20668387413025,
+          "wall_duration_ratio": 1.103192687034607,
+          "start_lateness_seconds": 0.00029850006103515625
+        },
+        {
+          "index": 15,
+          "family": "ICMPFlood",
+          "scheduled_start": 109.0,
+          "requested_pps": 100,
+          "actual_start": 109.00031924247742,
+          "actual_end": 111.16172552108765,
+          "wall_duration_ratio": 1.0807031393051147,
+          "start_lateness_seconds": 0.0003192424774169922
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,719 @@
+{
+  "protocol": {
+    "schema": "m3-controlled-research-protocol-v1",
+    "declared_before_primary_results": false,
+    "purpose": "Corrected log-space live validation of the original controlled equal-rate official-packet sampling study",
+    "sampling_rates": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      50
+    ],
+    "model_seeds": [
+      42,
+      43,
+      44
+    ],
+    "planned_trials": 54,
+    "ordering_seed": 20261019,
+    "primary_pps": 100,
+    "gap_seconds": 2,
+    "primary_window_seconds": 0.1,
+    "sensitivity_window_seconds": 1.0,
+    "label_delay_seconds": 0.5,
+    "model": {
+      "grace_period": 200,
+      "drift_delta": 0.002,
+      "threshold": 0.5,
+      "naive_bayes": "log_space"
+    },
+    "tuning": "No hyperparameter selection using primary evaluation results",
+    "replication": "Frozen traffic common to every N/trial; seeds control model only; OVS sampling randomness is uncontrolled and recorded",
+    "provenance": "Official release checksums, exact flow-family match, disjoint original capture packet indices within and across scenarios, mappings retain original and rewritten hashes; naturally duplicate payloads are possible",
+    "eligibility": "Only independently observed fully covered windows; gaps, transitions, capture failures and unknown/drain windows are not benign zeros",
+    "minimum_support": "Report actual evaluated benign/attack windows for each run; undefined metrics stay unavailable; no minimum F1 is a completion or exclusion rule",
+    "scenarios": {
+      "baseline": {
+        "purpose": "Known benign/UDP/SYN distribution from warm-up with later disjoint selections",
+        "warmup_blocks": 4,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          }
+        ]
+      },
+      "drift": {
+        "purpose": "Controlled attack-family covariate shift from UDP to ICMP after block7; not naturally occurring concept drift",
+        "warmup_blocks": 4,
+        "drift_before_block": 8,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          }
+        ]
+      },
+      "unseen": {
+        "purpose": "SYN excluded from the entire initial learning segment and first introduced during evaluation",
+        "warmup_blocks": 4,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          }
+        ]
+      }
+    },
+    "study_id": "m3-log-space-20261028",
+    "declared_before_corrected_runs": true,
+    "parent_protocol_sha256": "f8196653b1a0dfe6da652fa75d1aba720a6bd243842292d5a017b8cc2f8cc36d",
+    "revision_reason": "Repeat the original frozen study with the diagnosed Naive Bayes underflow correction; original results already informed this correction, and no new hyperparameter tuning is performed."
+  },
+  "naive_bayes": "log_space",
+  "runs_output": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/runs",
+  "cells": [
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "6d36fb9d6f7c406a9d30d4c0cde0ee18"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "def9ca2137694bd2abeb2523743cfad4"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "31950a7004b54cc8a31b873e58314aef"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "c2ee9dcbff094987b55b69f065c52972"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "78a7b27c1c624a2081ad4018535ad386"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "7aab59a09fc540e4ad3446b64c00a9ab"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "a568f03df5bb4d869af204fc60d9089f"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "77118588952349ff85288b288ad2ed09"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "822d6c5e42fb4412a9c7ef5c68e9daf9"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "57771a1a33044aeea2ff7ac3bee696b0"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "4a96a47739da454ab97f558e6601ba77"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "e5e303235de041fc916f11506244fe9e"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "fc24ab47b7d8438c9af134029503bbae"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "5011607d904a492d9672737689b4bfad"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "b2dec04e163b4be5af1335d353ad09a6"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "26249461fb5e48cfaaede48db6689b6e"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "7a3d6d1dc3f846ab820164937df2c0ba"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "fc4fbe0271a44e2bb75ecaf9dd8ea06a"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "8bb2a848c64f47dab8d70fe10bba32c8"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "488b96198c9b4499aceb1a432a140996"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "b109798003894525a26ca73c9def592a"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "8e5ad1cebd234998ba55a9b9875ef66d"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "attempts": [
+        {
+          "scenario": "drift",
+          "sampling": 2,
+          "seed": 42,
+          "trial_id": 1,
+          "status": "failed",
+          "error": "Live collector failed; raw evidence retained",
+          "failed_run_id": "a619f7005d2d435792642ceaf1e2047d",
+          "retained_run_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/failed_runs/a619f7005d2d435792642ceaf1e2047d",
+          "retained_execution_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/matrix/official_pilot_46ef8108d0d34aaf814350ce3fab2593"
+        }
+      ],
+      "retry_explanation": "Technical retry only: atomic run_summary.json replacement failed with filesystem PermissionError in failed run a619f7005d2d435792642ceaf1e2047d. The failed raw evidence is retained; 100 atomic checkpoint replacements now pass. No model, protocol or threshold changed.",
+      "retry_at": "2026-10-28T06:25:11.177244+00:00",
+      "run_id": "34c7dfa88f5a4dcf9f58970c446da504"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "c3ba6784b7864da8a4667107604f1581"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "b2ba2927eca24bbc9da5716f59289533"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "5b7784e07dcb45a493fb2f978987c9ea"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "d3e1f552419141e9b6b6b17133324348"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "f300d17ea60144bfa0ec3aa909a3a66a"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "8027d9e1fd0040e0a55879925bc5cd03"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "f159aa9e4f064888a030e8beb0187702"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "d245fe5d43c94b10b7078512c554e11a"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "de17682672e34247abec0853324ef76a"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "a52140311eef4ff6822c8220b2d60b13"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "9689f4376dad413493efdd4258f42794"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "3ce0330600734de99082ea68a7c8d45a"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "35afee85a89b4924adf1950606d4f936"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "attempts": [
+        {
+          "scenario": "drift",
+          "sampling": 50,
+          "seed": 44,
+          "trial_id": 3,
+          "status": "failed",
+          "error": "Live collector failed; raw evidence retained",
+          "failed_run_id": "aa323e3a25674965abf022bd28d8ae41",
+          "retained_run_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/failed_runs/aa323e3a25674965abf022bd28d8ae41",
+          "retained_execution_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/matrix/official_pilot_4acdb10274b24ca599674fb2a939258c"
+        }
+      ],
+      "retry_explanation": "Technical retry only: atomic run_summary.json replacement failed with filesystem PermissionError in failed run aa323e3a25674965abf022bd28d8ae41. The failed raw evidence is retained; 100 atomic checkpoint replacements now pass. No model, protocol or threshold changed.",
+      "retry_at": "2026-10-28T07:12:49.850010+00:00",
+      "run_id": "8991451dc7614d319dbd33c33c3da4ce"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "5f95b7c05f454b6ab8823729094e9f99"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "5b53284456bc4f87b382793b4a6c5240"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "cc0ee86b69ce4676a44f6cda81a1420f"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "9d059ded5a7d424987d86e449d227296"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "ef6b6262c44e4f88aeb14797f1607467"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "29b84613ce414e3cbc36a53f802850ca"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "92011ddcf7514e47a341679170bcc388"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "50a9cfabd3c948409ba967f444f3081b"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "3328fe7542c847548948bce927d4f998"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "attempts": [
+        {
+          "scenario": "drift",
+          "sampling": 1,
+          "seed": 42,
+          "trial_id": 1,
+          "status": "failed",
+          "error": "Independent oracle integrity failed: {'packets': 8000, 'unknown': 0, 'kernel_drops': 0, 'late_packets': 4, 'windows': 1170}",
+          "failed_run_id": "cb37a005ee1e4e1c923c650fd8a45aef",
+          "retained_run_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/failed_runs/cb37a005ee1e4e1c923c650fd8a45aef",
+          "retained_execution_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/matrix/official_pilot_6995b99d0c7841ee9ef7652e4c22af6a"
+        }
+      ],
+      "retry_explanation": "Technical retry only: independent oracle reported 4 late packets out of 8000 in failed run cb37a005ee1e4e1c923c650fd8a45aef. All raw evidence is retained. No model, protocol, threshold or integrity gate changed.",
+      "retry_at": "2026-10-28T07:50:05.629676+00:00",
+      "run_id": "7314798c3ae5416ca0d8032764b318f3"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "attempts": [
+        {
+          "scenario": "drift",
+          "sampling": 50,
+          "seed": 43,
+          "trial_id": 2,
+          "status": "failed",
+          "error": "Independent RX capture and teacher frame multiplicities disagree",
+          "failed_run_id": "929ada3de52e49b4a799bf7e610ee1ed",
+          "retained_run_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/failed_runs/929ada3de52e49b4a799bf7e610ee1ed",
+          "retained_execution_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/matrix/official_pilot_b6e223a63a934c478da3c6f91df7050b"
+        }
+      ],
+      "retry_explanation": "Technical retry only: replay overran the fixed experiment interval in run 929ada3de52e49b4a799bf7e610ee1ed; 15 of 8000 RX packets arrived after its end. The fixed oracle correctly excluded those packets. Raw packet and stage timing evidence is retained. No duration, model, protocol, threshold or validation gate changed.",
+      "retry_at": "2026-10-28T07:59:47.579276+00:00",
+      "run_id": "a29c7d20810649af9ff9d0e90e7a6ab4"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "9a7b5826cf484d8ebaae96bfe95fdb5e"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "31cb36d02edb4108926636cc1214fdea"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "58b52eaed1f14980a4e2b087e30e41c8"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "9854c70f1c124bee977acc9965c397fd"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "4580fd2c59ef4fc0ac76377793004752"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "2a20540c20f9422cae997805dfdf516b"
+    }
+  ]
+}

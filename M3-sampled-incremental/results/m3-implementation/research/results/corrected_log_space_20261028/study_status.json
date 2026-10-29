@@ -1,0 +1,12 @@
+{
+  "study_id": "m3-log-space-20261028",
+  "updated_at": "2026-10-28T08:27:18.006268+00:00",
+  "phase": "complete",
+  "pilot_run_id": "16ba94a5c50344b1aadda5c6d90b02af",
+  "source_revision": "6449fd20b1af920350cc4a832f37fa9feb79ac24",
+  "accepted_trials": 54,
+  "sensitivity_completed": 54,
+  "ready": true,
+  "protected_documents_verified": 6,
+  "dashboard_runs": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/runs"
+}

@@ -15,7 +15,158 @@ from m3.metrics import measurement
 from m3.packets import iter_pcap
 from m3.provenance import sha256
 from m3.research_metrics import physical_detection_metrics, post_drift_recovery
+from m3.sflow import decode_datagram
 from m3.store import atomic_json
+
+
+def _finite_number(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def _prefix_coverage(headers, receive_frames):
+    """Audit coverage only; independent RX timing/labels never supply features.
+
+    Match longer prefixes first, retaining frame occurrence multiplicities.
+    Additional samples of an already covered RX frame are reported separately.
+    """
+    remaining = Counter(receive_frames)
+    groups = defaultdict(Counter)
+    for header in headers:
+        groups[len(header)][header] += 1
+    matched = duplicate = unmatched = 0
+    for length, samples in sorted(groups.items(), reverse=True):
+        candidates = defaultdict(list)
+        for frame in remaining:
+            if len(frame) >= length:
+                candidates[frame[:length]].append(frame)
+        for prefix, count in samples.items():
+            frames = candidates.get(prefix, [])
+            if not frames:
+                unmatched += count
+                continue
+            for frame in frames:
+                covered = min(count, remaining[frame])
+                remaining[frame] -= covered
+                count -= covered
+                matched += covered
+                if not count:
+                    break
+            duplicate += count
+    return {"expected_rx_packets": sum(remaining.values()) + matched,
+            "matched_rx_packets": matched, "missing_rx_packets": sum(remaining.values()),
+            "unmatched_samples": unmatched, "duplicate_samples": duplicate}
+
+
+def _independent_sflow_capture(evidence, recorded, origin, duration):
+    capture, capture_log = evidence / "sflow_rx.pcap", evidence / "sflow_rx.log"
+    if not capture.is_file() or not capture_log.is_file():
+        raise ValueError("Independent sFlow UDP capture/log missing")
+    dropped = re.search(r"(\d+) packets dropped by kernel", capture_log.read_text())
+    if not dropped or int(dropped[1]):
+        raise ValueError("Independent sFlow capture drop count unavailable or nonzero")
+    captured = defaultdict(list)
+    try:
+        with capture.open("rb") as stream:
+            reader = dpkt.pcap.Reader(stream)
+            if reader.datalink() != dpkt.pcap.DLT_EN10MB:
+                raise ValueError("Independent sFlow capture must contain Ethernet frames")
+            for epoch, frame in reader:
+                epoch = float(epoch)
+                if not math.isfinite(epoch):
+                    raise ValueError("Nonfinite independent sFlow capture timestamp")
+                packet = dpkt.ethernet.Ethernet(frame).data
+                if (isinstance(packet, dpkt.ip.IP) and isinstance(packet.data, dpkt.udp.UDP)
+                        and packet.data.dport == 6343 and origin <= epoch < origin + duration):
+                    captured[bytes(packet.data.data)].append(epoch)
+    except (dpkt.UnpackError, struct.error) as error:
+        raise ValueError("Malformed independent sFlow UDP capture") from error
+    if set(captured) != set(recorded) or any(
+            len(captured[payload]) != len(recorded[payload])
+            or any(abs(a - b) > 0.00001 for a, b in
+                   zip(sorted(captured[payload]), sorted(recorded[payload]), strict=True))
+            for payload in recorded):
+        raise ValueError("Independent sFlow capture and raw kernel datagrams disagree")
+    return {"datagrams": sum(map(len, captured.values())), "timestamp_tolerance_seconds": 0.00001}
+
+
+def validate_kernel_ingestion(run_path, evidence, summary, features, origin):
+    """Recompute the kernel-clock gates from raw datagrams and receive records."""
+    state = summary.get("ingestion", {})
+    width = summary["config"]["window_seconds"]
+    duration = summary["config"]["duration_seconds"]
+    if not (_finite_number(width) and width > 0 and _finite_number(duration) and duration > 0):
+        raise ValueError("Invalid telemetry ingestion measurement interval")
+    if (not isinstance(state, dict) or state.get("timestamp_source") != "kernel_receive_ns"
+            or state.get("receiver_finished") is not True or state.get("drain_complete") is not True
+            or any(type(state.get(key)) is not int or state[key] != 0 for key in
+                   ("queue_overflows", "kernel_drops", "missing_timestamps"))):
+        raise ValueError("Kernel telemetry ingestion incomplete or unhealthy")
+    if state.get("lag_limit_seconds") != width:
+        raise ValueError("Telemetry ingestion lag limit must equal the feature window")
+    log_path = run_path / "ingestion.jsonl"
+    if not log_path.is_file():
+        raise ValueError("Kernel ingestion timestamp log missing")
+    receive_lag = processing_lag = 0.0
+    count = 0
+    previous = (-math.inf, -math.inf, -math.inf)
+    bins, headers, recorded = Counter(), [], defaultdict(list)
+    with (run_path / "sflow.datagrams").open("rb") as raw, log_path.open() as log:
+        for line in log:
+            try:
+                event = json.loads(line)
+                epochs = tuple(event[key] for key in ("kernel_epoch", "read_epoch", "processed_epoch"))
+                size = event["payload_bytes"]
+            except (ValueError, KeyError, TypeError) as error:
+                raise ValueError("Invalid kernel ingestion timestamp record") from error
+            if (not all(_finite_number(epoch) and epoch >= 0 for epoch in epochs)
+                    or not epochs[0] <= epochs[1] <= epochs[2]
+                    or any(new < old for new, old in zip(epochs, previous))
+                    or not isinstance(size, int) or isinstance(size, bool) or size <= 0):
+                raise ValueError("Invalid or nonchronological kernel ingestion timestamps")
+            header = raw.read(12)
+            if len(header) != 12:
+                raise ValueError("Kernel ingestion log and raw datagram counts disagree")
+            epoch, raw_size = struct.unpack("!dI", header)
+            payload = raw.read(raw_size)
+            if epoch != epochs[0] or raw_size != size or len(payload) != size:
+                raise ValueError("Kernel ingestion timestamps/payload disagree with raw datagrams")
+            receive_lag = max(receive_lag, epochs[1] - epochs[0])
+            processing_lag = max(processing_lag, epochs[2] - epochs[0])
+            if receive_lag > width or processing_lag > width:
+                raise ValueError("Telemetry ingestion backlog exceeds one feature window")
+            packets, metadata = decode_datagram(payload, epoch, include_headers=True)
+            if origin <= epoch < origin + duration:
+                recorded[payload].append(epoch)
+                if any(packet.sample_rate != summary["sampling_rate"] for packet in packets):
+                    raise ValueError("Raw kernel telemetry sampling rate mismatch")
+                bins[math.floor((epoch - origin) / width)] += len(packets)
+                headers.extend(item["raw"] for item in metadata["headers"])
+            previous = epochs
+            count += 1
+        if raw.read(1):
+            raise ValueError("Kernel ingestion timestamp log omits raw datagrams")
+    if not count or state.get("datagrams_received") != count:
+        raise ValueError("Kernel ingestion datagram count missing or inconsistent")
+    for key, actual in (("max_receive_lag_seconds", receive_lag),
+                        ("max_processing_lag_seconds", processing_lag)):
+        reported = state.get(key)
+        if (not _finite_number(reported) or reported < 0 or reported > width
+                or not math.isclose(reported, actual, rel_tol=0, abs_tol=1e-9)):
+            raise ValueError("Telemetry ingestion lag summary disagrees with timestamp evidence")
+    indices = [row["index"] for row in features]
+    if indices != list(range(math.ceil(duration / width))):
+        raise ValueError("Kernel telemetry feature windows incomplete")
+    if any(row.get("sampled_packets") != bins[row["index"]] for row in features):
+        raise ValueError("Feature counts disagree with raw kernel timestamp bins")
+    coverage = None
+    if summary["sampling_rate"] == 1:
+        coverage = _prefix_coverage(headers, [frame for _, frame in iter_pcap(evidence / "rx.pcap")])
+        if coverage["missing_rx_packets"] or coverage["unmatched_samples"]:
+            raise ValueError(f"N=1 telemetry tail incomplete: {coverage}")
+    independent_capture = _independent_sflow_capture(evidence, recorded, origin, duration)
+    return {"datagrams_verified": count, "max_receive_lag_seconds": receive_lag,
+            "max_processing_lag_seconds": processing_lag, "n1_prefix_coverage": coverage,
+            "independent_sflow_capture": independent_capture}
 
 
 def accept_realtime(run_path, evidence, report):
@@ -28,6 +179,8 @@ def accept_realtime(run_path, evidence, report):
     if report.get("dataplane_validation", {}).get("status") != "validated":
         raise ValueError("Independent full TX/RX validation missing")
     sampling = summary["sampling_rate"]
+    if summary["config"].get("telemetry_clock", "userspace") not in {"userspace", "kernel_receive"}:
+        raise ValueError("Unrecognized telemetry clock protocol")
     if report.get("switch_sampling") != {"before": sampling, "after": sampling}:
         raise ValueError("Actual switch sampling evidence missing or mismatched")
     health = json.loads((evidence / "truth/health.json").read_text())
@@ -60,6 +213,14 @@ def accept_realtime(run_path, evidence, report):
     labels = {row["y_true"] for row in features if row["phase"] == "evaluation"}
     if not {0, 1} <= labels:
         raise ValueError("Both classes must have scored support")
+    telemetry_validation = {}
+    if summary["config"].get("telemetry_clock", "userspace") == "kernel_receive":
+        summary["ingestion_validation"] = validate_kernel_ingestion(
+            run_path, evidence, summary, features, origin)
+        telemetry_validation = {"telemetry_kernel_clock": True,
+                                "telemetry_ingestion_timing": True,
+                                "telemetry_tail_complete": True,
+                                "independent_sflow_capture": True}
     physical = physical_detection_metrics(features, events, report["origin_epoch"], summary["config"]["warmup_seconds"])
     recovery = None
     if summary["scenario"] == "drift":
@@ -103,6 +264,10 @@ def accept_realtime(run_path, evidence, report):
         paths["openflow_capture_log"] = run_path / "openflow_capture.log"
     if (evidence / "truth/truth_windows.zip").is_file():
         paths["oracle_windows"] = evidence / "truth/truth_windows.zip"
+    if telemetry_validation:
+        paths["ingestion"] = run_path / "ingestion.jsonl"
+        paths["sflow_rx"] = evidence / "sflow_rx.pcap"
+        paths["sflow_rx_log"] = evidence / "sflow_rx.log"
     summary.update(source="official_realtime_verified", research_metrics=physical,
                    implementation_sha256=report.get("implementation_sha256"),
                    environment=report.get("environment"),
@@ -111,7 +276,7 @@ def accept_realtime(run_path, evidence, report):
                    validation={"accepted": True, "actual_switch_config_verified": True,
                                "independent_tx_rx_match": True, "zero_capture_drops": True,
                                "raw_hashes_verified": True, "chronological_prediction_before_label": True,
-                               "both_classes_scored": True},
+                               "both_classes_scored": True, **telemetry_validation},
                    research={"ablations_completed": False, "sensitivity_completed": False,
                              "study_role": report.get("research", {}).get("study_role", "primary")})
     atomic_json(summary_path, summary)

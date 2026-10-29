@@ -36,10 +36,15 @@ class RunConfig:
     trial_id: int = 1
     label_delay_seconds: float = 0.5
     replay_pps: float = 100.0
+    # Historical/standalone input paths used userspace arrival time. The causal
+    # research launcher explicitly selects kernel_receive for the corrected path.
+    telemetry_clock: str = "userspace"
 
     def __post_init__(self):
         if self.mode not in {"csv_replay", "pcap_replay", "live_sflow"}:
             raise ValueError("Unknown input mode")
+        if self.telemetry_clock not in {"userspace", "kernel_receive"}:
+            raise ValueError("telemetry_clock must be userspace or kernel_receive")
         if self.flow_labels_path and (self.mode != "pcap_replay" or self.labels_path):
             raise ValueError(
                 "flow_labels_path is for offline packet replay only; use either flow labels or timeline labels"

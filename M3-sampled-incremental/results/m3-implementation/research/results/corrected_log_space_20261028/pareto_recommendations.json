@@ -1,0 +1,301 @@
+[
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"1e0e61e4ff7c6fdaafbdb5a2bae8782ca12e63fb2bcc90f407549c4d5765215f\", \"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"43374a31e4c68180f75c695a52b6c1268baf38a39b6744d5eeffd0ee23e9ab38\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"sha256\": \"566deac32b93aa983d20df58bea1ca845f663e3cec1baffa733565b49e67ee6b\", \"size_bytes\": 40001, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"drift\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 117, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/drift/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"naive_bayes\": \"log_space\", \"replay_pps\": 100, \"scenario\": \"drift\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "front": [
+      {
+        "sampling_rate": 10,
+        "f1": 0.706104291847614,
+        "sflow_bandwidth_kbit_s": {
+          "value": 23.485629629629628,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.4913504273504274,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 23.976980056980054,
+        "ideal_distance": 0.5286055255499829
+      },
+      {
+        "sampling_rate": 2,
+        "f1": 0.8493303571428571,
+        "sflow_bandwidth_kbit_s": {
+          "value": 74.7068717948718,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.5700740740740741,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 75.27694586894587,
+        "ideal_distance": 0.3672300997678838
+      },
+      {
+        "sampling_rate": 5,
+        "f1": 0.7963881236608509,
+        "sflow_bandwidth_kbit_s": {
+          "value": 36.54017094017094,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.4913504273504274,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 37.031521367521364,
+        "ideal_distance": 0.2396059728929736
+      },
+      {
+        "sampling_rate": 50,
+        "f1": 0.6614875659914196,
+        "sflow_bandwidth_kbit_s": {
+          "value": 12.802096866096866,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.4913504273504274,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 13.293447293447294,
+        "ideal_distance": 0.6882847721772973
+      }
+    ],
+    "excluded": [],
+    "recommendation": {
+      "sampling_rate": 5,
+      "f1": 0.7963881236608509,
+      "sflow_bandwidth_kbit_s": {
+        "value": 36.54017094017094,
+        "unit": "kbit/s",
+        "status": "measured"
+      },
+      "openflow_bandwidth_kbit_s": {
+        "value": 0.4913504273504274,
+        "unit": "kbit/s",
+        "status": "measured"
+      },
+      "combined_bandwidth_kbit_s": 37.031521367521364,
+      "ideal_distance": 0.2396059728929736
+    },
+    "criterion": "Predeclared normalized weighted Euclidean distance to ideal",
+    "quality_weight": 0.5,
+    "descriptive_only": true
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"sha256\": \"c9070fba845979340cbbf3a56f64c1bd32df2161e7a0cad2de8900a9cb32afd5\", \"size_bytes\": 30150, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"baseline\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/baseline/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"naive_bayes\": \"log_space\", \"replay_pps\": 100, \"scenario\": \"baseline\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "front": [
+      {
+        "sampling_rate": 10,
+        "f1": 0.7199018428834056,
+        "sflow_bandwidth_kbit_s": {
+          "value": 25.308842666666667,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.319488,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 25.628330666666667,
+        "ideal_distance": 0.5434917856222201
+      },
+      {
+        "sampling_rate": 2,
+        "f1": 0.9566733863322872,
+        "sflow_bandwidth_kbit_s": {
+          "value": 85.518848,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.319488,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 85.83833600000001,
+        "ideal_distance": 0.34823604967987243
+      },
+      {
+        "sampling_rate": 20,
+        "f1": 0.6687896900810242,
+        "sflow_bandwidth_kbit_s": {
+          "value": 17.38965333333333,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.3231573333333333,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 17.712810666666666,
+        "ideal_distance": 0.6572887318655206
+      },
+      {
+        "sampling_rate": 5,
+        "f1": 0.7835156778128333,
+        "sflow_bandwidth_kbit_s": {
+          "value": 40.048384,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.33527466666666667,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 40.38365866666666,
+        "ideal_distance": 0.4158496718051567
+      },
+      {
+        "sampling_rate": 50,
+        "f1": 0.6468197683370775,
+        "sflow_bandwidth_kbit_s": {
+          "value": 13.138943999999999,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.319488,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 13.458431999999998,
+        "ideal_distance": 0.7071067811865476
+      }
+    ],
+    "excluded": [],
+    "recommendation": {
+      "sampling_rate": 2,
+      "f1": 0.9566733863322872,
+      "sflow_bandwidth_kbit_s": {
+        "value": 85.518848,
+        "unit": "kbit/s",
+        "status": "measured"
+      },
+      "openflow_bandwidth_kbit_s": {
+        "value": 0.319488,
+        "unit": "kbit/s",
+        "status": "measured"
+      },
+      "combined_bandwidth_kbit_s": 85.83833600000001,
+      "ideal_distance": 0.34823604967987243
+    },
+    "criterion": "Predeclared normalized weighted Euclidean distance to ideal",
+    "quality_weight": 0.5,
+    "descriptive_only": true
+  },
+  {
+    "comparison_group": "{\"feature_schema\": \"packet-window-v1\", \"model_parameters\": null, \"provenance\": {\"dataset\": \"5G-NIDD\", \"doi\": \"10.23729/e80ac9df-d9fb-47e7-8d0d-01384a415361\", \"fixture\": false, \"parent_sha256s\": [\"2b4eacec43f4d132c17703ad9f1762a674e9b95a28685f2ad09371b038f0636c\", \"3b01b6574c1d6d2021f211e5709b6a6ff0d3cf443442104050be765d750d518c\", \"68f98b38b26c507c39307f3e04beca86901959273c30838948f4d5a12c980b5e\", \"921c76162cf42d996f4ece45686d670c9e00d22391025523a1bcd49ee86def94\"], \"path\": \"data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"sha256\": \"1091f89f0186cbeb5b447d103e912ca1fcf72b0bd61f85f42f15525ff1d12a05\", \"size_bytes\": 30201, \"transformations\": [\"Select only exact original FlowLabels family matches; unknowns excluded\", \"Rewrite Ethernet destination/source MAC only; bytes from offset14 unchanged\", \"Construct packet timestamps as selection_index/pps; not natural chronology\", \"Select after declared skip_matching exact-family matches; packet indices/hashes disclosed\", \"Frozen blocks are reused across trials; trials are not independent source datasets\"], \"verification_status\": \"verified\"}, \"scenario\": \"unseen\", \"settings\": {\"drift_delta\": 0.002, \"duration_seconds\": 125, \"flow_labels_path\": null, \"grace_period\": 200, \"input_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/prepared/research_20261019_equalrate_v1/unseen/blocks.json\", \"label_delay_seconds\": 0.5, \"labels_path\": null, \"manifest_path\": \"/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/data/manifest.json\", \"max_records\": null, \"mode\": \"live_sflow\", \"naive_bayes\": \"log_space\", \"replay_pps\": 100, \"scenario\": \"unseen\", \"threshold\": 0.5, \"warmup_records\": 1000, \"warmup_seconds\": 41.0, \"window_seconds\": 0.1}, \"versions\": {\"dpkt\": \"1.9.8\", \"m3-sdn\": \"0.1.0\", \"numpy\": \"2.5.4\", \"psutil\": \"7.2.2\", \"river\": \"0.23.0\"}}",
+    "front": [
+      {
+        "sampling_rate": 10,
+        "f1": 0.7338179813696656,
+        "sflow_bandwidth_kbit_s": {
+          "value": 25.451776,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.470912,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 25.922687999999997,
+        "ideal_distance": 0.5347270065296226
+      },
+      {
+        "sampling_rate": 2,
+        "f1": 0.9661044662932904,
+        "sflow_bandwidth_kbit_s": {
+          "value": 84.58359466666667,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.470912,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 85.05450666666667,
+        "ideal_distance": 0.3458871093280114
+      },
+      {
+        "sampling_rate": 20,
+        "f1": 0.6918233488204076,
+        "sflow_bandwidth_kbit_s": {
+          "value": 17.374378666666665,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.470912,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 17.845290666666664,
+        "ideal_distance": 0.6277710781472091
+      },
+      {
+        "sampling_rate": 5,
+        "f1": 0.8025442188390175,
+        "sflow_bandwidth_kbit_s": {
+          "value": 40.34090666666667,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.470912,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 40.81181866666667,
+        "ideal_distance": 0.3967206665043204
+      },
+      {
+        "sampling_rate": 50,
+        "f1": 0.6569903027899195,
+        "sflow_bandwidth_kbit_s": {
+          "value": 13.066666666666666,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.470912,
+          "unit": "kbit/s",
+          "status": "measured"
+        },
+        "combined_bandwidth_kbit_s": 13.537578666666667,
+        "ideal_distance": 0.7071067811865476
+      }
+    ],
+    "excluded": [],
+    "recommendation": {
+      "sampling_rate": 2,
+      "f1": 0.9661044662932904,
+      "sflow_bandwidth_kbit_s": {
+        "value": 84.58359466666667,
+        "unit": "kbit/s",
+        "status": "measured"
+      },
+      "openflow_bandwidth_kbit_s": {
+        "value": 0.470912,
+        "unit": "kbit/s",
+        "status": "measured"
+      },
+      "combined_bandwidth_kbit_s": 85.05450666666667,
+      "ideal_distance": 0.3458871093280114
+    },
+    "criterion": "Predeclared normalized weighted Euclidean distance to ideal",
+    "quality_weight": 0.5,
+    "descriptive_only": true
+  }
+]

@@ -1,0 +1,226 @@
+{
+  "schema": "m3-controlled-research-protocol-v1",
+  "declared_before_primary_results": false,
+  "purpose": "Corrected log-space live validation of the original controlled equal-rate official-packet sampling study",
+  "sampling_rates": [
+    1,
+    2,
+    5,
+    10,
+    20,
+    50
+  ],
+  "model_seeds": [
+    42,
+    43,
+    44
+  ],
+  "planned_trials": 54,
+  "ordering_seed": 20261019,
+  "primary_pps": 100,
+  "gap_seconds": 2,
+  "primary_window_seconds": 0.1,
+  "sensitivity_window_seconds": 1.0,
+  "label_delay_seconds": 0.5,
+  "model": {
+    "grace_period": 200,
+    "drift_delta": 0.002,
+    "threshold": 0.5,
+    "naive_bayes": "log_space"
+  },
+  "tuning": "No hyperparameter selection using primary evaluation results",
+  "replication": "Frozen traffic common to every N/trial; seeds control model only; OVS sampling randomness is uncontrolled and recorded",
+  "provenance": "Official release checksums, exact flow-family match, disjoint original capture packet indices within and across scenarios, mappings retain original and rewritten hashes; naturally duplicate payloads are possible",
+  "eligibility": "Only independently observed fully covered windows; gaps, transitions, capture failures and unknown/drain windows are not benign zeros",
+  "minimum_support": "Report actual evaluated benign/attack windows for each run; undefined metrics stay unavailable; no minimum F1 is a completion or exclusion rule",
+  "scenarios": {
+    "baseline": {
+      "purpose": "Known benign/UDP/SYN distribution from warm-up with later disjoint selections",
+      "warmup_blocks": 4,
+      "blocks": [
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "SYNFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "SYNFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "SYNFlood",
+          "packet_count": 800
+        }
+      ]
+    },
+    "drift": {
+      "purpose": "Controlled attack-family covariate shift from UDP to ICMP after block7; not naturally occurring concept drift",
+      "warmup_blocks": 4,
+      "drift_before_block": 8,
+      "blocks": [
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 200
+        },
+        {
+          "family": "ICMPFlood",
+          "packet_count": 200
+        },
+        {
+          "family": "Benign",
+          "packet_count": 200
+        },
+        {
+          "family": "ICMPFlood",
+          "packet_count": 200
+        },
+        {
+          "family": "Benign",
+          "packet_count": 200
+        },
+        {
+          "family": "ICMPFlood",
+          "packet_count": 200
+        },
+        {
+          "family": "Benign",
+          "packet_count": 200
+        },
+        {
+          "family": "ICMPFlood",
+          "packet_count": 200
+        }
+      ]
+    },
+    "unseen": {
+      "purpose": "SYN excluded from the entire initial learning segment and first introduced during evaluation",
+      "warmup_blocks": 4,
+      "blocks": [
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "SYNFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "SYNFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "UDPFlood",
+          "packet_count": 800
+        },
+        {
+          "family": "Benign",
+          "packet_count": 800
+        },
+        {
+          "family": "SYNFlood",
+          "packet_count": 800
+        }
+      ]
+    }
+  },
+  "study_id": "m3-kernel-ingestion-v2-20261028",
+  "declared_before_corrected_runs": false,
+  "parent_protocol_sha256": "cdaf7e99b65cd14a4f884920c66e482f1b7cc02d30e33e9f708e1de22106de94",
+  "revision_reason": "Correct diagnosed userspace telemetry backlog: kernel receive timestamps, independent bounded UDP ingestion, native collection spool, independent UDP capture, and strict lag/tail validation. Model, features, window size, threshold and replay selections are unchanged.",
+  "telemetry_clock": "kernel_receive",
+  "declared_before_kernel_ingestion_runs": true,
+  "ingestion_lag_limit_seconds": 0.1,
+  "collector_storage": "Native Linux spool with verified durable copy after measurement",
+  "independent_sflow_capture": true
+}

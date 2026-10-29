@@ -1,0 +1,665 @@
+{
+  "protocol": {
+    "schema": "m3-controlled-research-protocol-v1",
+    "declared_before_primary_results": false,
+    "purpose": "Corrected log-space live validation of the original controlled equal-rate official-packet sampling study",
+    "sampling_rates": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      50
+    ],
+    "model_seeds": [
+      42,
+      43,
+      44
+    ],
+    "planned_trials": 54,
+    "ordering_seed": 20261019,
+    "primary_pps": 100,
+    "gap_seconds": 2,
+    "primary_window_seconds": 0.1,
+    "sensitivity_window_seconds": 1.0,
+    "label_delay_seconds": 0.5,
+    "model": {
+      "grace_period": 200,
+      "drift_delta": 0.002,
+      "threshold": 0.5,
+      "naive_bayes": "log_space"
+    },
+    "tuning": "No hyperparameter selection using primary evaluation results",
+    "replication": "Frozen traffic common to every N/trial; seeds control model only; OVS sampling randomness is uncontrolled and recorded",
+    "provenance": "Official release checksums, exact flow-family match, disjoint original capture packet indices within and across scenarios, mappings retain original and rewritten hashes; naturally duplicate payloads are possible",
+    "eligibility": "Only independently observed fully covered windows; gaps, transitions, capture failures and unknown/drain windows are not benign zeros",
+    "minimum_support": "Report actual evaluated benign/attack windows for each run; undefined metrics stay unavailable; no minimum F1 is a completion or exclusion rule",
+    "scenarios": {
+      "baseline": {
+        "purpose": "Known benign/UDP/SYN distribution from warm-up with later disjoint selections",
+        "warmup_blocks": 4,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          }
+        ]
+      },
+      "drift": {
+        "purpose": "Controlled attack-family covariate shift from UDP to ICMP after block7; not naturally occurring concept drift",
+        "warmup_blocks": 4,
+        "drift_before_block": 8,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          },
+          {
+            "family": "Benign",
+            "packet_count": 200
+          },
+          {
+            "family": "ICMPFlood",
+            "packet_count": 200
+          }
+        ]
+      },
+      "unseen": {
+        "purpose": "SYN excluded from the entire initial learning segment and first introduced during evaluation",
+        "warmup_blocks": 4,
+        "blocks": [
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "UDPFlood",
+            "packet_count": 800
+          },
+          {
+            "family": "Benign",
+            "packet_count": 800
+          },
+          {
+            "family": "SYNFlood",
+            "packet_count": 800
+          }
+        ]
+      }
+    },
+    "study_id": "m3-kernel-ingestion-v2-20261028",
+    "declared_before_corrected_runs": false,
+    "parent_protocol_sha256": "cdaf7e99b65cd14a4f884920c66e482f1b7cc02d30e33e9f708e1de22106de94",
+    "revision_reason": "Correct diagnosed userspace telemetry backlog: kernel receive timestamps, independent bounded UDP ingestion, native collection spool, independent UDP capture, and strict lag/tail validation. Model, features, window size, threshold and replay selections are unchanged.",
+    "telemetry_clock": "kernel_receive",
+    "declared_before_kernel_ingestion_runs": true,
+    "ingestion_lag_limit_seconds": 0.1,
+    "collector_storage": "Native Linux spool with verified durable copy after measurement",
+    "independent_sflow_capture": true
+  },
+  "naive_bayes": "log_space",
+  "telemetry_clock": "kernel_receive",
+  "runs_output": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/kernel_ingestion_v2_20261028/runs",
+  "cells": [
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "5a2b2ea046bd4beb93ecf3c443432729"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "43e236242307425a9f4f51d435034238"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "765e33707b5543198a6b4bf97767cb45"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "29cf6f6397664fbdbec5e271522d7eec"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "456463331c4d40149c2204d9c4a51172"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "a7a99b4777e448d2bf9d3e8d38170f48"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "339fa464a8e7473fba47449732404512"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "3b0fded73caf4ac8a90b1c6cbd290d74"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "1abb2c48dc1f4893b6d33f387a2d95ac"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "1391fcbb079a4d47831fcc571acea462"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "f0a6da7c004f45688547455b33ed6ec8"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "a58000cdedbb4c77b6f0e92e3f8ed154"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "3fcec426678d4a2a88f942421425b64d"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "805be11fbc7344f6840a4fb8e9e4b3a0"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "d39e988a4d59414da556177e92dd8677"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "e0e302c1e9a8484fb5241f2f0edd008d"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "a25a56d00a444e29a3dd65b85713f9bd"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "32b182044d4d4bb593915065a2dd7c24"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "a398be5f0b484e4a8de9d499c3a524b6"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "276cb730799f40e49f498590096b40d5"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "f4976b89b23443cdb9ebdaf742af01ab"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "b3061e7829f54b70b988c7ffe3c34252"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "7938e8309a9b46af914ad9b624b8616f"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "67b6f75e427b4bd683326930b3b0d416"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "95603c5be6af4ffeadda833aa7cdff4d"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "907963b623bb46258f91d2e1baa5cc63"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "a06eb554deae45adbff818d2d2b4de1c"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "75036cb84015428ea5afa32947ec4928"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "bc4df3497e724fdb8c8902c0fb3a0754"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "3ef599316a994e32b60d8f8f8446c3dd"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 20,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "8f3466c9ac444204b0ed4e1d660edf2b"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "73ffc1986ab14c8f805860f5a6a86ed8"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 5,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "356236c6bdf24f2dbac73388e5cbffd9"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "2fa0937c3a5e4b2590fe072f8e86ed5e"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "191b9e3a1f164a20aa83d05e1ea4ea6c"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "dcb763f3cfae4aca800c4e89192af170"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "7c6e853d71ee49c9af3764ee004c8294"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "af287a59b57d46099c807fb64d32a438"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "41593ae305844696a29401b9b7d09ab0"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 50,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "f6c10b2228814f6d921cd80920b6924e"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "ad339a2d1482436eb51633db8ad8b791"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "b1eda02c3fc946c69e6e320d19710206"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "08a69a819da24429af6a96a3ccd412ca"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "23a150f95d7a4bbd837b1fbbd3c63d8c"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "97cf74e442694563a2973bf6026a7b5f"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 50,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "cc792ecce72c479db21fcc1ae3aec805"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "81fbe182b647426bb8dd849228cc957a"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 50,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "9a06318ab214417aacb69b74b108f52f"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 20,
+      "seed": 42,
+      "trial_id": 1,
+      "status": "completed",
+      "run_id": "99337de03f884a39b8e5081c99b9f8ee"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 20,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "8c2b6b5a07a14308af93ed64742f8fba"
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 5,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "4a58622f530e42ac843955f217dfca04"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 10,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "f1474f8ae9884dfbac41414adaede317"
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "status": "completed",
+      "run_id": "4067b711a04945a3ac8021c7b6aa0ac2"
+    },
+    {
+      "scenario": "unseen",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "status": "completed",
+      "run_id": "af8ad87c897645509d0488b4d51849b4"
+    }
+  ]
+}

@@ -1,5 +1,20 @@
 # Current M3 completion checkpoint - 20 October 2026
 
+## 26 October: PR #1 correction integrated
+
+The log-space Naive Bayes correction and its 54-trial offline reanalysis are now
+integrated. Historical vote reproduction, frozen-matrix selection, nested-mode
+restoration and vote-aware comparison have regression coverage. Current local
+verification: 179 Python tests passed (82% coverage, one existing warning),
+15 dashboard tests passed (four opt-in API tests skipped), production build and
+Ruff passed. M2's 159 tests and saved-window evaluation were checked in the full
+repository review branch. See [PR integration details](pr-1-integration.md).
+
+Original live measurements and reports below remain the study as run; corrected
+quality reanalysis is separate and does not re-measure live CPU/timing/recovery.
+
+## Original primary-study checkpoint
+
 The declared controlled M3 study is complete: 54 accepted official live trials, 18 cells, three distinct trial IDs per cell. `research/results/research_readiness.json` has `ready=true`, no missing cells and no input-read errors. This certifies the declared evidence package, not novelty, production readiness or publication acceptance.
 
 ## Scientific evidence

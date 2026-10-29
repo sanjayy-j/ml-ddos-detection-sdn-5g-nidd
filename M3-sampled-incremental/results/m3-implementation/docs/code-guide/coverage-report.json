@@ -1,0 +1,8 @@
+{
+  "source_files": 61,
+  "line_annotated_files": 56,
+  "explained_lines": 7953,
+  "errors": [],
+  "verified": "2026-10-15",
+  "scope": "Tracked source/config/reference files; installed dependencies, generated outputs and dataset rows excluded"
+}

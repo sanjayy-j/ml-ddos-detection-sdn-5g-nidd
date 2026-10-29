@@ -9,6 +9,7 @@ import pytest
 from m3 import causal_live
 from m3.config import RunConfig
 from m3.engine import Evaluation
+from m3.ingestion import IngestionEvent, KernelDatagramReceiver
 from m3.packets import Packet
 from m3.sflow import DecodeError
 
@@ -75,6 +76,46 @@ def causal_lab(tmp_path, monkeypatch):
             self.closed = True
 
     sock = Socket()
+    sock.first_kernel_epoch = None
+    sock.first_read_epoch = None
+
+    class Receiver:
+        def __init__(self, socket, stop_epoch, *, lag_limit_seconds):
+            self.socket, self.deadline = socket, stop_epoch
+            self.stats = {"timestamp_source": "kernel_receive_ns", "queue_capacity": 4096,
+                          "max_queue_depth": 1, "queue_overflows": 0, "kernel_drops": 0,
+                          "missing_timestamps": 0, "datagrams_received": 0,
+                          "max_receive_lag_seconds": 0.0, "max_processing_lag_seconds": 0.0,
+                          "lag_limit_seconds": lag_limit_seconds,
+                          "receiver_finished": False, "drain_complete": False}
+
+        def start(self):
+            pass
+
+        def events(self):
+            first = True
+            while clock.now < self.deadline:
+                clock.now += 0.025
+                if self.socket.payloads:
+                    payload = self.socket.payloads.pop(0)
+                    epoch = self.socket.first_kernel_epoch if first else None
+                    if first and self.socket.first_read_epoch is not None:
+                        clock.now = self.socket.first_read_epoch
+                    epoch = clock.now if epoch is None else epoch
+                    first = False
+                    self.stats["datagrams_received"] += 1
+                    self.stats["max_receive_lag_seconds"] = max(
+                        self.stats["max_receive_lag_seconds"], clock.now - epoch)
+                    yield IngestionEvent(epoch, clock.now, payload)
+                else:
+                    yield IngestionEvent(clock.now, clock.now)
+            self.stats.update(receiver_finished=True, drain_complete=True)
+
+        processed = KernelDatagramReceiver.processed
+        validate = KernelDatagramReceiver.validate
+
+        def stop(self):
+            self.stats["receiver_finished"] = True
     sequence = 0
 
     def decode(payload, received):
@@ -98,11 +139,13 @@ def causal_lab(tmp_path, monkeypatch):
     monkeypatch.setattr(causal_live, "verify_input", lambda *_: {"verified": True})
     monkeypatch.setattr(causal_live, "ResourceMonitor", Resources)
     monkeypatch.setattr(causal_live, "decode_datagram", decode)
+    monkeypatch.setattr(causal_live, "KernelDatagramReceiver", Receiver)
     monkeypatch.setattr(causal_live, "reveal_truth", reveal)
     monkeypatch.setattr(causal_live, "Evaluation", lambda c, w: Evaluation(c, w, Detector()))
     config = RunConfig(mode="live_sflow", input_path="fixture-blocks.json", start_epoch=100,
                        output_root=str(tmp_path / "runs"), duration_seconds=0.4,
-                       window_seconds=0.1, warmup_seconds=0, label_delay_seconds=0.05)
+                       window_seconds=0.1, warmup_seconds=0, label_delay_seconds=0.05,
+                       telemetry_clock="kernel_receive")
     return SimpleNamespace(config=config, truth=truth_dir, sock=sock, trace=trace,
                            output=tmp_path / "runs")
 
@@ -181,3 +224,26 @@ def test_socket_bind_failure_is_saved_and_socket_closed(causal_lab):
     assert summary["counts"]["input"] == 0
     assert summary["validation"]["accepted"] is False
     assert causal_lab.sock.closed
+
+
+def test_delayed_read_keeps_kernel_time_feature_window(causal_lab):
+    causal_lab.sock.first_kernel_epoch = 100.095
+    causal_lab.sock.first_read_epoch = 100.145
+    result = causal_live.run_causal(causal_lab.config, causal_lab.truth)
+    directory, _ = saved_run(causal_lab)
+    rows = [json.loads(line) for line in (directory / "features.jsonl").read_text().splitlines()]
+    assert rows[0]["index"] == 0 and rows[0]["sampled_packets"] == 1
+    assert rows[1]["sampled_packets"] == 0
+    assert result["ingestion"]["max_receive_lag_seconds"] == pytest.approx(0.05)
+    log = json.loads((directory / "ingestion.jsonl").read_text().splitlines()[0])
+    assert log["kernel_epoch"] == 100.095 and log["read_epoch"] == 100.145
+
+
+def test_stale_receiver_backlog_cannot_be_accepted(causal_lab):
+    causal_lab.sock.first_kernel_epoch = 100.025
+    causal_lab.sock.first_read_epoch = 100.175
+    with pytest.raises(RuntimeError, match="ingestion timing/integrity"):
+        causal_live.run_causal(causal_lab.config, causal_lab.truth)
+    _, summary = saved_run(causal_lab)
+    assert summary["status"] == "failed"
+    assert summary["ingestion"]["max_receive_lag_seconds"] == pytest.approx(0.15)

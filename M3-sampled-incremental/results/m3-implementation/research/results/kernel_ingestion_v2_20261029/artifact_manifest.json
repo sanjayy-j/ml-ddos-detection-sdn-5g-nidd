@@ -1,0 +1,29 @@
+{
+  "study_id": "m3-kernel-ingestion-v2-20261028",
+  "source_revision": "6cf8c036d12b387745afce40a0ac871ae36c625f",
+  "accepted_trials": 54,
+  "pilot_excluded": true,
+  "naive_bayes": "log_space",
+  "original_packet_payloads_included": false,
+  "files": {
+    "aggregated_metrics.csv": "77ff164286c275457c6c0a117eee32689c51d5c8b9126d30a7b9f710decede21",
+    "aggregated_metrics.json": "76fe83861c84cd419e41928a27e0a5c1463a7ac35dbb59a7929247c4d467999c",
+    "derived_trial_evidence.zip": "33ebc5c05a0c03e690fe26c4814bbb52ab98398f9a1033c47863c5c3ef95ace7",
+    "failed_attempts.json": "f998242e5ba262988f00e67dc194477ad32ec97f37fffe692d5597de2b5f69b3",
+    "ingestion_audit.json": "334a6b36a4e5a7c5f8f011a461c4aafec1b82a57394e8112b2d4d8de636643a8",
+    "matrix.json": "1295344a5b795804b21cae6f08cc7dca2d9dc912e29eb73fd2d25a6d67f7012e",
+    "paired_deltas.json": "449138ed7ba6a53dacf4b337170a5ddec19fced0dc0592b2a9463101b372b25d",
+    "pareto_1.png": "137e8963e6d2a4996dbe22a575d710340dd42c741186b57aff75594f79773a41",
+    "pareto_2.png": "cb61ff9ef890e09db3996d49f5e7fa92fc71f6d407b56d668ed04cc88da2f9e4",
+    "pareto_3.png": "92e7a31521325aa73491f1484b025116e8b93ee1f37a347fe715174707ff9d04",
+    "pareto_recommendations.json": "5def2a1087661157b80af53918ef5fd8ffeaaa534b7a8fa37c9e1628f6e356a6",
+    "protocol.json": "23b49e6ed3110ef06e4feb5e6f0af44009e67c49b1a45c938d2673144d952ac3",
+    "quality_ablations.json": "b9cf13913a066e14665c6ef81b3824942526000ac88ad715abc004a31fb0b597",
+    "README.md": "f8d4532aa91ee9c6e753109baf4936a7276d3b7bc069a68a5ce1144f11265145",
+    "replay_timing_audit.json": "4201d510d1324d28736542d62f37216199859795255507f585af23255f8db6c2",
+    "research_readiness.json": "f9c7dc390387bcef8228983ae72c878b382036aae05ed40b3670a3398baa63a9",
+    "source_sha256.json": "4c4d414463695fa6b5a1345f037356d5477dae193aba332c4208304c4ff00594",
+    "study_status.json": "e6833a346ff1d1a000ba50c754893836479c0bd9083d235cb2a1f58c85cf5e1b",
+    "trial_index.json": "e1c687913af2921eef3a412051bb1e1a6ec2bcdcfc01e95d49da00333f2aeaf9"
+  }
+}

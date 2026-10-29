@@ -1,0 +1,27 @@
+{
+  "study_id": "m3-log-space-20261028",
+  "source_revision": "6449fd20b1af920350cc4a832f37fa9feb79ac24",
+  "accepted_trials": 54,
+  "pilot_excluded": true,
+  "naive_bayes": "log_space",
+  "original_packet_payloads_included": false,
+  "files": {
+    "aggregated_metrics.csv": "c4e33463c0d1076cdce5e20643f159925ab3b7b29729164fb1844739991af882",
+    "aggregated_metrics.json": "2a516aa9f57a9c93d56f48e832cf8565e5200bca2b2ed4fe4366d7864d5f8c6a",
+    "derived_trial_evidence.zip": "55328fd36c0b20debdde731da0016e9e7a662c930f30064f23cf3e68e3332ac5",
+    "failed_attempts.json": "c7a1adba78b10a5b299bb971e83ecd83c362fb2dc7ca33af4665cb21c56c3263",
+    "matrix.json": "fd73ef5c024a9df95d680f0dfe025d49239c76415a47136e8681cbebf961286e",
+    "paired_deltas.json": "53f82d1870d7bdc4d37e69ffc50d479964807ade1ca461f7c2737014451ccb80",
+    "pareto_1.png": "87244e10b6abbd1f2790c7064963631a6596188583c3a47c92f0676ad5faa041",
+    "pareto_2.png": "86243ffaf8966d25423d9386cc7ac80c8868a50c9d598d3f74634826dba82d54",
+    "pareto_3.png": "c1debb689b48f44d789e11bf58f1b02a98ed906d3bdcbd1b2338fb081d4c7a06",
+    "pareto_recommendations.json": "c83ba3706bbfb318d4249f5ec8a3a84dc53ab38a23fae1f4071263ae5397aa79",
+    "protocol.json": "6e83b2b4e28ffec0f4599076c4d59e7dcf65c548cb5ddbfea52c9d5f31bb93dd",
+    "quality_ablations.json": "e77f7aedc60a29f523624ebf4bcbb5b078f7387e20f3a7ee9c9fc2558af09af8",
+    "replay_timing_audit.json": "8578971bb7df46ba10e760f60b6b9f8533441c909eb40336ec60e03bb23ac321",
+    "research_readiness.json": "c81521066bd682fda21d2999ac77eb57ea49008d4a6909f37e722cad721c9108",
+    "source_sha256.json": "992a9cb501301dcfa88fba6e24182446736142b2580f79fe9f5448cbae6b4d8c",
+    "study_status.json": "624ae933a926fb78eb8c8396c8301dfa2df696edee875373638f8ce7acc54e19",
+    "trial_index.json": "506a5f0644e71455fd274478242b89cc795d5be95ac32cf336055aac0f2e250d"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "attempts": [
+    {
+      "date": "2026-10-28T06:25:11.289062+00:00",
+      "reason": "Technical retry only: atomic run_summary.json replacement failed with filesystem PermissionError in failed run a619f7005d2d435792642ceaf1e2047d. The failed raw evidence is retained; 100 atomic checkpoint replacements now pass. No model, protocol or threshold changed.",
+      "failed_run_id": "a619f7005d2d435792642ceaf1e2047d",
+      "raw_evidence_retained": true,
+      "retained_run_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/failed_runs/a619f7005d2d435792642ceaf1e2047d",
+      "retained_execution_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/matrix/official_pilot_46ef8108d0d34aaf814350ce3fab2593",
+      "protocol_changed": false,
+      "quality_based_retry": false
+    },
+    {
+      "date": "2026-10-28T07:12:49.944577+00:00",
+      "reason": "Technical retry only: atomic run_summary.json replacement failed with filesystem PermissionError in failed run aa323e3a25674965abf022bd28d8ae41. The failed raw evidence is retained; 100 atomic checkpoint replacements now pass. No model, protocol or threshold changed.",
+      "failed_run_id": "aa323e3a25674965abf022bd28d8ae41",
+      "raw_evidence_retained": true,
+      "retained_run_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/failed_runs/aa323e3a25674965abf022bd28d8ae41",
+      "retained_execution_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/matrix/official_pilot_4acdb10274b24ca599674fb2a939258c",
+      "protocol_changed": false,
+      "quality_based_retry": false
+    },
+    {
+      "date": "2026-10-28T07:50:05.706995+00:00",
+      "reason": "Technical retry only: independent oracle reported 4 late packets out of 8000 in failed run cb37a005ee1e4e1c923c650fd8a45aef. All raw evidence is retained. No model, protocol, threshold or integrity gate changed.",
+      "failed_run_id": "cb37a005ee1e4e1c923c650fd8a45aef",
+      "raw_evidence_retained": true,
+      "retained_run_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/failed_runs/cb37a005ee1e4e1c923c650fd8a45aef",
+      "retained_execution_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/matrix/official_pilot_6995b99d0c7841ee9ef7652e4c22af6a",
+      "protocol_changed": false,
+      "quality_based_retry": false,
+      "failure_kind": "oracle-late"
+    },
+    {
+      "date": "2026-10-28T07:59:47.615202+00:00",
+      "reason": "Technical retry only: replay overran the fixed experiment interval in run 929ada3de52e49b4a799bf7e610ee1ed; 15 of 8000 RX packets arrived after its end. The fixed oracle correctly excluded those packets. Raw packet and stage timing evidence is retained. No duration, model, protocol, threshold or validation gate changed.",
+      "failed_run_id": "929ada3de52e49b4a799bf7e610ee1ed",
+      "raw_evidence_retained": true,
+      "retained_run_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/failed_runs/929ada3de52e49b4a799bf7e610ee1ed",
+      "retained_execution_path": "/mnt/c/Users/NITHIS/OneDrive/Desktop/CN Project/Project/output/research/log_space_20261028/matrix/official_pilot_b6e223a63a934c478da3c6f91df7050b",
+      "protocol_changed": false,
+      "quality_based_retry": false,
+      "failure_kind": "replay-overrun"
+    }
+  ],
+  "technical_retry_count": 4
+}

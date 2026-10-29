@@ -105,6 +105,13 @@ failure. Model settings are fixed, and all selected classes replay at 100 pps.
 Expect a multi-hour instrumented study on this software testbed, not a quick
 classifier benchmark. No quality threshold selects or rejects trials.
 
+The unchanged frozen protocol predates the vote selector, so this matrix explicitly
+uses `naive_bayes="river"` to reproduce the original live study. New standalone
+detectors default to `log_space`. A corrected live study must use a separately
+declared protocol with `model.naive_bayes="log_space"` and a fresh output directory;
+the runner rejects resuming a matrix under a different vote. Do not present the
+offline corrected quality results as new live delay, recovery or CPU measurements.
+
 For a diagnosed **technical** failure only, retain its evidence and explain a
 retry explicitly:
 

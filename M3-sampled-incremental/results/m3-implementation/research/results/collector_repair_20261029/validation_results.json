@@ -1,0 +1,2161 @@
+{
+  "kind": "targeted_collector_engineering_validation",
+  "planned_cells": 9,
+  "completed_at": "2026-10-29T03:27:14.714114+00:00",
+  "primary_study_replaced": false,
+  "initial_pilot_reused": true,
+  "full_54_trial_rerun_completed": false,
+  "source_sha256": {
+    "configs/research_protocol_kernel_ingestion.json": "49abeb41d294e491fdda38f695239c14f607fdc183cefdf63dde4ba19352e16a",
+    "scripts/validate_collector_repair.py": "27e05e7503a1b7a5c54a5f5bdabddb7f8eb033ca6dabad359958c5048f09bc42",
+    "sdn/audit_packet_labels.py": "65c5671df8ddc81bf147581ca6fd5c36fe404937e0d39883d4e4eac3530a9a1d",
+    "sdn/controller.py": "b77d040e8d8be4400c6911a358e3b141528bcb27fb66a01b307386e086ed9978",
+    "sdn/inspect_session_labels.py": "6f295155dfafb637fc31a5bb82e423da9133cbaf0826619d64eeb30dbe52afbd",
+    "sdn/live_ground_truth.py": "98743234e782d5b428d58d461a6378f282c67a735129a9d50d42d7869639fc71",
+    "sdn/preflight.py": "e4005d895f8794960911a9ffb52adfedcc18731601ab1342edf05670671e3ec8",
+    "sdn/prepare_flow_labels.py": "4c696b220a99bc77612324dd11a6d87d2aed7e1de7a855defde645750d27d265",
+    "sdn/prepare_replay_blocks.py": "1b8af616883d985d9757bcd58b0a7e6f88484c3b771d340b183764914b1e664d",
+    "sdn/prepare_research_scenarios.py": "f63ae6a49bf0e4ab931b118e60924cb3d888cdc0517a6239cc3f8eb2d1d5ad3c",
+    "sdn/research_validation.py": "dc5a8e653744c30b4314fe99b201618c450bfd29befeae39f5fc9827309598ef",
+    "sdn/run_live_validation.py": "dc6f9d6c9dad2f6cc6fd773965bd0d4d2ae28655c3a0f86421a930bbfb5a7a16",
+    "sdn/run_official_capture_pilot.py": "6cb8aa01181362b6b7fe38e353bc2f1253a884ea8fc302c2495286e71f59a19a",
+    "sdn/run_research_matrix.py": "e120ca4ecfd15cf2d0d3d96fe3cf8934c59e37f8b036578b4b027802eedf1619",
+    "sdn/score_recorded_sflow.py": "7d246acaccca08c15e1c420e6307116b9b9139835bc139abbead7d167d7548cc",
+    "sdn/topology.py": "676051034cb330b488d152e3fc275f3ad7f71f993fcb629cde8bf2d29d863062",
+    "sdn/validate_sflow.py": "4ef680922d681022f8e6fef06d8dea3313c30de193fc08754d64d1d9a9ce3e56",
+    "src/m3/__init__.py": "3c16faf3df0efd9e0210c1ae9cad4245f8824e294442fcec9f93902721a31afe",
+    "src/m3/analysis.py": "5ec3feae7c653f0bda5337024e8a407ffb343c4c0b1fc646cc837e4ae1032866",
+    "src/m3/api.py": "5caf834a79dc8eb42075c91aa790e387a1f8420cedf712d73b89b9d6bb17ef9b",
+    "src/m3/causal_live.py": "bae3a8bc42ca9207076df56d72d98ace207a1c75f860e1e84ffdadde713f08e6",
+    "src/m3/cli.py": "ce248ea2370c40aa98de2c2126ea32411822470f4cca62dca65023713bcccedd",
+    "src/m3/config.py": "c42c0e4b626164d52849d2833675c53b88812899273e140f4a40dd618ed02e5c",
+    "src/m3/data.py": "9e8ac45f7820a09082877768e7e0b85cbeaf13a1b7d8a5ff0c4d1a9421458e9f",
+    "src/m3/engine.py": "c5ccff5858a53c1f583e198cf684604177d1adf743646726454c97131c01e0ea",
+    "src/m3/experimental_history.py": "6635c097ddc78da0620837a15e49dff15ccf74f74509b87e49cc440b5347f2a5",
+    "src/m3/experimental_variants.py": "71a5b112afe713dd9bd2717a740fb7bca229548534845a7ab9d8319f4a5de5f8",
+    "src/m3/ground_truth.py": "0f71ce43cfc297b8a7021adebfeeeb53c0d9b5a797ee87dda55420c1f410327d",
+    "src/m3/ingestion.py": "a0cd018bdc917401f9ac2800e668af310a00a0f0f1899547c091c90b4a2b0eb8",
+    "src/m3/lab.py": "9e7b4e809d2660b99b8544e82f41caffb0bf3bc370b8bbe3a975a66e811cde33",
+    "src/m3/labels.py": "b1bfe98ebdad8df896736d299325d83b8402f39abaa9803ef225d1322bbb1e97",
+    "src/m3/live.py": "38699a758a1d423919d38e69e4f2bbb3acac6bba2627179c0e13e8a852225de7",
+    "src/m3/live_supervision.py": "dfa12b55506c4a97a59d72ddce358f763897400b9c5cc1c93f20011804f7203e",
+    "src/m3/metrics.py": "bceece8e984d031c70bfa66a952a7dd661ca08cd830d720dd170006614ee89ec",
+    "src/m3/model.py": "119ac069038102543a3fdc4720ab37c000424de089180ff6d8a22a2f96ddd246",
+    "src/m3/naive_bayes.py": "62f8be2afb8b1531335701225df3382283c6c6c0bfd75bb8379dd09d50e94f4e",
+    "src/m3/packets.py": "b7eef6e17c986b923014416da92e7f07dd381b51cfba5db03705143c8ebbd692",
+    "src/m3/provenance.py": "dce1c3dc69a0397a568efae090c845cf8d9bf81acc0f70fb3f81a044e21b82c2",
+    "src/m3/research_metrics.py": "6497658dc7dc79b86154e3ae43d9d9876a0ad041db3a502838777c6eefe78a95",
+    "src/m3/resources.py": "7cc4ecb9a43ea6415ff872592478f708a7f2503c855f6581e20b2e266ec5eb38",
+    "src/m3/sflow.py": "02e25bf4de8f219bc99c1e6dfe801e4d12f728ad7f67b20c911b090ac42bd1af",
+    "src/m3/store.py": "1d6e7674d40e71c71b04c96850503b2feccc8abd4c06509f2674c4524ca6836d"
+  },
+  "selection": "Three configurations implicated by independent backlog diagnosis; all three fixed model seeds. Initial baseline43 pilot was seen before this batch was declared.",
+  "acceptance": "Existing raw-evidence and kernel-ingestion gates only; no F1 cutoff or outcome-based replacement",
+  "groups": [
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "n": 3,
+      "f1_mean": 0.9938318353838901,
+      "f1_sample_sd": 0.0015146697911235603,
+      "f1_min": 0.9923195084485407,
+      "f1_max": 0.9953488372093023,
+      "max_processing_lag_seconds": 0.016347885131835938
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "n": 3,
+      "f1_mean": 0.9835672618393738,
+      "f1_sample_sd": 0.00739422193619038,
+      "f1_min": 0.9774127310061602,
+      "f1_max": 0.9917695473251029,
+      "max_processing_lag_seconds": 0.012302637100219727
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "n": 3,
+      "f1_mean": 0.9554394123770923,
+      "f1_sample_sd": 0.001099988086750776,
+      "f1_min": 0.9546351084812623,
+      "f1_max": 0.9566929133858267,
+      "max_processing_lag_seconds": 0.004232645034790039
+    }
+  ],
+  "runs": [
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "origin": "new_validation",
+      "run_id": "cd786bb03ae241f9973bf8ee7ceb15ac",
+      "summary_sha256": "08ee7fc01228886b4076e5f9645a28eecaebdd05efbe27f457ba0d63ffe1c244",
+      "metrics": {
+        "precision": {
+          "value": 0.9847560975609756,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9923195084485407,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9918778427550358,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.015432098765432098,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.15079206027827718,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.19190409999367825,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.9847560975609756,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9923195084485407,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.9845679012345679,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.9922239502332815,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.5206501483917236,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 53.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": null,
+          "unit": "seconds",
+          "status": "unavailable",
+          "reason": "Censored or not applicable; inspect research_metrics for criterion and episodes"
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.402176,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.9919354838709677,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.435483870967742,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 5.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 141.60546875,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 156.288,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.008064516129032258,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 160.099584,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.33049599999999996,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 2,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 2155,
+        "max_receive_lag_seconds": 0.003752470016479492,
+        "max_processing_lag_seconds": 0.0041162967681884766,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "ef6b6262c44e4f88aeb14797f1607467",
+        "f1": 0.9922958397534669
+      }
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "origin": "initial_repaired_pilot",
+      "run_id": "f4398f332bc84e68b500e29112f8ccc8",
+      "summary_sha256": "b85817920788b2e7c54ee2d40cc781d20b654f9d0cd84accb4550878765b01bd",
+      "metrics": {
+        "precision": {
+          "value": 0.9877300613496932,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9938271604938271,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9944810876295598,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.01238390092879257,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.13418053023213874,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.23557940000955563,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.9877300613496932,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9938271604938271,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.9876160990712074,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.9937694704049844,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.5914735794067383,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 60.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": null,
+          "unit": "seconds",
+          "status": "unavailable",
+          "reason": "Censored or not applicable; inspect research_metrics for criterion and episodes"
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.38848,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.9919354838709677,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.1233870967741937,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 5.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 141.24609375,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 156.302336,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.016129032258064516,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 160.128256,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.319488,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 2,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 2161,
+        "max_receive_lag_seconds": 0.0016999244689941406,
+        "max_processing_lag_seconds": 0.0019223690032958984,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "50a9cfabd3c948409ba967f444f3081b",
+        "f1": 0.4488888888888889
+      }
+    },
+    {
+      "scenario": "baseline",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "origin": "new_validation",
+      "run_id": "739680b41eb74676979c14d1c11d6f66",
+      "summary_sha256": "ece76780826bcbc3786db11d922cc88f03298398a61ecbb37a6a7e6a87c18351",
+      "metrics": {
+        "precision": {
+          "value": 0.9907407407407407,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9953488372093023,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9927374786609183,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.009287925696594427,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.15482350465827577,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.19628679999357246,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.9907407407407407,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9953488372093023,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.9907120743034056,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.995334370139969,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.5109736919403076,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 52.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": null,
+          "unit": "seconds",
+          "status": "unavailable",
+          "reason": "Censored or not applicable; inspect research_metrics for criterion and episodes"
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.38848,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.9919354838709677,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.6879032258064517,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 5.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 141.98046875,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 156.298752,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.008064516129032258,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 160.121088,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.319488,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 3,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 2162,
+        "max_receive_lag_seconds": 0.0161588191986084,
+        "max_processing_lag_seconds": 0.016347885131835938,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "8027d9e1fd0040e0a55879925bc5cd03",
+        "f1": 0.9787878787878788
+      }
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 42,
+      "trial_id": 1,
+      "origin": "new_validation",
+      "run_id": "215a872f1ece4aa39ff7a5b9993c1298",
+      "summary_sha256": "57a2fd1f3f5aa85d7cd53eabc14f42e9ef4e10c82d2ee4d57acac31dacb085b8",
+      "metrics": {
+        "precision": {
+          "value": 0.991701244813278,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 0.9715447154471545,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9815195071868583,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9927063468165546,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.00823045267489712,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.15897691820128024,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.20808739998301445,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.991701244813278,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 0.9715447154471545,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9815195071868583,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 0.9717741935483871,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.9917695473251029,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.9816700610997964,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.6108880043029785,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 62.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": 6.502626895904541,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.5621880341880342,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.9914529914529915,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.4504273504273506,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 4.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 141.9296875,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 137.93039316239316,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.008547008547008548,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 141.30953846153847,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.4913504273504274,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 2,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 1794,
+        "max_receive_lag_seconds": 0.0027494430541992188,
+        "max_processing_lag_seconds": 0.012302637100219727,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "7314798c3ae5416ca0d8032764b318f3",
+        "f1": 0.7867647058823529
+      }
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 43,
+      "trial_id": 2,
+      "origin": "new_validation",
+      "run_id": "e09263708e5f42768567ae24e03da9cc",
+      "summary_sha256": "eefb857873192f6b7be9bfb6a2c8bc28b0b2b6b5bbeefef3f86f3ca18b5a1ffc",
+      "metrics": {
+        "precision": {
+          "value": 0.9917695473251029,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 0.9917695473251029,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9917695473251029,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9965165718969315,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.008298755186721992,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.15510040083105828,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.20275864999348414,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.9917695473251029,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 0.9917695473251029,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9917695473251029,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 0.991701244813278,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.991701244813278,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.991701244813278,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.6107935905456543,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 62.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": 6.708197116851807,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.5768205128205128,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.9913793103448276,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.628448275862069,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 5.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 141.98046875,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 137.93039316239316,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.008620689655172414,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 141.30953846153847,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.5031111111111111,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 7,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 1793,
+        "max_receive_lag_seconds": 0.0020787715911865234,
+        "max_processing_lag_seconds": 0.009358882904052734,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "4a96a47739da454ab97f558e6601ba77",
+        "f1": 0.9878542510121457
+      }
+    },
+    {
+      "scenario": "drift",
+      "sampling": 1,
+      "seed": 44,
+      "trial_id": 3,
+      "origin": "new_validation",
+      "run_id": "f14d47b117da4f329eb896abf990b5ee",
+      "summary_sha256": "54fb2500cda254c8b34dee93e25fd32bc21f0a25698bfb1fb9ed73c6ccea008f",
+      "metrics": {
+        "precision": {
+          "value": 0.9714285714285714,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 0.9834710743801653,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9774127310061602,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9784724073580379,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.028225806451612902,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.15794963673544993,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.22197245000938892,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.9714285714285714,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 0.9834710743801653,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9774127310061602,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 0.9836734693877551,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.9717741935483871,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.9776876267748479,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.550468921661377,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 56.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": 6.605287790298462,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.5768205128205128,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.982905982905983,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.6222222222222222,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 5.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 141.9375,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 137.93422222222222,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.017094017094017096,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 141.31719658119658,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.5031111111111111,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 3,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 1795,
+        "max_receive_lag_seconds": 0.005631685256958008,
+        "max_processing_lag_seconds": 0.009296178817749023,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "4580fd2c59ef4fc0ac76377793004752",
+        "f1": 0.6016597510373444
+      }
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 42,
+      "trial_id": 1,
+      "origin": "new_validation",
+      "run_id": "080dcfa84e6b4d06b2fb651260cc3571",
+      "summary_sha256": "937e1a854b5af3dc35342756ff0e809e9cebb7837781100399cae9ce34ddd3c6",
+      "metrics": {
+        "precision": {
+          "value": 0.9204545454545454,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 0.9959016393442623,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9566929133858267,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9497992639678823,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.08571428571428572,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.14463128629120767,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.22557819997928155,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.9204545454545454,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 0.9959016393442623,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9566929133858267,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 0.9955555555555555,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.9142857142857143,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.9531914893617022,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.5851161479949951,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 59.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": 6.502324819564819,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.5768205128205128,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.9913793103448276,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.643103448275862,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 5.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 141.62890625,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 73.87295726495726,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.017241379310344827,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 75.71282051282051,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.5031111111111111,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 3,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 990,
+        "max_receive_lag_seconds": 0.0028030872344970703,
+        "max_processing_lag_seconds": 0.003005504608154297,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "34c7dfa88f5a4dcf9f58970c446da504",
+        "f1": 0.95703125
+      }
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 43,
+      "trial_id": 2,
+      "origin": "new_validation",
+      "run_id": "160157bfb78943e098f93eddad59315d",
+      "summary_sha256": "def69eaf93a07f8f35b04f6d66a53e285309a828e12527535419164e3bf3a0da",
+      "metrics": {
+        "precision": {
+          "value": 0.9166666666666666,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 0.9958847736625515,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9546351084812623,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9526411657559198,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.09016393442622951,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.1330677125273167,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.18105770009242406,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.9166666666666666,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 0.9958847736625515,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9546351084812623,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 0.9955156950672646,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.9098360655737705,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.9507494646680942,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.5093004703521729,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 51.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": 6.4029541015625,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.5621880341880342,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.9913793103448276,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.206896551724138,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 4.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 141.796875,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 73.75316239316238,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.008620689655172414,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 75.5911111111111,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.4913504273504274,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 2,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 989,
+        "max_receive_lag_seconds": 0.0037415027618408203,
+        "max_processing_lag_seconds": 0.003911733627319336,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "92011ddcf7514e47a341679170bcc388",
+        "f1": 0.6339285714285714
+      }
+    },
+    {
+      "scenario": "drift",
+      "sampling": 2,
+      "seed": 44,
+      "trial_id": 3,
+      "origin": "new_validation",
+      "run_id": "f85ed4d61c344e1aa2ec0bb87cf182c3",
+      "summary_sha256": "cd7f1dfc2494c2170f39497a0ccf479ab6dafd5f99234a69c8ba568f857b76ec",
+      "metrics": {
+        "precision": {
+          "value": 0.9138576779026217,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "recall": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "f1": {
+          "value": 0.9549902152641878,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "roc_auc": {
+          "value": 0.9366524994940295,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "false_positive_rate": {
+          "value": 0.09465020576131687,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_ms": {
+          "value": 0.12281501232056112,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "inference_latency_p95_ms": {
+          "value": 0.1636919999100428,
+          "unit": "ms",
+          "status": "measured",
+          "reason": null
+        },
+        "unseen_attack_recall": {
+          "value": null,
+          "unit": "ratio",
+          "status": "unavailable",
+          "reason": "Not an unseen-attack scenario"
+        },
+        "attack_precision": {
+          "value": 0.9138576779026217,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_recall": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "attack_f1": {
+          "value": 0.9549902152641878,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_precision": {
+          "value": 1.0,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_recall": {
+          "value": 0.9053497942386831,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "benign_f1": {
+          "value": 0.9503239740820735,
+          "unit": "ratio",
+          "status": "measured",
+          "reason": null
+        },
+        "detection_time_seconds": {
+          "value": 0.5075864791870117,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "packets_to_detect": {
+          "value": 51.0,
+          "unit": "original IP packets",
+          "status": "measured",
+          "reason": null
+        },
+        "post_drift_recovery_seconds": {
+          "value": 6.605949401855469,
+          "unit": "seconds",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbps": {
+          "value": 0.5768205128205128,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "flow_table_entries": {
+          "value": 1.9913793103448276,
+          "unit": "entries (snapshot mean)",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_mean": {
+          "value": 3.217241379310345,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "cpu_percent_p95": {
+          "value": 4.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "rss_mb_peak": {
+          "value": 142.07421875,
+          "unit": "MiB",
+          "status": "measured",
+          "reason": null
+        },
+        "telemetry_bandwidth_kbps": {
+          "value": 74.54523076923077,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_mean": {
+          "value": 0.017241379310344827,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "controller_cpu_percent_p95": {
+          "value": 0.0,
+          "unit": "% of one logical CPU",
+          "status": "measured",
+          "reason": null
+        },
+        "sflow_bandwidth_kbit_s": {
+          "value": 76.40615384615384,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        },
+        "openflow_bandwidth_kbit_s": {
+          "value": 0.5031111111111111,
+          "unit": "kbit/s",
+          "status": "measured",
+          "reason": null
+        }
+      },
+      "ingestion": {
+        "timestamp_source": "kernel_receive_ns",
+        "queue_capacity": 4096,
+        "max_queue_depth": 2,
+        "queue_overflows": 0,
+        "kernel_drops": 0,
+        "missing_timestamps": 0,
+        "datagrams_received": 1001,
+        "max_receive_lag_seconds": 0.004059314727783203,
+        "max_processing_lag_seconds": 0.004232645034790039,
+        "lag_limit_seconds": 0.1,
+        "receiver_finished": true,
+        "drain_complete": true
+      },
+      "validation": {
+        "accepted": true,
+        "actual_switch_config_verified": true,
+        "independent_tx_rx_match": true,
+        "zero_capture_drops": true,
+        "raw_hashes_verified": true,
+        "chronological_prediction_before_label": true,
+        "both_classes_scored": true,
+        "telemetry_kernel_clock": true,
+        "telemetry_ingestion_timing": true,
+        "telemetry_tail_complete": true,
+        "independent_sflow_capture": true
+      },
+      "historical_same_configuration": {
+        "run_id": "31950a7004b54cc8a31b873e58314aef",
+        "f1": 0.95703125
+      }
+    }
+  ],
+  "archive_members": {
+    "cd786bb03ae241f9973bf8ee7ceb15ac": [
+      {
+        "member": "cd786bb03ae241f9973bf8ee7ceb15ac/run_summary.json",
+        "sha256": "08ee7fc01228886b4076e5f9645a28eecaebdd05efbe27f457ba0d63ffe1c244"
+      },
+      {
+        "member": "cd786bb03ae241f9973bf8ee7ceb15ac/features.jsonl",
+        "sha256": "60f5094aad2468b607610a6b6bdd37c8048d168331e40088194a6b6e6f917c8c"
+      },
+      {
+        "member": "cd786bb03ae241f9973bf8ee7ceb15ac/predictions.csv",
+        "sha256": "80df466b129a0a61226cb8458fdc0a81a1ee7ad1bc129f2539ca383f3873a05e"
+      },
+      {
+        "member": "cd786bb03ae241f9973bf8ee7ceb15ac/resources.csv",
+        "sha256": "b9b973e585944e52ae00995dec18051e54c4112327c5c0e8485e241edbda9866"
+      },
+      {
+        "member": "cd786bb03ae241f9973bf8ee7ceb15ac/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "cd786bb03ae241f9973bf8ee7ceb15ac/ingestion.jsonl",
+        "sha256": "3b9f453032107052f97cd823d9b96c8576df87b7ea82725d5f3154dc6f279576"
+      }
+    ],
+    "f4398f332bc84e68b500e29112f8ccc8": [
+      {
+        "member": "f4398f332bc84e68b500e29112f8ccc8/run_summary.json",
+        "sha256": "b85817920788b2e7c54ee2d40cc781d20b654f9d0cd84accb4550878765b01bd"
+      },
+      {
+        "member": "f4398f332bc84e68b500e29112f8ccc8/features.jsonl",
+        "sha256": "ddd1862eb25aad882c2f6114eb15475e8fd59c2dd7436e105e76aa067f979fed"
+      },
+      {
+        "member": "f4398f332bc84e68b500e29112f8ccc8/predictions.csv",
+        "sha256": "e85b844c4035d23ab5d0e66cc3d829199d4a53d5d60fc1c6ab337cca6ca16158"
+      },
+      {
+        "member": "f4398f332bc84e68b500e29112f8ccc8/resources.csv",
+        "sha256": "3d0d93396cc7bdaf8d6aaa69ee63645ea7b23e1f28c0775054654f6913ca4acd"
+      },
+      {
+        "member": "f4398f332bc84e68b500e29112f8ccc8/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "f4398f332bc84e68b500e29112f8ccc8/ingestion.jsonl",
+        "sha256": "3e022601ab3fe8641fe7bbce11bcdb090ba737ad323240364f88fbfed76281aa"
+      }
+    ],
+    "739680b41eb74676979c14d1c11d6f66": [
+      {
+        "member": "739680b41eb74676979c14d1c11d6f66/run_summary.json",
+        "sha256": "ece76780826bcbc3786db11d922cc88f03298398a61ecbb37a6a7e6a87c18351"
+      },
+      {
+        "member": "739680b41eb74676979c14d1c11d6f66/features.jsonl",
+        "sha256": "139671d07ddcb6de1513d916d83503c6b8f5b86729e710a79786295e466f7916"
+      },
+      {
+        "member": "739680b41eb74676979c14d1c11d6f66/predictions.csv",
+        "sha256": "e0198e11c351aaf18867180d2c140da78b0f526eefa49b053fa0ef4c8bc58ba5"
+      },
+      {
+        "member": "739680b41eb74676979c14d1c11d6f66/resources.csv",
+        "sha256": "de9cc61400329d3849038446aa795f270bd43edc9ba973cccae55355df6fd7d4"
+      },
+      {
+        "member": "739680b41eb74676979c14d1c11d6f66/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "739680b41eb74676979c14d1c11d6f66/ingestion.jsonl",
+        "sha256": "214a6ecba82e0ff04f3a0635d7ee61646bf499bd145306d3aec575a20fa2d781"
+      }
+    ],
+    "215a872f1ece4aa39ff7a5b9993c1298": [
+      {
+        "member": "215a872f1ece4aa39ff7a5b9993c1298/run_summary.json",
+        "sha256": "57a2fd1f3f5aa85d7cd53eabc14f42e9ef4e10c82d2ee4d57acac31dacb085b8"
+      },
+      {
+        "member": "215a872f1ece4aa39ff7a5b9993c1298/features.jsonl",
+        "sha256": "ea214bcf1115d60072121a6844570619b28b3247d87bb6145514d19d34a43dc2"
+      },
+      {
+        "member": "215a872f1ece4aa39ff7a5b9993c1298/predictions.csv",
+        "sha256": "d2d0e52b389cb735eebc550012d73e4be0a09c2a6976274ecea73007ee8c750d"
+      },
+      {
+        "member": "215a872f1ece4aa39ff7a5b9993c1298/resources.csv",
+        "sha256": "e44dd7c8160a23f57ab6f90e0bbbf02086600eb52cc0bd8d42f17b251267ef3e"
+      },
+      {
+        "member": "215a872f1ece4aa39ff7a5b9993c1298/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "215a872f1ece4aa39ff7a5b9993c1298/ingestion.jsonl",
+        "sha256": "c6fe8f93818e5420a201dc73668d20c9e4e4cfd42fae972bfab203a7b721f2c2"
+      }
+    ],
+    "e09263708e5f42768567ae24e03da9cc": [
+      {
+        "member": "e09263708e5f42768567ae24e03da9cc/run_summary.json",
+        "sha256": "eefb857873192f6b7be9bfb6a2c8bc28b0b2b6b5bbeefef3f86f3ca18b5a1ffc"
+      },
+      {
+        "member": "e09263708e5f42768567ae24e03da9cc/features.jsonl",
+        "sha256": "74a67a9796f54d090b5f2295405a2d93551de12e6d6d9755a6a77c21de5ed742"
+      },
+      {
+        "member": "e09263708e5f42768567ae24e03da9cc/predictions.csv",
+        "sha256": "85a7f0362e33076290200b104f856ec97ba3a51efe499c2ca7bd03e741645532"
+      },
+      {
+        "member": "e09263708e5f42768567ae24e03da9cc/resources.csv",
+        "sha256": "38df38c07c01decc8b618e2b5ffe08a8e8c45acf775bc75c0728142b281149f5"
+      },
+      {
+        "member": "e09263708e5f42768567ae24e03da9cc/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "e09263708e5f42768567ae24e03da9cc/ingestion.jsonl",
+        "sha256": "c54ec7ecf1ed55c0231d017e6304dc5fe2560265b378654c2bdc395436ddbc7a"
+      }
+    ],
+    "f14d47b117da4f329eb896abf990b5ee": [
+      {
+        "member": "f14d47b117da4f329eb896abf990b5ee/run_summary.json",
+        "sha256": "54fb2500cda254c8b34dee93e25fd32bc21f0a25698bfb1fb9ed73c6ccea008f"
+      },
+      {
+        "member": "f14d47b117da4f329eb896abf990b5ee/features.jsonl",
+        "sha256": "b7a2b386772463ee3845b75bdd5e63acd7e0ded930d46c4634cf2ccaf3658ae7"
+      },
+      {
+        "member": "f14d47b117da4f329eb896abf990b5ee/predictions.csv",
+        "sha256": "090246479bb38c7cf416c66bab0cb9c5ba1986dead99adbb622744145ffd6348"
+      },
+      {
+        "member": "f14d47b117da4f329eb896abf990b5ee/resources.csv",
+        "sha256": "1cdfdc0fb80e7a190c167d98997fce9fc0bc477c0f9ff8a4ae58bf3065261c39"
+      },
+      {
+        "member": "f14d47b117da4f329eb896abf990b5ee/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "f14d47b117da4f329eb896abf990b5ee/ingestion.jsonl",
+        "sha256": "8231956e995223d01ad56e2ef0302e8de99ada27e5e9dbe3262c8ccb1c779316"
+      }
+    ],
+    "080dcfa84e6b4d06b2fb651260cc3571": [
+      {
+        "member": "080dcfa84e6b4d06b2fb651260cc3571/run_summary.json",
+        "sha256": "937e1a854b5af3dc35342756ff0e809e9cebb7837781100399cae9ce34ddd3c6"
+      },
+      {
+        "member": "080dcfa84e6b4d06b2fb651260cc3571/features.jsonl",
+        "sha256": "1f226b142fb54b2c22da220ba3bb1167eb46eee55325445fda50ce8ec9f02d8b"
+      },
+      {
+        "member": "080dcfa84e6b4d06b2fb651260cc3571/predictions.csv",
+        "sha256": "53c58267529f7a78d3d672eaccc088e55a014c8ea8ccbf5f58a71c521fda30f0"
+      },
+      {
+        "member": "080dcfa84e6b4d06b2fb651260cc3571/resources.csv",
+        "sha256": "ffc46eecf039d83aa37c45faeb2c8270ec94327ad21cb74a5dc5651bab54a4a2"
+      },
+      {
+        "member": "080dcfa84e6b4d06b2fb651260cc3571/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "080dcfa84e6b4d06b2fb651260cc3571/ingestion.jsonl",
+        "sha256": "7df755da3c39811956be620f3b0810a7fd7208123f34f623312dbd9d1658735d"
+      }
+    ],
+    "160157bfb78943e098f93eddad59315d": [
+      {
+        "member": "160157bfb78943e098f93eddad59315d/run_summary.json",
+        "sha256": "def69eaf93a07f8f35b04f6d66a53e285309a828e12527535419164e3bf3a0da"
+      },
+      {
+        "member": "160157bfb78943e098f93eddad59315d/features.jsonl",
+        "sha256": "1176bc5bccaede0f09cebf86d47f60db3a21e60f2754826306166e0e9b268be0"
+      },
+      {
+        "member": "160157bfb78943e098f93eddad59315d/predictions.csv",
+        "sha256": "74bbd23a6fdf88ccfb56f428059eea73dae162a94863ccce884a17c00a511716"
+      },
+      {
+        "member": "160157bfb78943e098f93eddad59315d/resources.csv",
+        "sha256": "943d40f189d2b190ef1607771cc8828412f21a93b09dbaba826ed9a86b6b5836"
+      },
+      {
+        "member": "160157bfb78943e098f93eddad59315d/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "160157bfb78943e098f93eddad59315d/ingestion.jsonl",
+        "sha256": "f367a714d58c478cc8abd46b4eddb352a3aaa15c0ae22cf0ed2a21892b9ddc84"
+      }
+    ],
+    "f85ed4d61c344e1aa2ec0bb87cf182c3": [
+      {
+        "member": "f85ed4d61c344e1aa2ec0bb87cf182c3/run_summary.json",
+        "sha256": "cd7f1dfc2494c2170f39497a0ccf479ab6dafd5f99234a69c8ba568f857b76ec"
+      },
+      {
+        "member": "f85ed4d61c344e1aa2ec0bb87cf182c3/features.jsonl",
+        "sha256": "81d617be5e3cca72b855dad162153d6fbe73b2836df33f79115d1d9caeaf76f6"
+      },
+      {
+        "member": "f85ed4d61c344e1aa2ec0bb87cf182c3/predictions.csv",
+        "sha256": "5c9e69048d5a28c6eab70fca395088f27da6594bc8084c91d181a1a16624581f"
+      },
+      {
+        "member": "f85ed4d61c344e1aa2ec0bb87cf182c3/resources.csv",
+        "sha256": "f8ed736bfcb72495fcf7953b0677861d972c1fb7c3c1ff16664fef5fb81686f5"
+      },
+      {
+        "member": "f85ed4d61c344e1aa2ec0bb87cf182c3/drift.csv",
+        "sha256": "080b7ac81d2eb45444d3845091282cf31ab1691fa3463b0eb7f3c5556f85cfcb"
+      },
+      {
+        "member": "f85ed4d61c344e1aa2ec0bb87cf182c3/ingestion.jsonl",
+        "sha256": "92ecbade61241a03137274411171a29b1386b3efaeab9735bf70303f5a8f0b06"
+      }
+    ]
+  },
+  "raw_evidence": "Raw captures, datagrams, oracle files and full execution logs remain in the local study directory. This ZIP contains derived evidence only; reproducing independent raw-capture validation requires the retained raw files."
+}

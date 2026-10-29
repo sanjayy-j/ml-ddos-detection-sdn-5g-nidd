@@ -24,6 +24,7 @@ from river.tree.splitter import GaussianSplitter
 
 MODES = ("river", "log_space")
 _SITES = (htc_nodes, hatc_nodes, last_nodes)
+_ORIGINAL_VOTES = tuple(site.do_naive_bayes_prediction for site in _SITES)
 
 
 def _log_likelihood(splitter, value, cls):
@@ -61,15 +62,13 @@ def log_space_naive_bayes(x, observed_class_distribution, splitters):
 
 @contextmanager
 def likelihood(mode):
-    """Use River's naive-Bayes vote ("river") or the log-space one ("log_space")."""
+    """Use the requested vote, restoring the enclosing scope even on failure."""
     if mode not in MODES:
         raise ValueError(f"naive_bayes must be one of {MODES}")
-    if mode == "river":
-        yield
-        return
     saved = [site.do_naive_bayes_prediction for site in _SITES]
-    for site in _SITES:
-        site.do_naive_bayes_prediction = log_space_naive_bayes
+    selected = _ORIGINAL_VOTES if mode == "river" else (log_space_naive_bayes,) * len(_SITES)
+    for site, vote in zip(_SITES, selected):
+        site.do_naive_bayes_prediction = vote
     try:
         yield
     finally:

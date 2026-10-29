@@ -26,3 +26,7 @@ output/published-study/
 *.pcap
 *.pcapng
 *.log
+# Full generated artifacts and graphs are preserved in the GitHub backup release.
+output/
+outputs/
+graphify-out/

@@ -1,0 +1,485 @@
+[
+  {
+    "path": ".gitattributes",
+    "lines": 4,
+    "sha256": "dbe8957a344a6bff1415c8c9b5c24c492df52226f4f14d17a3f16eba5cd01428",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 4
+  },
+  {
+    "path": ".gitignore",
+    "lines": 23,
+    "sha256": "027726fc9cf07b73be2ba6ad1e6f1add79e378d22b8f97883b0d462a9e4d2741",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 23
+  },
+  {
+    "path": "README.md",
+    "lines": 68,
+    "sha256": "d4fd9f17d42c37f772011aa3914bf6f34d4870c41baac11b1b1f6348841106e8",
+    "role": "Existing prose documentation; purpose described in overview",
+    "chapter": "README.md"
+  },
+  {
+    "path": "configs/live_telemetry_validation.json",
+    "lines": 14,
+    "sha256": "96c777e2f7dbaf34f1cc0e441584e0d72d46966d018e3c9bd08344a901095581",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 14
+  },
+  {
+    "path": "configs/official_csv_pilot.json",
+    "lines": 11,
+    "sha256": "15fd107a84be9bbf9a1c9bbe37516d712f8e1a63bfa579cab709d3b03bff59a4",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 11
+  },
+  {
+    "path": "data/manifest.json",
+    "lines": 650,
+    "sha256": "51d179c137b60ddd25f75f83209e7199b664125296b1a74e90ee1725e87547ad",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "reference-data.md",
+    "explained_lines": 650
+  },
+  {
+    "path": "docs/data-source.md",
+    "lines": 43,
+    "sha256": "bf24a9b66c5783d8d65e0d978832adc64180d0cb2bdc26dd4ee384ccc4333ec7",
+    "role": "Existing prose documentation; purpose described in overview",
+    "chapter": "README.md"
+  },
+  {
+    "path": "docs/implementation.md",
+    "lines": 51,
+    "sha256": "e94cd413f52c1c4828a21575f8586f0b75833d8088843662d01f76667063c575",
+    "role": "Existing prose documentation; purpose described in overview",
+    "chapter": "README.md"
+  },
+  {
+    "path": "docs/verification-status.md",
+    "lines": 25,
+    "sha256": "0b5d8459702f6a504fba71dd718dfc3a56748b887f12f7bd78fef853f05e478c",
+    "role": "Existing prose documentation; purpose described in overview",
+    "chapter": "README.md"
+  },
+  {
+    "path": "frontend/.gitignore",
+    "lines": 5,
+    "sha256": "2e4dfda369888937052fd553f06dcbfcc65754364baee200ef959accab143c08",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 5
+  },
+  {
+    "path": "frontend/README.md",
+    "lines": 37,
+    "sha256": "84f61d6ca77b7bbbc9770f32b59b74aa773114a149dd8c8fa0b65491170bec8b",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 37
+  },
+  {
+    "path": "frontend/index.html",
+    "lines": 14,
+    "sha256": "682c0ab07478a30207a440b07a317850276111b9c89dba33ca95fa17450c0de2",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 14
+  },
+  {
+    "path": "frontend/package-lock.json",
+    "lines": 3084,
+    "sha256": "80f43f763c32da9b82edaab106bff60b6f2cff45fcccf923643514f53c4ef17c",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "reference-data.md",
+    "explained_lines": 3084
+  },
+  {
+    "path": "frontend/package.json",
+    "lines": 27,
+    "sha256": "3b04e26c4ec69fa1a5c5b49ff1eb6a727463bb37372bec1e932c1b014daeca02",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 27
+  },
+  {
+    "path": "frontend/src/App.test.tsx",
+    "lines": 41,
+    "sha256": "3a59557a9e0a8598873c4e0dfb6e1dbbcf5409bb5d3b38773b13e64bb4394066",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 41
+  },
+  {
+    "path": "frontend/src/App.tsx",
+    "lines": 169,
+    "sha256": "a586184c2d7f6058f24d8577dea11757ee564db1928f6a7aeab515729f14d019",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 169
+  },
+  {
+    "path": "frontend/src/api.test.ts",
+    "lines": 27,
+    "sha256": "cb8c7798ffeb6033963863f248589ffd3c4995fea1e2318995dd2c48a8347068",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 27
+  },
+  {
+    "path": "frontend/src/api.ts",
+    "lines": 76,
+    "sha256": "b6be46568de6a7e1351027e49155d1e74a47da226db25e191f5d4b5764a96740",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 76
+  },
+  {
+    "path": "frontend/src/evidence.test.ts",
+    "lines": 31,
+    "sha256": "9566b4ff496258db7ebb5abf826f27e046c8bab512703691f476855f6d30163f",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 31
+  },
+  {
+    "path": "frontend/src/evidence.ts",
+    "lines": 37,
+    "sha256": "fc9f8e4c0785eafc2c7d48ef8a50a0a04a2948aa3b07b0879a4ebad2b8e87e93",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 37
+  },
+  {
+    "path": "frontend/src/integration.test.tsx",
+    "lines": 65,
+    "sha256": "b97b6fc1ee80a73db7bb8588ab9069e44894a6d211f6df8d8f8b047baa954878",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 65
+  },
+  {
+    "path": "frontend/src/main.tsx",
+    "lines": 6,
+    "sha256": "281526994bbe386f581db7bae518876cec86abc0cb0fb8020007d02c2eeb310a",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 6
+  },
+  {
+    "path": "frontend/src/style.css",
+    "lines": 9,
+    "sha256": "14fa4ce5cf667114b03671f4753dd486d79314211264d228a64e54228b940fd9",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 9
+  },
+  {
+    "path": "frontend/src/test-fixtures.ts",
+    "lines": 19,
+    "sha256": "e7fc05dc1431967428c0919bec0149dde3abc971e0061463724a7833926e78d6",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 19
+  },
+  {
+    "path": "frontend/src/test-setup.ts",
+    "lines": 4,
+    "sha256": "ae4b6b92c8c0f06526032b2dedeb4fb0e93b85af2a138a423386f2e36894a685",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 4
+  },
+  {
+    "path": "frontend/src/types.ts",
+    "lines": 48,
+    "sha256": "4624d88051b00a9377c0d185916fec41f27c55f752d5f9f0d142522fe615cd81",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 48
+  },
+  {
+    "path": "frontend/tsconfig.json",
+    "lines": 18,
+    "sha256": "8f6d034126d6d9c221b251791eaabf1894ab15d250b7336706b6ef43efeddaab",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 18
+  },
+  {
+    "path": "frontend/vite.config.ts",
+    "lines": 8,
+    "sha256": "6dde04f58f919dcbc2454448b2454bee864b371f490abcb88049ca0701cc36a0",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "frontend.md",
+    "explained_lines": 8
+  },
+  {
+    "path": "pyproject.toml",
+    "lines": 30,
+    "sha256": "3e31e375dab3c48250c65f7aba11fb669a90d38e807027c430504421f5ca339e",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 30
+  },
+  {
+    "path": "scripts/fetch_dataset.py",
+    "lines": 250,
+    "sha256": "709e99aeb8683eb28caa555c5cdc5c067c0b73b5bb342d537f93b2213174a977",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 250
+  },
+  {
+    "path": "scripts/setup_sdn.sh",
+    "lines": 23,
+    "sha256": "a01ba8779f2350e15074194374eeb31d9c61c8511a79dfa7133bac0baf960604",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 23
+  },
+  {
+    "path": "sdn/README.md",
+    "lines": 90,
+    "sha256": "670473571f2dab1eb61a3c35f7506a1b5bd1e6c8f81be7e7f91672aaf9df4640",
+    "role": "Existing prose documentation; purpose described in overview",
+    "chapter": "README.md"
+  },
+  {
+    "path": "sdn/controller.py",
+    "lines": 71,
+    "sha256": "b77d040e8d8be4400c6911a358e3b141528bcb27fb66a01b307386e086ed9978",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 71
+  },
+  {
+    "path": "sdn/inspect_session_labels.py",
+    "lines": 105,
+    "sha256": "6f295155dfafb637fc31a5bb82e423da9133cbaf0826619d64eeb30dbe52afbd",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 105
+  },
+  {
+    "path": "sdn/preflight.py",
+    "lines": 34,
+    "sha256": "e4005d895f8794960911a9ffb52adfedcc18731601ab1342edf05670671e3ec8",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 34
+  },
+  {
+    "path": "sdn/prepare_flow_labels.py",
+    "lines": 252,
+    "sha256": "6348d54f979fae756cb827b118940441f3d50f1be383ff7f6a7db523f571a6cf",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 252
+  },
+  {
+    "path": "sdn/run_live_validation.py",
+    "lines": 109,
+    "sha256": "dc6f9d6c9dad2f6cc6fd773965bd0d4d2ae28655c3a0f86421a930bbfb5a7a16",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 109
+  },
+  {
+    "path": "sdn/topology.py",
+    "lines": 133,
+    "sha256": "676051034cb330b488d152e3fc275f3ad7f71f993fcb629cde8bf2d29d863062",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 133
+  },
+  {
+    "path": "sdn/validate_sflow.py",
+    "lines": 133,
+    "sha256": "4ef680922d681022f8e6fef06d8dea3313c30de193fc08754d64d1d9a9ce3e56",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "sdn-and-data-tools.md",
+    "explained_lines": 133
+  },
+  {
+    "path": "src/m3/__init__.py",
+    "lines": 3,
+    "sha256": "3c16faf3df0efd9e0210c1ae9cad4245f8824e294442fcec9f93902721a31afe",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 3
+  },
+  {
+    "path": "src/m3/analysis.py",
+    "lines": 234,
+    "sha256": "b6117bd3a5df59fb84a18684c7a8022227921d4ce7bbb2debde89005bd361f2b",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 234
+  },
+  {
+    "path": "src/m3/api.py",
+    "lines": 64,
+    "sha256": "5caf834a79dc8eb42075c91aa790e387a1f8420cedf712d73b89b9d6bb17ef9b",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 64
+  },
+  {
+    "path": "src/m3/cli.py",
+    "lines": 88,
+    "sha256": "ce248ea2370c40aa98de2c2126ea32411822470f4cca62dca65023713bcccedd",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 88
+  },
+  {
+    "path": "src/m3/config.py",
+    "lines": 93,
+    "sha256": "330794a520a634829a4a0f1e9c19564f59c513e052324a59c6a974a1e1fa92dc",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 93
+  },
+  {
+    "path": "src/m3/data.py",
+    "lines": 119,
+    "sha256": "9e8ac45f7820a09082877768e7e0b85cbeaf13a1b7d8a5ff0c4d1a9421458e9f",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 119
+  },
+  {
+    "path": "src/m3/engine.py",
+    "lines": 236,
+    "sha256": "9e99cd0676d80f647099d2de20f780eaef724480f2af393907a2d21fbc6b21f7",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 236
+  },
+  {
+    "path": "src/m3/ground_truth.py",
+    "lines": 172,
+    "sha256": "0f71ce43cfc297b8a7021adebfeeeb53c0d9b5a797ee87dda55420c1f410327d",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 172
+  },
+  {
+    "path": "src/m3/lab.py",
+    "lines": 103,
+    "sha256": "eef3df4094748f83ca5f3876c7e03d12e7cd05660c62267405d84ea918f19c08",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 103
+  },
+  {
+    "path": "src/m3/labels.py",
+    "lines": 39,
+    "sha256": "b1bfe98ebdad8df896736d299325d83b8402f39abaa9803ef225d1322bbb1e97",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 39
+  },
+  {
+    "path": "src/m3/live.py",
+    "lines": 112,
+    "sha256": "38699a758a1d423919d38e69e4f2bbb3acac6bba2627179c0e13e8a852225de7",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 112
+  },
+  {
+    "path": "src/m3/metrics.py",
+    "lines": 92,
+    "sha256": "bceece8e984d031c70bfa66a952a7dd661ca08cd830d720dd170006614ee89ec",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 92
+  },
+  {
+    "path": "src/m3/model.py",
+    "lines": 30,
+    "sha256": "6110282de738ea0aa149e0181187053dac8c70262b82806d8ddce47011a96b03",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 30
+  },
+  {
+    "path": "src/m3/packets.py",
+    "lines": 132,
+    "sha256": "b7eef6e17c986b923014416da92e7f07dd381b51cfba5db03705143c8ebbd692",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 132
+  },
+  {
+    "path": "src/m3/provenance.py",
+    "lines": 33,
+    "sha256": "06bb4a015d87b6ea526f4bc195c695efb1d9468dcaf7501fc8ded2c28989e41e",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 33
+  },
+  {
+    "path": "src/m3/resources.py",
+    "lines": 91,
+    "sha256": "456ff4f6423e070466508aeec620a03ae86f2520d1c258f19d79d4075e2ad73e",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 91
+  },
+  {
+    "path": "src/m3/sflow.py",
+    "lines": 79,
+    "sha256": "b2fc1e1166b1fcaff16081dff2c7fe451294d74d636edc805088487171c836c2",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 79
+  },
+  {
+    "path": "src/m3/store.py",
+    "lines": 182,
+    "sha256": "1d6e7674d40e71c71b04c96850503b2feccc8abd4c06509f2674c4524ca6836d",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "backend.md",
+    "explained_lines": 182
+  },
+  {
+    "path": "tests/test_core.py",
+    "lines": 285,
+    "sha256": "504516e609c5d87f991a4e58168e4f7ea936e3e9ab061057a1f457ffbffc5584",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 285
+  },
+  {
+    "path": "tests/test_ground_truth.py",
+    "lines": 112,
+    "sha256": "b6a4c570bacd650c1356fb38eaa8bb9d06467a5d48c565dbc33d261136b50b97",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 112
+  },
+  {
+    "path": "tests/test_lab.py",
+    "lines": 37,
+    "sha256": "d2f00424c279202fb3aa7a7da933ffcf93e74d9833ad6b00a6bcef701b6c5c9a",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 37
+  },
+  {
+    "path": "tests/test_live.py",
+    "lines": 50,
+    "sha256": "406e95d42aa3bdade2f144d9d271454b61b209141ae77fa73ab751eee009b095",
+    "role": "Source/configuration/reference with complete line annotations",
+    "chapter": "tests-and-configuration.md",
+    "explained_lines": 50
+  }
+]

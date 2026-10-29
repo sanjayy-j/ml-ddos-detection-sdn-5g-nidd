@@ -203,6 +203,10 @@ def comparison_signature(run):
                 if key not in {"trial_id", "seed", "sampling_rate", "sampling_n", "run_id",
                                "output", "output_root", "sampling_offset", "start_epoch",
                                "controller_pid", "bind", "port", "ovs_bridge", "openflow_port"}}
+    # Keep historical serialized group IDs unchanged while separating the new protocol.
+    settings.pop("telemetry_clock", None)
+    if config.get("telemetry_clock") == "kernel_receive":
+        settings["telemetry_clock"] = "kernel_receive"
     return json.dumps({"scenario": run.get("scenario", config.get("scenario")),
                        "feature_schema": run.get("feature_schema"),
                        "provenance": run.get("provenance"),
@@ -442,6 +446,12 @@ def research_readiness(runs):
         gate: bool(accepted) and all(run.get("validation", {}).get(gate) is True for run in accepted)
         for gate in VALIDATION_GATES
     }
+    clocks = {run.get("config", {}).get("telemetry_clock", "userspace") for run in accepted}
+    if "kernel_receive" in clocks:
+        for gate in ("telemetry_kernel_clock", "telemetry_ingestion_timing",
+                     "telemetry_tail_complete", "independent_sflow_capture"):
+            evidence[gate] = all(run.get("validation", {}).get(gate) is True for run in accepted)
+        evidence["consistent_telemetry_clock"] = clocks == {"kernel_receive"}
     evidence["raw_hash_links"] = bool(accepted) and all(run.get("raw_hashes") for run in accepted)
     evidence["exactly_54_planned_trials"] = len(accepted) == 54
     evidence["primary_window_0_1_seconds"] = bool(accepted) and all(
