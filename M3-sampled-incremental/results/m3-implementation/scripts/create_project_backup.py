@@ -14,6 +14,13 @@ CACHE_NAMES = {'.git', 'node_modules', '__pycache__', '.pytest_cache', '.ruff_ca
 METADATA = {'BACKUP_MANIFEST.json', 'BACKUP_VERIFICATION.json'}
 
 
+def is_link(path):
+    # Windows does not classify WSL's LX_SYMLINK reparse tag as a Path symlink.
+    # Do not classify OneDrive's CLOUD placeholders as links: their bytes matter.
+    tag = getattr(path.lstat(), 'st_reparse_tag', 0)
+    return path.is_symlink() or path.is_junction() or tag in {0xA000000C, 0xA0000003, 0xA000001D}
+
+
 def checksum(path):
     h = hashlib.sha256()
     with path.open('rb') as stream:
@@ -79,7 +86,7 @@ def collect(root, output, excluded_root):
             path = base / name
             relative = path.relative_to(root).as_posix()
             reason = None
-            if path.is_symlink() or path.is_junction():
+            if is_link(path):
                 reason = 'junction or symbolic link; target is outside the portable file snapshot'
             elif name in CACHE_NAMES or name.endswith('.egg-info'):
                 reason = 'Git internals, installed dependencies or regenerable cache'
@@ -93,7 +100,7 @@ def collect(root, output, excluded_root):
         for name in files:
             path = base / name
             relative = path.relative_to(root).as_posix()
-            if path.is_symlink() or (base == root and name in METADATA):
+            if is_link(path) or (base == root and name in METADATA):
                 excluded.append({'path': relative, 'reason': 'link or separately published backup metadata'})
                 continue
             if name.endswith(('.pyc', '.pyo')) or name in {'.coverage', '.DS_Store'}:
