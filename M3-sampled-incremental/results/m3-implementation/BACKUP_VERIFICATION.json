@@ -1,0 +1,494 @@
+{
+  "schema": "m3-project-backup-verification-v1",
+  "complete": true,
+  "verified_at_utc": "2026-10-30T03:08:50.996462+00:00",
+  "scope": "CN Project/Project workspace only; not its parent, other folders, WSL installation or whole computer",
+  "repository": "sanjayy-j/ml-ddos-detection-sdn-5g-nidd",
+  "source_prefix": "M3-sampled-incremental/results/m3-implementation/",
+  "release_tag": "m3-backup-2026-10-29",
+  "release_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/tag/m3-backup-2026-10-29",
+  "release_published": true,
+  "release_target_commit": "b5fefe7a28ff40206e58c7dc2f7c0abd27363eae",
+  "source_fixes_after_archiving": [
+    "Windows extended-length restoration paths; 34 backup-focused tests passed"
+  ],
+  "archive_source_commit": "a0b0b163066f820eaa4db99c1cad7fdd58027a0b",
+  "manifest_sha256": "10b64fdfe83544306aa1111b114cb7aaf9fa24a5094aae17aa88fc9ded9429ed",
+  "repacking_proof": [
+    {
+      "archive": "m3-experiment-evidence",
+      "gzip_stream_sha256": "f4d772998c26141788e6a1db8caf243b7d038c60255a3b0d19ed86cb0beedc6d",
+      "old_parts": 3,
+      "new_parts": 17,
+      "compressed_stream_unchanged": true
+    },
+    {
+      "archive": "m3-original-data",
+      "gzip_stream_sha256": "e9a5bb3919fe8b3e334339aa553d8ac7f882524295638177bc62801291a836ab",
+      "old_parts": 4,
+      "new_parts": 31,
+      "compressed_stream_unchanged": true
+    }
+  ],
+  "backup_focused_tests_passed": 34,
+  "all_release_asset_sizes_and_sha256_verified": true,
+  "assets": [
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk003",
+      "size_bytes": 134217728,
+      "sha256": "480b6e040cc11b8d2d1867a48204067a57bff62a745ec84cd5a4d83cdffecb3e",
+      "asset_id": 689425191,
+      "remote_digest": "sha256:480b6e040cc11b8d2d1867a48204067a57bff62a745ec84cd5a4d83cdffecb3e",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk003"
+    },
+    {
+      "name": "BACKUP_MANIFEST.json",
+      "size_bytes": 4969471,
+      "sha256": "10b64fdfe83544306aa1111b114cb7aaf9fa24a5094aae17aa88fc9ded9429ed",
+      "asset_id": 689564202,
+      "remote_digest": "sha256:10b64fdfe83544306aa1111b114cb7aaf9fa24a5094aae17aa88fc9ded9429ed",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/BACKUP_MANIFEST.json"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk002",
+      "size_bytes": 134217728,
+      "sha256": "051c20819ca7870ca3ca5a1725bd3b73c07a72b91c8f3e462cafdf965dd091bb",
+      "asset_id": 689424906,
+      "remote_digest": "sha256:051c20819ca7870ca3ca5a1725bd3b73c07a72b91c8f3e462cafdf965dd091bb",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk002"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk001",
+      "size_bytes": 134217728,
+      "sha256": "2a9ab004102797f2e683755093250505ecb3c6b80472a738ce7d7dc51eb6b5d0",
+      "asset_id": 689424897,
+      "remote_digest": "sha256:2a9ab004102797f2e683755093250505ecb3c6b80472a738ce7d7dc51eb6b5d0",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk001"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk017",
+      "size_bytes": 41660413,
+      "sha256": "ee5b496a2cce4400fd76dbd230b1d135c3bb8ea6222a81c9cad31bc53dfa4bc8",
+      "asset_id": 689458726,
+      "remote_digest": "sha256:ee5b496a2cce4400fd76dbd230b1d135c3bb8ea6222a81c9cad31bc53dfa4bc8",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk017"
+    },
+    {
+      "name": "m3-local-history-v2.bundle",
+      "size_bytes": 55030027,
+      "sha256": "5d69630f6e8d520fffa2da7f270e7069cee9b9febb80fe1e6922ba8caeb24c25",
+      "asset_id": 690709438,
+      "remote_digest": "sha256:5d69630f6e8d520fffa2da7f270e7069cee9b9febb80fe1e6922ba8caeb24c25",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-local-history-v2.bundle"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk004",
+      "size_bytes": 134217728,
+      "sha256": "5d18b8d5a4c2555b4db7af71112c7301b1a45f5d8ab5e5285c261ab71c935835",
+      "asset_id": 689432025,
+      "remote_digest": "sha256:5d18b8d5a4c2555b4db7af71112c7301b1a45f5d8ab5e5285c261ab71c935835",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk004"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk005",
+      "size_bytes": 134217728,
+      "sha256": "0e7d00cb8a0710890b10945cf349a03866014375fd7fba76f04e120f1bf46fad",
+      "asset_id": 689433259,
+      "remote_digest": "sha256:0e7d00cb8a0710890b10945cf349a03866014375fd7fba76f04e120f1bf46fad",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk005"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk006",
+      "size_bytes": 134217728,
+      "sha256": "b1915584c768be4bac5796ec312eec4f60694d2cf2dd534de186484f04218e2a",
+      "asset_id": 689434484,
+      "remote_digest": "sha256:b1915584c768be4bac5796ec312eec4f60694d2cf2dd534de186484f04218e2a",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk006"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk007",
+      "size_bytes": 134217728,
+      "sha256": "5b241331f08770ab28e1da5d0e488751b49fa9716519f2b54a6c5089ba70efb0",
+      "asset_id": 689437015,
+      "remote_digest": "sha256:5b241331f08770ab28e1da5d0e488751b49fa9716519f2b54a6c5089ba70efb0",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk007"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk008",
+      "size_bytes": 134217728,
+      "sha256": "540efb4342d337fb4b6d2ab3d7be21818c6b7902422e974cb940a70f9289d7f9",
+      "asset_id": 689440199,
+      "remote_digest": "sha256:540efb4342d337fb4b6d2ab3d7be21818c6b7902422e974cb940a70f9289d7f9",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk008"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk009",
+      "size_bytes": 134217728,
+      "sha256": "fc6cd90dc90b30240767cb74e500d12c0b6bb98c3784953bdb5d4df038f2801e",
+      "asset_id": 689441525,
+      "remote_digest": "sha256:fc6cd90dc90b30240767cb74e500d12c0b6bb98c3784953bdb5d4df038f2801e",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk009"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk010",
+      "size_bytes": 134217728,
+      "sha256": "2c272b19d099119e1df04a7dd001fb325531f8c0c586a01c0f889b58ab4c2ac0",
+      "asset_id": 689444392,
+      "remote_digest": "sha256:2c272b19d099119e1df04a7dd001fb325531f8c0c586a01c0f889b58ab4c2ac0",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk010"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk011",
+      "size_bytes": 134217728,
+      "sha256": "2383c2f52e478cbbffd10f3423970329db3de6580bfb321116eb4148c8d7d489",
+      "asset_id": 689444775,
+      "remote_digest": "sha256:2383c2f52e478cbbffd10f3423970329db3de6580bfb321116eb4148c8d7d489",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk011"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk012",
+      "size_bytes": 134217728,
+      "sha256": "44154c9cd6ac9d599cb771dd6f27d9daa1668bfd4f26cdf3329d8598571c2410",
+      "asset_id": 689451122,
+      "remote_digest": "sha256:44154c9cd6ac9d599cb771dd6f27d9daa1668bfd4f26cdf3329d8598571c2410",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk012"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk013",
+      "size_bytes": 134217728,
+      "sha256": "cf2ed1a803515e6334970cb02fa343189adcc2c9b7e3554d1a3f6ab2af819123",
+      "asset_id": 689451813,
+      "remote_digest": "sha256:cf2ed1a803515e6334970cb02fa343189adcc2c9b7e3554d1a3f6ab2af819123",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk013"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk014",
+      "size_bytes": 134217728,
+      "sha256": "7bcac3540e147c0e6154d89b519c43decc7f8d75ce5f753b59b7c1dd6868f09b",
+      "asset_id": 689452471,
+      "remote_digest": "sha256:7bcac3540e147c0e6154d89b519c43decc7f8d75ce5f753b59b7c1dd6868f09b",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk014"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk015",
+      "size_bytes": 134217728,
+      "sha256": "c8fddff85d5bb336dd42b3ada1fd39599eaf68dfca3e8de8c60c7fa280704a17",
+      "asset_id": 689458700,
+      "remote_digest": "sha256:c8fddff85d5bb336dd42b3ada1fd39599eaf68dfca3e8de8c60c7fa280704a17",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk015"
+    },
+    {
+      "name": "m3-experiment-evidence.tar.gz.chunk016",
+      "size_bytes": 134217728,
+      "sha256": "033bf1551adfe4c04135406e5c53e3fda259ce68483488fcb1c1b153f7a09ffa",
+      "asset_id": 689458702,
+      "remote_digest": "sha256:033bf1551adfe4c04135406e5c53e3fda259ce68483488fcb1c1b153f7a09ffa",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-experiment-evidence.tar.gz.chunk016"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk001",
+      "size_bytes": 134217728,
+      "sha256": "877e938ca30ebb6ac58487210c4ade3f65bb053eeee9521f35ab6d7f75ef5043",
+      "asset_id": 689462832,
+      "remote_digest": "sha256:877e938ca30ebb6ac58487210c4ade3f65bb053eeee9521f35ab6d7f75ef5043",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk001"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk002",
+      "size_bytes": 134217728,
+      "sha256": "adb68fb0b61058d774fea3be72856118288034db9e0fd1d84a03c253139be3f6",
+      "asset_id": 689463853,
+      "remote_digest": "sha256:adb68fb0b61058d774fea3be72856118288034db9e0fd1d84a03c253139be3f6",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk002"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk003",
+      "size_bytes": 134217728,
+      "sha256": "83b960c882f028eff38429f56fcd8f8c616c5902f716c6e754b8412f92b4247f",
+      "asset_id": 689464013,
+      "remote_digest": "sha256:83b960c882f028eff38429f56fcd8f8c616c5902f716c6e754b8412f92b4247f",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk003"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk004",
+      "size_bytes": 134217728,
+      "sha256": "738d9fbf851f1ab63c680894c8eef64d9fa8109191b6bd8a0ee8c47459a0d4fa",
+      "asset_id": 689465875,
+      "remote_digest": "sha256:738d9fbf851f1ab63c680894c8eef64d9fa8109191b6bd8a0ee8c47459a0d4fa",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk004"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk005",
+      "size_bytes": 134217728,
+      "sha256": "0b07ba31e200934dc4e7aa4e4bb2b8644d6a71aa8c8fe7b5e80f8a9b8e687f9d",
+      "asset_id": 689471290,
+      "remote_digest": "sha256:0b07ba31e200934dc4e7aa4e4bb2b8644d6a71aa8c8fe7b5e80f8a9b8e687f9d",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk005"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk006",
+      "size_bytes": 134217728,
+      "sha256": "4dd3a3ac5067e7470663f1e5d4d44835b45c33eb8c211e99771abc8b0afd3e0b",
+      "asset_id": 689471491,
+      "remote_digest": "sha256:4dd3a3ac5067e7470663f1e5d4d44835b45c33eb8c211e99771abc8b0afd3e0b",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk006"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk007",
+      "size_bytes": 134217728,
+      "sha256": "6837881f7e9a59584a0582b4f194382eae8ec441b28ca0e025c8b9bb52d588b0",
+      "asset_id": 689474311,
+      "remote_digest": "sha256:6837881f7e9a59584a0582b4f194382eae8ec441b28ca0e025c8b9bb52d588b0",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk007"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk008",
+      "size_bytes": 134217728,
+      "sha256": "f98f37c6cd1641bfae188a0ed47b7176bf84ce26b78a86ddaa914e6a36eb33d3",
+      "asset_id": 689476377,
+      "remote_digest": "sha256:f98f37c6cd1641bfae188a0ed47b7176bf84ce26b78a86ddaa914e6a36eb33d3",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk008"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk009",
+      "size_bytes": 134217728,
+      "sha256": "5da7c2cb9a929d3180e96682e6224d8ffad43bb62f6afe4f1d62e6bc5d7fa05e",
+      "asset_id": 689478077,
+      "remote_digest": "sha256:5da7c2cb9a929d3180e96682e6224d8ffad43bb62f6afe4f1d62e6bc5d7fa05e",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk009"
+    },
+    {
+      "name": "m3-authored-temporary-work.tar.gz.part001",
+      "size_bytes": 159579062,
+      "sha256": "d3788ebff12578eac18d644e4a81dd35fa2054876ffae1404e5dde051b7694df",
+      "asset_id": 689226389,
+      "remote_digest": "sha256:d3788ebff12578eac18d644e4a81dd35fa2054876ffae1404e5dde051b7694df",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-authored-temporary-work.tar.gz.part001"
+    },
+    {
+      "name": "m3-prepared-data.tar.gz.part001",
+      "size_bytes": 37571752,
+      "sha256": "c0aee705fd9bf5e4fcfbc2058c7ae6e188f41e6a61141533179a0aa8d42603e0",
+      "asset_id": 690714364,
+      "remote_digest": "sha256:c0aee705fd9bf5e4fcfbc2058c7ae6e188f41e6a61141533179a0aa8d42603e0",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-prepared-data.tar.gz.part001"
+    },
+    {
+      "name": "m3-project-files.tar.gz.part001",
+      "size_bytes": 53316580,
+      "sha256": "3872bb00122de4a5ca037b158336ad933a3d4a88567b38236e76c992ecf4d0f5",
+      "asset_id": 690714363,
+      "remote_digest": "sha256:3872bb00122de4a5ca037b158336ad933a3d4a88567b38236e76c992ecf4d0f5",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-project-files.tar.gz.part001"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk031",
+      "size_bytes": 106935293,
+      "sha256": "e51af5386224a48a6180a7a8db40ccef91bcd1ab8d03e64c44cf16967824f2b3",
+      "asset_id": 690714362,
+      "remote_digest": "sha256:e51af5386224a48a6180a7a8db40ccef91bcd1ab8d03e64c44cf16967824f2b3",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk031"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk010",
+      "size_bytes": 134217728,
+      "sha256": "bf52371aad8b33e78f16a698b8d65f4cca4cf4e12f9c744f888d26c05d1d64e6",
+      "asset_id": 690715784,
+      "remote_digest": "sha256:bf52371aad8b33e78f16a698b8d65f4cca4cf4e12f9c744f888d26c05d1d64e6",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk010"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk011",
+      "size_bytes": 134217728,
+      "sha256": "3042012f09e5ada1e9637801538dd40d6427675f367d1b0bfe24532c681340ec",
+      "asset_id": 690715889,
+      "remote_digest": "sha256:3042012f09e5ada1e9637801538dd40d6427675f367d1b0bfe24532c681340ec",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk011"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk012",
+      "size_bytes": 134217728,
+      "sha256": "932a962a5804d5287b1c69ab17aed4d295eb4141fe779b9aba46e10f30691f67",
+      "asset_id": 690716608,
+      "remote_digest": "sha256:932a962a5804d5287b1c69ab17aed4d295eb4141fe779b9aba46e10f30691f67",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk012"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk013",
+      "size_bytes": 134217728,
+      "sha256": "5f9bce4d27a61caa80046c55f22123bf45a366c49f9d7c412a156b825c63001b",
+      "asset_id": 690719245,
+      "remote_digest": "sha256:5f9bce4d27a61caa80046c55f22123bf45a366c49f9d7c412a156b825c63001b",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk013"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk014",
+      "size_bytes": 134217728,
+      "sha256": "86510dbbccfb4083959c63d2d65e5c158e42b5ec2919b20215dffd00f89e2fdf",
+      "asset_id": 690720819,
+      "remote_digest": "sha256:86510dbbccfb4083959c63d2d65e5c158e42b5ec2919b20215dffd00f89e2fdf",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk014"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk015",
+      "size_bytes": 134217728,
+      "sha256": "fa75f20ec53b033dad1335e9eeb46c9a93cacb193b250a7ec4c7552a68bf630a",
+      "asset_id": 690721296,
+      "remote_digest": "sha256:fa75f20ec53b033dad1335e9eeb46c9a93cacb193b250a7ec4c7552a68bf630a",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk015"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk016",
+      "size_bytes": 134217728,
+      "sha256": "ebefa5263b388d12e75873ae07986692389819df32f8f6d6f8582244b622ca7f",
+      "asset_id": 690723229,
+      "remote_digest": "sha256:ebefa5263b388d12e75873ae07986692389819df32f8f6d6f8582244b622ca7f",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk016"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk017",
+      "size_bytes": 134217728,
+      "sha256": "0c611ade153cc8c783719a2cc4a7364f23b4b9056d02ee6c3575ccea7c60c139",
+      "asset_id": 690724239,
+      "remote_digest": "sha256:0c611ade153cc8c783719a2cc4a7364f23b4b9056d02ee6c3575ccea7c60c139",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk017"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk018",
+      "size_bytes": 134217728,
+      "sha256": "5485bc2aa8402a2234612ffd82775e80daf89d69e2aef195eee9e8476f0e6ca8",
+      "asset_id": 690725495,
+      "remote_digest": "sha256:5485bc2aa8402a2234612ffd82775e80daf89d69e2aef195eee9e8476f0e6ca8",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk018"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk019",
+      "size_bytes": 134217728,
+      "sha256": "782c3e9ebe721fc38e9f9f2cb291940b2d126996acc791a44b6b646d77c62428",
+      "asset_id": 690727721,
+      "remote_digest": "sha256:782c3e9ebe721fc38e9f9f2cb291940b2d126996acc791a44b6b646d77c62428",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk019"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk021",
+      "size_bytes": 134217728,
+      "sha256": "fda9febf32578c96246ff0ba090310e73d6ca65629955b3a572a6917a3565790",
+      "asset_id": 690728998,
+      "remote_digest": "sha256:fda9febf32578c96246ff0ba090310e73d6ca65629955b3a572a6917a3565790",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk021"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk020",
+      "size_bytes": 134217728,
+      "sha256": "3288ee55f14250d856635702e2a17160b07a500c4bcd9389b1b2eb981037a0a7",
+      "asset_id": 690728839,
+      "remote_digest": "sha256:3288ee55f14250d856635702e2a17160b07a500c4bcd9389b1b2eb981037a0a7",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk020"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk022",
+      "size_bytes": 134217728,
+      "sha256": "edb37b9deeaabce1a439af230d412688a2e2f4295862a6cc96edb48c43670a21",
+      "asset_id": 690730301,
+      "remote_digest": "sha256:edb37b9deeaabce1a439af230d412688a2e2f4295862a6cc96edb48c43670a21",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk022"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk023",
+      "size_bytes": 134217728,
+      "sha256": "5645b7de8fdc4ecfb351039feccf587c98f4ba01713b4ddda110043b6b743049",
+      "asset_id": 690731464,
+      "remote_digest": "sha256:5645b7de8fdc4ecfb351039feccf587c98f4ba01713b4ddda110043b6b743049",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk023"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk024",
+      "size_bytes": 134217728,
+      "sha256": "70647557a3863b2a7d919a3b022d7cbb22bd5932d127ecd006514703d859abb3",
+      "asset_id": 690732488,
+      "remote_digest": "sha256:70647557a3863b2a7d919a3b022d7cbb22bd5932d127ecd006514703d859abb3",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk024"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk025",
+      "size_bytes": 134217728,
+      "sha256": "b537f6076924a5db3fad9a9ed77c8d96522505e359010744cc6014c79c42a1da",
+      "asset_id": 690733366,
+      "remote_digest": "sha256:b537f6076924a5db3fad9a9ed77c8d96522505e359010744cc6014c79c42a1da",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk025"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk026",
+      "size_bytes": 134217728,
+      "sha256": "d09cf90547edda9d3f4cd3ff0fc2bba0e2473fc586cc42d66e5a3efc628f695c",
+      "asset_id": 690734536,
+      "remote_digest": "sha256:d09cf90547edda9d3f4cd3ff0fc2bba0e2473fc586cc42d66e5a3efc628f695c",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk026"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk028",
+      "size_bytes": 134217728,
+      "sha256": "00907d1829045001ceb48ade75d9cba4b94bb5bdba749a874fe72d86fa30f99e",
+      "asset_id": 690737252,
+      "remote_digest": "sha256:00907d1829045001ceb48ade75d9cba4b94bb5bdba749a874fe72d86fa30f99e",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk028"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk027",
+      "size_bytes": 134217728,
+      "sha256": "fb19b146ab5db9538670a9949125acb191c3d36dbeab6be6e7e2f329a52e3a8b",
+      "asset_id": 690735130,
+      "remote_digest": "sha256:fb19b146ab5db9538670a9949125acb191c3d36dbeab6be6e7e2f329a52e3a8b",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk027"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk029",
+      "size_bytes": 134217728,
+      "sha256": "0e22a13c335b6b11fd0da2af7c6171e6c63414187e37b385a8de5ffcf0306672",
+      "asset_id": 690740327,
+      "remote_digest": "sha256:0e22a13c335b6b11fd0da2af7c6171e6c63414187e37b385a8de5ffcf0306672",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk029"
+    },
+    {
+      "name": "m3-original-data.tar.gz.chunk030",
+      "size_bytes": 134217728,
+      "sha256": "4facf7b3d347d432d58fdd668cf5a5759d86a11591fca9f49ce665394e3544c0",
+      "asset_id": 690742069,
+      "remote_digest": "sha256:4facf7b3d347d432d58fdd668cf5a5759d86a11591fca9f49ce665394e3544c0",
+      "download_url": "https://github.com/sanjayy-j/ml-ddos-detection-sdn-5g-nidd/releases/download/untagged-b3e435a93e4f563cf35f/m3-original-data.tar.gz.chunk030"
+    }
+  ],
+  "restoration": {
+    "schema": "m3-project-restore-verification-v1",
+    "backup_schema": "m3-project-backup-v1",
+    "repository": "sanjayy-j/ml-ddos-detection-sdn-5g-nidd",
+    "release_tag": "m3-backup-2026-10-29",
+    "verified_at_utc": "2026-10-29T18:03:54.910412+00:00",
+    "files_count": 17639,
+    "uncompressed_bytes": 8828537386,
+    "archives_count": 5,
+    "assets_count": 52,
+    "asset_bytes": 6628108615,
+    "git_bundle_verified": true,
+    "verify_only": false,
+    "dashboard_primary_runs": 54,
+    "restored_source": "C:\\Users\\NITHIS\\OneDrive\\Desktop\\CN Project\\Project\\tmp\\github_backup_20261029\\windows_full_restore_omdw6_2b\\src\\m3\\__init__.py",
+    "manifest_sha256": "10b64fdfe83544306aa1111b114cb7aaf9fa24a5094aae17aa88fc9ded9429ed",
+    "restored_dashboard_api_verified": true,
+    "restored_frontend_assets_verified": true,
+    "restoration_platform": "Windows native"
+  },
+  "public_manifest_download_verified": true,
+  "protected_paper_and_document_hashes_unchanged": 6,
+  "verification_notes": [
+    "All archive files were restored and SHA256 checked in an isolated Windows folder.",
+    "GitHub asset SHA256 digests and sizes match the exact restoration-tested archives.",
+    "The public manifest was independently downloaded and checked without authentication.",
+    "The restored dashboard API loaded all 54 primary kernel-clock runs.",
+    "The implementation test suite passed 247 tests with one optional skip before archiving.",
+    "Dependency installation on a fresh computer and a new full experimental rerun were not performed.",
+    "Virtual environments, downloaded tools, caches, credentials and external link targets are excluded; see manifest and backup guide.",
+    "The pre-backup Git history is bundled; subsequently generated backup metadata is available separately in GitHub."
+  ],
+  "original_project_deleted": false
+}
