@@ -80,3 +80,15 @@ experiments/
 docs/
 notebooks/
 ```
+
+## Licence
+
+Original project source code and its software documentation are licensed under
+the [MIT License](LICENSE). Copyright remains with the respective contributors.
+
+This code licence does not cover research manuscripts, presentation materials,
+research figures or dataset files. The original 5G-NIDD dataset retains its
+[CC BY 4.0 licence](https://creativecommons.org/licenses/by/4.0/); see the
+[dataset source and attribution](M3-sampled-incremental/results/m3-implementation/docs/data-source.md)
+and [backup attribution](M3-sampled-incremental/results/m3-implementation/docs/github-backup.md#dataset-attribution).
+Third-party code and dependencies retain their own licences and notices.

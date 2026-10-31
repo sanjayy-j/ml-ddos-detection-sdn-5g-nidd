@@ -332,3 +332,15 @@ repository's source tree. Large original/derived data, raw captures and project
 artifacts are stored in the separate backup release described in
 [the restoration guide](docs/github-backup.md). Reinstallable environments,
 dependencies, credentials and backup transfer caches are excluded.
+
+## Licence
+
+Original project source code and its software documentation are licensed under
+the [MIT License](LICENSE). Copyright remains with the respective contributors.
+
+This code licence does not cover research manuscripts, presentation materials,
+research figures or dataset files. The original 5G-NIDD dataset retains its
+[CC BY 4.0 licence](https://creativecommons.org/licenses/by/4.0/); see the
+[dataset source and attribution](docs/data-source.md) and
+[backup attribution](docs/github-backup.md#dataset-attribution).
+Third-party code and dependencies retain their own licences and notices.
